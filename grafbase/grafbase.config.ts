@@ -7,7 +7,7 @@ const User = g.model('User', {
   school: g.string(),
   posts: g.relation(() => Post).list().optional(),
   wishLists: g.relation(() => Post).list().optional(),
-  messages: g.relation(() => Message).list().optional()
+  // messages: g.relation(() => Message).list().optional()
 })
 
 const Post = g.model('Post', {
@@ -20,12 +20,12 @@ const Post = g.model('Post', {
   createdBy: g.relation(() => User),
 })
 
-const Message = g.model('Message', {
-  content: g.string(),
-  sender: g.relation(() => User),
-  receiver: g.relation(() => User),
-  post: g.relation(() => Post),
-})
+// const Message = g.model('Message', {
+//   content: g.string(),
+//   sender: g.relation(() => User),
+//   receiver: g.relation(() => User),
+//   post: g.relation(() => Post),
+// })
 
 
 export default config({
