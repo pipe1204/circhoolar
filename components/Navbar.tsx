@@ -18,7 +18,7 @@ const Navbar = () => {
               <Link
                 href={link.href}
                 key={link.key}
-                className="px-2 py-2 hover:bg-lightest-purple rounded-full transition-all"
+                className="px-4 py-2 hover:bg-lightest-purple rounded-full transition-colors duration-300 ease-in-out"
               >
                 {link.text}
               </Link>
