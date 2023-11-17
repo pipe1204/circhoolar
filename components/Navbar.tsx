@@ -9,7 +9,7 @@ const Navbar = () => {
   const session = false;
   return (
     <div className="">
-      <nav className="w-11/12 max-w-[61.25rem] bg-white rounded-full mx-auto flex justify-between items-center relative py-[5px] px-6 xl:px-8">
+      <nav className="w-11/12 max-w-[61rem] bg-white rounded-[8px] mx-auto flex justify-between items-center relative py-[5px] px-6 xl:px-8">
         <Image src={"/Logo-dark.png"} alt="Logo" width={130} height={50} />
         <div className="gap-10">
           <Link href={"/"}></Link>
@@ -33,20 +33,24 @@ const Navbar = () => {
             </>
           ) : (
             <div className="w-full">
-              <Button
-                type="button"
-                variant="default"
-                className="hidden xl:inline-block"
-              >
-                Sign in
-              </Button>
-              <Button
-                type="button"
-                variant="secondary"
-                className="ml-4 hidden xl:inline-block"
-              >
-                Sign up
-              </Button>
+              <Link href={"/signin"}>
+                <Button
+                  type="button"
+                  variant="default"
+                  className="hidden xl:inline-block"
+                >
+                  Sign in
+                </Button>
+              </Link>
+              <Link href={"/signup"}>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  className="ml-4 hidden xl:inline-block"
+                >
+                  Sign up
+                </Button>
+              </Link>
             </div>
           )}
         </div>

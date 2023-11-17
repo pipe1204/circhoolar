@@ -5,8 +5,10 @@ import { motion } from "framer-motion";
 import MovingCard from "@/components/MovingCard";
 import { Card } from "@/components/Card";
 import Carousel from "@/components/Carousel";
+import { useState } from "react";
+import { homepageCards } from "@/constants";
 
-const Home = () => {
+const IndexPage = () => {
   const visible = { opacity: 1, y: 0, transition: { duration: 0.5 } };
 
   const itemVariants = {
@@ -64,7 +66,7 @@ const Home = () => {
             ease: [0, 0.71, 0.2, 1.01],
           }}
         >
-          <MovingCard backgroundColor="white" width="9/12" />
+          <div className="bg-fusia rounded-[24px] w-9/12 h-[200px] xl:h-[600px] mx-auto my-8"></div>
         </motion.div>
         <div className="flex flex-col justify-center items-center my-20">
           <h2 className="text-center text-title-color text-2xl font-semibold">
@@ -180,4 +182,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default IndexPage;
