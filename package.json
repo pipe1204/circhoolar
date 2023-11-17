@@ -10,14 +10,20 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
+    "@radix-ui/react-slot": "^1.0.2",
     "@types/jsonwebtoken": "^9.0.5",
+    "class-variance-authority": "^0.7.0",
     "cloudinary": "^1.41.0",
+    "clsx": "^2.0.0",
+    "framer-motion": "^10.16.5",
     "graphql-request": "^6.1.0",
     "jsonwebtoken": "^9.0.2",
+    "lucide-react": "^0.292.0",
     "next": "14.0.2",
     "next-auth": "^4.24.5",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "tailwind-merge": "^2.0.0"
   },
   "devDependencies": {
     "@grafbase/sdk": "^0.9.1",
