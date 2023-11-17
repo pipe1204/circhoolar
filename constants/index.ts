@@ -1,7 +1,6 @@
 export const NavLinks = [
-    { href: '/', key: 'Why', text: 'Why' },
-    { href: '/', key: 'Schools', text: 'Schools' },
-    { href: '/', key: 'Parents', text: 'Parents' },
+    { href: '/', key: 'Schools', text: 'For Schools' },
+    { href: '/', key: 'Parents', text: 'For Parents' },
   ];
   
   export const categoryFilters = [
@@ -24,27 +23,19 @@ export const NavLinks = [
     {
       title: 'For schools',
       links: [
-        'Go Pro!',
-        'Explore development work',
-        'Development blog',
-        'Code podcast',
-        'Open-source projects',
-        'Refer a Friend',
+        'Join Circhool',
+        'Recommend charities',
+        'Refer a school',
         'Code of conduct',
       ],
     },
     {
       title: 'For parents',
       links: [
-        'Post an ad',
-        'Browse items for sale',
-        'Search for developers',
-      ],
-    },
-    {
-      title: 'Brands',
-      links: [
-        'Advertise with us',
+        'Post an item',
+        'Browse items',
+        'Search schools',
+        'Refer a school',
       ],
     },
     {
@@ -55,40 +46,9 @@ export const NavLinks = [
         'Support',
         'Media kit',
         'Testimonials',
-        'API',
         'Terms of service',
         'Privacy policy',
         'Cookie policy',
-      ],
-    },
-    {
-      title: 'Directories',
-      links: [
-        'Development jobs',
-        'Developers for hire',
-        'Freelance developers for hire',
-        'Tags',
-        'Places',
-      ],
-    },
-    {
-      title: 'Development assets',
-      links: [
-        'Code Marketplace',
-        'GitHub Marketplace',
-        'NPM Registry',
-        'Packagephobia',
-      ],
-    },
-    {
-      title: 'Development Resources',
-      links: [
-        'Freelancing',
-        'Development Hiring',
-        'Development Portfolio',
-        'Development Education',
-        'Creative Process',
-        'Development Industry Trends',
       ],
     },
   ];

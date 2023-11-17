@@ -29,12 +29,12 @@ const Footer = () => {
       <div className="flex flex-col gap-x-12 w-full">
         <div className="flex items-start flex-col">
           <Image src={"/Logo-light.png"} alt={"Logo"} width={130} height={50} />
-          <p className="text-start text-sm font-normal mb-5 mt-2 max-w-xs text-white">
+          <p className="text-start text-sm font-normal mb-5 mt-2 max-w-xs text-paragraph-color">
             The innovative marketplace dedicated to transforming the way we
             approach school uniforms and essentials
           </p>
         </div>
-        <div className="flex flex-wrap gap-12">
+        <div className="flex flex-col xl:flex-row xl:flex-wrap gap-12">
           <FooterColumn
             title={footerLinks[0].title}
             links={footerLinks[0].links}
@@ -47,10 +47,6 @@ const Footer = () => {
           <FooterColumn
             title={footerLinks[2].title}
             links={footerLinks[2].links}
-          />
-          <FooterColumn
-            title={footerLinks[3].title}
-            links={footerLinks[3].links}
           />
         </div>
       </div>
