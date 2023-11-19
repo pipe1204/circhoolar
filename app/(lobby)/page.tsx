@@ -1,12 +1,11 @@
 "use client";
 
-import { Button } from "@/components/Button";
+import { Button } from "@/components/ui/Button";
 import { motion } from "framer-motion";
-import MovingCard from "@/components/MovingCard";
-import { Card } from "@/components/Card";
+import MovingCard from "@/components/ui/MovingCard";
+import { Card } from "@/components/ui/Card";
 import Carousel from "@/components/Carousel";
-import { useState } from "react";
-import { homepageCards } from "@/constants";
+import CardCarousel from "@/components/CardCarousel";
 
 const IndexPage = () => {
   const visible = { opacity: 1, y: 0, transition: { duration: 0.5 } };
@@ -37,8 +36,8 @@ const IndexPage = () => {
             className="text-lg text-paragraph-color mb-8"
             variants={itemVariants}
           >
-            Eco-Friendly Exchange for School Uniforms and Kids' Gear. Join a
-            greener, school community-driven journey in children's pre-loved
+            Eco-Friendly Exchange for School Uniforms and children's Gear. Join
+            a greener, school community-driven journey in children's pre-loved
             clothing and essentials.{" "}
           </motion.p>
           <motion.div
@@ -55,19 +54,16 @@ const IndexPage = () => {
             </Button>
           </motion.div>
         </motion.article>
-        <div className="flex justify-center items-center mt-8"></div>
-        <motion.div
-          className="my-8"
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{
-            duration: 0.8,
-            delay: 0.5,
-            ease: [0, 0.71, 0.2, 1.01],
-          }}
+        <motion.article
+          initial="hidden"
+          animate="visible"
+          exit={{ opacity: 0, transition: { duration: 1 } }}
+          variants={{ visible: { transition: { staggerChildren: 0.3 } } }}
         >
-          <div className="bg-fusia rounded-[24px] w-9/12 h-[200px] xl:h-[600px] mx-auto my-8"></div>
-        </motion.div>
+          <motion.div variants={itemVariants}>
+            <CardCarousel />
+          </motion.div>
+        </motion.article>
         <div className="flex flex-col justify-center items-center my-20">
           <h2 className="text-center text-title-color text-2xl font-semibold">
             Join over 500 parents using Circhoolar
@@ -148,12 +144,11 @@ const IndexPage = () => {
                   Supporting Schools and Charities
                 </h2>
                 <p className=" text-paragraph-color">
-                  Strengthen your school and favorite charities with every item
-                  you exchange. Our platform doesn’t just facilitate the passing
-                  on of goods; it enables a cycle of support and generosity.
-                  Whether it’s donating to the school’s own initiatives or
-                  supporting a cause close to your heart, each transaction is an
-                  opportunity to make a positive impact.
+                  Our platform doesn’t just facilitate the passing on of goods;
+                  it enables a cycle of support and generosity. Whether it’s
+                  donating to the school’s own initiatives or supporting a cause
+                  close to your heart, each transaction is an opportunity to
+                  make a positive impact.
                 </p>
               </Card>
             </motion.div>
