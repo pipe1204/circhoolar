@@ -4,7 +4,6 @@ import Image from "next/image";
 import { Button } from "../ui/Button";
 
 interface CardItemProps {
-  key: string;
   author: string;
   title: string;
   description: string;
@@ -13,8 +12,7 @@ interface CardItemProps {
   value: string;
 }
 
-const CardItem1 = ({
-  key,
+const CardItem = ({
   title,
   image,
   avatarImage,
@@ -24,7 +22,6 @@ const CardItem1 = ({
   return (
     <Card
       className="bg-light-white w-full rounded-lg overflow-hidden cursor-not-allowed"
-      key={key}
       style={{ pointerEvents: "none" }}
     >
       <div className="relative mt-2">
@@ -47,12 +44,13 @@ const CardItem1 = ({
           </span>
         </div>
         <div className="absolute bottom-6 left-6 flex justify-start items-center">
-          <div className="w-7 h-7 mr-2 rounded-full overflow-hidden bg-light-white relative">
+          <div className="w-7 h-7 mr-2 rounded-full overflow-hidden relative">
             <Image
               src={avatarImage}
               alt={title}
-              layout="fill"
-              objectFit="cover"
+              width={100}
+              height={80}
+              className="absolute inset-0 object-cover w-full h-full"
             />
           </div>
           <div className=" bg-primary-purple rounded-md shadow-sm px-[4px] xl:px-[6px] py-[1px] xl:py-[3px]">
@@ -64,11 +62,9 @@ const CardItem1 = ({
         <Image
           src={image}
           alt={title}
-          layout="responsive"
           width={100}
           height={80}
-          objectFit="contain"
-          className="rounded-md"
+          className="w-full h-auto object-contain rounded-md"
         />
       </div>
       <CardFooter className="flex flex-col gap-y-2 justify-center items-center">
@@ -91,4 +87,4 @@ const CardItem1 = ({
   );
 };
 
-export default CardItem1;
+export default CardItem;

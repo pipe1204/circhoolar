@@ -264,13 +264,13 @@ body {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-50%);
+    transform: translateX(-100%);
   }
 }
 
 .carousel {
   display: flex;
-  animation: scroll 30s linear infinite;
+  animation: scroll 25s linear infinite;
 }
 
 @keyframes scrollUp {
@@ -278,13 +278,13 @@ body {
     transform: translateY(0);
   }
   100% {
-    transform: translateY(-50%);
+    transform: translateY(-100%);
   }
 }
 
 @keyframes scrollDown {
   0% {
-    transform: translateY(-50%);
+    transform: translateY(-100%);
   }
   100% {
     transform: translateY(0);
@@ -292,9 +292,9 @@ body {
 }
 
 .vertical-carousel-up {
-  animation: scrollUp 25s linear infinite;
+  animation: scrollUp 30s linear infinite;
 }
 
 .vertical-carousel-down {
-  animation: scrollDown 25s linear infinite;
+  animation: scrollDown 30s linear infinite;
 }

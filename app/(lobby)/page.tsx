@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/Card";
 import Carousel from "@/components/Carousel";
 import CardCarousel from "@/components/CardCarousel";
 import FooterComponent from "@/components/ui/FooterComponent";
+import Link from "next/link";
 
 const IndexPage = () => {
   const visible = { opacity: 1, y: 0, transition: { duration: 0.5 } };
@@ -45,14 +46,16 @@ const IndexPage = () => {
             variants={itemVariants}
             className="flex justify-center items-center"
           >
-            <Button
-              type="button"
-              variant="secondary"
-              size="lg"
-              className="font-semibold text-lg pulse-animation"
-            >
-              Start for free
-            </Button>
+            <Link href={"/signup"}>
+              <Button
+                type="button"
+                variant="secondary"
+                size="lg"
+                className="font-semibold text-lg pulse-animation"
+              >
+                Start for free
+              </Button>
+            </Link>
           </motion.div>
         </motion.article>
         <motion.article
@@ -156,7 +159,7 @@ const IndexPage = () => {
           </div>
         </div>
       </section>
-      <FooterComponent buttonLabel="Join the community" />
+      <FooterComponent buttonLabel="Join the community" box={true} />
     </>
   );
 };
