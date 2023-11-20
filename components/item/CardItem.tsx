@@ -41,7 +41,7 @@ const CardItem1 = ({
         </div>
       </div>
       <div className="relative w-full flex-grow bg-light-white p-4">
-        <div className="absolute top-6 right-6 bg-dark-purple px-4 rounded-full shadow-md">
+        <div className="absolute flex justify-center items-center top-6 right-6 bg-dark-purple px-4 rounded-full shadow-md">
           <span className="text-light-white text-[8px] xl:text-[10px] font-semibold">
             {value}
           </span>

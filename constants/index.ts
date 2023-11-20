@@ -1,6 +1,6 @@
 export const NavLinks = [
-    { href: '/', key: 'Schools', text: 'For Schools' },
-    { href: '/', key: 'Parents', text: 'For Parents' },
+    { href: '/schools', key: 'Schools', text: 'For Schools' },
+    { href: '/parents', key: 'Parents', text: 'For Parents' },
   ];
   
   export const categoryFilters = [
@@ -86,15 +86,6 @@ export const NavLinks = [
   export const homepageCardsColumn2 = [
     {
       id: "1",
-      author: 'Jason Devon',
-      title: 'Brown Shoes',
-      description: 'Durable, stylish, and comfortable, these gently used leather brown shoes are perfect for kids on the go. Ideal for casual wear and versatile enough for any outfit.',
-      value: 'Free',
-      image: "/card4.jpg",
-      avatarImage: "/person4.jpg",
-    },
-    {
-      id: "2",
       author: 'Sarah Mercury',
       title: 'Mr Kong',
       description: 'Mr Kong was Jamies favourite toy. We are sad to seeing him going but we are sure someone else will be taking better care of him.',
@@ -103,25 +94,34 @@ export const NavLinks = [
       avatarImage: "/person5.jpg",
     },
     {
+      id: "2",
+      author: 'Jason Devon',
+      title: 'Brown Shoes',
+      description: 'Durable, stylish, and comfortable, these gently used leather brown shoes are perfect for kids on the go. Ideal for casual wear and versatile enough for any outfit.',
+      value: 'Free',
+      image: "/card4.jpg",
+      avatarImage: "/person4.jpg",
+    },
+    {
       id: "3",
-      author: 'Madison Smith',
-      title: 'Ring Toss Game',
-      description: 'This classic game is a great way to get kids active and having fun. It is easy to set up and can be played indoors or outdoors.',
-      value: 'Donation',
-      image: "/card6.jpg",
-      avatarImage: "/person6.jpg",
+      author: 'Kim Huges',
+      title: 'Cot',
+      description: 'This is a great cot for kids and its in great condition',
+      value: '$70',
+      image: "/card9.jpg",
+      avatarImage: "/person4.jpg",
     },
   ]
 
   export const homepageCardsColumn3 = [
     {
       id: "1",
-      author: 'Carolina Rendon',
-      title: 'Construction toys',
-      description: 'This set of construction toys is a great way to get kids active and having fun. It is easy to set up and can be played indoors or outdoors.',
-      value: 'Donation',
-      image: "/card7.jpg",
-      avatarImage: "/person7.jpg",
+      author: 'Kim Huges',
+      title: 'Cot',
+      description: 'This is a great cot for kids and its in great condition',
+      value: '$70',
+      image: "/card9.jpg",
+      avatarImage: "/person4.jpg",
     },
     {
       id: "2",

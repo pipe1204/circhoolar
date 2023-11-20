@@ -6,6 +6,7 @@ import MovingCard from "@/components/ui/MovingCard";
 import { Card } from "@/components/ui/Card";
 import Carousel from "@/components/Carousel";
 import CardCarousel from "@/components/CardCarousel";
+import FooterComponent from "@/components/ui/FooterComponent";
 
 const IndexPage = () => {
   const visible = { opacity: 1, y: 0, transition: { duration: 0.5 } };
@@ -155,24 +156,7 @@ const IndexPage = () => {
           </div>
         </div>
       </section>
-      <section className="bg-fusia w-full">
-        <div className="py-20 w-9/11 xl:w-4/5 flex flex-col justify-center items-center mx-auto">
-          <h1 className="text-4xl xl:text-6xl font-bold text-white text-center">
-            Where school communities thrive through sharing and sustainability
-          </h1>
-          <Button
-            type="button"
-            variant="outline"
-            size="lg"
-            className="font-semibold text-2xl text-white my-8 rounded-full py-8"
-          >
-            Join the community
-          </Button>
-          <div className="w-4/5 mx-auto">
-            <MovingCard backgroundColor="white" width="9/12" />
-          </div>
-        </div>
-      </section>
+      <FooterComponent buttonLabel="Join the community" />
     </>
   );
 };
