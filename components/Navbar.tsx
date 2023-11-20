@@ -21,7 +21,7 @@ const Navbar = () => {
     <div className="">
       <nav className="w-11/12 max-w-[61rem] bg-white rounded-[8px] shadow-xl mx-auto flex-col xl:flex-row justify-between items-center relative py-[5px] px-6 xl:px-8">
         <div className="flex flex-row justify-between items-center w-full">
-          <Link href={"/"} onClick={handleMenuClick}>
+          <Link href={"/"} onClick={() => setIsMenuOpen(false)}>
             <Image src={"/Logo-dark.png"} alt="Logo" width={130} height={50} />
           </Link>
 

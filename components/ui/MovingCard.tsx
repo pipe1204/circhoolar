@@ -34,7 +34,7 @@ const MovingCard: React.FC<MovingCardProps> = ({
 
   return (
     <Card
-      className={`bg-${backgroundColor} rounded-[24px] w-${width} h-[200px] xl:h-[600px] mx-auto my-8`}
+      className={`bg-${backgroundColor} rounded-[24px] w-11/12 xl:w-${width} h-[200px] xl:h-[600px] mx-auto my-8`}
       style={{
         ...style,
         transition: "transform 0.3s ease, box-shadow 0.3s ease",

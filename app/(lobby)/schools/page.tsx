@@ -2,10 +2,8 @@
 
 import React, { useRef } from "react";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { useFollowPointer } from "../../../lib/use-follow-pointer";
-import FooterComponent from "@/components/ui/FooterComponent";
 import Image from "next/image";
 
 const page = () => {

@@ -4,9 +4,10 @@ import MovingCard from "./MovingCard";
 
 interface FooterComponentProps {
   buttonLabel: string;
+  box: boolean;
 }
 
-const FooterComponent = ({ buttonLabel }: FooterComponentProps) => {
+const FooterComponent = ({ buttonLabel, box }: FooterComponentProps) => {
   return (
     <section className="bg-fusia w-full">
       <div className="py-20 w-9/11 xl:w-4/5 flex flex-col justify-center items-center mx-auto">
@@ -22,7 +23,7 @@ const FooterComponent = ({ buttonLabel }: FooterComponentProps) => {
           {buttonLabel}
         </Button>
         <div className="w-4/5 mx-auto">
-          <MovingCard backgroundColor="white" width="9/12" />
+          {box && <MovingCard backgroundColor="white" width="9/12" />}
         </div>
       </div>
     </section>
