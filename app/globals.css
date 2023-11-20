@@ -292,9 +292,9 @@ body {
 }
 
 .vertical-carousel-up {
-  animation: scrollUp 30s linear infinite;
+  animation: scrollUp 25s linear infinite;
 }
 
 .vertical-carousel-down {
-  animation: scrollDown 30s linear infinite;
+  animation: scrollDown 25s linear infinite;
 }
