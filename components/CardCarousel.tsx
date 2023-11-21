@@ -9,7 +9,10 @@ import {
 
 const CardCarousel = () => {
   return (
-    <Card className="w-11/12 h-[600px] mx-auto my-20 flex justify-around gap-x-12 py-8 px-8 overflow-hidden">
+    <Card
+      className="w-11/12 h-[600px] mx-auto my-20 flex justify-around gap-x-12 py-8 px-8 overflow-hidden cursor-not-allowed"
+      style={{ pointerEvents: "none" }}
+    >
       <div className="w-[25%] hidden xl:flex flex-col gap-y-8 vertical-carousel-up">
         <div className="w-full flex flex-col gap-y-8">
           {homepageCardsColumn1.map((card) => (
