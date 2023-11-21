@@ -43,7 +43,14 @@ const page = () => {
             A Step Towards Sustainable Living and Community Engagement
           </motion.p>
         </motion.article>
-        <MovingCard backgroundColor="light-white" width="9/12" />
+        <div className="hidden xl:flex">
+          <MovingCard
+            backgroundColor="light-white"
+            width="11/12"
+            height="600px"
+            image="/Dashboard.png"
+          />
+        </div>
         <div className="flex flex-col">
           <div className="flex flex-col w-9/11 xl:w-1/2 mx-auto my-10">
             <h1 className="text-3xl xl:text-4xl font-bold mb-4 text-white text-center">

@@ -37,8 +37,8 @@ const SidebarLinks = [
         icon: <Icons.user />,
       },
       {
-        name: "Saved items",
-        href: "/dashboard/saved-items",
+        name: "Wishlist",
+        href: "/dashboard/wishlist",
         icon: <Icons.star />,
       },
     ],

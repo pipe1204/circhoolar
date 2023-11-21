@@ -10,7 +10,7 @@ interface FooterComponentProps {
 const FooterComponent = ({ buttonLabel, box }: FooterComponentProps) => {
   return (
     <section className="bg-fusia w-full">
-      <div className="py-20 w-9/11 xl:w-4/5 flex flex-col justify-center items-center mx-auto">
+      <div className="py-20 w-9/11 xl:w-11/12 h-full flex flex-col justify-center items-center mx-auto">
         <h1 className="text-4xl xl:text-6xl font-bold text-white text-center">
           Where school communities thrive through sharing and sustainability
         </h1>
@@ -22,8 +22,15 @@ const FooterComponent = ({ buttonLabel, box }: FooterComponentProps) => {
         >
           {buttonLabel}
         </Button>
-        <div className="w-4/5 mx-auto">
-          {box && <MovingCard backgroundColor="white" width="9/12" />}
+        <div className="w-full h-full mx-auto">
+          {box && (
+            <MovingCard
+              backgroundColor="white"
+              width="11/12"
+              height="610px"
+              image="/Dashboard.png"
+            />
+          )}
         </div>
       </div>
     </section>

@@ -39,9 +39,9 @@ const PageNavbar = () => {
         icon = <Icons.user className="text-dark-purple" />;
         categoryName = "My Posts";
         break;
-      case "saved-items":
+      case "wishlist":
         icon = <Icons.star className="text-dark-purple" />;
-        categoryName = "Saved items";
+        categoryName = "Wishlist";
         break;
       default:
         icon = null; // default icon or null
@@ -77,6 +77,15 @@ const PageNavbar = () => {
             {categoryName}
           </CardTitle>
         </div>
+        <div className="bg-lightest-purple flex items-center gap-x-2 px-20 py-2 rounded-md">
+          <h1 className="text-dark-purple font-semibold text-md text-center">
+            South Yarra Primary
+          </h1>
+          <Icons.chevronDown
+            className="text-dark-purple cursor-pointer"
+            size={18}
+          />
+        </div>
         {categoryName === "Discover" && (
           <div className="">
             <button
@@ -89,7 +98,7 @@ const PageNavbar = () => {
               </h1>
             </button>
             {isDropdownOpen && (
-              <div className="bg-light-white px-3 shadow-md rounded-md mt-2 absolute">
+              <div className="bg-light-white px-3 shadow-md rounded-md mt-2 absolute z-10">
                 {categoryFilters.map((category) => (
                   <label
                     key={category}
@@ -107,16 +116,6 @@ const PageNavbar = () => {
             )}
           </div>
         )}
-
-        <div className="bg-lightest-purple flex items-center gap-x-2 px-8 py-2 rounded-md">
-          <h1 className="text-dark-purple font-semibold text-md text-center">
-            South Yarra Primary
-          </h1>
-          <Icons.chevronDown
-            className="text-dark-purple cursor-pointer"
-            size={18}
-          />
-        </div>
       </div>
     </nav>
   );
