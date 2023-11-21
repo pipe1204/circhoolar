@@ -8,7 +8,7 @@ import { Icons } from "../Icons";
 // Depending on the size of the application, this would be stored in a database.
 const SidebarLinks = [
   {
-    title: "DISCOVER",
+    title: "DASHBOARD",
     links: [
       { name: "Discover", href: "/dashboard", icon: <Icons.compass /> },
       {
@@ -29,7 +29,7 @@ const SidebarLinks = [
     ],
   },
   {
-    title: "SAVED ITEMS",
+    title: "PERSONAL",
     links: [
       {
         name: "My Posts",
