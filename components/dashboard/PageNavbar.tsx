@@ -5,6 +5,7 @@ import { CardTitle } from "../ui/Card";
 import { usePathname } from "next/navigation";
 import { categoryFilters } from "@/constants";
 import NavLinks from "./NavLinks";
+import Image from "next/image";
 
 const PageNavbar = () => {
   const pathname = usePathname();
@@ -96,13 +97,34 @@ const PageNavbar = () => {
           } w-64 bg-white shadow-md transition-transform duration-300 ease-in-out z-10`}
         >
           <div className="flex flex-col w-full justify-between items-start">
-            <div className="xl:hidden flex w-full justify-end">
+            <div className="absolute top-4 right-2">
               <button
                 onClick={handleMenuClick}
-                className="flex mr-4 mt-4 items-center justify-center w-10 h-10 rounded-full bg-lightest-purple"
+                className="flex mr-4 items-center justify-center w-10 h-10 rounded-full bg-lightest-purple"
               >
                 <Icons.close className="text-primary-purple" />
               </button>
+            </div>
+            <div className="flex flex-row justify-between items-center my-6 px-4 gap-x-6">
+              <div className="w-12 h-12 rounded-full overflow-hidden relative cursor-pointer">
+                <Image
+                  src={"/person6.jpg"}
+                  alt="avatar"
+                  width={100}
+                  height={80}
+                  className="object-cover w-full h-full"
+                />
+              </div>
+              <Icons.bell className="text-dark-purple" size={20} />
+            </div>
+            <div className="bg-lightest-purple flex flex-row items-center gap-x-2 mb-4 px-4 py-2 rounded-md">
+              <h1 className="text-dark-purple font-semibold text-md text-center">
+                South Yarra Primary
+              </h1>
+              <Icons.chevronDown
+                className="text-dark-purple cursor-pointer"
+                size={18}
+              />
             </div>
             <NavLinks onClick={() => setIsMenuOpen(false)} />
             <div className="mt-auto w-full">
