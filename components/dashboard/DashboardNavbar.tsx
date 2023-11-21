@@ -12,15 +12,17 @@ const DashboardNavbar = () => {
           <Button variant={"outlineLight"} className="hover:text-light-white">
             Create a post
           </Button>
-          <Icons.bell className="text-light-white" size={20} />
-          <div className="w-9 h-9 mr-2 rounded-full overflow-hidden relative cursor-pointer">
-            <Image
-              src={"/person6.jpg"}
-              alt="avatar"
-              width={100}
-              height={80}
-              className="object-cover w-full h-full"
-            />
+          <div className="hidden xl:flex gap-x-8 items-center">
+            <Icons.bell className="text-light-white" size={20} />
+            <div className="w-9 h-9 mr-2 rounded-full overflow-hidden relative cursor-pointer">
+              <Image
+                src={"/person6.jpg"}
+                alt="avatar"
+                width={100}
+                height={80}
+                className="object-cover w-full h-full"
+              />
+            </div>
           </div>
         </div>
       </div>

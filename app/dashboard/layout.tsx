@@ -6,13 +6,18 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex flex-col h-screen">
       <DashboardNavbar />
+      <div className="flex xl:hidden">
+        <PageNavbar />
+      </div>
       <div className="flex flex-grow overflow-hidden">
-        <div className="w-full flex-none xl:w-64 h-screen overflow-y-auto">
+        <div className="w-full hidden xl:flex xl:w-64 h-screen overflow-y-auto">
           <SideNav />
         </div>
         <div className="w-full flex flex-col">
-          <PageNavbar />
-          <div className="flex-grow bg-lightest-purple w-full h-full paddings xl:overflow-y-auto">
+          <div className="hidden xl:flex">
+            <PageNavbar />
+          </div>
+          <div className="flex-grow bg-lightest-purple w-full h-full paddings overflow-y-auto">
             {children}
           </div>
         </div>

@@ -165,7 +165,6 @@ const IndexPage = () => {
             <MovingCard
               backgroundColor="light-white"
               width="11/12"
-              height="600px"
               image="/Dashboard.png"
             />
           </div>

@@ -20,10 +20,7 @@ const CardItem = ({
   value,
 }: CardItemProps) => {
   return (
-    <Card
-      className="bg-light-white w-full border border-light-white shadow-md rounded-lg overflow-hidden cursor-not-allowed"
-      style={{ pointerEvents: "none" }}
-    >
+    <Card className="bg-light-white w-full border border-light-white shadow-md rounded-lg overflow-hidden">
       <div className="relative w-full flex-grow bg-light-white p-4">
         <div className="absolute flex justify-center items-center top-6 right-6 bg-accent px-2 rounded-full shadow-md">
           <span className="text-dark text-[8px] xl:text-[10px] font-semibold">
@@ -58,7 +55,7 @@ const CardItem = ({
         <Button
           variant={"outline"}
           size={"sm"}
-          className="w-full text-light-white bg-dark-purple"
+          className="w-full text-light-white bg-dark-purple hover:bg-title-color hover:text-light-white"
         >
           View
         </Button>

@@ -5,14 +5,12 @@ import Image from "next/image";
 type MovingCardProps = {
   width?: string;
   backgroundColor?: string;
-  height?: string;
   image?: string;
 };
 
 const MovingCard: React.FC<MovingCardProps> = ({
   width,
   backgroundColor,
-  height,
   image = "", // Provide a default value for the image prop
 }) => {
   const [style, setStyle] = useState<{
@@ -45,7 +43,7 @@ const MovingCard: React.FC<MovingCardProps> = ({
 
   return (
     <Card
-      className={`bg-${backgroundColor} rounded-[24px] w-11/12 xl:w-${width} h-[200px] xl:h-[${height}] mx-auto my-8`}
+      className={`bg-${backgroundColor} rounded-[24px] w-11/12 xl:w-${width} h-[200px] xl:h-[600px] mx-auto my-8`}
       style={cardStyle}
       onMouseMove={handleMouseMove}
       onMouseLeave={() => setStyle({})}

@@ -4,6 +4,7 @@ import { Icons } from "../Icons";
 import { CardTitle } from "../ui/Card";
 import { usePathname } from "next/navigation";
 import { categoryFilters } from "@/constants";
+import NavLinks from "./NavLinks";
 
 const PageNavbar = () => {
   const pathname = usePathname();
@@ -68,16 +69,57 @@ const PageNavbar = () => {
     }));
   };
 
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+
+  const handleMenuClick = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <nav className="bg-light-white flex justify-between items-center border border-light-white-500 shadow-md w-full h-16">
-      <div className="flex justify-between items-center mx-10 w-full">
+      <div className="flex justify-between items-center mx-6 xl:mx-10 w-full">
+        <div className="xl:hidden flex justify-end items-center">
+          <button
+            onClick={handleMenuClick}
+            className="flex items-center justify-center w-10 h-10 rounded-full bg-lightest-purple"
+          >
+            {isMenuOpen ? (
+              <Icons.close className="text-primary-purple" />
+            ) : (
+              <Icons.menu className="text-primary-purple" />
+            )}
+          </button>
+        </div>
+        <div
+          className={`fixed inset-y-0 left-0 transform ${
+            isMenuOpen ? "translate-x-0" : "-translate-x-full"
+          } w-64 bg-white shadow-md transition-transform duration-300 ease-in-out z-10`}
+        >
+          <div className="flex flex-col w-full justify-between items-start">
+            <div className="xl:hidden flex w-full justify-end">
+              <button
+                onClick={handleMenuClick}
+                className="flex mr-4 mt-4 items-center justify-center w-10 h-10 rounded-full bg-lightest-purple"
+              >
+                <Icons.close className="text-primary-purple" />
+              </button>
+            </div>
+            <NavLinks onClick={() => setIsMenuOpen(false)} />
+            <div className="mt-auto w-full">
+              <button className="flex w-full h-[48px] items-center justify-start gap-2 rounded-md p-3 text-sm text-dark-purple font-medium hover:bg-lightest-purple hover:text-dark-purple md:flex-none md:justify-start md:p-2 md:px-3">
+                <Icons.logout />
+                <span className="block">Sign Out</span>
+              </button>
+            </div>
+          </div>
+        </div>
         <div className="flex gap-x-2 items-center">
           {icon}
           <CardTitle className="text-dark-purple text-md">
             {categoryName}
           </CardTitle>
         </div>
-        <div className="bg-lightest-purple flex items-center gap-x-2 px-20 py-2 rounded-md">
+        <div className="bg-lightest-purple hidden xl:flex items-center gap-x-2 px-20 py-2 rounded-md">
           <h1 className="text-dark-purple font-semibold text-md text-center">
             South Yarra Primary
           </h1>
@@ -90,7 +132,7 @@ const PageNavbar = () => {
           <div className="">
             <button
               onClick={toggleDropdown}
-              className="flex gap-x-2 items-center rounded-md border-[1px] border-light-white-400 px-8 py-[4px] bg-light-white shadow-sm cursor-pointer"
+              className="flex gap-x-2 items-center rounded-md border-[1px] border-light-white-400 px-2 xl:px-8 py-[4px] bg-light-white shadow-sm cursor-pointer"
             >
               <Icons.backpack className="text-dark-purple" size={20} />
               <h1 className="text-dark-purple text-md font-semibold">
