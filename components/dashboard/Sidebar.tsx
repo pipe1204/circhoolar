@@ -2,7 +2,7 @@ import NavLinks from "./NavLinks";
 import { Icons } from "../Icons";
 
 export default function SideNav() {
-  const navbarHeight = "64px"; //Height of the navbar
+  const navbarHeight = "56px"; //Height of the navbar
   return (
     <div
       className="flex h-full flex-col bg-light-white px-3 py-4 xl:px-2 shadow-lg overflow-y-auto"

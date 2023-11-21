@@ -58,7 +58,7 @@ export const NavLinks = [
     {
       id: "2",
       author: 'Isabel Taylor',
-      title: 'Grey blause',
+      title: 'Grey blouse',
       description: 'Grey blause in perfect condition. Size 8.',
       value: 'Donation',
       image: "/card2.jpg",

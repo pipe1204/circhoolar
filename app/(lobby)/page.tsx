@@ -157,9 +157,21 @@ const IndexPage = () => {
               </Card>
             </motion.div>
           </div>
+          <div className="hidden xl:flex flex-col justify-center items-center mt-20">
+            <h1 className="text-3xl xl:text-6xl font-bold mb-4 text-white">
+              Features we think you'll{" "}
+              <span className="text-title-color"> love</span>
+            </h1>
+            <MovingCard
+              backgroundColor="light-white"
+              width="11/12"
+              height="600px"
+              image="/Dashboard.png"
+            />
+          </div>
         </div>
       </section>
-      <FooterComponent buttonLabel="Join the community" box={true} />
+      <FooterComponent buttonLabel="Join the community" box={false} />
     </>
   );
 };

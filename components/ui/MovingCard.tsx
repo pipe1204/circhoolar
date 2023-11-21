@@ -1,16 +1,19 @@
 import React, { useState, MouseEvent } from "react";
 import { Card } from "./Card";
+import Image from "next/image";
 
 type MovingCardProps = {
   width?: string;
   backgroundColor?: string;
   height?: string;
+  image?: string;
 };
 
 const MovingCard: React.FC<MovingCardProps> = ({
   width,
   backgroundColor,
   height,
+  image = "", // Provide a default value for the image prop
 }) => {
   const [style, setStyle] = useState<{
     transform?: string;
@@ -32,13 +35,18 @@ const MovingCard: React.FC<MovingCardProps> = ({
     });
   };
 
+  const cardStyle = {
+    ...style,
+    backgroundImage: `url(${image})`,
+    backgroundSize: "cover", // ensures the image covers the whole card
+    backgroundPosition: "center", // centers the image in the card
+    transition: "transform 0.3s ease, box-shadow 0.3s ease",
+  };
+
   return (
     <Card
-      className={`bg-${backgroundColor} rounded-[24px] w-11/12 xl:w-${width} h-[200px] xl:h-[600px] mx-auto my-8`}
-      style={{
-        ...style,
-        transition: "transform 0.3s ease, box-shadow 0.3s ease",
-      }}
+      className={`bg-${backgroundColor} rounded-[24px] w-11/12 xl:w-${width} h-[200px] xl:h-[${height}] mx-auto my-8`}
+      style={cardStyle}
       onMouseMove={handleMouseMove}
       onMouseLeave={() => setStyle({})}
     ></Card>

@@ -21,25 +21,12 @@ const CardItem = ({
 }: CardItemProps) => {
   return (
     <Card
-      className="bg-light-white w-full rounded-lg overflow-hidden cursor-not-allowed"
+      className="bg-light-white w-full border border-light-white shadow-md rounded-lg overflow-hidden cursor-not-allowed"
       style={{ pointerEvents: "none" }}
     >
-      <div className="relative mt-2">
-        <div className="absolute px-4 inset-0 flex items-center">
-          <span className="w-full border-t border-paragraph-color" />
-        </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <CardTitle
-            className="bg-background px-2 text-center text-light-white text-md"
-            as="h3"
-          >
-            {title}
-          </CardTitle>
-        </div>
-      </div>
       <div className="relative w-full flex-grow bg-light-white p-4">
-        <div className="absolute flex justify-center items-center top-6 right-6 bg-dark-purple px-2 rounded-full shadow-md">
-          <span className="text-light-white text-[8px] xl:text-[10px] font-semibold">
+        <div className="absolute flex justify-center items-center top-6 right-6 bg-accent px-2 rounded-full shadow-md">
+          <span className="text-dark text-[8px] xl:text-[10px] font-semibold">
             {value}
           </span>
         </div>
@@ -53,8 +40,8 @@ const CardItem = ({
               className="absolute inset-0 object-cover w-full h-full"
             />
           </div>
-          <div className=" bg-primary-purple rounded-md shadow-sm px-[4px] xl:px-[6px] py-[1px] xl:py-[3px]">
-            <h3 className="text-[8px] xl:text-xs text-light-white font-semibold">
+          <div className=" bg-accent rounded-md shadow-sm px-[4px] xl:px-[6px] py-[1px] xl:py-[1px]">
+            <h3 className="text-[8px] xl:text-xs text-dark font-semibold">
               {author}
             </h3>
           </div>
@@ -71,7 +58,7 @@ const CardItem = ({
         <Button
           variant={"outline"}
           size={"sm"}
-          className="w-full text-light-white"
+          className="w-full text-light-white bg-dark-purple"
         >
           View
         </Button>
@@ -80,9 +67,22 @@ const CardItem = ({
           size={"sm"}
           className="w-full bg-light-white"
         >
-          Save
+          Wishlist
         </Button>
       </CardFooter>
+      <div className="relative mb-4">
+        <div className="absolute px-4 inset-0 flex items-center">
+          <span className="w-full border-t border-paragraph-color" />
+        </div>
+        <div className="relative flex justify-center text-xs uppercase">
+          <CardTitle
+            className="bg-background px-2 text-center text-light-white text-md"
+            as="h3"
+          >
+            {title}
+          </CardTitle>
+        </div>
+      </div>
     </Card>
   );
 };
