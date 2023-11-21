@@ -15,6 +15,8 @@ const buttonVariants = cva(
         //   "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:
           "border border-input bg-background py-2 shadow-sm hover:bg-accent hover:text-accent-foreground",
+        outlineLight:
+          "border border-input bg-accent py-2 shadow-sm hover:bg-background hover:text-accent-foreground",
         secondary:
           "bg-primary-purple text-white py-2 shadow-sm hover:bg-title-color",
         ghost: "hover:bg-gray hover:text-black-100",

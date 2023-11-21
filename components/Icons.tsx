@@ -3,8 +3,10 @@ import {
   AlertTriangle,
   ArrowDown,
   ArrowUp,
+  Backpack,
   Baby,
   BarChart3,
+  Bell,
   CalendarDays,
   Check,
   ChevronDown,
@@ -15,6 +17,7 @@ import {
   ChevronsUpDown,
   ChevronUp,
   Circle,
+  Compass,
   Copy,
   CreditCard,
   Crop,
@@ -27,6 +30,7 @@ import {
   Filter,
   Footprints,
   HardHat,
+  Heart,
   Image,
   LeafyGreen,
   Loader2,
@@ -68,6 +72,10 @@ import {
 //   export type Icon = LucideIcon
 
 export const Icons = {
+  backpack: Backpack,
+  bell: Bell,
+  heart: Heart,
+  compass: Compass,
   baby: Baby,
   shrub: Shrub,
   leafyGreen: LeafyGreen,
