@@ -127,12 +127,6 @@ const PageNavbar = () => {
               />
             </div>
             <NavLinks onClick={() => setIsMenuOpen(false)} />
-            <div className="mt-auto w-full">
-              <button className="flex w-full h-[48px] items-center justify-start gap-2 rounded-md p-3 text-sm text-dark-purple font-medium hover:bg-lightest-purple hover:text-dark-purple md:flex-none md:justify-start md:p-2 md:px-3">
-                <Icons.logout />
-                <span className="block">Sign Out</span>
-              </button>
-            </div>
           </div>
         </div>
         <div className="flex gap-x-2 items-center">
