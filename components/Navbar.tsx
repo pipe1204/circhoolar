@@ -8,10 +8,13 @@ import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { usePathname } from "next/navigation";
 import UserButton from "./ui/UserButton";
+import { useSession, signIn } from "next-auth/react";
 
 const Navbar = () => {
+  const { data: session } = useSession();
   const pathname = usePathname();
-  const session = false;
+  // const session = false;
+  console.log(session);
 
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
@@ -25,25 +28,35 @@ const Navbar = () => {
           <Link href={"/"} onClick={() => setIsMenuOpen(false)}>
             <Image src={"/Logo-dark.png"} alt="Logo" width={130} height={50} />
           </Link>
+          {!session && (
+            <div className="gap-10">
+              <ul className="xl:flex hidden text-md font-semibold text-dark-purple gap-7">
+                {NavLinks.map((link) => (
+                  <Link
+                    href={link.href}
+                    key={link.key}
+                    className={`px-4 py-2 ${
+                      pathname === link.href ? "bg-lightest-purple" : ""
+                    } hover:bg-lightest-purple rounded-full transition-colors duration-300 ease-in-out`}
+                  >
+                    {link.text}
+                  </Link>
+                ))}
+              </ul>
+            </div>
+          )}
 
-          <div className="gap-10">
-            <ul className="xl:flex hidden text-md font-semibold text-dark-purple gap-7">
-              {NavLinks.map((link) => (
-                <Link
-                  href={link.href}
-                  key={link.key}
-                  className={`px-4 py-2 ${
-                    pathname === link.href ? "bg-lightest-purple" : ""
-                  } hover:bg-lightest-purple rounded-full transition-colors duration-300 ease-in-out`}
-                >
-                  {link.text}
-                </Link>
-              ))}
-            </ul>
-          </div>
           <div className="flexCenter gap-4">
             {session ? (
-              <div className="hidden xl:flex">
+              <div className="hidden xl:flex xl:gap-x-8">
+                <Link href={"/dashboard"}>
+                  <Button
+                    variant={"outlineLight"}
+                    className="hover:text-light-white"
+                  >
+                    Go to Dashboard
+                  </Button>
+                </Link>
                 <UserButton session={session} />
               </div>
             ) : (

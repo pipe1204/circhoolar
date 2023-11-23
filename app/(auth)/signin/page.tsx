@@ -13,6 +13,7 @@ import Link from "next/link";
 import React from "react";
 import { Button } from "@/components/ui/Button";
 import { signIn } from "next-auth/react";
+import { Icons } from "@/components/Icons";
 
 const Signin = () => {
   return (
@@ -32,7 +33,14 @@ const Signin = () => {
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
-          <Button onClick={() => signIn()}>Sign in</Button>
+          <Button
+            variant={"outline"}
+            onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
+            className="text-light-white"
+          >
+            <Icons.google className="w-4 h-4 mr-2" />
+            Sign in
+          </Button>
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <span className="w-full border-t border-paragraph-color" />
