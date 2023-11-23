@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { categoryFilters } from "@/constants";
 import NavLinks from "./NavLinks";
 import Image from "next/image";
+import { Button } from "../ui/Button";
 
 const PageNavbar = () => {
   const pathname = usePathname();
@@ -106,16 +107,9 @@ const PageNavbar = () => {
               </button>
             </div>
             <div className="flex flex-row justify-between items-center my-6 px-4 gap-x-6">
-              <div className="w-12 h-12 rounded-full overflow-hidden relative cursor-pointer">
-                <Image
-                  src={"/person6.jpg"}
-                  alt="avatar"
-                  width={100}
-                  height={80}
-                  className="object-cover w-full h-full"
-                />
-              </div>
-              <Icons.bell className="text-dark-purple" size={20} />
+              <Button variant={"outline"} className="text-light-white">
+                Create a post
+              </Button>
             </div>
             <div className="bg-lightest-purple flex flex-row items-center gap-x-2 mb-4 px-4 py-2 rounded-md">
               <h1 className="text-dark-purple font-semibold text-md text-center">
