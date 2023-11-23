@@ -7,6 +7,7 @@ import { Icons } from "./Icons";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { usePathname } from "next/navigation";
+import UserButton from "./ui/UserButton";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -42,10 +43,9 @@ const Navbar = () => {
           </div>
           <div className="flexCenter gap-4">
             {session ? (
-              <>
-                Photo
-                <Link href={"/create-post"}>Create a Post</Link>
-              </>
+              <div className="hidden xl:flex">
+                <UserButton session={session} />
+              </div>
             ) : (
               <div className="w-full">
                 <Link href={"/signin"}>
@@ -70,16 +70,20 @@ const Navbar = () => {
             )}
           </div>
           <div className="xl:hidden flex justify-end items-center">
-            <button
-              onClick={handleMenuClick}
-              className="flex items-center justify-center w-10 h-10 rounded-full bg-lightest-purple"
-            >
-              {isMenuOpen ? (
-                <Icons.close className="text-primary-purple" />
-              ) : (
-                <Icons.menu className="text-primary-purple" />
-              )}
-            </button>
+            {session ? (
+              <UserButton session={session} />
+            ) : (
+              <button
+                onClick={handleMenuClick}
+                className="flex items-center justify-center w-10 h-10 rounded-full bg-lightest-purple"
+              >
+                {isMenuOpen ? (
+                  <Icons.close className="text-primary-purple" />
+                ) : (
+                  <Icons.menu className="text-primary-purple" />
+                )}
+              </button>
+            )}
           </div>
         </div>
 

@@ -1,4 +1,5 @@
-import { type Metadata } from "next";
+"use client";
+
 import {
   Card,
   CardContent,
@@ -10,13 +11,8 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import AuthProviders from "@/components/AuthProviders";
-
-export const metadata: Metadata = {
-  //   metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
-  title: "Sign In",
-  description: "Sign in to your account",
-};
+import { Button } from "@/components/ui/Button";
+import { signIn } from "next-auth/react";
 
 const Signin = () => {
   return (
@@ -36,7 +32,7 @@ const Signin = () => {
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
-          <AuthProviders />
+          <Button onClick={() => signIn()}>Sign in</Button>
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <span className="w-full border-t border-paragraph-color" />

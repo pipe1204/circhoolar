@@ -11,12 +11,6 @@ export default function SideNav() {
       <div className="flex flex-col space-y-2">
         <NavLinks />
       </div>
-      <div className="mt-auto">
-        <button className="flex h-[48px] items-center justify-center gap-2 rounded-md bg-light-white p-3 text-sm text-dark-purple font-medium hover:bg-lightest-purple hover:text-dark-purple md:flex-none md:justify-start md:p-2 md:px-3">
-          <Icons.logout />
-          <span className="hidden xl:block">Sign Out</span>
-        </button>
-      </div>
     </div>
   );
 }
