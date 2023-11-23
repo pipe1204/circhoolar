@@ -14,11 +14,13 @@ const DashboardNavbar = () => {
       <div className="flex justify-between items-center mx-8">
         <Image src={"/Logo-light.png"} alt={"Logo"} width={130} height={50} />
         <div className="flex gap-x-8 items-center">
-          <Button variant={"outlineLight"} className="hover:text-light-white">
+          <Button
+            variant={"outlineLight"}
+            className="hidden xl:flex hover:text-light-white"
+          >
             Create a post
           </Button>
-          <div className="hidden xl:flex gap-x-4 items-center">
-            <Icons.bell className="text-light-white" size={20} />
+          <div className="flex gap-x-4 items-center">
             <UserButton session={session} />
           </div>
         </div>

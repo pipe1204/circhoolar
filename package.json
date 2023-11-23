@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@auth/firebase-adapter": "^1.0.6",
     "@headlessui/react": "^1.7.17",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
@@ -17,6 +18,8 @@
     "class-variance-authority": "^0.7.0",
     "cloudinary": "^1.41.0",
     "clsx": "^2.0.0",
+    "firebase": "^10.6.0",
+    "firebase-admin": "^11.11.0",
     "framer-motion": "^10.16.5",
     "graphql-request": "^6.1.0",
     "jsonwebtoken": "^9.0.2",
