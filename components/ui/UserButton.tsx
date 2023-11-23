@@ -11,27 +11,27 @@ import {
 } from "@/components/ui/dropdown-menu";
 import UserAvatar from "./UserAvatar";
 import { Session } from "next-auth";
-import Link from "next/link";
-import { Button } from "./Button";
-import { NavLinks } from "@/constants";
-import { Icons } from "../Icons";
-import { signIn } from "next-auth/react";
+import { signOut } from "next-auth/react";
 
-const UserButton = ({ session }: { session: boolean }) => {
+const UserButton = ({ session }: { session: Session | null }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <UserAvatar
-          name="Andres Gonzalez"
-          image="https://github.com/shadcn.png"
+          name={session?.user?.name || "Username"}
+          image={session?.user?.image || "https://github.com/shadcn.png"}
         />
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+      <DropdownMenuContent className="cursor-pointer">
+        <DropdownMenuLabel>{session?.user?.name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Dashboard</DropdownMenuItem>
-        <DropdownMenuItem>Profile</DropdownMenuItem>
-        <DropdownMenuItem>Sing out</DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer">Profile</DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => signOut({ callbackUrl: "/" })}
+          className="cursor-pointer"
+        >
+          Sign out
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
