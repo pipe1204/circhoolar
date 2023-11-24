@@ -6,7 +6,7 @@ let app;
 if (!admin.apps.length) { // Check if no Firebase app is initialized
     app = admin.initializeApp({
         credential: admin.credential.cert({
-            projectId: "circhoolar-3c5e5",
+            projectId: process.env.FIREBASE_PROJECT_ID,
             privateKey: process.env.FIREBASE_PRIVATE_KEY,
             clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
         }),
@@ -17,7 +17,7 @@ if (!admin.apps.length) { // Check if no Firebase app is initialized
 
 const adminDb = initFirestore({
     credential: admin.credential.cert({
-        projectId: "circhoolar-3c5e5",
+        projectId: process.env.FIREBASE_PROJECT_ID,
         privateKey: process.env.FIREBASE_PRIVATE_KEY,
         clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
     })
