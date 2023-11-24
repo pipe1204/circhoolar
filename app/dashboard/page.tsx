@@ -10,10 +10,10 @@ const page = () => {
     default: 4,
     1100: 3,
     700: 2,
-    500: 1,
+    // 500: 1,
   };
   return (
-    <section className="p-8">
+    <section className="p-2">
       <Masonry
         breakpointCols={breakpointColumnsObj}
         className="my-masonry-grid"

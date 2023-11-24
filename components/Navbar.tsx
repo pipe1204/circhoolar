@@ -13,8 +13,6 @@ import { useSession, signIn } from "next-auth/react";
 const Navbar = () => {
   const { data: session } = useSession();
   const pathname = usePathname();
-  // const session = false;
-  console.log(session);
 
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 

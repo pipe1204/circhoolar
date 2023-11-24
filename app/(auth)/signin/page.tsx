@@ -14,11 +14,12 @@ import React from "react";
 import { Button } from "@/components/ui/Button";
 import { signIn } from "next-auth/react";
 import { Icons } from "@/components/Icons";
+import SignInForm from "@/components/user/SignInForm";
 
 const Signin = () => {
   return (
     <section className="flex flex-col justify-center items-center">
-      <Card className="w-11/12 xl:w-1/3 mx-auto mt-40">
+      <Card className="w-9/12 xl:w-1/3 mx-auto my-10">
         <Link
           aria-label="Home"
           href="/"
@@ -39,7 +40,7 @@ const Signin = () => {
             className="text-light-white"
           >
             <Icons.google className="w-4 h-4 mr-2" />
-            Sign in
+            Continue with Google
           </Button>
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
@@ -51,6 +52,7 @@ const Signin = () => {
               </span>
             </div>
           </div>
+          {/* <SignInForm /> */}
         </CardContent>
         <CardFooter className="flex flex-wrap items-center justify-between gap-2">
           <div className="text-sm text-light-white">

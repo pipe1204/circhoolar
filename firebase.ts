@@ -17,4 +17,4 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 const functions = getFunctions(app);
 
-export {db, auth, functions};
+export {app, db, auth, functions};

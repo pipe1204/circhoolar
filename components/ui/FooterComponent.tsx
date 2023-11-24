@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "./Button";
 import MovingCard from "./MovingCard";
+import Link from "next/link";
 
 interface FooterComponentProps {
   buttonLabel: string;
@@ -14,20 +15,21 @@ const FooterComponent = ({ buttonLabel, box }: FooterComponentProps) => {
         <h1 className="text-4xl xl:text-6xl font-bold text-white text-center">
           Where school communities thrive through sharing and sustainability
         </h1>
-        <Button
-          type="button"
-          variant="outline"
-          size="lg"
-          className="font-semibold text-2xl text-white my-8 rounded-full py-8"
-        >
-          {buttonLabel}
-        </Button>
+        <Link href={"/signup"}>
+          <Button
+            type="button"
+            variant="outline"
+            size="lg"
+            className="font-semibold text-2xl text-white my-8 rounded-full py-8"
+          >
+            {buttonLabel}
+          </Button>
+        </Link>
         <div className="w-full h-full mx-auto">
           {box && (
             <MovingCard
               backgroundColor="white"
               width="11/12"
-              height="610px"
               image="/Dashboard.png"
             />
           )}
