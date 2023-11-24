@@ -12,7 +12,7 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import { Input } from "../ui/input";
+import { Input } from "../ui/Input";
 import { Button } from "../ui/Button";
 import { PasswordInput } from "../Password-input";
 import { authSignUpSchema } from "@/lib/validations/auth";

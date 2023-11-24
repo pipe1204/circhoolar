@@ -4,7 +4,7 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
-import { Input, type InputProps } from "@/components/ui/input";
+import { Input, type InputProps } from "./ui/Input";
 import { Button } from "./ui/Button";
 import { Icons } from "./Icons";
 
