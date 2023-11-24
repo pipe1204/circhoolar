@@ -1,4 +1,5 @@
-import { type Metadata } from "next";
+"use client";
+
 import {
   Card,
   CardContent,
@@ -10,18 +11,15 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import AuthProviders from "@/components/AuthProviders";
-
-export const metadata: Metadata = {
-  //   metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
-  title: "Sign In",
-  description: "Sign in to your account",
-};
+import { Button } from "@/components/ui/Button";
+import { signIn } from "next-auth/react";
+import { Icons } from "@/components/Icons";
+import SignUpForm from "@/components/user/SignUpForm";
 
 const Signup = () => {
   return (
     <section className="h-full flex flex-col justify-center items-center">
-      <Card className="w-11/12 xl:w-1/3 mx-auto mt-40">
+      <Card className="w-11/12 xl:w-1/3 mx-auto my-10">
         <Link
           aria-label="Home"
           href="/"
@@ -36,7 +34,14 @@ const Signup = () => {
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
-          <AuthProviders />
+          <Button
+            variant={"outline"}
+            onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
+            className="text-light-white"
+          >
+            <Icons.google className="w-4 h-4 mr-2" />
+            Continue with Google
+          </Button>
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <span className="w-full border-t border-paragraph-color" />
@@ -47,6 +52,7 @@ const Signup = () => {
               </span>
             </div>
           </div>
+          {/* <SignUpForm /> */}
         </CardContent>
         <CardFooter className="flex flex-wrap items-center justify-between gap-2">
           <div className="text-sm text-light-white">

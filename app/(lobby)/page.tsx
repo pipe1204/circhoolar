@@ -38,9 +38,9 @@ const IndexPage = () => {
             className="text-lg text-paragraph-color mb-8"
             variants={itemVariants}
           >
-            Eco-Friendly Exchange for School Uniforms and children's Gear. Join
-            a greener, school community-driven journey in children's pre-loved
-            clothing and essentials.{" "}
+            Eco-Friendly Marketplace for School Uniforms and children's Gear.
+            Join a greener, school community-driven journey in children's
+            pre-loved clothing and essentials.{" "}
           </motion.p>
           <motion.div
             variants={itemVariants}

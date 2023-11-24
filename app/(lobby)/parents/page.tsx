@@ -77,23 +77,24 @@ const page = () => {
                 <Icons.shrub className="text-light-white" size={40} />
               </div>
               <h2 className="text-lg text-white font-bold mb-4">
-                Promoting Eco-Friendly Practices
+                Instill Environmental Values
               </h2>
               <p className=" text-light-white">
-                Help reduce waste and CO2 emissions by participating in a
-                sustainable exchange of children's items.
+                Educate your children on sustainability by actively engaging in
+                reducing waste and CO2 emissions through reuse.
               </p>
             </Card>
             <Card className="bg-fusia w-11/12 xl:w-1/3 flex flex-col justify-center items-center text-center p-10">
               <div className="w-20 h-20 rounded-full border-2 border-light-white mb-4 flex justify-center items-center">
-                <Icons.baby className="text-light-white" size={40} />
+                <Icons.dollarSign className="text-light-white" size={40} />
               </div>
               <h2 className="text-lg text-white font-bold mb-4">
-                Teaching Sustainability to Kids
+                Earn and Save Money
               </h2>
               <p className=" text-light-white">
-                Instill important values of environmental responsibility in your
-                children through practical, everyday actions.
+                Make extra cash or save on expenses by selling or exchanging
+                children's items, blending financial savvy with
+                eco-consciousness.
               </p>
             </Card>
           </div>
