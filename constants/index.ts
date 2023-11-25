@@ -15,32 +15,80 @@ export const NavLinks = [
     {
       title: 'For schools',
       links: [
-        'Join Circhool',
-        'Recommend charities',
-        'Refer a school',
-        'Code of conduct',
+        {
+          name: 'Post a wish',
+          href: '/post-a-wish',
+        },
+        {
+          name: 'Browse wishes',
+          href: '/browse-wishes',
+        },
+        {
+          name: 'Search parents',
+          href: '/search-parents',
+        },
+        {
+          name: 'Refer a parent',
+          href: '/refer-a-parent',
+        },
       ],
     },
     {
       title: 'For parents',
       links: [
-        'Post an item',
-        'Browse items',
-        'Search schools',
-        'Refer a school',
+        {
+          name: 'Post an item',
+          href: '/post-an-item',
+        },
+        {
+          name: 'Browse items',
+          href: '/browse-items',
+        },
+        {
+          name: 'Search schools',
+          href: '/search-schools',
+        },
+        {
+          name: 'Refer a school',
+          href: '/refer-a-school',
+        },
       ],
     },
     {
       title: 'Company',
       links: [
-        'About',
-        'Careers',
-        'Support',
-        'Media kit',
-        'Testimonials',
-        'Terms of service',
-        'Privacy policy',
-        'Cookie policy',
+        {
+          name: 'About',
+          href: '/about',
+        },
+        {
+          name: 'Careers',
+          href: '/careers',
+        },
+        {
+          name: 'Support',
+          href: '/support',
+        },
+        {
+          name: 'Media kit',
+          href: '/media-kit',
+        },
+        {
+          name: 'Testimonials',
+          href: '/testimonials',
+        },
+        {
+          name: 'Terms of service',
+          href: '/terms-of-service',
+        },
+        {
+          name: 'Privacy policy',
+          href: '/privacy-policy',
+        },
+        {
+          name: 'Cookie policy',
+          href: '/cookie-policy',
+        },
       ],
     },
   ];

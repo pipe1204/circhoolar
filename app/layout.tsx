@@ -18,9 +18,9 @@ export default function RootLayout({
       <html lang="en">
         <body className="bg-background">
           <FirebaseAuthProvider>
-            <AuthProvider>
-              <main>{children}</main>
-            </AuthProvider>
+            {/* <AuthProvider> */}
+            <main>{children}</main>
+            {/* </AuthProvider> */}
           </FirebaseAuthProvider>
         </body>
       </html>

@@ -13,6 +13,7 @@ import { useSession, signIn } from "next-auth/react";
 const Navbar = () => {
   const { data: session } = useSession();
   const pathname = usePathname();
+  console.log(session);
 
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
@@ -59,7 +60,7 @@ const Navbar = () => {
               </div>
             ) : (
               <div className="w-full">
-                <Link href={"/signin"}>
+                <Link href={"/api/auth/signin"}>
                   <Button
                     type="button"
                     variant="default"
@@ -68,7 +69,7 @@ const Navbar = () => {
                     Sign in
                   </Button>
                 </Link>
-                <Link href={"/signup"}>
+                <Link href={"/api/auth/signup"}>
                   <Button
                     type="button"
                     variant="secondary"
@@ -115,7 +116,7 @@ const Navbar = () => {
             </Link>
           ))}
           <div className="w-full flex flex-col py-10">
-            <Link href={"/signin"}>
+            <Link href={"/api/auth/signin"}>
               <Button
                 type="button"
                 variant="default"
@@ -124,7 +125,7 @@ const Navbar = () => {
                 Sign in
               </Button>
             </Link>
-            <Link href={"/signup"}>
+            <Link href={"/api/auth/signup"}>
               <Button
                 type="button"
                 variant="secondary"
