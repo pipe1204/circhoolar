@@ -3,20 +3,29 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-interface ColumnProps {
+interface FooterLink {
+  name: string;
+  href: string;
+}
+
+interface FooterLinksSection {
   title: string;
-  links: Array<string>;
+  links: FooterLink[];
 }
 
 const Footer = () => {
-  const FooterColumn = ({ title, links }: ColumnProps) => {
+  const FooterColumn = ({ title, links }: FooterLinksSection) => {
     return (
       <div className="footer_column">
         <h4 className="font-semibold text-white">{title}</h4>
         <ul className="flex flex-col gap-2 font-normal">
           {links.map((link) => (
-            <Link href={"/"} key={link} className="text-paragraph-color">
-              {link}
+            <Link
+              href={link.href}
+              key={link.name}
+              className="text-paragraph-color"
+            >
+              {link.name}
             </Link>
           ))}
         </ul>
@@ -35,19 +44,9 @@ const Footer = () => {
           </p>
         </div>
         <div className="flex flex-col xl:flex-row xl:flex-wrap gap-12">
-          <FooterColumn
-            title={footerLinks[0].title}
-            links={footerLinks[0].links}
-          />
-          <FooterColumn
-            title={footerLinks[1].title}
-            links={footerLinks[1].links}
-          />
-
-          <FooterColumn
-            title={footerLinks[2].title}
-            links={footerLinks[2].links}
-          />
+          {footerLinks.map((footerLink) => (
+            <FooterColumn title={footerLink.title} links={footerLink.links} />
+          ))}
         </div>
       </div>
       <div className="flexBetween footer_copyright">

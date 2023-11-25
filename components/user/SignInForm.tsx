@@ -1,84 +1,61 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/Input";
+import React from "react";
+import { CardContent } from "../ui/Card";
+import { Icons } from "../Icons";
 import { Button } from "../ui/Button";
-import { PasswordInput } from "../Password-input";
-import { authSignInSchema } from "@/lib/validations/auth";
+import { signIn } from "next-auth/react";
 
-type Inputs = z.infer<typeof authSignInSchema>;
+interface Provider {
+  id: string;
+  name: string;
+  type: string;
+}
 
-const SignInForm = () => {
-  // react-hook-form
-  const form = useForm<Inputs>({
-    resolver: zodResolver(authSignInSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
+interface SignInFormProps {
+  providers: Record<string, Provider>;
+  csrfToken: string;
+}
 
-  function onSubmit(data: Inputs) {
-    console.log(data);
-  }
+const SignInForm = ({ providers, csrfToken }: SignInFormProps) => {
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-light-white">Email Address</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="jhondoe@gmail.com"
-                  {...field}
-                  className="text-light-white"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-light-white">Password</FormLabel>
-              <FormControl>
-                <PasswordInput
-                  placeholder="**********"
-                  {...field}
-                  className="text-light-white"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <div className="flex justify-center">
-          <Button
-            variant={"outlineLight"}
-            type="submit"
-            className="hover:text-white w-full text-center"
-          >
-            Submit
-          </Button>
+    <CardContent className="grid gap-4">
+      {Object.values(providers).map((provider) => {
+        if (provider.name === "Email") {
+          return null;
+        }
+        return (
+          <div key={provider.name}>
+            <Button
+              variant={"outline"}
+              onClick={() => signIn(provider.id, { callbackUrl: "/dashboard" })}
+              className="text-light-white"
+            >
+              <Icons.google className="w-4 h-4 mr-2" />
+              Continue with {provider.name}
+            </Button>
+          </div>
+        );
+      })}
+      <div className="relative">
+        <div className="absolute inset-0 flex items-center">
+          <span className="w-full border-t border-paragraph-color" />
         </div>
+        <div className="relative flex justify-center text-xs uppercase">
+          <span className="bg-background px-2 text-paragraph-color">
+            Or continue with your personal email
+          </span>
+        </div>
+      </div>
+      <form method="post" action="/api/auth/signin/email">
+        <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
+        <label>
+          Email address
+          <input type="email" id="email" name="email" />
+        </label>
+        <button type="submit">Sign in with Email</button>
       </form>
-    </Form>
+    </CardContent>
   );
 };
 

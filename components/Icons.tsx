@@ -26,6 +26,7 @@ import {
   Edit,
   Eye,
   EyeOff,
+  Facebook,
   FileTerminal,
   Filter,
   Footprints,
@@ -72,6 +73,7 @@ import {
 //   export type Icon = LucideIcon
 
 export const Icons = {
+  facebook: Facebook,
   backpack: Backpack,
   bell: Bell,
   heart: Heart,
