@@ -14,7 +14,6 @@ import React from "react";
 import { Button } from "@/components/ui/Button";
 import { signIn } from "next-auth/react";
 import { Icons } from "@/components/Icons";
-import SignUpForm from "@/components/user/SignUpForm";
 
 const Signup = () => {
   return (

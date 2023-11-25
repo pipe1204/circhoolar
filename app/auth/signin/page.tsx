@@ -14,12 +14,8 @@ import React from "react";
 import { Button } from "@/components/ui/Button";
 import { signIn } from "next-auth/react";
 import { Icons } from "@/components/Icons";
-import SignInForm from "@/components/user/SignInForm";
-import { getCsrfToken } from "next-auth/react";
-import type { GetServerSidePropsContext } from "next";
 
-const Signin = async (context: GetServerSidePropsContext) => {
-  const csrfToken = await getCsrfToken();
+const Signin = async () => {
   return (
     <section className="flex flex-col justify-center items-center">
       <Card className="w-9/12 xl:w-1/3 mx-auto my-10">
@@ -60,14 +56,6 @@ const Signin = async (context: GetServerSidePropsContext) => {
               </span>
             </div>
           </div>
-          <form method="post" action="/api/auth/signin/email">
-            <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
-            <label>
-              Email address
-              <input type="email" id="email" name="email" />
-            </label>
-            <button type="submit">Sign in with Email</button>
-          </form>
           {/* <SignInForm /> */}
         </CardContent>
         <CardFooter className="flex flex-wrap items-center justify-between gap-2">
