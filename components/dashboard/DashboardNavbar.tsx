@@ -18,7 +18,7 @@ const DashboardNavbar = () => {
             variant={"outlineLight"}
             className="hidden xl:flex hover:text-light-white"
           >
-            Create a post
+            Add an Item
           </Button>
           <div className="flex gap-x-4 items-center">
             <UserButton session={session} />

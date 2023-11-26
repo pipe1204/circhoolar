@@ -108,7 +108,7 @@ const PageNavbar = () => {
             </div>
             <div className="flex flex-row justify-between items-center my-6 px-4 gap-x-6">
               <Button variant={"outline"} className="text-light-white">
-                Create a post
+                Add an Item
               </Button>
             </div>
             <div className="bg-lightest-purple flex flex-row items-center gap-x-2 mb-4 px-4 py-2 rounded-md">

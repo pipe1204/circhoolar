@@ -23,7 +23,9 @@ const UserButton = ({ session }: { session: Session | null }) => {
         />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="cursor-pointer">
-        <DropdownMenuLabel>{session?.user?.name}</DropdownMenuLabel>
+        <DropdownMenuLabel>
+          {session?.user?.name ? session?.user?.name : session?.user?.email}
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer">Profile</DropdownMenuItem>
         <DropdownMenuItem
