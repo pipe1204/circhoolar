@@ -2,8 +2,10 @@ import React from "react";
 import { Card, CardContent, CardFooter, CardTitle } from "../ui/Card";
 import Image from "next/image";
 import { Button } from "../ui/Button";
+import Link from "next/link";
 
 interface CardItemProps {
+  id: string;
   author: string;
   title: string;
   description: string;
@@ -15,6 +17,7 @@ interface CardItemProps {
 }
 
 const CardItem = ({
+  id,
   title,
   image,
   avatarImage,
@@ -78,13 +81,15 @@ const CardItem = ({
           </h1>
         </div>
         <div className="flex flex-col gap-y-2 justify-center items-center">
-          <Button
-            variant={"outline"}
-            size={"sm"}
-            className="w-full text-light-white bg-dark-purple hover:bg-title-color hover:text-light-white"
-          >
-            View
-          </Button>
+          <Link href={`dashboard/${id}`}>
+            <Button
+              variant={"outline"}
+              size={"sm"}
+              className="w-full text-light-white bg-dark-purple hover:bg-title-color hover:text-light-white"
+            >
+              View
+            </Button>
+          </Link>
           <Button
             variant={"outline"}
             size={"sm"}
