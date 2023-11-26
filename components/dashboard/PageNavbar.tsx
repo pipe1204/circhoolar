@@ -138,6 +138,14 @@ const PageNavbar = () => {
             size={18}
           />
         </div>
+        <div>
+          <Button
+            variant={"outlineLight"}
+            className="hidden xl:flex hover:text-light-white"
+          >
+            Add an Item
+          </Button>
+        </div>
         {categoryName === "Discover" && (
           <div className="">
             <button
