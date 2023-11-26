@@ -46,7 +46,7 @@ const IndexPage = () => {
             variants={itemVariants}
             className="flex justify-center items-center"
           >
-            <Link href={"/signup"}>
+            <Link href={"/api/auth/signin"}>
               <Button
                 type="button"
                 variant="secondary"

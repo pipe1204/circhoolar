@@ -69,15 +69,6 @@ const Navbar = () => {
                     Sign in
                   </Button>
                 </Link>
-                <Link href={"/api/auth/signup"}>
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    className="ml-4 hidden xl:inline-block"
-                  >
-                    Sign up
-                  </Button>
-                </Link>
               </div>
             )}
           </div>
@@ -115,23 +106,14 @@ const Navbar = () => {
               {link.text}
             </Link>
           ))}
-          <div className="w-full flex flex-col py-10">
+          <div className="w-1/2 flex flex-col py-4">
             <Link href={"/api/auth/signin"}>
               <Button
                 type="button"
                 variant="default"
-                className="inline-block w-full mb-8"
+                className="inline-block w-full mb-2"
               >
                 Sign in
-              </Button>
-            </Link>
-            <Link href={"/api/auth/signup"}>
-              <Button
-                type="button"
-                variant="secondary"
-                className="inline-block w-full"
-              >
-                Sign up
               </Button>
             </Link>
           </div>
