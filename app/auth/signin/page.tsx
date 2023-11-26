@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/Card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -58,27 +51,6 @@ const Signin = async () => {
           </div>
           {/* <SignInForm /> */}
         </CardContent>
-        <CardFooter className="flex flex-wrap items-center justify-between gap-2">
-          <div className="text-sm text-light-white">
-            <span className="mr-1 hidden sm:inline-block">
-              Don&apos;t have an account?
-            </span>
-            <Link
-              aria-label="Sign up"
-              href="/signup"
-              className="text-light-white underline-offset-4 transition-colors hover:text-paragraph-color hover:underline"
-            >
-              Sign up
-            </Link>
-          </div>
-          {/* <Link
-            aria-label="Reset password"
-            href="/signin/reset-password"
-            className="text-sm text-light-white underline-offset-4 transition-colors hover:text-paragraph-color hover:underline"
-          >
-            Reset password
-          </Link> */}
-        </CardFooter>
       </Card>
     </section>
   );
