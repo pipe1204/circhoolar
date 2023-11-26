@@ -8,6 +8,24 @@ import {
 } from "@/constants";
 
 const CardCarousel = () => {
+  const itemCondition = ({ condition }: { condition: string }) => {
+    let conditionColor;
+    switch (condition) {
+      case "Great condition":
+        conditionColor = "green";
+        break;
+      case "Good condition":
+        conditionColor = "orange";
+        break;
+      case "Fair condition":
+        conditionColor = "red";
+        break;
+      default:
+        conditionColor = "white";
+    }
+
+    return conditionColor;
+  };
   return (
     <Card
       className="w-11/12 h-[600px] mx-auto my-20 flex justify-around gap-x-12 py-8 px-8 overflow-hidden cursor-not-allowed"
@@ -24,6 +42,8 @@ const CardCarousel = () => {
                 image={card.image}
                 avatarImage={card.avatarImage}
                 value={card.value}
+                conditionColor={itemCondition({ condition: card.condition })}
+                condition={card.condition}
               />
             </div>
           ))}
@@ -38,6 +58,8 @@ const CardCarousel = () => {
                 image={card.image}
                 avatarImage={card.avatarImage}
                 value={card.value}
+                conditionColor={itemCondition({ condition: card.condition })}
+                condition={card.condition}
               />
             </div>
           ))}
@@ -54,6 +76,8 @@ const CardCarousel = () => {
                 image={card.image}
                 avatarImage={card.avatarImage}
                 value={card.value}
+                conditionColor={itemCondition({ condition: card.condition })}
+                condition={card.condition}
               />
             </div>
           ))}
@@ -68,6 +92,8 @@ const CardCarousel = () => {
                 image={card.image}
                 avatarImage={card.avatarImage}
                 value={card.value}
+                conditionColor={itemCondition({ condition: card.condition })}
+                condition={card.condition}
               />
             </div>
           ))}
@@ -84,6 +110,8 @@ const CardCarousel = () => {
                 image={card.image}
                 avatarImage={card.avatarImage}
                 value={card.value}
+                conditionColor={itemCondition({ condition: card.condition })}
+                condition={card.condition}
               />
             </div>
           ))}
@@ -98,6 +126,8 @@ const CardCarousel = () => {
                 image={card.image}
                 avatarImage={card.avatarImage}
                 value={card.value}
+                conditionColor={itemCondition({ condition: card.condition })}
+                condition={card.condition}
               />
             </div>
           ))}

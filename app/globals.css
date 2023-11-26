@@ -149,10 +149,6 @@ body {
   @apply p-3 text-gray-100 bg-light-white-400 rounded-lg text-sm font-medium;
 }
 
-.delete-action_btn {
-  @apply p-3 text-gray-100 hover:bg-red-600 rounded-lg text-sm font-medium;
-}
-
 /* Related Project Card */
 .related_project-card {
   @apply flex-col rounded-2xl min-w-[210px] min-h-[197px];

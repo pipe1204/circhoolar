@@ -16,6 +16,9 @@ module.exports = {
     extend: {
       colors: {
         'background': '#100534',
+        'green': '#01FF00',
+        'red': '#E0140F',
+        'orange': '#FF8430',
         'dark': '#090427',
         "fusia": '#6B3EE3',
         'title-color': '#9F7CF6',

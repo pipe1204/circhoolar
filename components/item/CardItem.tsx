@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardFooter, CardTitle } from "../ui/Card";
+import { Card, CardContent, CardFooter, CardTitle } from "../ui/Card";
 import Image from "next/image";
 import { Button } from "../ui/Button";
 
@@ -10,6 +10,8 @@ interface CardItemProps {
   image: string;
   avatarImage: string;
   value: string;
+  condition?: string;
+  conditionColor?: string;
 }
 
 const CardItem = ({
@@ -18,6 +20,8 @@ const CardItem = ({
   avatarImage,
   author,
   value,
+  condition,
+  conditionColor,
 }: CardItemProps) => {
   return (
     <Card className="bg-light-white w-full border border-light-white shadow-md rounded-lg overflow-hidden">
@@ -51,35 +55,45 @@ const CardItem = ({
           className="w-full h-auto object-contain rounded-md"
         />
       </div>
-      <CardFooter className="flex flex-col gap-y-2 justify-center items-center">
-        <Button
-          variant={"outline"}
-          size={"sm"}
-          className="w-full text-light-white bg-dark-purple hover:bg-title-color hover:text-light-white"
-        >
-          View
-        </Button>
-        <Button
-          variant={"outline"}
-          size={"sm"}
-          className="w-full bg-light-white"
-        >
-          Wishlist
-        </Button>
-      </CardFooter>
-      <div className="relative mb-4">
-        <div className="absolute px-4 inset-0 flex items-center">
-          <span className="w-full border-t border-paragraph-color" />
+      <CardContent>
+        <div className="mb-2 flex flex-row justify-start items-center">
+          <div
+            className={`w-2 h-2 rounded-full bg-${conditionColor} mr-2`}
+          ></div>
+          <h1 className="text-[10px] xl:text-xs font-semibold">{condition}</h1>
         </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <CardTitle
-            className="bg-background px-2 text-center text-light-white text-md"
-            as="h3"
+        <div className="flex flex-col gap-y-2 justify-center items-center">
+          <Button
+            variant={"outline"}
+            size={"sm"}
+            className="w-full text-light-white bg-dark-purple hover:bg-title-color hover:text-light-white"
           >
-            {title}
-          </CardTitle>
+            View
+          </Button>
+          <Button
+            variant={"outline"}
+            size={"sm"}
+            className="w-full bg-light-white"
+          >
+            Wishlist
+          </Button>
         </div>
-      </div>
+      </CardContent>
+      <CardFooter className="flex flex-col gap-y-2 justify-center items-center">
+        <div className="relative">
+          <div className="absolute px-4 inset-0 flex items-center">
+            <span className="w-full border-t border-paragraph-color" />
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <CardTitle
+              className="bg-background px-2 text-center text-light-white text-[10px] xl:text-md"
+              as="h3"
+            >
+              {title}
+            </CardTitle>
+          </div>
+        </div>
+      </CardFooter>
     </Card>
   );
 };

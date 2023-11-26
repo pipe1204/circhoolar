@@ -102,6 +102,7 @@ export const NavLinks = [
       value: 'Free',
       image: "/card1.jpg",
       avatarImage: "/person1.jpg",
+      condition: "Great condition"
     },
     {
       id: "2",
@@ -111,6 +112,7 @@ export const NavLinks = [
       value: 'Donation',
       image: "/card2.jpg",
       avatarImage: "/person2.jpg",
+      condition: "Good condition"
     },
     {
       id: "3",
@@ -120,6 +122,7 @@ export const NavLinks = [
       value: 'Donation',
       image: "/card3.jpg",
       avatarImage: "/person3.jpg",
+      condition: "Good condition"
     },
   ]
 
@@ -132,6 +135,7 @@ export const NavLinks = [
       value: 'Free',
       image: "/card3.jpg",
       avatarImage: "/person5.jpg",
+      condition: "Great condition"
     },
     {
       id: "2",
@@ -141,6 +145,7 @@ export const NavLinks = [
       value: 'Free',
       image: "/card4.jpg",
       avatarImage: "/person4.jpg",
+      condition: "Great condition"
     },
     {
       id: "3",
@@ -150,6 +155,7 @@ export const NavLinks = [
       value: '$70',
       image: "/card9.jpg",
       avatarImage: "/person4.jpg",
+      condition: "Good condition"
     },
     {
       id: "4",
@@ -159,6 +165,7 @@ export const NavLinks = [
       value: 'Free',
       image: "/card1.jpg",
       avatarImage: "/person1.jpg",
+      condition: "Great condition"
     },
     {
       id: "5",
@@ -168,6 +175,7 @@ export const NavLinks = [
       value: 'Donation',
       image: "/card2.jpg",
       avatarImage: "/person2.jpg",
+      condition: "Great condition"
     },
     {
       id: "6",
@@ -177,6 +185,7 @@ export const NavLinks = [
       value: 'Donation',
       image: "/card3.jpg",
       avatarImage: "/person3.jpg",
+      condition: "Good condition"
     },
     {
       id: "7",
@@ -186,6 +195,7 @@ export const NavLinks = [
       value: '$70',
       image: "/card7.jpg",
       avatarImage: "/person4.jpg",
+      condition: "Great condition"
     },
     {
       id: "8",
@@ -195,6 +205,7 @@ export const NavLinks = [
       value: 'Free',
       image: "/card8.jpg",
       avatarImage: "/person8.jpg",
+      condition: "Great condition"
     },
     {
       id: "9",
@@ -204,6 +215,7 @@ export const NavLinks = [
       value: 'Donation',
       image: "/card6.jpg",
       avatarImage: "/person5.jpg",
+      condition: "Fair condition"
     },
   ]
 
@@ -216,6 +228,7 @@ export const NavLinks = [
       value: '$70',
       image: "/card9.jpg",
       avatarImage: "/person4.jpg",
+      condition: "Great condition"
     },
     {
       id: "2",
@@ -225,6 +238,7 @@ export const NavLinks = [
       value: 'Free',
       image: "/card8.jpg",
       avatarImage: "/person8.jpg",
+      condition: "Good condition"
     },
     {
       id: "3",
@@ -234,5 +248,6 @@ export const NavLinks = [
       value: 'Donation',
       image: "/card6.jpg",
       avatarImage: "/person5.jpg",
+      condition: "Fair condition"
     },
   ]
