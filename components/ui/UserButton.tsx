@@ -20,7 +20,7 @@ const UserButton = ({ session }: { session: Session | null }) => {
       <DropdownMenuTrigger>
         <UserAvatar
           name={session?.user?.name || "Username"}
-          image={session?.user?.image || "https://github.com/shadcn.png"}
+          image={session?.user?.image || null}
         />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="cursor-pointer">

@@ -9,6 +9,8 @@ import { useSession } from "next-auth/react";
 
 const DashboardNavbar = () => {
   const { data: session } = useSession();
+
+  console.log(session);
   return (
     <nav className="bg-dark-purple w-full h-16">
       <div className="flex justify-between items-center mx-8">

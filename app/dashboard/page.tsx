@@ -20,10 +20,10 @@ const page = () => {
         conditionColor = "green";
         break;
       case "Good condition":
-        conditionColor = "orange";
+        conditionColor = "blue";
         break;
       case "Fair condition":
-        conditionColor = "red";
+        conditionColor = "orange";
         break;
       default:
         conditionColor = "white";
