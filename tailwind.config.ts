@@ -19,6 +19,7 @@ module.exports = {
         'green': '#01FF00',
         'red': '#E0140F',
         'orange': '#FF8430',
+        'blue': '#1CCEFE',
         'dark': '#090427',
         "fusia": '#6B3EE3',
         'title-color': '#9F7CF6',
@@ -83,4 +84,8 @@ module.exports = {
     },
   },
   plugins: [],
+  safelist: [{
+    pattern: /^bg-(green|blue|orange)/,
+  }
+  ]
 };

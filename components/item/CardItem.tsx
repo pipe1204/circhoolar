@@ -25,14 +25,27 @@ const CardItem = ({
 }: CardItemProps) => {
   return (
     <Card className="bg-light-white w-full border border-light-white shadow-md rounded-lg overflow-hidden">
-      <div className="relative w-full flex-grow bg-light-white p-4">
+      <div className="relative mt-4">
+        <div className="absolute px-4 inset-0 flex items-center">
+          <span className="w-full border-t border-background" />
+        </div>
+        <div className="relative flex justify-center text-xs uppercase">
+          <CardTitle
+            className="bg-background px-2 text-center text-light-white text-[10px] xl:text-md"
+            as="h3"
+          >
+            {title}
+          </CardTitle>
+        </div>
+      </div>
+      <div className="relative w-full flex-grow bg-light-white p-2">
         <div className="absolute flex justify-center items-center top-6 right-6 bg-accent px-2 rounded-full shadow-md">
           <span className="text-dark text-[8px] xl:text-[10px] font-semibold">
             {value}
           </span>
         </div>
-        <div className="absolute bottom-6 left-6 flex justify-start items-center">
-          <div className="w-7 h-7 mr-2 rounded-full overflow-hidden relative">
+        <div className="absolute bottom-4 left-4 xl:bottom-6 xl:left-6 flex justify-start items-center">
+          <div className=" w-6 h-6 xl:w-7 xl:h-7 mr-2 rounded-full overflow-hidden relative">
             <Image
               src={avatarImage}
               alt={title}
@@ -56,11 +69,13 @@ const CardItem = ({
         />
       </div>
       <CardContent>
-        <div className="mb-2 flex flex-row justify-start items-center">
+        <div className="mb-2 xl:mb-4 flex flex-row justify-start items-center">
           <div
             className={`w-2 h-2 rounded-full bg-${conditionColor} mr-2`}
           ></div>
-          <h1 className="text-[10px] xl:text-xs font-semibold">{condition}</h1>
+          <h1 className="text-[10px] xl:text-xs text-background font-semibold">
+            {condition}
+          </h1>
         </div>
         <div className="flex flex-col gap-y-2 justify-center items-center">
           <Button
@@ -79,7 +94,7 @@ const CardItem = ({
           </Button>
         </div>
       </CardContent>
-      <CardFooter className="flex flex-col gap-y-2 justify-center items-center">
+      {/* <CardFooter className="flex flex-col gap-y-2 justify-center items-center">
         <div className="relative">
           <div className="absolute px-4 inset-0 flex items-center">
             <span className="w-full border-t border-paragraph-color" />
@@ -93,7 +108,7 @@ const CardItem = ({
             </CardTitle>
           </div>
         </div>
-      </CardFooter>
+      </CardFooter> */}
     </Card>
   );
 };
