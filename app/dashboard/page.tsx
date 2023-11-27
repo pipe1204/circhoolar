@@ -9,8 +9,11 @@ import { getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { codeRef } from "@/lib/converters/SchoolCode";
 import { useSession } from "next-auth/react";
 import { userRef } from "@/lib/converters/User";
+import { useSchoolCodeStore } from "@/store/store";
 
 const page = () => {
+  const code = useSchoolCodeStore((state) => state.schoolCode);
+
   const [validCode, setValidCode] = React.useState(false);
   const [errorCode, setErrorCode] = React.useState("");
   const breakpointColumnsObj = {
@@ -68,7 +71,7 @@ const page = () => {
 
   return (
     <section className="p-2">
-      {validCode ? (
+      {code !== undefined || null ? (
         <Masonry
           breakpointCols={breakpointColumnsObj}
           className="my-masonry-grid"
