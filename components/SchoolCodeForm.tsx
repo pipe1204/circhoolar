@@ -22,8 +22,10 @@ type Inputs = z.infer<typeof authSchoolCodeSchema>;
 
 export function SchoolCodeForm({
   checkCode,
+  errorMessage,
 }: {
   checkCode: (code: string) => void;
+  errorMessage: string;
 }) {
   const [isPending, startTransition] = React.useTransition();
 
@@ -58,6 +60,9 @@ export function SchoolCodeForm({
             </FormItem>
           )}
         />
+        {errorMessage && (
+          <p className="text-red text-center text-sm">{errorMessage}</p>
+        )}
         <Button
           disabled={isPending}
           variant={"outline"}

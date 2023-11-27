@@ -2,15 +2,12 @@
 
 import Image from "next/image";
 import React from "react";
-import { Icons } from "../Icons";
-import { Button } from "../ui/Button";
 import UserButton from "../ui/UserButton";
 import { useSession } from "next-auth/react";
 
 const DashboardNavbar = () => {
   const { data: session } = useSession();
 
-  console.log(session);
   return (
     <nav className="bg-dark-purple w-full h-16">
       <div className="flex justify-between items-center mx-8">

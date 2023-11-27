@@ -5,10 +5,14 @@ import CardItem from "@/components/item/CardItem";
 import { homepageCardsColumn2 } from "@/constants";
 import React from "react";
 import Masonry from "react-masonry-css";
-import * as firebase from "firebase-admin";
+import { getDoc, onSnapshot, updateDoc } from "firebase/firestore";
+import { codeRef } from "@/lib/converters/SchoolCode";
+import { useSession } from "next-auth/react";
+import { userRef } from "@/lib/converters/User";
 
 const page = () => {
   const [validCode, setValidCode] = React.useState(false);
+  const [errorCode, setErrorCode] = React.useState("");
   const breakpointColumnsObj = {
     default: 4,
     1100: 3,
@@ -35,18 +39,33 @@ const page = () => {
     return conditionColor;
   };
 
-  const checkCode = async (code: string) => {
-    // console.log(code);
-    // const referralRef = firestore().collection("referralCodes").doc(code);
-    // const docSnap = await referralRef.get();
-    // if (docSnap.exists) {
-    //   setValidCode(true);
-    // } else {
-    //   setValidCode(false);
-    // }
+  const { data: session } = useSession();
+
+  const handleCheckCode = async (code: string) => {
+    if (session?.user?.id) {
+      await checkCode(code, session.user.id);
+    } else {
+      console.log("User is not logged in.");
+    }
   };
 
-  const code = false;
+  const checkCode = async (code: string, userId: string) => {
+    const docRef = codeRef(code);
+    const docSnapshot = await getDoc(docRef);
+
+    if (docSnapshot.exists()) {
+      console.log("Document data:", docSnapshot.data());
+      setValidCode(true);
+
+      const userDocRef = userRef(userId);
+      await updateDoc(userDocRef, { schoolCode: code });
+    } else {
+      console.log("No such document!");
+      setValidCode(false);
+      setErrorCode("Wrong code. Please try again.");
+    }
+  };
+
   return (
     <section className="p-2">
       {validCode ? (
@@ -79,7 +98,10 @@ const page = () => {
             </h1>
           </div>
           <div className="w-3/4 xl:w-1/3 mx-auto">
-            <SchoolCodeForm checkCode={checkCode} />
+            <SchoolCodeForm
+              checkCode={handleCheckCode}
+              errorMessage={errorCode}
+            />
           </div>
         </div>
       )}
