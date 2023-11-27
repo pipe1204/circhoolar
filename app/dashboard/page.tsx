@@ -41,6 +41,7 @@ const page = () => {
         {homepageCardsColumn2.map((card) => (
           <div key={card.id}>
             <CardItem
+              id={card.id}
               author={card.author}
               title={card.title}
               description={card.description}

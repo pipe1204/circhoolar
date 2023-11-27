@@ -111,7 +111,7 @@ const PageNavbar = () => {
                 Add an Item
               </Button>
             </div>
-            <div className="bg-lightest-purple flex flex-row items-center gap-x-2 mb-4 px-4 py-2 rounded-md">
+            <div className="bg-lightest-purple flex flex-row items-center gap-x-2 ml-2 xl:ml-0 mb-4 px-4 py-2 rounded-md">
               <h1 className="text-dark-purple font-semibold text-md text-center">
                 South Yarra Primary
               </h1>
@@ -122,12 +122,6 @@ const PageNavbar = () => {
             </div>
             <NavLinks onClick={() => setIsMenuOpen(false)} />
           </div>
-        </div>
-        <div className="flex gap-x-2 items-center">
-          {icon}
-          <CardTitle className="text-dark-purple text-md">
-            {categoryName}
-          </CardTitle>
         </div>
         <div className="bg-lightest-purple hidden xl:flex items-center gap-x-2 px-20 py-2 rounded-md">
           <h1 className="text-dark-purple font-semibold text-md text-center">
