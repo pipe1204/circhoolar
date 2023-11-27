@@ -32,23 +32,35 @@ const page = ({ params }: { params: { id: string } }) => {
             </div>
             <div className="mb-4">
               <div className="flex items-end gap-2">
-                <span className="text-dark-purple text-lg font-bold">
-                  Donation
-                </span>
+                <span className="text-dark-purple text-lg font-bold">Free</span>
               </div>
-              <span className="text-xs text-gray">For school initiatives</span>
+              <span className="text-xs text-gray">
+                Voluntary donation for school initiatives or charity of their
+                own
+              </span>
             </div>
-            <div className="flex gap-2.5">
+            <div className="flex flex-col gap-2 w-full xl:w-3/4">
+              <div className="flex justify-around gap-2.5 w-full">
+                <div className="w-1/2">
+                  <Button
+                    variant={"outlineLight"}
+                    className="w-full hover:text-light-white"
+                  >
+                    Add to wishlist
+                  </Button>
+                </div>
+                <div className="w-1/2">
+                  <Button
+                    variant={"outlineLight"}
+                    className="text-background hover:text-light-white w-full"
+                  >
+                    Claim
+                  </Button>
+                </div>
+              </div>
               <Button variant={"secondary"}>
                 <Icons.message className="text-light-white mr-2" size={18} />
                 Aska question
-              </Button>
-              <Button
-                variant={"outlineLight"}
-                className="text-background hover:text-light-white"
-              >
-                <Icons.heart className="text-background mr-2" size={18} />
-                Claim
               </Button>
             </div>
             <p className="mt-12 text-base text-gray tracking-wide">

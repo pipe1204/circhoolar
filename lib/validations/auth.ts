@@ -34,3 +34,9 @@ export const authSignUpSchema = z.object({
         "Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character",
     }),
 })
+
+export const authSchoolCodeSchema = z.object({
+  schoolCode: z.string().min(2, {
+    message: "School code must be at least 2 characters long",
+  }),
+})

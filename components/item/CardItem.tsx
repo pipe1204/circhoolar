@@ -80,23 +80,27 @@ const CardItem = ({
             {condition}
           </h1>
         </div>
-        <div className="flex flex-col gap-y-2 justify-center items-center">
-          <Link href={`dashboard/${id}`}>
+        <div className="flex flex-col gap-y-2 justify-center items-center w-full xl:w-3/4 mx-auto">
+          <div className="w-full">
+            <Link href={`dashboard/${id}`}>
+              <Button
+                variant={"outline"}
+                size={"sm"}
+                className="w-full text-light-white bg-dark-purple hover:bg-title-color hover:text-light-white"
+              >
+                View
+              </Button>
+            </Link>
+          </div>
+          <div className="w-full">
             <Button
-              variant={"outline"}
+              variant={"outlineLight"}
               size={"sm"}
-              className="w-full text-light-white bg-dark-purple hover:bg-title-color hover:text-light-white"
+              className="w-full bg-light-white hover:text-light-white"
             >
-              View
+              Wishlist
             </Button>
-          </Link>
-          <Button
-            variant={"outline"}
-            size={"sm"}
-            className="w-full bg-light-white"
-          >
-            Wishlist
-          </Button>
+          </div>
         </div>
       </CardContent>
       {/* <CardFooter className="flex flex-col gap-y-2 justify-center items-center">
