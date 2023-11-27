@@ -123,6 +123,14 @@ const PageNavbar = () => {
             <NavLinks onClick={() => setIsMenuOpen(false)} />
           </div>
         </div>
+        <div>
+          <Button
+            variant={"outlineLight"}
+            className="hidden xl:flex hover:text-light-white"
+          >
+            Add an Item
+          </Button>
+        </div>
         <div className="bg-lightest-purple hidden xl:flex items-center gap-x-2 px-20 py-2 rounded-md">
           <h1 className="text-dark-purple font-semibold text-md text-center">
             South Yarra Primary
@@ -131,14 +139,6 @@ const PageNavbar = () => {
             className="text-dark-purple cursor-pointer"
             size={18}
           />
-        </div>
-        <div>
-          <Button
-            variant={"outlineLight"}
-            className="hidden xl:flex hover:text-light-white"
-          >
-            Add an Item
-          </Button>
         </div>
         {categoryName === "Discover" && (
           <div className="">
