@@ -36,6 +36,7 @@ const CardCarousel = () => {
           {homepageCardsColumn1.map((card) => (
             <div key={card.id}>
               <CardItem
+                id={card.id}
                 author={card.author}
                 title={card.title}
                 description={card.description}
@@ -52,6 +53,7 @@ const CardCarousel = () => {
           {homepageCardsColumn1.map((card) => (
             <div key={card.id}>
               <CardItem
+                id={card.id}
                 author={card.author}
                 title={card.title}
                 description={card.description}
@@ -70,6 +72,7 @@ const CardCarousel = () => {
           {homepageCardsColumn2.map((card) => (
             <div key={card.id}>
               <CardItem
+                id={card.id}
                 author={card.author}
                 title={card.title}
                 description={card.description}
@@ -86,6 +89,7 @@ const CardCarousel = () => {
           {homepageCardsColumn2.map((card) => (
             <div key={card.id}>
               <CardItem
+                id={card.id}
                 author={card.author}
                 title={card.title}
                 description={card.description}
@@ -104,6 +108,7 @@ const CardCarousel = () => {
           {homepageCardsColumn3.map((card) => (
             <div key={card.id}>
               <CardItem
+                id={card.id}
                 author={card.author}
                 title={card.title}
                 description={card.description}
@@ -120,6 +125,7 @@ const CardCarousel = () => {
           {homepageCardsColumn3.map((card) => (
             <div key={card.id}>
               <CardItem
+                id={card.id}
                 author={card.author}
                 title={card.title}
                 description={card.description}
