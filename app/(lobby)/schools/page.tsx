@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Card } from "@/components/ui/Card";
 import { useFollowPointer } from "../../../lib/use-follow-pointer";
 import Image from "next/image";
+import { Button } from "@/components/ui/Button";
 
 const page = () => {
   const visible = { opacity: 1, y: 0, transition: { duration: 0.5 } };
@@ -135,18 +136,9 @@ const page = () => {
         </div>
       </section>
       <section className="bg-fusia w-full paddings my-16">
-        <div className="flex flex-col xl:flex-row justify-between items-center py-10 xl:py-20">
-          <div className="w-11/12 xl:w-[40%] flex flex-col justify-start">
-            <h1 className="text-light-white text-4xl xl:text-6xl font-bold">
-              Book a demo
-            </h1>
-            <p className="text-gray-50 font-semibold mt-4">
-              "Circhoolar has revolutionized our approach to sustainability and
-              community involvement. It's not just a platform, but a community
-              builder that has significantly enhanced our school's environmental
-              and fundraising efforts."
-            </p>
-            <div className="mt-4 flex">
+        <div className="flex flex-col justify-between items-center py-10 xl:py-20">
+          <div className="w-11/12 xl:w-[70%] mx-auto flex flex-col justify-start text-center">
+            <div className="flex flex-col justify-center items-center">
               <div className="w-12 h-12 mr-4 rounded-full overflow-hidden bg-light-white relative">
                 <Image
                   src={"/person3.jpg"}
@@ -160,10 +152,23 @@ const page = () => {
                 <p className="text-gray-50">
                   Principal @ Maplewood Primary School
                 </p>
+                <p className="text-gray-50 font-semibold mt-4">
+                  "Circhoolar has revolutionized our approach to sustainability
+                  and community involvement. It's not just a platform, but a
+                  community builder that has significantly enhanced our school's
+                  environmental and fundraising efforts."
+                </p>
               </div>
             </div>
+            <div className="my-8">
+              <h1 className="text-light-white text-4xl xl:text-6xl font-bold">
+                Book a demo
+              </h1>
+            </div>
           </div>
-          <div>Form</div>
+          <Button variant={"outline"} size={"lg"}>
+            Contact us
+          </Button>
         </div>
       </section>
     </>

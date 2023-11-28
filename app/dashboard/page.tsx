@@ -9,10 +9,11 @@ import { getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { codeRef } from "@/lib/converters/SchoolCode";
 import { useSession } from "next-auth/react";
 import { userRef } from "@/lib/converters/User";
-import { useSchoolCodeStore } from "@/store/store";
+import { useSchoolCodeStore, useUserNameStore } from "@/store/store";
 
 const page = () => {
   const code = useSchoolCodeStore((state) => state.schoolCode);
+  const setUserName = useUserNameStore((state) => state.setUserName);
 
   const [validCode, setValidCode] = React.useState(false);
   const [errorCode, setErrorCode] = React.useState("");
@@ -44,24 +45,25 @@ const page = () => {
 
   const { data: session } = useSession();
 
-  const handleCheckCode = async (code: string) => {
+  const handleCheckCode = async (code: string, name: string) => {
     if (session?.user?.id) {
-      await checkCode(code, session.user.id);
+      await checkCode(code, session.user.id, name);
     } else {
       console.log("User is not logged in.");
     }
   };
 
-  const checkCode = async (code: string, userId: string) => {
+  const checkCode = async (code: string, userId: string, name: string) => {
     const docRef = codeRef(code);
     const docSnapshot = await getDoc(docRef);
 
     if (docSnapshot.exists()) {
       console.log("Document data:", docSnapshot.data());
       setValidCode(true);
+      setUserName(name);
 
       const userDocRef = userRef(userId);
-      await updateDoc(userDocRef, { schoolCode: code });
+      await updateDoc(userDocRef, { schoolCode: code, name: name });
     } else {
       console.log("No such document!");
       setValidCode(false);
@@ -95,9 +97,9 @@ const page = () => {
         </Masonry>
       ) : (
         <div className="w-full xl:w-3/4 mx-auto mt-20">
-          <div className="w-full">
+          <div className="w-full xl:w-1/2 mx-auto">
             <h1 className="text-2xl text-center font-semibold mb-4 text-dark-purple">
-              Please enter your school code below to get started
+              Please enter your full name and school code below to get started
             </h1>
           </div>
           <div className="w-3/4 xl:w-1/3 mx-auto">

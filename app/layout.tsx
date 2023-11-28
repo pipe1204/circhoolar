@@ -1,7 +1,7 @@
 import ClientProviders from "@/components/ClientProviders";
 import "./globals.css";
 import FirebaseAuthProvider from "@/components/FirebaseAuthProvider";
-import VerificationCodeProvider from "@/components/VerificationCodeProvider";
+import GlobalStateProvider from "@/components/GlobalStateProvider";
 
 export const metadata = {
   title: "Circhoolar",
@@ -18,9 +18,9 @@ export default function RootLayout({
       <html lang="en">
         <body className="bg-background">
           <FirebaseAuthProvider>
-            <VerificationCodeProvider>
+            <GlobalStateProvider>
               <main>{children}</main>
-            </VerificationCodeProvider>
+            </GlobalStateProvider>
           </FirebaseAuthProvider>
         </body>
       </html>

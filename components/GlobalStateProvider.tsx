@@ -3,14 +3,15 @@
 import { db } from "@/firebase";
 import { codeRef } from "@/lib/converters/SchoolCode";
 import { userRef } from "@/lib/converters/User";
-import { useSchoolCodeStore } from "@/store/store";
+import { useSchoolCodeStore, useUserNameStore } from "@/store/store";
 import { getDoc, onSnapshot } from "firebase/firestore";
 import { useSession } from "next-auth/react";
 import React, { useEffect } from "react";
 
-function VerificationCodeProvider({ children }: { children: React.ReactNode }) {
+function GlobalStateProvider({ children }: { children: React.ReactNode }) {
   const { data: session } = useSession();
   const setSchoolCode = useSchoolCodeStore((state) => state.setSchoolCode);
+  const setUserName = useUserNameStore((state) => state.setUserName);
 
   useEffect(() => {
     if (!session) return;
@@ -20,6 +21,7 @@ function VerificationCodeProvider({ children }: { children: React.ReactNode }) {
       (docSnapShot) => {
         if (docSnapShot.exists()) {
           setSchoolCode(docSnapShot.data().schoolCode);
+          setUserName(docSnapShot.data().name);
         } else {
           console.log("No such document!");
           setSchoolCode(null);
@@ -35,4 +37,4 @@ function VerificationCodeProvider({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
-export default VerificationCodeProvider;
+export default GlobalStateProvider;

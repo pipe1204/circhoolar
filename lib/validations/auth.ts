@@ -39,4 +39,7 @@ export const authSchoolCodeSchema = z.object({
   schoolCode: z.string().min(7, {
     message: "School code must be at least 7 characters long",
   }),
+  name: z.string().min(2, {
+    message: "Name must be at least 2 characters long",
+  }),
 })

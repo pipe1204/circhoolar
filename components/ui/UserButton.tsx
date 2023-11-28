@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { use } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,19 +13,21 @@ import UserAvatar from "./UserAvatar";
 import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
+import { useUserNameStore } from "@/store/store";
 
 const UserButton = ({ session }: { session: Session | null }) => {
+  const userName = useUserNameStore((state) => state.userName);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <UserAvatar
-          name={session?.user?.name || "Username"}
+          name={session?.user?.name || userName}
           image={session?.user?.image || null}
         />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="cursor-pointer">
         <DropdownMenuLabel>
-          {session?.user?.name ? session?.user?.name : session?.user?.email}
+          {session?.user?.name ? session?.user?.name : userName}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <Link href={"/dashboard"}>
