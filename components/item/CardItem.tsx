@@ -34,7 +34,7 @@ const CardItem = ({
         </div>
         <div className="relative flex justify-center text-xs uppercase">
           <CardTitle
-            className="bg-background px-2 text-center text-light-white text-[10px] xl:text-md"
+            className="bg-background px-2 text-center text-light-white text-[8px] xl:text-md"
             as="h3"
           >
             {title}
@@ -42,7 +42,7 @@ const CardItem = ({
         </div>
       </div>
       <div className="relative w-full flex-grow bg-light-white p-2">
-        <div className="absolute flex justify-center items-center top-6 right-6 bg-accent px-2 rounded-full shadow-md">
+        <div className="absolute flex justify-center items-center top-4 right-4 bg-accent px-2 rounded-full shadow-md">
           <span className="text-dark text-[8px] xl:text-[10px] font-semibold">
             {value}
           </span>

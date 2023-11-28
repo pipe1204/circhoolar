@@ -24,7 +24,7 @@ export function SchoolCodeForm({
   checkCode,
   errorMessage,
 }: {
-  checkCode: (code: string) => void;
+  checkCode: (code: string, name: string) => void;
   errorMessage: string;
 }) {
   const [isPending, startTransition] = React.useTransition();
@@ -34,11 +34,12 @@ export function SchoolCodeForm({
     resolver: zodResolver(authSchoolCodeSchema),
     defaultValues: {
       schoolCode: "",
+      name: "",
     },
   });
 
   async function onSubmit(data: Inputs) {
-    checkCode(data.schoolCode);
+    checkCode(data.schoolCode, data.name);
   }
 
   return (
@@ -47,6 +48,19 @@ export function SchoolCodeForm({
         className="grid gap-4"
         onSubmit={(...args) => void form.handleSubmit(onSubmit)(...args)}
       >
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-gray text-sx">Full Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Jhon Doe" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="schoolCode"
@@ -63,6 +77,7 @@ export function SchoolCodeForm({
         {errorMessage && (
           <p className="text-red text-center text-sm">{errorMessage}</p>
         )}
+
         <Button
           disabled={isPending}
           variant={"outline"}

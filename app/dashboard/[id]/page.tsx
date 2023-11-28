@@ -5,10 +5,10 @@ import React from "react";
 
 const page = ({ params }: { params: { id: string } }) => {
   const images = [
-    { id: "1", image: "/person1.jpg" },
-    { id: "2", image: "/person2.jpg" },
-    { id: "3", image: "/person3.jpg" },
-    { id: "4", image: "/person4.jpg" },
+    { id: "1", image: "/card1.jpg" },
+    { id: "2", image: "/card5.jpg" },
+    { id: "3", image: "/card9.jpg" },
+    { id: "4", image: "/card8.jpg" },
   ];
   return (
     <div>
@@ -35,12 +35,12 @@ const page = ({ params }: { params: { id: string } }) => {
                 <span className="text-dark-purple text-lg font-bold">Free</span>
               </div>
               <span className="text-xs text-gray">
-                Voluntary donation for school initiatives or charity of their
-                own
+                Voluntary donation to school for initiatives or charity of their
+                choice
               </span>
             </div>
             <div className="flex flex-col gap-2 w-full xl:w-3/4">
-              <div className="flex justify-around gap-2.5 w-full">
+              <div className="flex justify-around gap-2.5 w-full mb-2">
                 <div className="w-1/2">
                   <Button
                     variant={"outlineLight"}
@@ -60,7 +60,7 @@ const page = ({ params }: { params: { id: string } }) => {
               </div>
               <Button variant={"secondary"}>
                 <Icons.message className="text-light-white mr-2" size={18} />
-                Aska question
+                Ask a question
               </Button>
             </div>
             <p className="mt-12 text-base text-gray tracking-wide">

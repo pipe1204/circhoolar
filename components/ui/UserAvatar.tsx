@@ -19,10 +19,10 @@ const UserAvatar = ({ name, image, className }: UserAvatarProps) => {
           width={40}
           height={40}
           referrerPolicy="no-referrer"
-          className="rounded-full"
+          className="rounded-full border border-dark-purple"
         />
       )}
-      <AvatarFallback className="bg-light-white text-dark-purple text-lg">
+      <AvatarFallback className="bg-light-white text-dark-purple border border-gray-50 text-lg">
         {name
           ?.split(" ")
           .map((n) => n[0])
