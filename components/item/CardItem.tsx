@@ -34,7 +34,7 @@ const CardItem = ({
         </div>
         <div className="relative flex justify-center text-xs uppercase">
           <CardTitle
-            className="bg-background px-2 text-center text-light-white text-[8px] xl:text-md"
+            className="bg-background px-2 text-center text-light-white text-[8px] xl:text-[12px]"
             as="h3"
           >
             {title}

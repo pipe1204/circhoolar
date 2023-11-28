@@ -43,3 +43,24 @@ export const authSchoolCodeSchema = z.object({
     message: "Name must be at least 2 characters long",
   }),
 })
+
+export const postItemSchema = z.object({
+  title: z.string().min(2, {
+    message: "Title must be at least 2 characters long",
+  }),
+  images: z.string(),
+  description: z.string(),
+  condition: z.enum(["Great condition", "Good condition", "Fair condition"], {
+    required_error: "You need to select a condition.",
+  }),
+  sellingmethod: z.enum(["Free", "Cost"], {
+    required_error: "You need to select a value.",
+  }),
+  price: z.string().min(1, {
+    message: "Price must be at least 1 characters long",
+  }),
+  category: z
+    .string({
+      required_error: "Please select a category.",
+    })
+})

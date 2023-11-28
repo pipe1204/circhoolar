@@ -5,7 +5,7 @@ import CardItem from "@/components/item/CardItem";
 import { homepageCardsColumn2 } from "@/constants";
 import React from "react";
 import Masonry from "react-masonry-css";
-import { getDoc, onSnapshot, updateDoc } from "firebase/firestore";
+import { getDoc, updateDoc, setDoc, doc } from "firebase/firestore";
 import { codeRef } from "@/lib/converters/SchoolCode";
 import { useSession } from "next-auth/react";
 import { userRef } from "@/lib/converters/User";
@@ -64,6 +64,13 @@ const page = () => {
 
       const userDocRef = userRef(userId);
       await updateDoc(userDocRef, { schoolCode: code, name: name });
+
+      // Create initial documents in the subcollections
+      const savedItemsRef = doc(userDocRef, "savedItems", "initial");
+      const soldItemsRef = doc(userDocRef, "soldItems", "initial");
+
+      await setDoc(savedItemsRef, { initialized: true });
+      await setDoc(soldItemsRef, { initialized: true });
     } else {
       console.log("No such document!");
       setValidCode(false);
