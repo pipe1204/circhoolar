@@ -67,5 +67,5 @@ export const postItemSchema = z.object({
 })
 
 export const imageSchema = z.object({
-  image: z.array(z.instanceof(File)), // For an array of files
+  image: z.any(),
 });
