@@ -40,6 +40,7 @@ type Inputs = z.infer<typeof postItemSchema>;
 type Image = z.infer<typeof imageSchema>;
 
 const PostItemDialog = () => {
+  const isBrowser = typeof window !== "undefined";
   const [errorCode, setErrorCode] = React.useState("");
   const [priceType, setPriceType] = useState("");
   const [isOpen, setIsOpen] = useState(false);
@@ -97,13 +98,17 @@ const PostItemDialog = () => {
   const { register, handleSubmit } = useForm();
 
   const onImageSubmit = async (data: any) => {
-    const image = data.image[0];
-    setFiles([...files, image.name]);
-    setFileObjects((currentFiles) => [...currentFiles, image]);
+    if (isBrowser) {
+      const image = data.image[0];
+      setFiles([...files, image.name]);
+      setFileObjects((currentFiles) => [...currentFiles, image]);
 
-    const fileInput = document.getElementById("file_input") as HTMLInputElement;
-    if (fileInput) {
-      fileInput.value = "";
+      const fileInput = document.getElementById(
+        "file_input"
+      ) as HTMLInputElement;
+      if (fileInput) {
+        fileInput.value = "";
+      }
     }
   };
 
@@ -143,6 +148,9 @@ const PostItemDialog = () => {
 
     setIsOpen(false);
     setPriceType("Free");
+    setImages([]);
+    setFiles([]);
+    setFileObjects([]);
     form.reset({
       title: "",
       description: "",
@@ -181,8 +189,8 @@ const PostItemDialog = () => {
             />
             <Button
               type="submit"
-              variant={"outline"}
-              className="text-light-white"
+              variant={"outlineLight"}
+              className="text-background hover:text-light-white"
             >
               Upload file
             </Button>
@@ -386,7 +394,10 @@ const PostItemDialog = () => {
               />
               <DialogFooter>
                 <div className="w-full flex flex-col justify-center items-center my-4">
-                  <Button variant={"outline"} className="text-light-white">
+                  <Button
+                    variant={"outline"}
+                    className="text-light-white bg-background"
+                  >
                     {loading ? <LoadingSpinner /> : "Post"}
                   </Button>
                 </div>

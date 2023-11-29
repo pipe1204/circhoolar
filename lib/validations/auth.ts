@@ -57,6 +57,8 @@ export const postItemSchema = z.object({
   }),
   price: z.string().min(1, {
     message: "Price must be at least 1 characters long",
+  }).regex(/^\d+$/, {
+    message: "Price must be a number",
   }),
   category: z
     .string({
@@ -66,6 +68,4 @@ export const postItemSchema = z.object({
 
 export const imageSchema = z.object({
   image: z.array(z.instanceof(File)), // For an array of files
-  // or
-  // image: z.instanceof(FileList), // For a FileList
 });
