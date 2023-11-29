@@ -1,12 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import { Icons } from "../Icons";
-import { CardTitle } from "../ui/Card";
 import { usePathname } from "next/navigation";
 import { categoryFilters } from "@/constants";
 import NavLinks from "./NavLinks";
-import Image from "next/image";
-import { Button } from "../ui/Button";
 import PostItemDialog from "../item/PostItemDialog";
 
 const PageNavbar = () => {
