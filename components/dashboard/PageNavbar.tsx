@@ -4,7 +4,6 @@ import { Icons } from "../Icons";
 import { usePathname } from "next/navigation";
 import { categoryFilters } from "@/constants";
 import NavLinks from "./NavLinks";
-// import PostItemDialog from "../item/PostItemDialog";
 import dynamic from "next/dynamic";
 
 const PostItemDialog = dynamic(() => import("../item/PostItemDialog"), {

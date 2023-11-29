@@ -1,6 +1,14 @@
 import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
-import PageNavbar from "@/components/dashboard/PageNavbar";
+// import PageNavbar from "@/components/dashboard/PageNavbar";
 import SideNav from "@/components/dashboard/Sidebar";
+import dynamic from "next/dynamic";
+
+const PageNavbar = dynamic(
+  () => import("../../components/dashboard/PageNavbar"),
+  {
+    ssr: false,
+  }
+);
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
