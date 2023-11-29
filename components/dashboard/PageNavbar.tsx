@@ -4,7 +4,7 @@ import { Icons } from "../Icons";
 import { usePathname } from "next/navigation";
 import { categoryFilters } from "@/constants";
 import NavLinks from "./NavLinks";
-// import PostItemDialog from "../item/PostItemDialog";
+import PostItemDialog from "../item/PostItemDialog";
 
 const PageNavbar = () => {
   const pathname = usePathname();
@@ -105,7 +105,7 @@ const PageNavbar = () => {
               </button>
             </div>
             <div className="flex flex-row justify-between items-center my-6 px-4 gap-x-6">
-              {/* <PostItemDialog /> */}
+              <PostItemDialog />
             </div>
             <div className="bg-lightest-purple flex flex-row items-center gap-x-2 ml-2 xl:ml-0 mb-4 px-4 py-2 rounded-md">
               <h1 className="text-dark-purple font-semibold text-md text-center">
@@ -120,7 +120,9 @@ const PageNavbar = () => {
           </div>
         </div>
         <div>
-          <div className="hidden xl:flex">{/* <PostItemDialog /> */}</div>
+          <div className="hidden xl:flex">
+            <PostItemDialog />
+          </div>
         </div>
         <div className="bg-lightest-purple hidden xl:flex items-center gap-x-2 px-20 py-2 rounded-md">
           <h1 className="text-dark-purple font-semibold text-md text-center">
