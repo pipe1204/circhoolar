@@ -10,7 +10,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Input } from "../ui/Input";
 import { Button } from "../ui/Button";
@@ -20,14 +19,12 @@ import type { z } from "zod";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import { postItemSchema } from "@/lib/validations/auth";
-import { Icons } from "../Icons";
+import { postItemSchema, imageSchema } from "@/lib/validations/auth";
 import { Textarea } from "../ui/textarea";
 import {
   Select,
@@ -36,15 +33,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import Link from "next/link";
+import Image from "next/image";
+import LoadingSpinner from "../LoadingSpinner";
 
 type Inputs = z.infer<typeof postItemSchema>;
+type Image = z.infer<typeof imageSchema>;
 
 const PostItemDialog = () => {
-  const [isPending, startTransition] = React.useTransition();
   const [errorCode, setErrorCode] = React.useState("");
   const [priceType, setPriceType] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [images, setImages] = useState<string[]>([]);
+  const [files, setFiles] = useState<string[]>([]);
+  const [fileObjects, setFileObjects] = useState<File[]>([]);
+  const [loading, setLoading] = useState(false);
 
   // react-hook-form
   const form = useForm<Inputs>({
@@ -53,9 +55,36 @@ const PostItemDialog = () => {
       title: "",
       description: "",
       price: "", // Set an initial value for price
-      images: "",
     },
   });
+
+  const Imageform = useForm<Image>({
+    resolver: zodResolver(imageSchema),
+  });
+
+  //Clearing inputs when dialog is closed
+  const handleDialogChange = (isOpen: boolean) => {
+    setIsOpen(isOpen);
+
+    if (!isOpen) {
+      // Reset form fields
+      form.reset();
+      Imageform.reset();
+
+      // Clear the file names and images state
+      setFiles([]);
+      setImages([]);
+      setPriceType("Free");
+
+      // Reset file input
+      const fileInput = document.getElementById(
+        "file_input"
+      ) as HTMLInputElement;
+      if (fileInput) {
+        fileInput.value = "";
+      }
+    }
+  };
 
   const handlePriceTypeChange = (value: string) => {
     setPriceType(value);
@@ -64,10 +93,56 @@ const PostItemDialog = () => {
     }
   };
 
-  async function onSubmit(data: Inputs) {
-    console.log(data);
-    setIsOpen(false);
+  //Uploading image files to UI for users to see
+  const { register, handleSubmit } = useForm();
 
+  const onImageSubmit = async (data: any) => {
+    const image = data.image[0];
+    setFiles([...files, image.name]);
+    setFileObjects((currentFiles) => [...currentFiles, image]);
+
+    const fileInput = document.getElementById("file_input") as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = "";
+    }
+  };
+
+  //Uploading files to CLoudinary and Firebase
+  async function onSubmit(data: Inputs) {
+    setLoading(true);
+    console.log(data);
+
+    try {
+      const uploadedImageUrls = await Promise.all(
+        fileObjects.map(async (file) => {
+          const formData = new FormData();
+          formData.append("file", file);
+          formData.append("upload_preset", "circhoolar");
+
+          const response = await fetch(
+            `https://api.cloudinary.com/v1_1/circhoo/image/upload`,
+            {
+              method: "POST",
+              body: formData,
+            }
+          );
+
+          const data = await response.json();
+          return data.secure_url;
+        })
+      );
+
+      setImages(uploadedImageUrls);
+      setLoading(false);
+
+      // Here, `uploadedImageUrls` contains the URLs of all uploaded images.
+      // You can proceed with other operations, like updating Firebase.
+    } catch (error) {
+      console.error("Error uploading images:", error);
+    }
+
+    setIsOpen(false);
+    setPriceType("Free");
     form.reset({
       title: "",
       description: "",
@@ -77,8 +152,9 @@ const PostItemDialog = () => {
       category: "",
     });
   }
+
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={isOpen} onOpenChange={handleDialogChange}>
       <DialogTrigger asChild>
         <Button variant="outline">Post an item</Button>
       </DialogTrigger>
@@ -88,31 +164,47 @@ const PostItemDialog = () => {
             Create a new post
           </DialogTitle>
           <DialogDescription className="text-light-white text-center">
-            Donate or sell a new item on to the community
+            Donate or sell an item to the community
           </DialogDescription>
         </DialogHeader>
         <div className=" max-h-96 overflow-y-auto">
+          <form
+            className="grid gap-4 mb-4"
+            onSubmit={handleSubmit(onImageSubmit)}
+          >
+            <label className="text-light-white text-sx">Upload image</label>
+            <input
+              {...register("image")}
+              className="w-full rounded-md border border-light-white text-light-white bg-background py-2 px-3"
+              id="file_input"
+              type="file"
+            />
+            <Button
+              type="submit"
+              variant={"outline"}
+              className="text-light-white"
+            >
+              Upload file
+            </Button>
+          </form>
+          <div className="mb-4">
+            {files.length > 0 && (
+              <div className="flex flex-col gap-2">
+                {files.map((file, index) => (
+                  <div key={index}>
+                    <p className=" text-paragraph-color text-sm font-semibold">
+                      {file}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
           <Form {...form}>
             <form
               className="grid gap-4"
               onSubmit={(...args) => void form.handleSubmit(onSubmit)(...args)}
             >
-              <FormField
-                control={form.control}
-                name="images"
-                render={({ field }) => (
-                  <FormItem>
-                    <label className="text-light-white text-sx">
-                      Upload images (If more than one image, Select all images
-                      at once)
-                    </label>
-                    <FormControl>
-                      <Input id="picture" type="file" {...field} multiple />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
               <FormField
                 control={form.control}
                 name="title"
@@ -293,20 +385,11 @@ const PostItemDialog = () => {
                 )}
               />
               <DialogFooter>
-                <Button
-                  disabled={isPending}
-                  variant={"outline"}
-                  className="text-light-white"
-                >
-                  {isPending && (
-                    <Icons.spinner
-                      className="mr-2 h-4 w-4 animate-spin"
-                      aria-hidden="true"
-                    />
-                  )}
-                  Post
-                  <span className="sr-only">Sign in</span>
-                </Button>
+                <div className="w-full flex flex-col justify-center items-center my-4">
+                  <Button variant={"outline"} className="text-light-white">
+                    {loading ? <LoadingSpinner /> : "Post"}
+                  </Button>
+                </div>
               </DialogFooter>
             </form>
           </Form>
