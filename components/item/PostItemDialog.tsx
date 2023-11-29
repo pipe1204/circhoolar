@@ -97,20 +97,20 @@ const PostItemDialog = () => {
   //Uploading image files to UI for users to see
   const { register, handleSubmit } = useForm();
 
-  //   const onImageSubmit = async (data: any) => {
-  //     if (isBrowser) {
-  //       const image = data.image[0];
-  //       setFiles([...files, image.name]);
-  //       setFileObjects((currentFiles) => [...currentFiles, image]);
+  const onImageSubmit = async (data: any) => {
+    if (isBrowser) {
+      const image = data.image[0];
+      setFiles([...files, image.name]);
+      setFileObjects((currentFiles) => [...currentFiles, image]);
 
-  //       const fileInput = document.getElementById(
-  //         "file_input"
-  //       ) as HTMLInputElement;
-  //       if (fileInput) {
-  //         fileInput.value = "";
-  //       }
-  //     }
-  //   };
+      const fileInput = document.getElementById(
+        "file_input"
+      ) as HTMLInputElement;
+      if (fileInput) {
+        fileInput.value = "";
+      }
+    }
+  };
 
   //Uploading files to CLoudinary and Firebase
   async function onSubmit(data: Inputs) {
@@ -176,7 +176,7 @@ const PostItemDialog = () => {
           </DialogDescription>
         </DialogHeader>
         <div className=" max-h-96 overflow-y-auto">
-          {/* <form
+          <form
             className="grid gap-4 mb-4"
             onSubmit={handleSubmit(onImageSubmit)}
           >
@@ -194,7 +194,7 @@ const PostItemDialog = () => {
             >
               Upload file
             </Button>
-          </form> */}
+          </form>
           <div className="mb-4">
             {files.length > 0 && (
               <div className="flex flex-col gap-2">
