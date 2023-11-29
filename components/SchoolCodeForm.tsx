@@ -16,7 +16,7 @@ import {
   FormMessage,
 } from "./ui/form";
 import { Input } from "./ui/Input";
-import { Icons } from "./Icons";
+import LoadingSpinner from "./LoadingSpinner";
 
 type Inputs = z.infer<typeof authSchoolCodeSchema>;
 
@@ -27,7 +27,7 @@ export function SchoolCodeForm({
   checkCode: (code: string, name: string) => void;
   errorMessage: string;
 }) {
-  const [isPending, startTransition] = React.useTransition();
+  const [loading, setLoading] = React.useState(false);
 
   // react-hook-form
   const form = useForm<Inputs>({
@@ -39,7 +39,11 @@ export function SchoolCodeForm({
   });
 
   async function onSubmit(data: Inputs) {
-    checkCode(data.schoolCode, data.name);
+    setLoading(true);
+    setTimeout(() => {
+      checkCode(data.schoolCode, data.name);
+      setLoading(false);
+    }, 3000);
   }
 
   return (
@@ -78,19 +82,8 @@ export function SchoolCodeForm({
           <p className="text-red text-center text-sm">{errorMessage}</p>
         )}
 
-        <Button
-          disabled={isPending}
-          variant={"outline"}
-          className="text-light-white"
-        >
-          {isPending && (
-            <Icons.spinner
-              className="mr-2 h-4 w-4 animate-spin"
-              aria-hidden="true"
-            />
-          )}
-          Sign in
-          <span className="sr-only">Sign in</span>
+        <Button variant={"outline"} className="text-light-white">
+          {loading ? <LoadingSpinner /> : "Submit"}
         </Button>
       </form>
     </Form>

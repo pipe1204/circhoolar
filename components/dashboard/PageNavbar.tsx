@@ -1,13 +1,14 @@
 "use client";
 import React, { useState } from "react";
 import { Icons } from "../Icons";
-import { CardTitle } from "../ui/Card";
 import { usePathname } from "next/navigation";
 import { categoryFilters } from "@/constants";
 import NavLinks from "./NavLinks";
-import Image from "next/image";
-import { Button } from "../ui/Button";
-import PostItemDialog from "../item/PostItemDialog";
+import dynamic from "next/dynamic";
+
+const PostItemDialog = dynamic(() => import("../item/PostItemDialog"), {
+  ssr: false,
+});
 
 const PageNavbar = () => {
   const pathname = usePathname();
@@ -108,9 +109,6 @@ const PageNavbar = () => {
               </button>
             </div>
             <div className="flex flex-row justify-between items-center my-6 px-4 gap-x-6">
-              {/* <Button variant={"outline"} className="text-light-white">
-                Add an Item
-              </Button> */}
               <PostItemDialog />
             </div>
             <div className="bg-lightest-purple flex flex-row items-center gap-x-2 ml-2 xl:ml-0 mb-4 px-4 py-2 rounded-md">
@@ -129,12 +127,6 @@ const PageNavbar = () => {
           <div className="hidden xl:flex">
             <PostItemDialog />
           </div>
-          {/* <Button
-            variant={"outlineLight"}
-            className="hidden xl:flex hover:text-light-white"
-          >
-            Add an Item
-          </Button> */}
         </div>
         <div className="bg-lightest-purple hidden xl:flex items-center gap-x-2 px-20 py-2 rounded-md">
           <h1 className="text-dark-purple font-semibold text-md text-center">

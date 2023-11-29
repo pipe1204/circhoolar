@@ -48,7 +48,6 @@ export const postItemSchema = z.object({
   title: z.string().min(2, {
     message: "Title must be at least 2 characters long",
   }),
-  images: z.string(),
   description: z.string(),
   condition: z.enum(["Great condition", "Good condition", "Fair condition"], {
     required_error: "You need to select a condition.",
@@ -58,9 +57,15 @@ export const postItemSchema = z.object({
   }),
   price: z.string().min(1, {
     message: "Price must be at least 1 characters long",
+  }).regex(/^\d+$/, {
+    message: "Price must be a number",
   }),
   category: z
     .string({
       required_error: "Please select a category.",
     })
 })
+
+export const imageSchema = z.object({
+  image: z.any(),
+});
