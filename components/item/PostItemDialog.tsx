@@ -14,7 +14,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Input } from "../ui/Input";
 import { Button } from "../ui/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import {
   Form,
@@ -55,7 +55,7 @@ const PostItemDialog = () => {
   const [fileObjects, setFileObjects] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [isFileSelected, setIsFileSelected] = useState(true);
+  const [isFileSelected, setIsFileSelected] = useState(false);
   const [imageSelected, setImageSelected] = useState(true);
 
   // react-hook-form
@@ -109,23 +109,25 @@ const PostItemDialog = () => {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = event.target.files && event.target.files[0];
-    setIsFileSelected(false);
+    setIsFileSelected(true);
   };
 
   const onImageSubmit = async (data: any) => {
     if (isBrowser) {
-      const image = data.image[0];
-      setFiles([...files, image.name]);
-      setFileObjects((currentFiles) => [...currentFiles, image]);
+      if (isFileSelected) {
+        const image = data.image[0];
+        setFiles([...files, image.name]);
+        setFileObjects((currentFiles) => [...currentFiles, image]);
 
-      const fileInput = document.getElementById(
-        "file_input"
-      ) as HTMLInputElement;
-      if (fileInput) {
-        fileInput.value = "";
+        const fileInput = document.getElementById(
+          "file_input"
+        ) as HTMLInputElement;
+        if (fileInput) {
+          fileInput.value = "";
+        }
+        setIsFileSelected(false);
+        setImageSelected(false);
       }
-      setIsFileSelected(true);
-      setImageSelected(false);
     }
   };
 
@@ -241,7 +243,6 @@ const PostItemDialog = () => {
               type="submit"
               variant={"outlineLight"}
               className="text-background hover:text-light-white"
-              disabled={isFileSelected}
             >
               Upload file
             </Button>

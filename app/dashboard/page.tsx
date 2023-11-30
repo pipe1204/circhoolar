@@ -54,7 +54,6 @@ const page = () => {
       return () => unsubscribe(); // Clean up the listener when the component unmounts
     }
   }, [schoolName]);
-  console.log(schoolName);
 
   const breakpointColumnsObj = {
     default: 4,
@@ -97,7 +96,6 @@ const page = () => {
     const docSnapshot = await getDoc(docRef);
 
     if (docSnapshot.exists()) {
-      console.log("Document data:", docSnapshot.data());
       setValidCode(true);
       setUserName(name);
       setSchoolName(code);
