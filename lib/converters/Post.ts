@@ -13,17 +13,18 @@ const PostConverter: FirestoreDataConverter<Post> = {
             id: snapshot.id,
             title: data.title,
             description: data.description,
-            value: data.value,
+            sellingmethod: data.sellingmethod,
+            price: data.value,
             condition: data.condition,
             images: data.images,
             createdAt: data.createdAt,
             author: data.author,
-            school: data.school,
+            schoolCode: data.schoolCode,
             updatedAt: data.updatedAt,
-            published: data.published
+            category: data.category
         } 
         return post;
     }
 }
 
-export const postRef = (userId: string) => collection(db, 'users', userId, 'posts').withConverter(PostConverter);
+export const postRef = collection(db, 'posts').withConverter(PostConverter);

@@ -14,7 +14,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Input } from "../ui/Input";
 import { Button } from "../ui/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import type { z } from "zod";
 import {
   Form,
@@ -35,19 +35,28 @@ import {
 } from "../ui/select";
 import Image from "next/image";
 import LoadingSpinner from "../LoadingSpinner";
+import { useSchoolCodeStore, useUserNameStore } from "@/store/store";
+import { useSession } from "next-auth/react";
+import { postRef } from "@/lib/converters/Post";
+import { addDoc, serverTimestamp } from "firebase/firestore";
 
 type Inputs = z.infer<typeof postItemSchema>;
 type Image = z.infer<typeof imageSchema>;
 
 const PostItemDialog = () => {
+  const { data: session } = useSession();
+  const userName = useUserNameStore((state) => state.userName);
+  const schoolCode = useSchoolCodeStore((state) => state.schoolCode);
+
   const isBrowser = typeof window !== "undefined";
-  const [errorCode, setErrorCode] = React.useState("");
   const [priceType, setPriceType] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [images, setImages] = useState<string[]>([]);
   const [files, setFiles] = useState<string[]>([]);
   const [fileObjects, setFileObjects] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [isFileSelected, setIsFileSelected] = useState(true);
+  const [imageSelected, setImageSelected] = useState(true);
 
   // react-hook-form
   const form = useForm<Inputs>({
@@ -74,7 +83,6 @@ const PostItemDialog = () => {
 
       // Clear the file names and images state
       setFiles([]);
-      setImages([]);
       setPriceType("Free");
 
       // Reset file input
@@ -97,6 +105,13 @@ const PostItemDialog = () => {
   //Uploading image files to UI for users to see
   const { register, handleSubmit } = useForm();
 
+  const handleFileInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files && event.target.files[0];
+    setIsFileSelected(false);
+  };
+
   const onImageSubmit = async (data: any) => {
     if (isBrowser) {
       const image = data.image[0];
@@ -109,57 +124,91 @@ const PostItemDialog = () => {
       if (fileInput) {
         fileInput.value = "";
       }
+      setIsFileSelected(true);
+      setImageSelected(false);
     }
   };
 
   //Uploading files to CLoudinary and Firebase
   async function onSubmit(data: Inputs) {
     setLoading(true);
-    console.log(data);
 
-    try {
-      const uploadedImageUrls = await Promise.all(
-        fileObjects.map(async (file) => {
-          const formData = new FormData();
-          formData.append("file", file);
-          formData.append("upload_preset", "circhoolar");
+    if (fileObjects.length > 0) {
+      try {
+        const uploadedImageUrls = await Promise.all(
+          fileObjects.map(async (file) => {
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("upload_preset", "circhoolar");
 
-          const response = await fetch(
-            `https://api.cloudinary.com/v1_1/circhoo/image/upload`,
-            {
-              method: "POST",
-              body: formData,
-            }
-          );
+            const response = await fetch(
+              `https://api.cloudinary.com/v1_1/circhoo/image/upload`,
+              {
+                method: "POST",
+                body: formData,
+              }
+            );
 
-          const data = await response.json();
-          return data.secure_url;
-        })
-      );
+            const data = await response.json();
+            return data.secure_url;
+          })
+        );
 
-      setImages(uploadedImageUrls);
+        // Here, `uploadedImageUrls` contains the URLs of all uploaded images.
+        // You can proceed with other operations, like updating Firebase.
+
+        const randomNumber = Math.floor(Math.random() * 10000);
+        const post = {
+          id: `${data.title}-${randomNumber}`,
+          title: data.title,
+          description: data.description,
+          price: data.sellingmethod === "Free" ? 0 : data.price,
+          sellingmethod: data.sellingmethod,
+          condition: data.condition,
+          category: data.category,
+          images:
+            uploadedImageUrls.length > 0
+              ? uploadedImageUrls
+              : [
+                  "https://res.cloudinary.com/circhoo/image/upload/v1701302694/Circhoolar-dark_bcrnqm.png",
+                ],
+          author: session?.user?.name ?? userName ?? "Unknown",
+          schoolCode: schoolCode || "Unknown",
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp(),
+        };
+
+        try {
+          const docRef = await addDoc(postRef, post);
+          console.log("Post created successfully with ID:", docRef.id);
+        } catch (error) {
+          console.error("Error creating post:", error);
+        }
+        setLoading(false);
+        setIsOpen(false);
+        setPriceType("Free");
+        setFiles([]);
+        setFileObjects([]);
+        setImageSelected(true);
+        form.reset({
+          title: "",
+          description: "",
+          price: "",
+          sellingmethod: "Free",
+          condition: "Great condition",
+          category: "",
+        });
+      } catch (error) {
+        console.error("Error uploading images:", error);
+      }
+    } else {
       setLoading(false);
-
-      // Here, `uploadedImageUrls` contains the URLs of all uploaded images.
-      // You can proceed with other operations, like updating Firebase.
-    } catch (error) {
-      console.error("Error uploading images:", error);
+      setError("Please upload an image");
     }
-
-    setIsOpen(false);
-    setPriceType("Free");
-    setImages([]);
-    setFiles([]);
-    setFileObjects([]);
-    form.reset({
-      title: "",
-      description: "",
-      price: "",
-      sellingmethod: "Free",
-      condition: "Great condition",
-      category: "",
-    });
   }
+
+  console.log(error);
+  console.log(fileObjects);
 
   return (
     <Dialog open={isOpen} onOpenChange={handleDialogChange}>
@@ -180,17 +229,21 @@ const PostItemDialog = () => {
             className="grid gap-4 mb-4"
             onSubmit={handleSubmit(onImageSubmit)}
           >
-            <label className="text-light-white text-sx">Upload image</label>
+            <label className="text-light-white text-sx">
+              Upload image (Required)
+            </label>
             <input
               {...register("image")}
               className="w-full rounded-md border border-light-white text-light-white bg-background py-2 px-3"
               id="file_input"
               type="file"
+              onChange={handleFileInputChange}
             />
             <Button
               type="submit"
               variant={"outlineLight"}
               className="text-background hover:text-light-white"
+              disabled={isFileSelected}
             >
               Upload file
             </Button>
@@ -316,15 +369,17 @@ const PostItemDialog = () => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="clothing">Clothing</SelectItem>
-                        <SelectItem value="toys">Toys</SelectItem>
-                        <SelectItem value="books">Books</SelectItem>
-                        <SelectItem value="toddler">
+                        <SelectItem value="Clothing">Clothing</SelectItem>
+                        <SelectItem value="Toys">Toys</SelectItem>
+                        <SelectItem value="Books">Books</SelectItem>
+                        <SelectItem value="Infant & Toddler">
                           Infant & Toddler
                         </SelectItem>
-                        <SelectItem value="school">School supplies</SelectItem>
-                        <SelectItem value="furniture">Furniture</SelectItem>
-                        <SelectItem value="electronics">Electronics</SelectItem>
+                        <SelectItem value="School supplies">
+                          School supplies
+                        </SelectItem>
+                        <SelectItem value="Furniture">Furniture</SelectItem>
+                        <SelectItem value="Electronics">Electronics</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -397,9 +452,11 @@ const PostItemDialog = () => {
                   <Button
                     variant={"outlineLight"}
                     className="text-light-white bg-background"
+                    disabled={imageSelected}
                   >
                     {loading ? <LoadingSpinner /> : "Post"}
                   </Button>
+                  {error && <p className="text-red text-sm mt-2">{error}</p>}
                 </div>
               </DialogFooter>
             </form>
