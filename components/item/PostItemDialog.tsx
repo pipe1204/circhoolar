@@ -55,7 +55,6 @@ const PostItemDialog = () => {
   const [fileObjects, setFileObjects] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [isFileSelected, setIsFileSelected] = useState(false);
   const [imageSelected, setImageSelected] = useState(true);
 
   // react-hook-form
@@ -84,6 +83,7 @@ const PostItemDialog = () => {
       // Clear the file names and images state
       setFiles([]);
       setPriceType("Free");
+      setImageSelected(true);
 
       // Reset file input
       const fileInput = document.getElementById(
@@ -105,13 +105,6 @@ const PostItemDialog = () => {
   //Uploading image files to UI for users to see
   const { register, handleSubmit } = useForm();
 
-  // const handleFileInputChange = (
-  //   event: React.ChangeEvent<HTMLInputElement>
-  // ) => {
-  //   const file = event.target.files && event.target.files[0];
-  //   setIsFileSelected(true);
-  // };
-
   const onImageSubmit = async (data: any) => {
     if (isBrowser) {
       if (data.image.length > 0) {
@@ -125,7 +118,6 @@ const PostItemDialog = () => {
         if (fileInput) {
           fileInput.value = "";
         }
-        // setIsFileSelected(false);
         setImageSelected(false);
       }
     }
@@ -237,7 +229,6 @@ const PostItemDialog = () => {
               className="w-full rounded-md border border-light-white text-light-white bg-background py-2 px-3"
               id="file_input"
               type="file"
-              // onChange={handleFileInputChange}
             />
             <Button
               type="submit"
