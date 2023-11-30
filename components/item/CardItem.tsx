@@ -1,11 +1,18 @@
 import React from "react";
-import { Card, CardContent, CardFooter, CardTitle } from "../ui/Card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../ui/Card";
 import Image from "next/image";
 import { Button } from "../ui/Button";
 import Link from "next/link";
 
 interface CardItemProps {
   id: string;
+  authorId?: string;
   author: string;
   title: string;
   description: string;
@@ -30,6 +37,19 @@ const CardItem = ({
 }: CardItemProps) => {
   return (
     <Card className="bg-light-white w-full border border-light-white shadow-md rounded-lg overflow-hidden">
+      <div className="relative mb-2 mt-4">
+        <div className="absolute px-4 inset-0 flex items-center">
+          <span className="w-full border-t border-background" />
+        </div>
+        <div className="relative flex justify-center text-xs uppercase">
+          <CardTitle
+            className="bg-background px-2 text-center text-light-white text-[8px] xl:text-[12px]"
+            as="h3"
+          >
+            {title}
+          </CardTitle>
+        </div>
+      </div>
       <div className="relative w-full flex-grow bg-light-white p-2">
         <div className="absolute flex justify-center items-center top-4 right-4 bg-accent px-2 rounded-full shadow-md">
           <span className="text-dark text-[8px] xl:text-[10px] font-semibold">
@@ -60,28 +80,14 @@ const CardItem = ({
           className="w-full h-auto object-contain rounded-md"
         />
       </div>
-      <div className="relative mb-2 xl:mb-0 mt-2">
-        <div className="absolute px-4 inset-0 flex items-center">
-          <span className="w-full border-t border-background" />
-        </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <CardTitle
-            className="bg-background px-2 text-center text-light-white text-[8px] xl:text-[12px]"
-            as="h3"
-          >
-            {title}
-          </CardTitle>
-        </div>
+
+      <div className="flex flex-row justify-start items-center p-2">
+        <div className={`w-2 h-2 rounded-full bg-${conditionColor} mr-2`}></div>
+        <h1 className="text-[10px] xl:text-xs text-background font-semibold">
+          {condition}
+        </h1>
       </div>
       <CardContent>
-        <div className="mb-2 xl:mb-4 flex flex-row justify-start items-center">
-          <div
-            className={`w-2 h-2 rounded-full bg-${conditionColor} mr-2`}
-          ></div>
-          <h1 className="text-[10px] xl:text-xs text-background font-semibold">
-            {condition}
-          </h1>
-        </div>
         <div className="flex flex-col gap-y-2 justify-center items-center w-full xl:w-3/4 mx-auto">
           <div className="w-full">
             <Link href={`dashboard/${id}`}>

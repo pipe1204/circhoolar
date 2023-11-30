@@ -18,6 +18,7 @@ const PostConverter: FirestoreDataConverter<Post> = {
             condition: data.condition,
             images: data.images,
             createdAt: data.createdAt,
+            authorId: data.authorId,
             author: data.author,
             avatar: data.avatar,
             schoolCode: data.schoolCode,
