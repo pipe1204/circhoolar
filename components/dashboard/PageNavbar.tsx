@@ -5,12 +5,43 @@ import { usePathname } from "next/navigation";
 import { categoryFilters } from "@/constants";
 import NavLinks from "./NavLinks";
 import dynamic from "next/dynamic";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import type { z } from "zod";
+import { schoolSchema } from "@/lib/validations/auth";
+import { useSchoolCodeStore, useSchoolNameStore } from "@/store/store";
 
 const PostItemDialog = dynamic(() => import("../item/PostItemDialog"), {
   ssr: false,
 });
+type Inputs = z.infer<typeof schoolSchema>;
 
 const PageNavbar = () => {
+  const setSchoolName = useSchoolNameStore((state) => state.setSchoolName);
+  const schoolName = useSchoolNameStore((state) => state.schoolName);
+
+  const form = useForm<Inputs>({
+    resolver: zodResolver(schoolSchema),
+    defaultValues: {
+      schoolCode: "",
+    },
+  });
+
   const pathname = usePathname();
   const pathSegments = pathname.split("/").filter(Boolean);
   const lastSegment =
@@ -111,14 +142,40 @@ const PageNavbar = () => {
             <div className="flex flex-row justify-between items-center my-6 px-4 gap-x-6">
               <PostItemDialog />
             </div>
-            <div className="bg-lightest-purple flex flex-row items-center gap-x-2 ml-2 xl:ml-0 mb-4 px-4 py-2 rounded-md">
-              <h1 className="text-dark-purple font-semibold text-md text-center">
-                South Yarra Primary
-              </h1>
-              <Icons.chevronDown
-                className="text-dark-purple cursor-pointer"
-                size={18}
-              />
+            <div className="flex flex-row items-center gap-x-2 ml-2 xl:ml-0 mb-4 px-2 py-2 rounded-md">
+              <Form {...form}>
+                <form className="grid gap-4">
+                  <FormField
+                    control={form.control}
+                    name="schoolCode"
+                    render={({ field, fieldState: { error } }) => (
+                      <FormItem>
+                        <Select
+                          onValueChange={(value) => {
+                            field.onChange(value);
+                            setSchoolName(value);
+                          }}
+                          defaultValue={field.value}
+                          disabled={true}
+                        >
+                          <FormControl>
+                            <SelectTrigger className="text-light-white">
+                              <SelectValue placeholder="Select a school" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="CSYP3141">
+                              South Yarra Primary
+                            </SelectItem>
+                            <SelectItem value="1234">Test</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </form>
+              </Form>
             </div>
             <NavLinks onClick={() => setIsMenuOpen(false)} />
           </div>
@@ -128,14 +185,40 @@ const PageNavbar = () => {
             <PostItemDialog />
           </div>
         </div>
-        <div className="bg-lightest-purple hidden xl:flex items-center gap-x-2 px-20 py-2 rounded-md">
-          <h1 className="text-dark-purple font-semibold text-md text-center">
-            South Yarra Primary
-          </h1>
-          <Icons.chevronDown
-            className="text-dark-purple cursor-pointer"
-            size={18}
-          />
+        <div className=" hidden xl:flex items-center gap-x-2 px-20 py-2 rounded-md">
+          <Form {...form}>
+            <form className="grid gap-4">
+              <FormField
+                control={form.control}
+                name="schoolCode"
+                render={({ field, fieldState: { error } }) => (
+                  <FormItem>
+                    <Select
+                      onValueChange={(value) => {
+                        field.onChange(value);
+                        setSchoolName(value);
+                      }}
+                      defaultValue={field.value}
+                      disabled={true}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="text-light-white">
+                          <SelectValue placeholder="Select another school" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="CSYP3141">
+                          South Yarra Primary
+                        </SelectItem>
+                        <SelectItem value="1234">Test</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </form>
+          </Form>
         </div>
         {categoryName === "Discover" && (
           <div className="">

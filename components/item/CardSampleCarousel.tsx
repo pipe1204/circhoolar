@@ -17,7 +17,7 @@ interface CardItemProps {
   conditionColor?: string;
 }
 
-const CardItem = ({
+const CardSampleCarousel = ({
   id,
   title,
   image,
@@ -110,4 +110,4 @@ const CardItem = ({
   );
 };
 
-export default CardItem;
+export default CardSampleCarousel;

@@ -5,6 +5,7 @@ export interface Post {
   title: string;
   description: string;
   author: string;
+  avatar: string;
   schoolCode: string;
   images: string[];
   condition: string;

@@ -11,7 +11,7 @@ const SchoolCodeConverter: FirestoreDataConverter<SchoolCode> = {
 
         const code: SchoolCode = {
             id: snapshot.id,
-            schoolCode: data.schoolCode,
+            schoolCode: snapshot.id,
             name: data.name
         } 
         return code;

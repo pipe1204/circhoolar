@@ -3,20 +3,59 @@
 import { SchoolCodeForm } from "@/components/SchoolCodeForm";
 import CardItem from "@/components/item/CardItem";
 import { homepageCardsColumn2 } from "@/constants";
-import React from "react";
+import React, { useEffect } from "react";
 import Masonry from "react-masonry-css";
-import { getDoc, updateDoc, setDoc, doc } from "firebase/firestore";
+import {
+  getDoc,
+  updateDoc,
+  setDoc,
+  doc,
+  getDocs,
+  query,
+  where,
+  onSnapshot,
+} from "firebase/firestore";
 import { codeRef } from "@/lib/converters/SchoolCode";
 import { useSession } from "next-auth/react";
 import { userRef } from "@/lib/converters/User";
-import { useSchoolCodeStore, useUserNameStore } from "@/store/store";
+import {
+  useSchoolCodeStore,
+  useSchoolNameStore,
+  useUserNameStore,
+} from "@/store/store";
+import { Post } from "@/types/Types";
+import { postRef } from "@/lib/converters/Post";
 
 const page = () => {
   const code = useSchoolCodeStore((state) => state.schoolCode);
   const setUserName = useUserNameStore((state) => state.setUserName);
+  const schoolName = useSchoolNameStore((state) => state.schoolName);
+  const setSchoolName = useSchoolNameStore((state) => state.setSchoolName);
 
   const [validCode, setValidCode] = React.useState(false);
   const [errorCode, setErrorCode] = React.useState("");
+  const [posts, setPosts] = React.useState<Post[]>([]);
+
+  useEffect(() => {
+    if (schoolName) {
+      const postsQuery = query(postRef, where("schoolCode", "==", schoolName));
+
+      const unsubscribe = onSnapshot(
+        postsQuery,
+        (querySnapshot) => {
+          const fetchedPosts = querySnapshot.docs.map((doc) => doc.data());
+          setPosts(fetchedPosts);
+        },
+        (error) => {
+          console.error("Error fetching posts:", error);
+        }
+      );
+
+      return () => unsubscribe(); // Clean up the listener when the component unmounts
+    }
+  }, [schoolName]);
+  console.log(schoolName);
+
   const breakpointColumnsObj = {
     default: 4,
     1100: 3,
@@ -61,6 +100,7 @@ const page = () => {
       console.log("Document data:", docSnapshot.data());
       setValidCode(true);
       setUserName(name);
+      setSchoolName(code);
 
       const userDocRef = userRef(userId);
       await updateDoc(userDocRef, { schoolCode: code, name: name });
@@ -86,18 +126,19 @@ const page = () => {
           className="my-masonry-grid"
           columnClassName="my-masonry-grid_column"
         >
-          {homepageCardsColumn2.map((card) => (
-            <div key={card.id}>
+          {posts.map((post) => (
+            <div key={post.id}>
               <CardItem
-                id={card.id}
-                author={card.author}
-                title={card.title}
-                description={card.description}
-                image={card.image}
-                avatarImage={card.avatarImage}
-                value={card.value}
-                conditionColor={itemCondition({ condition: card.condition })}
-                condition={card.condition}
+                id={post.id}
+                author={post.author}
+                title={post.title}
+                description={post.description}
+                image={post.images[0]}
+                avatar={post.avatar}
+                price={post.price}
+                sellingmethod={post.sellingmethod}
+                conditionColor={itemCondition({ condition: post.condition })}
+                condition={post.condition}
               />
             </div>
           ))}

@@ -69,3 +69,7 @@ export const postItemSchema = z.object({
 export const imageSchema = z.object({
   image: z.any(),
 });
+
+export const schoolSchema = z.object({
+  schoolCode: z.string(),
+});

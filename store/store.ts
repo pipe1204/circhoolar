@@ -20,3 +20,13 @@ export const useUserNameStore = create<UserNameState>((set) => ({
     userName: null,
     setUserName: (userName: string | null) => set({userName})
 }))
+
+interface SchoolNameState {
+    schoolName: string | null;
+    setSchoolName: (schoolName: string | null) => void;
+}
+
+export const useSchoolNameStore = create<SchoolNameState>((set) => ({
+    schoolName: null,
+    setSchoolName: (schoolName: string | null) => set({schoolName})
+}))

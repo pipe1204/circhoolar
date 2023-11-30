@@ -14,11 +14,12 @@ const PostConverter: FirestoreDataConverter<Post> = {
             title: data.title,
             description: data.description,
             sellingmethod: data.sellingmethod,
-            price: data.value,
+            price: data.price,
             condition: data.condition,
             images: data.images,
             createdAt: data.createdAt,
             author: data.author,
+            avatar: data.avatar,
             schoolCode: data.schoolCode,
             updatedAt: data.updatedAt,
             category: data.category
