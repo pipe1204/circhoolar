@@ -99,31 +99,33 @@ export const NavLinks = [
       author: 'John Doe',
       title: 'Robinson Book',
       description: 'This is a book for kids is a great read for kids and its in great condition',
-      value: 'Free',
+      value: '20',
       image: "/card1.jpg",
       avatarImage: "/person1.jpg",
-      condition: "Great condition"
+      condition: "Great condition",
+      sellingmethod: "Free"
     },
     {
       id: "2",
       author: 'Isabel Taylor',
       title: 'Grey blouse',
       description: 'Grey blause in perfect condition. Size 8.',
-      value: 'Donation',
+      value: '20',
       image: "/card2.jpg",
       avatarImage: "/person2.jpg",
-      condition: "Good condition"
+      condition: "Good condition",
+      sellingmethod: "20"
     },
     {
       id: "3",
-      author: 'Melinda Ruso',
-      title: 'Mr Kong',
-      description: 'Mr Kong was Jamies favourite toy. We are sad to seeing him going but we are sure someone else will be taking better care of him.',
-      value: 'Donation',
-      image: "/card3.jpg",
-      avatarImage: "/person3.jpg",
-      condition: "Good condition"
-    },
+      author: 'Kim Huges',
+      title: 'Cot',
+      description: 'This is a great cot for kids and its in great condition',
+      value: '$70',
+      image: "/card9.jpg",
+      avatarImage: "/person4.jpg",
+      condition: "Good condition",
+      sellingmethod: "Free"    },
   ]
 
   export const homepageCardsColumn2 = [
@@ -135,7 +137,8 @@ export const NavLinks = [
       value: 'Free',
       image: "/card3.jpg",
       avatarImage: "/person5.jpg",
-      condition: "Great condition"
+      condition: "Great condition",
+      sellingmethod: "Free"
     },
     {
       id: "2",
@@ -145,7 +148,8 @@ export const NavLinks = [
       value: 'Free',
       image: "/card4.jpg",
       avatarImage: "/person4.jpg",
-      condition: "Great condition"
+      condition: "Great condition",
+      sellingmethod: "Free"
     },
     {
       id: "3",
@@ -155,8 +159,8 @@ export const NavLinks = [
       value: '$70',
       image: "/card9.jpg",
       avatarImage: "/person4.jpg",
-      condition: "Good condition"
-    },
+      condition: "Good condition",
+      sellingmethod: "Free"    },
     {
       id: "4",
       author: 'John Doe',
@@ -165,7 +169,8 @@ export const NavLinks = [
       value: 'Free',
       image: "/card1.jpg",
       avatarImage: "/person1.jpg",
-      condition: "Great condition"
+      condition: "Great condition",
+      sellingmethod: "Free"
     },
     {
       id: "5",
@@ -175,7 +180,8 @@ export const NavLinks = [
       value: 'Donation',
       image: "/card2.jpg",
       avatarImage: "/person2.jpg",
-      condition: "Great condition"
+      condition: "Great condition",
+      sellingmethod: "Free"
     },
     {
       id: "6",
@@ -185,8 +191,8 @@ export const NavLinks = [
       value: 'Donation',
       image: "/card3.jpg",
       avatarImage: "/person3.jpg",
-      condition: "Good condition"
-    },
+      condition: "Good condition",
+      sellingmethod: "Free"    },
     {
       id: "7",
       author: 'Kim Huges',
@@ -195,7 +201,8 @@ export const NavLinks = [
       value: '$70',
       image: "/card7.jpg",
       avatarImage: "/person4.jpg",
-      condition: "Great condition"
+      condition: "Great condition",
+      sellingmethod: "Free"
     },
     {
       id: "8",
@@ -205,7 +212,8 @@ export const NavLinks = [
       value: 'Free',
       image: "/card8.jpg",
       avatarImage: "/person8.jpg",
-      condition: "Great condition"
+      condition: "Great condition",
+      sellingmethod: "Free"
     },
     {
       id: "9",
@@ -215,8 +223,8 @@ export const NavLinks = [
       value: 'Donation',
       image: "/card6.jpg",
       avatarImage: "/person5.jpg",
-      condition: "Fair condition"
-    },
+      condition: "Fair condition",
+      sellingmethod: "Free"    },
   ]
 
   export const homepageCardsColumn3 = [

@@ -173,6 +173,7 @@ const PostItemDialog = () => {
                   "https://res.cloudinary.com/circhoo/image/upload/v1701302694/Circhoolar-dark_bcrnqm.png",
                 ],
           author: session?.user?.name ?? userName ?? "Unknown",
+          avatar: session?.user?.image ?? "https://github.com/shadcn.png",
           schoolCode: schoolCode || "Unknown",
           createdAt: serverTimestamp(),
           updatedAt: serverTimestamp(),
@@ -206,9 +207,6 @@ const PostItemDialog = () => {
       setError("Please upload an image");
     }
   }
-
-  console.log(error);
-  console.log(fileObjects);
 
   return (
     <Dialog open={isOpen} onOpenChange={handleDialogChange}>

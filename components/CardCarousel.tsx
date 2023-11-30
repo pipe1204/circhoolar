@@ -41,8 +41,9 @@ const CardCarousel = () => {
                 title={card.title}
                 description={card.description}
                 image={card.image}
-                avatarImage={card.avatarImage}
-                value={card.value}
+                avatar={card.avatarImage}
+                price={card.value}
+                sellingmethod={card.sellingmethod}
                 conditionColor={itemCondition({ condition: card.condition })}
                 condition={card.condition}
               />
@@ -50,7 +51,7 @@ const CardCarousel = () => {
           ))}
         </div>
         <div className="w-full flex flex-col gap-y-8">
-          {homepageCardsColumn1.map((card) => (
+          {homepageCardsColumn2.map((card) => (
             <div key={card.id}>
               <CardItem
                 id={card.id}
@@ -58,8 +59,9 @@ const CardCarousel = () => {
                 title={card.title}
                 description={card.description}
                 image={card.image}
-                avatarImage={card.avatarImage}
-                value={card.value}
+                avatar={card.avatarImage}
+                price={card.value}
+                sellingmethod={card.sellingmethod}
                 conditionColor={itemCondition({ condition: card.condition })}
                 condition={card.condition}
               />
@@ -69,7 +71,7 @@ const CardCarousel = () => {
       </div>
       <div className="w-[80%] xl:w-[25%] flex flex-col gap-y-8 vertical-carousel-down">
         <div className="w-full flex flex-col gap-y-8">
-          {homepageCardsColumn2.map((card) => (
+          {homepageCardsColumn1.map((card) => (
             <div key={card.id}>
               <CardItem
                 id={card.id}
@@ -77,8 +79,9 @@ const CardCarousel = () => {
                 title={card.title}
                 description={card.description}
                 image={card.image}
-                avatarImage={card.avatarImage}
-                value={card.value}
+                avatar={card.avatarImage}
+                price={card.value}
+                sellingmethod={card.sellingmethod}
                 conditionColor={itemCondition({ condition: card.condition })}
                 condition={card.condition}
               />
@@ -94,8 +97,9 @@ const CardCarousel = () => {
                 title={card.title}
                 description={card.description}
                 image={card.image}
-                avatarImage={card.avatarImage}
-                value={card.value}
+                avatar={card.avatarImage}
+                price={card.value}
+                sellingmethod={card.sellingmethod}
                 conditionColor={itemCondition({ condition: card.condition })}
                 condition={card.condition}
               />
@@ -105,7 +109,7 @@ const CardCarousel = () => {
       </div>
       <div className="w-[25%] hidden xl:flex flex-col gap-y-8 vertical-carousel-up">
         <div className="w-full flex flex-col gap-y-8">
-          {homepageCardsColumn3.map((card) => (
+          {homepageCardsColumn2.map((card) => (
             <div key={card.id}>
               <CardItem
                 id={card.id}
@@ -113,8 +117,9 @@ const CardCarousel = () => {
                 title={card.title}
                 description={card.description}
                 image={card.image}
-                avatarImage={card.avatarImage}
-                value={card.value}
+                avatar={card.avatarImage}
+                price={card.value}
+                sellingmethod={card.sellingmethod}
                 conditionColor={itemCondition({ condition: card.condition })}
                 condition={card.condition}
               />
@@ -122,7 +127,7 @@ const CardCarousel = () => {
           ))}
         </div>
         <div className="w-full flex flex-col gap-y-8">
-          {homepageCardsColumn3.map((card) => (
+          {homepageCardsColumn2.map((card) => (
             <div key={card.id}>
               <CardItem
                 id={card.id}
@@ -130,8 +135,9 @@ const CardCarousel = () => {
                 title={card.title}
                 description={card.description}
                 image={card.image}
-                avatarImage={card.avatarImage}
-                value={card.value}
+                avatar={card.avatarImage}
+                price={card.value}
+                sellingmethod={card.sellingmethod}
                 conditionColor={itemCondition({ condition: card.condition })}
                 condition={card.condition}
               />
