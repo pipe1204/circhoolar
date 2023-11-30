@@ -39,6 +39,7 @@ import { useSchoolCodeStore, useUserNameStore } from "@/store/store";
 import { useSession } from "next-auth/react";
 import { postRef } from "@/lib/converters/Post";
 import { addDoc, serverTimestamp } from "firebase/firestore";
+import { Icons } from "../Icons";
 
 type Inputs = z.infer<typeof postItemSchema>;
 type Image = z.infer<typeof imageSchema>;
@@ -92,6 +93,24 @@ const PostItemDialog = () => {
       if (fileInput) {
         fileInput.value = "";
       }
+    }
+  };
+
+  const handleCloseDialog = () => {
+    setIsOpen(false);
+    // Reset form fields
+    form.reset();
+    Imageform.reset();
+
+    // Clear the file names and images state
+    setFiles([]);
+    setPriceType("Free");
+    setImageSelected(true);
+
+    // Reset file input
+    const fileInput = document.getElementById("file_input") as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = "";
     }
   };
 
@@ -208,7 +227,13 @@ const PostItemDialog = () => {
         <Button variant="outline">Post an item</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
+        <DialogHeader className="w-full">
+          <div className="w-full flex xl:hidden justify-end mb-2">
+            <Icons.close
+              className="text-light-white text-right"
+              onClick={handleCloseDialog}
+            />
+          </div>
           <DialogTitle className="text-light-white text-center">
             Create a new post
           </DialogTitle>
@@ -216,7 +241,7 @@ const PostItemDialog = () => {
             Donate or sell an item to the community
           </DialogDescription>
         </DialogHeader>
-        <div className=" max-h-96 overflow-y-auto">
+        <div className="max-h-[450px] xl:max-h-[500px] overflow-y-auto">
           <form
             className="grid gap-4 mb-4"
             onSubmit={handleSubmit(onImageSubmit)}
@@ -444,7 +469,7 @@ const PostItemDialog = () => {
                     className="text-light-white bg-background"
                     disabled={imageSelected}
                   >
-                    {loading ? <LoadingSpinner /> : "Post"}
+                    {loading ? "Loading..." : "Post"}
                   </Button>
                   {error && <p className="text-red text-sm mt-2">{error}</p>}
                 </div>
