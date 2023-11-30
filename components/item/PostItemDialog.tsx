@@ -105,16 +105,16 @@ const PostItemDialog = () => {
   //Uploading image files to UI for users to see
   const { register, handleSubmit } = useForm();
 
-  const handleFileInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = event.target.files && event.target.files[0];
-    setIsFileSelected(true);
-  };
+  // const handleFileInputChange = (
+  //   event: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   const file = event.target.files && event.target.files[0];
+  //   setIsFileSelected(true);
+  // };
 
   const onImageSubmit = async (data: any) => {
     if (isBrowser) {
-      if (isFileSelected) {
+      if (data.image.length > 0) {
         const image = data.image[0];
         setFiles([...files, image.name]);
         setFileObjects((currentFiles) => [...currentFiles, image]);
@@ -125,7 +125,7 @@ const PostItemDialog = () => {
         if (fileInput) {
           fileInput.value = "";
         }
-        setIsFileSelected(false);
+        // setIsFileSelected(false);
         setImageSelected(false);
       }
     }
@@ -237,7 +237,7 @@ const PostItemDialog = () => {
               className="w-full rounded-md border border-light-white text-light-white bg-background py-2 px-3"
               id="file_input"
               type="file"
-              onChange={handleFileInputChange}
+              // onChange={handleFileInputChange}
             />
             <Button
               type="submit"
