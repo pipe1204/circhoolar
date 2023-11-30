@@ -5,13 +5,14 @@ export interface Post {
   title: string;
   description: string;
   author: string;
-  school: string;
+  schoolCode: string;
   images: string[];
   condition: string;
-  value: string | number;
+  sellingmethod: string;
+  price: string | number;
   createdAt: Timestamp;
   updatedAt: Timestamp;
-  published: boolean;
+  category: string;
 }
 
 export interface User {
