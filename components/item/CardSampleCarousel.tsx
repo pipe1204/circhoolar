@@ -28,7 +28,6 @@ const CardSampleCarousel = ({
   condition,
   conditionColor,
 }: CardItemProps) => {
-  console.log(price);
   return (
     <Card className="bg-light-white w-full border border-light-white shadow-md rounded-lg overflow-hidden">
       <div className="relative w-full flex-grow bg-light-white p-2">

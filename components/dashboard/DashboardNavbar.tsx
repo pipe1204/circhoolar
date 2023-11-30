@@ -22,7 +22,6 @@ const DashboardNavbar = () => {
         const docSnapshot = await getDoc(docRef);
 
         if (docSnapshot.exists()) {
-          console.log(docSnapshot.data());
           setSchoolName(docSnapshot.data().name);
         }
       } catch (error) {
