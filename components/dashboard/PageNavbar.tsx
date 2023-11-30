@@ -139,10 +139,7 @@ const PageNavbar = () => {
                 <Icons.close className="text-primary-purple" />
               </button>
             </div>
-            <div className="flex flex-row justify-between items-center my-6 px-4 gap-x-6">
-              <PostItemDialog />
-            </div>
-            <div className="flex flex-row items-center gap-x-2 ml-2 xl:ml-0 mb-4 px-2 py-2 rounded-md">
+            <div className="flex flex-row items-center gap-x-2 ml-2 xl:ml-0 mt-8 xl:mt-0 mb-4 px-2 py-2 rounded-md">
               <Form {...form}>
                 <form className="grid gap-4">
                   <FormField
@@ -181,7 +178,7 @@ const PageNavbar = () => {
           </div>
         </div>
         <div>
-          <div className="hidden xl:flex">
+          <div className="flex">
             <PostItemDialog />
           </div>
         </div>

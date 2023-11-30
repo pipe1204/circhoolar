@@ -83,7 +83,7 @@ export function SchoolCodeForm({
         )}
 
         <Button variant={"outline"} className="text-light-white">
-          {loading ? <LoadingSpinner /> : "Submit"}
+          {loading ? "Loading..." : "Submit"}
         </Button>
       </form>
     </Form>

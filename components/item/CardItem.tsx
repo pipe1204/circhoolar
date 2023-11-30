@@ -60,7 +60,7 @@ const CardItem = ({
           className="w-full h-auto object-contain rounded-md"
         />
       </div>
-      <div className="relative mt-2">
+      <div className="relative mb-2 xl:mb-0 mt-2">
         <div className="absolute px-4 inset-0 flex items-center">
           <span className="w-full border-t border-background" />
         </div>
