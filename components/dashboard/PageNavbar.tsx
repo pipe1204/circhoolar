@@ -24,7 +24,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import { schoolSchema } from "@/lib/validations/auth";
-import { useSchoolCodeStore, useSchoolNameStore } from "@/store/store";
+import { useSchoolCodeStore } from "@/store/store";
 
 const PostItemDialog = dynamic(() => import("../item/PostItemDialog"), {
   ssr: false,
@@ -32,8 +32,7 @@ const PostItemDialog = dynamic(() => import("../item/PostItemDialog"), {
 type Inputs = z.infer<typeof schoolSchema>;
 
 const PageNavbar = () => {
-  const setSchoolName = useSchoolNameStore((state) => state.setSchoolName);
-  const schoolName = useSchoolNameStore((state) => state.schoolName);
+  const setSchoolCode = useSchoolCodeStore((state) => state.setSchoolCode);
 
   const form = useForm<Inputs>({
     resolver: zodResolver(schoolSchema),
@@ -153,7 +152,7 @@ const PageNavbar = () => {
                         <Select
                           onValueChange={(value) => {
                             field.onChange(value);
-                            setSchoolName(value);
+                            setSchoolCode(value);
                           }}
                           defaultValue={field.value}
                           disabled={true}
@@ -195,7 +194,7 @@ const PageNavbar = () => {
                     <Select
                       onValueChange={(value) => {
                         field.onChange(value);
-                        setSchoolName(value);
+                        setSchoolCode(value);
                       }}
                       defaultValue={field.value}
                       disabled={true}

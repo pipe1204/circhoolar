@@ -25,18 +25,18 @@ import { Post } from "@/types/Types";
 import { postRef } from "@/lib/converters/Post";
 
 const page = () => {
-  const code = useSchoolCodeStore((state) => state.schoolCode);
+  const schoolCode = useSchoolCodeStore((state) => state.schoolCode);
   const setUserName = useUserNameStore((state) => state.setUserName);
   const schoolName = useSchoolNameStore((state) => state.schoolName);
-  const setSchoolName = useSchoolNameStore((state) => state.setSchoolName);
+  const setSchoolCode = useSchoolCodeStore((state) => state.setSchoolCode);
 
   const [validCode, setValidCode] = React.useState(false);
   const [errorCode, setErrorCode] = React.useState("");
   const [posts, setPosts] = React.useState<Post[]>([]);
 
   useEffect(() => {
-    if (schoolName) {
-      const postsQuery = query(postRef, where("schoolCode", "==", schoolName));
+    if (schoolCode) {
+      const postsQuery = query(postRef, where("schoolCode", "==", schoolCode));
 
       const unsubscribe = onSnapshot(
         postsQuery,
@@ -51,7 +51,7 @@ const page = () => {
 
       return () => unsubscribe(); // Clean up the listener when the component unmounts
     }
-  }, [schoolName]);
+  }, [schoolCode]);
 
   const breakpointColumnsObj = {
     default: 4,
@@ -59,25 +59,6 @@ const page = () => {
     700: 2,
     // 500: 1,
   };
-
-  // const itemCondition = ({ condition }: { condition: string }) => {
-  //   let conditionColor;
-  //   switch (condition) {
-  //     case "Great condition":
-  //       conditionColor = "green";
-  //       break;
-  //     case "Good condition":
-  //       conditionColor = "blue";
-  //       break;
-  //     case "Fair condition":
-  //       conditionColor = "orange";
-  //       break;
-  //     default:
-  //       conditionColor = "white";
-  //   }
-
-  //   return conditionColor;
-  // };
 
   const { data: session } = useSession();
 
@@ -96,7 +77,7 @@ const page = () => {
     if (docSnapshot.exists()) {
       setValidCode(true);
       setUserName(name);
-      setSchoolName(code);
+      setSchoolCode(code);
 
       const userDocRef = userRef(userId);
       await updateDoc(userDocRef, { schoolCode: code, name: name });
@@ -116,7 +97,7 @@ const page = () => {
 
   return (
     <section className="p-2">
-      {code !== undefined || null ? (
+      {schoolCode !== undefined || null ? (
         <Masonry
           breakpointCols={breakpointColumnsObj}
           className="my-masonry-grid"

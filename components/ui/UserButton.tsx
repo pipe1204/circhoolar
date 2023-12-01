@@ -17,25 +17,26 @@ import { useUserNameStore } from "@/store/store";
 
 const UserButton = ({ session }: { session: Session | null }) => {
   const userName = useUserNameStore((state) => state.userName);
+  const profileIamge = useUserNameStore((state) => state.profileImage);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <UserAvatar
           name={session?.user?.name || userName}
-          image={session?.user?.image || null}
+          image={profileIamge || session?.user?.image || null}
         />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="cursor-pointer">
         <DropdownMenuLabel>
-          {session?.user?.name ? session?.user?.name : userName}
+          {userName ? userName : session?.user?.name}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <Link href={"/dashboard"}>
+        <Link href={"/dashboard/profile"}>
           <DropdownMenuItem className="cursor-pointer">
-            Dashboard
+            Profile
           </DropdownMenuItem>
         </Link>
-        <DropdownMenuItem className="cursor-pointer">Profile</DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => signOut({ callbackUrl: "/" })}
           className="cursor-pointer"
