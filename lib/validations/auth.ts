@@ -82,4 +82,5 @@ export const profileSchema = z.object({
   schoolCode: z.string().min(7, {
     message: "School code must be at least 7 characters long",
   }),
+  schoolName: z.string()
   })
