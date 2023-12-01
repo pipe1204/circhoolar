@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/form";
 import { codeRef } from "@/lib/converters/SchoolCode";
 import { userRef } from "@/lib/converters/User";
-import { profileSchema } from "@/lib/validations/auth";
+import { profileSchema, schoolSchema } from "@/lib/validations/auth";
 import {
   useSchoolCodeStore,
   useSchoolNameStore,
@@ -23,7 +23,7 @@ import { getDoc, updateDoc } from "firebase/firestore";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 type Inputs = z.infer<typeof profileSchema>;
@@ -37,6 +37,7 @@ const page = () => {
   const setUserName = useUserNameStore((state) => state.setUserName);
   const setSchoolCode = useSchoolCodeStore((state) => state.setSchoolCode);
   const setSchoolName = useSchoolNameStore((state) => state.setSchoolName);
+  const schoolName = useSchoolNameStore((state) => state.schoolName) || "";
   const isBrowser = typeof window !== "undefined";
 
   const { register, handleSubmit } = useForm();
@@ -55,6 +56,7 @@ const page = () => {
       name: userName,
       email: session?.user?.email || "",
       schoolCode: schoolCode,
+      schoolName: schoolName,
     },
   });
 
@@ -63,8 +65,9 @@ const page = () => {
       form.setValue("name", userName);
       form.setValue("email", session?.user?.email || "");
       form.setValue("schoolCode", schoolCode);
+      form.setValue("schoolName", schoolName);
     }
-  }, [userName, form]);
+  }, [userName, form, schoolName, schoolCode]);
 
   const onImageUpload = async (data: any) => {
     if (isBrowser) {
@@ -145,47 +148,60 @@ const page = () => {
     setEditProfile(true);
     setHideEditProfile(false);
     setError("");
+    form.setValue("name", userName);
+    form.setValue("schoolCode", schoolCode);
   };
 
   const onSubmit = async (data: Inputs) => {
     setIsLoading(true);
-    const userDocRef = userRef(session?.user?.id || "");
 
-    // Check if the school code exists in the 'schools' collection
-    const schoolDocRef = codeRef(data.schoolCode);
-    const schoolDocSnapshot = await getDoc(schoolDocRef);
-
-    if (schoolDocSnapshot.exists()) {
-      // School code is valid, update user's profile
-      await updateDoc(userDocRef, {
-        name: data.name,
-        schoolCode: data.schoolCode,
-      });
-
-      setUserName(data.name);
-      setSchoolCode(data.schoolCode);
-      setSchoolName(schoolDocSnapshot.data()?.name);
+    if (data.name === userName && data.schoolCode === schoolCode) {
+      setHideEditProfile(false);
+      setIsLoading(false);
       setEditProfile(true);
-      setIsLoading(false);
-
-      console.log("Profile updated successfully");
     } else {
-      setError("Invalid school code");
-      form.setValue("schoolCode", schoolCode);
-      setIsLoading(false);
-      console.error("Invalid school code");
+      const userDocRef = userRef(session?.user?.id || "");
+
+      // Check if the school code exists in the 'schools' collection
+      const schoolDocRef = codeRef(data.schoolCode);
+      const schoolDocSnapshot = await getDoc(schoolDocRef);
+
+      if (schoolDocSnapshot.exists()) {
+        // School code is valid, update user's profile
+        await updateDoc(userDocRef, {
+          name: data.name,
+          schoolCode: data.schoolCode,
+        });
+
+        setUserName(data.name);
+        setSchoolCode(data.schoolCode);
+        setSchoolName(schoolDocSnapshot.data()?.name);
+        setEditProfile(true);
+        setHideEditProfile(false);
+        setIsLoading(false);
+
+        console.log("Profile updated successfully");
+      } else {
+        setError("Invalid school code");
+        form.setValue("schoolCode", schoolCode);
+        setIsLoading(false);
+        console.error("Invalid school code");
+      }
     }
   };
+
+  console.log(schoolName);
 
   return (
     <section className="bg-light-white w-11/12 xl:w-3/4 mx-auto my-8 p-10 shadow-md rounded-lg flex flex-col justify-center items-center">
       <div className="flex flex-col justify-center items-center">
-        <div className="rounded-full overflow-hidden">
+        <div className=" w-40 h-40 rounded-full overflow-hidden relative">
           <Image
             src={profileIamge || "https://github.com/shadcn.png"}
             alt={"Profile image"}
             width={150}
             height={150}
+            className="absolute inset-0 object-cover w-full h-full"
           />
         </div>
         <form
@@ -285,6 +301,26 @@ const page = () => {
                       {...field}
                       className="shadow-sm bg-light-white-100"
                       disabled={editProfile}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="schoolName"
+              render={({ field }) => (
+                <FormItem>
+                  <label className="text-sx text-dark-purple">
+                    School name
+                  </label>
+                  <FormControl>
+                    <Input
+                      placeholder=""
+                      {...field}
+                      className="shadow-sm bg-light-white-100"
+                      disabled={true}
                     />
                   </FormControl>
                   <FormMessage />
