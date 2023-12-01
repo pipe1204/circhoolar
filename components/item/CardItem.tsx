@@ -20,8 +20,7 @@ interface CardItemProps {
   avatar: string;
   price: string | number;
   sellingmethod: string;
-  condition?: string;
-  conditionColor?: string;
+  condition: string;
 }
 
 const CardItem = ({
@@ -33,8 +32,26 @@ const CardItem = ({
   price,
   sellingmethod,
   condition,
-  conditionColor,
+  authorId,
 }: CardItemProps) => {
+  const itemCondition = ({ condition }: { condition: string }) => {
+    let conditionColor;
+    switch (condition) {
+      case "Great condition":
+        conditionColor = "green";
+        break;
+      case "Good condition":
+        conditionColor = "blue";
+        break;
+      case "Fair condition":
+        conditionColor = "orange";
+        break;
+      default:
+        conditionColor = "white";
+    }
+
+    return conditionColor;
+  };
   return (
     <Card className="bg-light-white w-full border border-light-white shadow-md rounded-lg overflow-hidden">
       <div className="relative mb-2 mt-4">
@@ -82,7 +99,11 @@ const CardItem = ({
       </div>
 
       <div className="flex flex-row justify-start items-center p-2">
-        <div className={`w-2 h-2 rounded-full bg-${conditionColor} mr-2`}></div>
+        <div
+          className={`w-2 h-2 rounded-full bg-${itemCondition({
+            condition,
+          })} mr-2`}
+        ></div>
         <h1 className="text-[10px] xl:text-xs text-background font-semibold">
           {condition}
         </h1>
