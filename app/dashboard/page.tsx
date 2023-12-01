@@ -2,7 +2,6 @@
 
 import { SchoolCodeForm } from "@/components/SchoolCodeForm";
 import CardItem from "@/components/item/CardItem";
-import { homepageCardsColumn2 } from "@/constants";
 import React, { useEffect } from "react";
 import Masonry from "react-masonry-css";
 import {
@@ -10,7 +9,6 @@ import {
   updateDoc,
   setDoc,
   doc,
-  getDocs,
   query,
   where,
   onSnapshot,
@@ -62,24 +60,24 @@ const page = () => {
     // 500: 1,
   };
 
-  const itemCondition = ({ condition }: { condition: string }) => {
-    let conditionColor;
-    switch (condition) {
-      case "Great condition":
-        conditionColor = "green";
-        break;
-      case "Good condition":
-        conditionColor = "blue";
-        break;
-      case "Fair condition":
-        conditionColor = "orange";
-        break;
-      default:
-        conditionColor = "white";
-    }
+  // const itemCondition = ({ condition }: { condition: string }) => {
+  //   let conditionColor;
+  //   switch (condition) {
+  //     case "Great condition":
+  //       conditionColor = "green";
+  //       break;
+  //     case "Good condition":
+  //       conditionColor = "blue";
+  //       break;
+  //     case "Fair condition":
+  //       conditionColor = "orange";
+  //       break;
+  //     default:
+  //       conditionColor = "white";
+  //   }
 
-    return conditionColor;
-  };
+  //   return conditionColor;
+  // };
 
   const { data: session } = useSession();
 
@@ -128,6 +126,7 @@ const page = () => {
             <div key={post.id}>
               <CardItem
                 id={post.id}
+                authorId={post.authorId}
                 author={post.author}
                 title={post.title}
                 description={post.description}
@@ -135,7 +134,6 @@ const page = () => {
                 avatar={post.avatar}
                 price={post.price}
                 sellingmethod={post.sellingmethod}
-                conditionColor={itemCondition({ condition: post.condition })}
                 condition={post.condition}
               />
             </div>

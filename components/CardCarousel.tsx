@@ -6,6 +6,7 @@ import {
   homepageCardsColumn2,
   homepageCardsColumn3,
 } from "@/constants";
+import CardSampleCarousel from "./item/CardSampleCarousel";
 
 const CardCarousel = () => {
   const itemCondition = ({ condition }: { condition: string }) => {
@@ -35,7 +36,7 @@ const CardCarousel = () => {
         <div className="w-full flex flex-col gap-y-8">
           {homepageCardsColumn1.map((card) => (
             <div key={card.id}>
-              <CardItem
+              <CardSampleCarousel
                 id={card.id}
                 author={card.author}
                 title={card.title}
@@ -53,7 +54,7 @@ const CardCarousel = () => {
         <div className="w-full flex flex-col gap-y-8">
           {homepageCardsColumn2.map((card) => (
             <div key={card.id}>
-              <CardItem
+              <CardSampleCarousel
                 id={card.id}
                 author={card.author}
                 title={card.title}
@@ -73,7 +74,7 @@ const CardCarousel = () => {
         <div className="w-full flex flex-col gap-y-8">
           {homepageCardsColumn1.map((card) => (
             <div key={card.id}>
-              <CardItem
+              <CardSampleCarousel
                 id={card.id}
                 author={card.author}
                 title={card.title}
@@ -91,7 +92,7 @@ const CardCarousel = () => {
         <div className="w-full flex flex-col gap-y-8">
           {homepageCardsColumn2.map((card) => (
             <div key={card.id}>
-              <CardItem
+              <CardSampleCarousel
                 id={card.id}
                 author={card.author}
                 title={card.title}
@@ -111,7 +112,7 @@ const CardCarousel = () => {
         <div className="w-full flex flex-col gap-y-8">
           {homepageCardsColumn2.map((card) => (
             <div key={card.id}>
-              <CardItem
+              <CardSampleCarousel
                 id={card.id}
                 author={card.author}
                 title={card.title}
@@ -129,7 +130,7 @@ const CardCarousel = () => {
         <div className="w-full flex flex-col gap-y-8">
           {homepageCardsColumn2.map((card) => (
             <div key={card.id}>
-              <CardItem
+              <CardSampleCarousel
                 id={card.id}
                 author={card.author}
                 title={card.title}

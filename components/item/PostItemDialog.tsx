@@ -470,7 +470,7 @@ const PostItemDialog = () => {
                     className="text-light-white bg-background"
                     disabled={imageSelected}
                   >
-                    {loading ? "Loading..." : "Post"}
+                    {loading ? "Uploading..." : "Post"}
                   </Button>
                   {imageSelected && (
                     <p className="text-red text-sm mt-2">
