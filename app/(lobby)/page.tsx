@@ -8,8 +8,10 @@ import Carousel from "@/components/Carousel";
 import CardCarousel from "@/components/CardCarousel";
 import FooterComponent from "@/components/ui/FooterComponent";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 const IndexPage = () => {
+  const { data: session } = useSession();
   const visible = { opacity: 1, y: 0, transition: { duration: 0.5 } };
 
   const itemVariants = {
@@ -46,16 +48,18 @@ const IndexPage = () => {
             variants={itemVariants}
             className="flex justify-center items-center"
           >
-            <Link href={"/api/auth/signin"}>
-              <Button
-                type="button"
-                variant="secondary"
-                size="lg"
-                className="font-semibold text-lg pulse-animation"
-              >
-                Start for free
-              </Button>
-            </Link>
+            {!session && (
+              <Link href={"/api/auth/signin"}>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="lg"
+                  className="font-semibold text-lg pulse-animation"
+                >
+                  Start for free
+                </Button>
+              </Link>
+            )}
           </motion.div>
         </motion.article>
         <motion.article

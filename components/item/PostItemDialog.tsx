@@ -34,7 +34,6 @@ import {
   SelectValue,
 } from "../ui/select";
 import Image from "next/image";
-import LoadingSpinner from "../LoadingSpinner";
 import { useSchoolCodeStore, useUserNameStore } from "@/store/store";
 import { useSession } from "next-auth/react";
 import { postRef } from "@/lib/converters/Post";
@@ -225,7 +224,7 @@ const PostItemDialog = () => {
   return (
     <Dialog open={isOpen} onOpenChange={handleDialogChange}>
       <DialogTrigger asChild>
-        <Button variant="outline">Post an item</Button>
+        <Button variant="secondary">Post an item</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader className="w-full">
@@ -464,10 +463,10 @@ const PostItemDialog = () => {
                 )}
               />
               <DialogFooter>
-                <div className="w-full flex flex-col justify-center items-center my-4">
+                <div className="w-full flex flex-col justify-center items-center my-10">
                   <Button
-                    variant={"outlineLight"}
-                    className="text-light-white bg-background"
+                    variant={"outline"}
+                    className="text-light-white bg-background w-9/12"
                     disabled={imageSelected}
                   >
                     {loading ? "Uploading..." : "Post"}

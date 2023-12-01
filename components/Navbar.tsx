@@ -55,7 +55,7 @@ const Navbar = () => {
                     Go to Dashboard
                   </Button>
                 </Link>
-                <UserButton session={session} />
+                {/* <UserButton session={session} /> */}
               </div>
             ) : (
               <div className="w-full">
@@ -73,7 +73,14 @@ const Navbar = () => {
           </div>
           <div className="xl:hidden flex justify-end items-center">
             {session ? (
-              <UserButton session={session} />
+              <Link href={"/dashboard"}>
+                <Button
+                  variant={"outlineLight"}
+                  className="hover:text-light-white"
+                >
+                  Go to Dashboard
+                </Button>
+              </Link>
             ) : (
               <button
                 onClick={handleMenuClick}

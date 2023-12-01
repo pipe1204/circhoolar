@@ -16,7 +16,6 @@ import {
   FormMessage,
 } from "./ui/form";
 import { Input } from "./ui/Input";
-import LoadingSpinner from "./LoadingSpinner";
 
 type Inputs = z.infer<typeof authSchoolCodeSchema>;
 

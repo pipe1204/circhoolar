@@ -73,3 +73,13 @@ export const imageSchema = z.object({
 export const schoolSchema = z.object({
   schoolCode: z.string(),
 });
+
+export const profileSchema = z.object({
+  name: z.string().min(2, {
+    message: "Title must be at least 2 characters long",
+  }),
+  email: z.string().email(),
+  schoolCode: z.string().min(7, {
+    message: "School code must be at least 7 characters long",
+  }),
+  })

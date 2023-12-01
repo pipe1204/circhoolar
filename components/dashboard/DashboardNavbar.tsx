@@ -10,14 +10,14 @@ import { doc, getDoc } from "firebase/firestore";
 
 const DashboardNavbar = () => {
   const { data: session } = useSession();
-  const code = useSchoolCodeStore((state) => state.schoolCode);
+  const schoolCode = useSchoolCodeStore((state) => state.schoolCode);
 
   const [schoolName, setSchoolName] = React.useState("");
 
   useEffect(() => {
     // Define an async function inside useEffect
     const fetchData = async () => {
-      const docRef = codeRef(code as string);
+      const docRef = codeRef(schoolCode as string);
       try {
         const docSnapshot = await getDoc(docRef);
 
@@ -29,10 +29,10 @@ const DashboardNavbar = () => {
       }
     };
 
-    if (code) {
+    if (schoolCode) {
       fetchData(); // Call the async function
     }
-  }, [code]);
+  }, [schoolCode]);
 
   return (
     <nav className="bg-dark-purple w-full h-16">

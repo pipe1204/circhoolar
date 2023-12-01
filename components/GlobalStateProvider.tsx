@@ -16,7 +16,7 @@ function GlobalStateProvider({ children }: { children: React.ReactNode }) {
   const { data: session } = useSession();
   const setSchoolCode = useSchoolCodeStore((state) => state.setSchoolCode);
   const setUserName = useUserNameStore((state) => state.setUserName);
-  const setSchoolName = useSchoolNameStore((state) => state.setSchoolName);
+  const setProfileImage = useUserNameStore((state) => state.setProfileImage);
 
   useEffect(() => {
     if (!session) return;
@@ -27,7 +27,7 @@ function GlobalStateProvider({ children }: { children: React.ReactNode }) {
         if (docSnapShot.exists()) {
           setSchoolCode(docSnapShot.data().schoolCode);
           setUserName(docSnapShot.data().name);
-          setSchoolName(docSnapShot.data().schoolCode);
+          setProfileImage(docSnapShot.data().image);
         } else {
           console.log("No such document!");
           setSchoolCode(null);

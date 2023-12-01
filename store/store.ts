@@ -14,11 +14,15 @@ export const useSchoolCodeStore = create<SchoolCodeState>((set) => ({
 interface UserNameState {
     userName: string | null;
     setUserName: (userName: string | null) => void;
+    profileImage: string | null;
+    setProfileImage: (userName: string | null) => void;
 }
 
 export const useUserNameStore = create<UserNameState>((set) => ({
     userName: null,
-    setUserName: (userName: string | null) => set({userName})
+    setUserName: (userName: string | null) => set({userName}),
+    profileImage: null,
+    setProfileImage: (profileImage: string | null) => set({profileImage})
 }))
 
 interface SchoolNameState {
