@@ -1,30 +1,39 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface ImageGalleryProps {
   images: any;
 }
 
 const ImageGallery = ({ images }: ImageGalleryProps) => {
-  const [bigImage, setBigImage] = useState(images[0].image);
+  const defaultImage = "/Logo-dark.jpg";
+  const [bigImage, setBigImage] = useState(defaultImage);
+
+  useEffect(() => {
+    if (images && images.length > 0) {
+      setBigImage(images[0]);
+    }
+  }, [images]);
 
   const handleSmallImageClick = (image: string) => {
     setBigImage(image);
   };
+
+  console.log(bigImage);
   return (
     <div className="grid gap-4 xl:grid-cols-5">
       <div className=" order-last flex gap-4 xl:order-none xl:flex-col">
-        {images.map((image: any) => (
-          <div key={image.id} className="overflow-hidden rounded-lg">
+        {images?.map((image: any) => (
+          <div key={image} className="overflow-hidden rounded-lg">
             <Image
-              src={image.image}
+              src={image}
               width={200}
               height={200}
-              alt={image.id}
+              alt="small image"
               className="object-center object-cover w-full h-full cursor-pointer"
-              onClick={() => handleSmallImageClick(image.image)}
+              onClick={() => handleSmallImageClick(image)}
             />
           </div>
         ))}
