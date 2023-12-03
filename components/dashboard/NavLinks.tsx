@@ -12,19 +12,14 @@ const SidebarLinks = [
     links: [
       { name: "Discover", href: "/dashboard", icon: <Icons.compass /> },
       {
-        name: "Analytics",
-        href: "/dashboard/analytics",
-        icon: <Icons.chart />,
+        name: "Community",
+        href: "/dashboard/community",
+        icon: <Icons.heartHandShake />,
       },
       {
         name: "Messages",
         href: "/dashboard/messages",
         icon: <Icons.message />,
-      },
-      {
-        name: "Donated items",
-        href: "/dashboard/donated-items",
-        icon: <Icons.heart />,
       },
     ],
   },
@@ -35,6 +30,11 @@ const SidebarLinks = [
         name: "My Posts",
         href: "/dashboard/posts",
         icon: <Icons.user />,
+      },
+      {
+        name: "Donated items",
+        href: "/dashboard/donated-items",
+        icon: <Icons.heart />,
       },
       {
         name: "Wishlist",

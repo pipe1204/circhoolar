@@ -123,12 +123,12 @@ const page = () => {
                   Facilitating Fundraising for School Initiatives
                 </h2>
                 <p className=" text-paragraph-color">
-                  Circhoolar isn’t just about exchanges; it’s a tool for schools
-                  to raise funds for their initiatives. Transactions on our
-                  platform can include optional donations, with proceeds going
-                  directly to the school or charities they support. This feature
-                  provides a novel, community-driven way to fund school projects
-                  and causes.
+                  Circhoolar isn’t just about a forum and exchanges; it’s a tool
+                  for schools to raise funds for their initiatives. Transactions
+                  on our platform can include optional donations, with proceeds
+                  going directly to the school or charities they support. This
+                  feature provides a novel, community-driven way to fund school
+                  projects and causes.
                 </p>
               </Card>
             </motion.div>

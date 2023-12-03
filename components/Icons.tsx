@@ -32,6 +32,7 @@ import {
   Footprints,
   HardHat,
   Heart,
+  HeartHandshakeIcon,
   Image,
   LeafyGreen,
   Loader2,
@@ -73,6 +74,7 @@ import {
 //   export type Icon = LucideIcon
 
 export const Icons = {
+  heartHandShake: HeartHandshakeIcon,
   facebook: Facebook,
   backpack: Backpack,
   bell: Bell,

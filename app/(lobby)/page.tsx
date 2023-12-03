@@ -33,16 +33,18 @@ const IndexPage = () => {
             className="text-3xl xl:text-6xl font-bold mb-4 text-white"
             variants={{ hidden: { opacity: 0, y: -20 }, visible }}
           >
-            <span className="text-title-color">Eco-Smart </span> School
-            Commuinty
+            Transforming
+            <span className="text-title-color"> School Communities, </span> One
+            Connection at a Time
           </motion.h1>
           <motion.p
             className="text-lg text-paragraph-color mb-8"
             variants={itemVariants}
           >
-            Eco-Friendly Marketplace for School Uniforms and children's Gear.
-            Join a greener, school community-driven journey in children's
-            pre-loved clothing and essentials.{" "}
+            Step into Circhoolar, where school community engagement is
+            redefined. Exchange goods, share advice, and strengthen connections,
+            all on a platform designed for the needs of modern parents and
+            schools.
           </motion.p>
           <motion.div
             variants={itemVariants}
@@ -81,29 +83,27 @@ const IndexPage = () => {
         <Card className="w-11/12 mx-auto my-4 xl:my-10">
           <div className="w-9/11 xl:w-4/5 mx-auto flex flex-col justify-center items-center py-10 px-4 xl:px-0 xl:py-20">
             <h1 className="text-3xl xl:text-6xl font-bold mb-4 text-white text-center">
-              The Power of{" "}
-              <span className="text-title-color">Circular Economy</span> in
-              School Communities
+              Circhoolar: Your
+              <span className="text-title-color"> School Community </span>
+              hub.
             </h1>
             <p className="text-lg text-paragraph-color text-center">
-              Discover the impact of a circular economy with Circhoolar, where
-              schools become hubs of sustainable practices. This platform
-              facilitates the exchange of uniforms, clothing, books, and toys,
-              embodying eco-responsibility. It's a transformative approach that
-              not only reduces waste but also builds a sense of community and
-              teaches valuable lessons in sustainability. By participating, you
-              contribute to a greener future and a closer school community,
-              setting a positive example for the next generation.
+              Move past the chaos of WhatsApp groups. Circhoolar offers a
+              cohesive, user-friendly platform for school communities to trade
+              items and share knowledge, enhancing interaction and support among
+              parents. Engage, connect, and contribute through our marketplace
+              for pre-loved items and a community forum for insightful
+              discussions.
             </p>
           </div>
         </Card>
         <div className="flex flex-col">
           <div className="flex flex-col w-9/11 xl:w-1/2 mx-auto my-10">
             <h1 className="text-3xl xl:text-4xl font-bold mb-4 text-white text-center">
-              Empower Your School Community with Sustainable Choices
+              Beyond Just a Marketplace
             </h1>
             <p className="text-lg text-paragraph-color text-center">
-              Revolutionizing Reuse and Charity Through Circhoolar
+              Uncover the Advantages of a Unified School Community Platform
             </p>
           </div>
           <div className="flex flex-col xl:flex-row justify-around items-center xl:items-stretch">
@@ -114,14 +114,13 @@ const IndexPage = () => {
             >
               <Card className="w-full h-full bg-dark py-8 px-8 flex flex-col justify-start items-center text-center">
                 <h2 className="text-lg text-white font-bold mb-4">
-                  Community-Led Reuse and Recycling
+                  Eco-Friendly Marketplace
                 </h2>
                 <p className=" text-paragraph-color">
-                  Encourage a culture of sustainability within your school. Our
-                  platform allows parents to easily give away or sell children's
-                  essentials. By reusing and recycling, we collectively
-                  contribute to reducing waste and CO2 emissions, fostering a
-                  more environmentally responsible community.
+                  Participate in a sustainable cycle of reuse by buying,
+                  selling, or donating pre-loved items, reducing waste and
+                  supporting environmental consciousness, while optionally
+                  contributing to school initiatives.
                 </p>
               </Card>
             </motion.div>
@@ -132,13 +131,13 @@ const IndexPage = () => {
             >
               <Card className="w-full h-full bg-dark py-8 px-8 flex flex-col justify-start items-center text-center">
                 <h2 className="text-lg text-white font-bold mb-4">
-                  Charitable Contributions with Every Exchange
+                  Engaged Parental Community Forum
                 </h2>
                 <p className=" text-paragraph-color">
-                  Transform every transaction into an act of kindness. With
-                  Circhoolar, when an item is claimed, the interested parent has
-                  the option to make a donation. Sellers can choose to direct
-                  these funds to a charity, their school, or retain them.
+                  Dive into a rich forum where parents can exchange advice,
+                  experiences, and insights. Our community-focused platform
+                  offers a dedicated space for meaningful and organized
+                  discussions, enhancing parent-to-parent connections.
                 </p>
               </Card>
             </motion.div>
@@ -149,14 +148,13 @@ const IndexPage = () => {
             >
               <Card className="w-full h-full bg-dark py-8 px-8 flex flex-col justify-start items-center text-center">
                 <h2 className="text-lg text-white font-bold mb-4">
-                  Supporting Schools and Charities
+                  Convenience and Organization
                 </h2>
                 <p className=" text-paragraph-color">
-                  Our platform doesn’t just facilitate the passing on of goods;
-                  it enables a cycle of support and generosity. Whether it’s
-                  donating to the school’s own initiatives or supporting a cause
-                  close to your heart, each transaction is an opportunity to
-                  make a positive impact.
+                  Say goodbye to scattered WhatsApp conversations. Circhoolar
+                  brings everything you need in one place, making it easier than
+                  ever to stay connected and informed within your school
+                  community.
                 </p>
               </Card>
             </motion.div>
