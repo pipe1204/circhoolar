@@ -33,8 +33,8 @@ const page = () => {
             className="text-3xl xl:text-6xl font-bold mb-4 text-white"
             variants={{ hidden: { opacity: 0, y: -20 }, visible }}
           >
-            Connecting Families for a
-            <span className="text-title-color"> Sustainable </span>Future
+            Strengthening
+            <span className="text-title-color"> School Community </span>Bonds
           </motion.h1>
           <motion.p
             className="text-lg text-paragraph-color mb-8"

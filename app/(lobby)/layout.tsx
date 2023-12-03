@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 
 export const metadata = {
   title: "Circhoolar",
-  description: "Revolutionizing School Uniforms through Circular Economy",
+  description: "Your School Community’s Virtual Hub",
 };
 
 export default function LobbyLayout({
