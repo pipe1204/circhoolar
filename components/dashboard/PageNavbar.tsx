@@ -110,8 +110,6 @@ const PageNavbar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  console.log(lastSegment);
-
   return (
     <nav className="bg-light-white flex justify-between items-center border border-light-white-500 shadow-md w-full h-16">
       <div
