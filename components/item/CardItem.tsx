@@ -16,6 +16,7 @@ import { deleteDoc, doc, getDoc, setDoc } from "firebase/firestore";
 import { userRef } from "@/lib/converters/User";
 import { db } from "@/firebase";
 import { set } from "react-hook-form";
+import { Icons } from "../Icons";
 
 interface CardItemProps {
   id: string;
@@ -188,11 +189,14 @@ const CardItem = ({
               onClick={handleWishlistClick}
               variant={"outlineLight"}
               size={"sm"}
-              className={`w-full ${
-                isSaved ? "text-green" : "text-background"
-              } bg-light-white hover:text-light-white`}
+              className={`w-full hover:bg-transparent `}
             >
-              {isSaved ? "Remove" : "Add to wishlist"}
+              <Icons.heart
+                fill={`${isSaved ? "dark-purple" : "none"}`}
+                size={18}
+                className="mr-2 text-dark-purple"
+              />
+              {isSaved ? "Saved" : "Wishlist"}
             </Button>
           </div>
         </div>

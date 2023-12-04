@@ -27,7 +27,7 @@ const page = () => {
         const querySnapshot = await getDocs(savedItemsRef);
         const items = querySnapshot.docs.map((doc) => ({
           docId: doc.id,
-          postData: doc.data() as Post, // Convert Firestore document data to Post type
+          postData: doc.data() as Post,
         }));
         setSavedItems(items);
       }
@@ -82,7 +82,11 @@ const page = () => {
           ))}
         </Masonry>
       ) : (
-        <h1>You don't have any saved item</h1>
+        <div className="flex justify-center items-center">
+          <h1 className="text-xl xl:text-2xl text-dark-purple font-semibold">
+            You don't have any saved item
+          </h1>
+        </div>
       )}
     </section>
   );

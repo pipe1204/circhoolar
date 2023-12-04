@@ -27,8 +27,8 @@ const SidebarLinks = [
         icon: <Icons.trophy />,
       },
       {
-        name: "Tutoring",
-        href: "/dashboard/tutoring",
+        name: "Tutors",
+        href: "/dashboard/tutors",
         icon: <Icons.book />,
       },
     ],
@@ -44,12 +44,12 @@ const SidebarLinks = [
       {
         name: "Donated items",
         href: "/dashboard/donated-items",
-        icon: <Icons.heart />,
+        icon: <Icons.sprout />,
       },
       {
         name: "Wishlist",
         href: "/dashboard/wishlist",
-        icon: <Icons.star />,
+        icon: <Icons.heart />,
       },
     ],
   },

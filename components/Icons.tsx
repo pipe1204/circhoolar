@@ -58,6 +58,7 @@ import {
   Shrub,
   Sliders,
   SlidersHorizontal,
+  Sprout,
   Star,
   SunMedium,
   Trash,
@@ -77,6 +78,7 @@ import {
 //   export type Icon = LucideIcon
 
 export const Icons = {
+  sprout: Sprout,
   folderHeart: FolderHeart,
   trophy: Trophy,
   book: BookOpenCheck,
