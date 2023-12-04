@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -9,6 +11,12 @@ import {
 import Image from "next/image";
 import { Button } from "../ui/Button";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { deleteDoc, doc, getDoc, setDoc } from "firebase/firestore";
+import { userRef } from "@/lib/converters/User";
+import { db } from "@/firebase";
+import { set } from "react-hook-form";
+import { Icons } from "../Icons";
 
 interface CardItemProps {
   id: string;
@@ -21,6 +29,9 @@ interface CardItemProps {
   price: string | number;
   sellingmethod: string;
   condition: string;
+  category: string;
+  isAlreadySaved: boolean;
+  onRemoveFromWishlist?: (itemId: string) => void;
 }
 
 const CardItem = ({
@@ -33,7 +44,59 @@ const CardItem = ({
   sellingmethod,
   condition,
   authorId,
+  category,
+  isAlreadySaved,
+  onRemoveFromWishlist,
 }: CardItemProps) => {
+  const { data: session } = useSession();
+  const [isSaved, setIsSaved] = useState(isAlreadySaved);
+
+  useEffect(() => {
+    const checkSavedStatus = async () => {
+      if (!isAlreadySaved && session?.user?.id) {
+        const userID = session.user.id;
+        const savedItemRef = doc(userRef(userID), "savedItems", id);
+        const docSnap = await getDoc(savedItemRef);
+        setIsSaved(docSnap.exists());
+      }
+    };
+    checkSavedStatus();
+  }, [id, session?.user?.id]);
+
+  const handleWishlistClick = async () => {
+    if (session?.user?.id) {
+      const savedItemRef = doc(userRef(session.user.id), "savedItems", id);
+      const postRef = doc(db, "posts", id);
+      if (isSaved) {
+        await deleteDoc(savedItemRef);
+        setIsSaved(false);
+        if (onRemoveFromWishlist) {
+          onRemoveFromWishlist(id);
+        }
+      } else {
+        const postSnapshot = await getDoc(postRef);
+        if (postSnapshot.exists()) {
+          const postData = postSnapshot.data();
+          await setDoc(savedItemRef, {
+            id: postData.id,
+            title: postData.title,
+            images: postData.images,
+            authorId: postData.authorId,
+            category: postData.category,
+            author: postData.author,
+            price: postData.price,
+            sellingmethod: postData.sellingmethod,
+            condition: postData.condition,
+            avatar: postData.avatar,
+          });
+          setIsSaved(true);
+        } else {
+          console.log("No such document!");
+        }
+      }
+    }
+  };
+
   const itemCondition = ({ condition }: { condition: string }) => {
     let conditionColor;
     switch (condition) {
@@ -123,11 +186,17 @@ const CardItem = ({
           </div>
           <div className="w-full">
             <Button
+              onClick={handleWishlistClick}
               variant={"outlineLight"}
               size={"sm"}
-              className="w-full bg-light-white hover:text-light-white"
+              className={`w-full hover:bg-transparent `}
             >
-              Wishlist
+              <Icons.heart
+                fill={`${isSaved ? "dark-purple" : "none"}`}
+                size={18}
+                className="mr-2 text-dark-purple"
+              />
+              {isSaved ? "Saved" : "Wishlist"}
             </Button>
           </div>
         </div>

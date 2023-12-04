@@ -10,7 +10,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "../ui/form";
 import {
@@ -25,6 +24,8 @@ import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import { schoolSchema } from "@/lib/validations/auth";
 import { useSchoolCodeStore } from "@/store/store";
+import path from "path";
+import { get } from "http";
 
 const PostItemDialog = dynamic(() => import("../item/PostItemDialog"), {
   ssr: false,
@@ -58,9 +59,9 @@ const PageNavbar = () => {
         icon = <Icons.compass className="text-dark-purple" />;
         categoryName = "Discover";
         break;
-      case "analytics":
-        icon = <Icons.chart className="text-dark-purple" />;
-        categoryName = "Analytics";
+      case "community":
+        icon = <Icons.folderHeart className="text-dark-purple" />;
+        categoryName = "community";
         break;
       case "messages":
         icon = <Icons.message className="text-dark-purple" />;
@@ -75,7 +76,7 @@ const PageNavbar = () => {
         categoryName = "My Posts";
         break;
       case "wishlist":
-        icon = <Icons.star className="text-dark-purple" />;
+        icon = <Icons.heart className="text-dark-purple" />;
         categoryName = "Wishlist";
         break;
       default:
@@ -109,9 +110,15 @@ const PageNavbar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  console.log(lastSegment);
+
   return (
     <nav className="bg-light-white flex justify-between items-center border border-light-white-500 shadow-md w-full h-16">
-      <div className="flex justify-between items-center mx-6 xl:mx-10 w-full">
+      <div
+        className={`flex ${
+          lastSegment === "dashboard" ? "justify-between" : "justify-start"
+        } xl:justify-between items-center mx-6 xl:mx-10 w-full`}
+      >
         <div className="xl:hidden flex justify-end items-center">
           <button
             onClick={handleMenuClick}
@@ -123,6 +130,12 @@ const PageNavbar = () => {
               <Icons.menu className="text-primary-purple" />
             )}
           </button>
+        </div>
+        <div className="flex justify-center items-center ml-4 xl:ml-0">
+          {lastSegment === "dashboard" ? "" : icon}
+          <h1 className="text-dark-purple font-semibold text-lg ml-2">
+            {lastSegment === "dashboard" ? "" : categoryName}
+          </h1>
         </div>
         <div
           className={`fixed inset-y-0 left-0 transform ${
@@ -179,9 +192,11 @@ const PageNavbar = () => {
           </div>
         </div>
         <div>
-          <div className="flex">
-            <PostItemDialog />
-          </div>
+          {pathname === "/dashboard" && (
+            <div className="flex">
+              <PostItemDialog />
+            </div>
+          )}
         </div>
         <div className="hidden items-center gap-x-2 px-20 py-2 rounded-md">
           <Form {...form}>

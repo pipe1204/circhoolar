@@ -116,6 +116,8 @@ const page = () => {
                 price={post.price}
                 sellingmethod={post.sellingmethod}
                 condition={post.condition}
+                category={post.category}
+                isAlreadySaved={false}
               />
             </div>
           ))}

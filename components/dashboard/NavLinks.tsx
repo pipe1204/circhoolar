@@ -14,12 +14,22 @@ const SidebarLinks = [
       {
         name: "Community",
         href: "/dashboard/community",
-        icon: <Icons.heartHandShake />,
+        icon: <Icons.folderHeart />,
       },
       {
         name: "Messages",
         href: "/dashboard/messages",
         icon: <Icons.message />,
+      },
+      {
+        name: "Activities",
+        href: "/dashboard/activities",
+        icon: <Icons.trophy />,
+      },
+      {
+        name: "Tutors",
+        href: "/dashboard/tutors",
+        icon: <Icons.book />,
       },
     ],
   },
@@ -34,12 +44,12 @@ const SidebarLinks = [
       {
         name: "Donated items",
         href: "/dashboard/donated-items",
-        icon: <Icons.heart />,
+        icon: <Icons.sprout />,
       },
       {
         name: "Wishlist",
         href: "/dashboard/wishlist",
-        icon: <Icons.star />,
+        icon: <Icons.heart />,
       },
     ],
   },
