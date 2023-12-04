@@ -7,8 +7,7 @@ import { Icons } from "./Icons";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { usePathname } from "next/navigation";
-import UserButton from "./ui/UserButton";
-import { useSession, signIn } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 const Navbar = () => {
   const { data: session } = useSession();
@@ -55,7 +54,6 @@ const Navbar = () => {
                     Go to Dashboard
                   </Button>
                 </Link>
-                {/* <UserButton session={session} /> */}
               </div>
             ) : (
               <div className="w-full">
@@ -101,7 +99,6 @@ const Navbar = () => {
             isMenuOpen ? "max-h-screen py-4" : "max-h-0"
           } overflow-hidden`}
         >
-          {/* Mobile Menu Items */}
           {NavLinks.map((link) => (
             <Link
               href={link.href}

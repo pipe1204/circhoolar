@@ -36,8 +36,6 @@ const page = () => {
     }
   }, []);
 
-  console.log(myPosts);
-  console.log(session?.user?.id);
   const breakpointColumnsObj = {
     default: 4,
     1100: 3,
@@ -65,6 +63,8 @@ const page = () => {
                 price={post.price}
                 sellingmethod={post.sellingmethod}
                 condition={post.condition}
+                category={post.category}
+                isAlreadySaved={false}
               />
             </div>
           ))}

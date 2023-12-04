@@ -10,7 +10,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "../ui/form";
 import {
@@ -25,6 +24,7 @@ import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import { schoolSchema } from "@/lib/validations/auth";
 import { useSchoolCodeStore } from "@/store/store";
+import path from "path";
 
 const PostItemDialog = dynamic(() => import("../item/PostItemDialog"), {
   ssr: false,
@@ -179,9 +179,11 @@ const PageNavbar = () => {
           </div>
         </div>
         <div>
-          <div className="flex">
-            <PostItemDialog />
-          </div>
+          {pathname === "/dashboard" && (
+            <div className="flex">
+              <PostItemDialog />
+            </div>
+          )}
         </div>
         <div className="hidden items-center gap-x-2 px-20 py-2 rounded-md">
           <Form {...form}>
