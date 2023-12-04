@@ -1,13 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../ui/Card";
+import { Card, CardContent, CardTitle } from "../ui/Card";
 import Image from "next/image";
 import { Button } from "../ui/Button";
 import Link from "next/link";
@@ -15,8 +9,8 @@ import { useSession } from "next-auth/react";
 import { deleteDoc, doc, getDoc, setDoc } from "firebase/firestore";
 import { userRef } from "@/lib/converters/User";
 import { db } from "@/firebase";
-import { set } from "react-hook-form";
 import { Icons } from "../Icons";
+import { usePathname } from "next/navigation";
 
 interface CardItemProps {
   id: string;
@@ -48,6 +42,7 @@ const CardItem = ({
   isAlreadySaved,
   onRemoveFromWishlist,
 }: CardItemProps) => {
+  const pathName = usePathname();
   const { data: session } = useSession();
   const [isSaved, setIsSaved] = useState(isAlreadySaved);
 
@@ -115,6 +110,7 @@ const CardItem = ({
 
     return conditionColor;
   };
+
   return (
     <Card className="bg-light-white w-full border border-light-white shadow-md rounded-lg overflow-hidden">
       <div className="relative mb-2 mt-4">
@@ -174,7 +170,7 @@ const CardItem = ({
       <CardContent>
         <div className="flex flex-col gap-y-2 justify-center items-center w-full xl:w-3/4 mx-auto">
           <div className="w-full">
-            <Link href={`dashboard/${id}`}>
+            <Link href={`/dashboard/${id}`}>
               <Button
                 variant={"outline"}
                 size={"sm"}

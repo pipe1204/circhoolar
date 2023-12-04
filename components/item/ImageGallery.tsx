@@ -21,7 +21,6 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
     setBigImage(image);
   };
 
-  console.log(bigImage);
   return (
     <div className="grid gap-4 xl:grid-cols-5">
       <div className=" order-last flex gap-4 xl:order-none xl:flex-col">
@@ -29,8 +28,8 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
           <div key={image} className="overflow-hidden rounded-lg">
             <Image
               src={image}
-              width={200}
-              height={200}
+              width={100}
+              height={100}
               alt="small image"
               className="object-center object-cover w-full h-full cursor-pointer"
               onClick={() => handleSmallImageClick(image)}

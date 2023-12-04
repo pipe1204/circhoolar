@@ -1,12 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import React, { use, useEffect } from "react";
+import React, { useEffect } from "react";
 import UserButton from "../ui/UserButton";
 import { useSession } from "next-auth/react";
 import { useSchoolCodeStore } from "@/store/store";
 import { codeRef } from "@/lib/converters/SchoolCode";
-import { doc, getDoc } from "firebase/firestore";
+import { getDoc } from "firebase/firestore";
 
 const DashboardNavbar = () => {
   const { data: session } = useSession();
