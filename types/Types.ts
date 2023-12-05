@@ -9,8 +9,8 @@ export interface Post {
   avatar: string;
   schoolCode: string;
   images: string[];
-  condition: string;
-  sellingmethod: string;
+  condition: "Great condition" | "Good condition" | "Fair condition";
+  sellingmethod: "Free" | "Cost";
   price: string | number;
   createdAt: Timestamp;
   updatedAt: Timestamp;
