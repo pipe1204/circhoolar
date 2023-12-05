@@ -8,10 +8,9 @@ import {
   useSchoolNameStore,
   useUserNameStore,
 } from "@/store/store";
-import { getDoc, onSnapshot } from "firebase/firestore";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { useSession } from "next-auth/react";
 import React, { useEffect } from "react";
-import { set } from "react-hook-form";
 
 function GlobalStateProvider({ children }: { children: React.ReactNode }) {
   const { data: session } = useSession();
@@ -27,7 +26,8 @@ function GlobalStateProvider({ children }: { children: React.ReactNode }) {
       userRef(session.user.id),
       async (docSnapShot) => {
         if (docSnapShot.exists()) {
-          const docRef = codeRef(docSnapShot.data().schoolCode);
+          if (!docSnapShot.data().schoolCode) return;
+          const docRef = doc(codeRef, docSnapShot.data().schoolCode);
           const schoolDocSnapshot = await getDoc(docRef);
           if (schoolDocSnapshot.exists()) {
             setSchoolName(schoolDocSnapshot.data().name);

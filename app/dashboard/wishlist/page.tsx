@@ -77,6 +77,7 @@ const page = () => {
                 category={post.postData.category}
                 isAlreadySaved={true}
                 onRemoveFromWishlist={removeItemFromState}
+                updatingPost={false}
               />
             </div>
           ))}

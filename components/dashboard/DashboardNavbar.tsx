@@ -6,7 +6,7 @@ import UserButton from "../ui/UserButton";
 import { useSession } from "next-auth/react";
 import { useSchoolCodeStore } from "@/store/store";
 import { codeRef } from "@/lib/converters/SchoolCode";
-import { getDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 
 const DashboardNavbar = () => {
   const { data: session } = useSession();
@@ -17,7 +17,7 @@ const DashboardNavbar = () => {
   useEffect(() => {
     // Define an async function inside useEffect
     const fetchData = async () => {
-      const docRef = codeRef(schoolCode as string);
+      const docRef = doc(codeRef, schoolCode as string);
       try {
         const docSnapshot = await getDoc(docRef);
 

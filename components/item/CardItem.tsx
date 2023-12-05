@@ -6,11 +6,21 @@ import Image from "next/image";
 import { Button } from "../ui/Button";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { deleteDoc, doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
 import { userRef } from "@/lib/converters/User";
 import { db } from "@/firebase";
 import { Icons } from "../Icons";
 import { usePathname } from "next/navigation";
+import UpdateItemDialog from "./UpdateItemDialog";
 
 interface CardItemProps {
   id: string;
@@ -25,6 +35,7 @@ interface CardItemProps {
   condition: string;
   category: string;
   isAlreadySaved: boolean;
+  updatingPost?: boolean;
   onRemoveFromWishlist?: (itemId: string) => void;
 }
 
@@ -40,6 +51,7 @@ const CardItem = ({
   authorId,
   category,
   isAlreadySaved,
+  updatingPost,
   onRemoveFromWishlist,
 }: CardItemProps) => {
   const pathName = usePathname();
@@ -90,6 +102,29 @@ const CardItem = ({
         }
       }
     }
+  };
+
+  const handleDeleteFromFirebase = (itemId: string) => async () => {
+    if (session?.user?.id) {
+      const postRef = doc(db, "posts", itemId);
+      await deleteDoc(postRef);
+      await removePostFromSavedItems(itemId);
+    }
+  };
+
+  const removePostFromSavedItems = async (postId: string) => {
+    const usersRef = collection(db, "users"); // Reference to the users collection
+    const allUsersSnapshot = await getDocs(usersRef);
+
+    allUsersSnapshot.forEach(async (userDoc) => {
+      const savedItemsRef = collection(userRef(userDoc.id), "savedItems");
+      const q = query(savedItemsRef, where("id", "==", postId));
+      const querySnapshot = await getDocs(q);
+
+      querySnapshot.forEach(async (doc) => {
+        await deleteDoc(doc.ref); // Delete the saved post from this user's savedItems
+      });
+    });
   };
 
   const itemCondition = ({ condition }: { condition: string }) => {
@@ -168,34 +203,51 @@ const CardItem = ({
         </h1>
       </div>
       <CardContent>
-        <div className="flex flex-col gap-y-2 justify-center items-center w-full xl:w-3/4 mx-auto">
-          <div className="w-full">
-            <Link href={`/dashboard/${id}`}>
+        {updatingPost ? (
+          <div className="flex flex-col gap-y-2 justify-center items-center w-full xl:w-3/4 mx-auto">
+            <div className="w-full">
+              <UpdateItemDialog itemId={id} />
+            </div>
+            <div className="w-full">
               <Button
-                variant={"outline"}
-                size={"sm"}
-                className="w-full text-light-white bg-dark-purple hover:bg-title-color hover:text-light-white"
+                variant={"link"}
+                className="w-full text-red"
+                onClick={handleDeleteFromFirebase(id)}
               >
-                View
+                Delete post
               </Button>
-            </Link>
+            </div>
           </div>
-          <div className="w-full">
-            <Button
-              onClick={handleWishlistClick}
-              variant={"outlineLight"}
-              size={"sm"}
-              className={`w-full hover:bg-transparent `}
-            >
-              <Icons.heart
-                fill={`${isSaved ? "dark-purple" : "none"}`}
-                size={18}
-                className="mr-2 text-dark-purple"
-              />
-              {isSaved ? "Saved" : "Wishlist"}
-            </Button>
+        ) : (
+          <div className="flex flex-col gap-y-2 justify-center items-center w-full xl:w-3/4 mx-auto">
+            <div className="w-full">
+              <Link href={`/dashboard/${id}`}>
+                <Button
+                  variant={"outline"}
+                  size={"sm"}
+                  className="w-full text-light-white bg-dark-purple hover:bg-title-color hover:text-light-white"
+                >
+                  View
+                </Button>
+              </Link>
+            </div>
+            <div className="w-full">
+              <Button
+                onClick={handleWishlistClick}
+                variant={"outlineLight"}
+                size={"sm"}
+                className={`w-full hover:bg-transparent `}
+              >
+                <Icons.heart
+                  fill={`${isSaved ? "dark-purple" : "none"}`}
+                  size={18}
+                  className="mr-2 text-dark-purple"
+                />
+                {isSaved ? "Saved" : "Wishlist"}
+              </Button>
+            </div>
           </div>
-        </div>
+        )}
       </CardContent>
     </Card>
   );

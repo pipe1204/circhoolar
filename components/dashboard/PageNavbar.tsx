@@ -129,12 +129,12 @@ const PageNavbar = () => {
             )}
           </button>
         </div>
-        <div className="flex justify-center items-center ml-4 xl:ml-0">
-          {lastSegment === "dashboard" ? "" : icon}
+        {/* <div className="flex justify-center items-center ml-4 xl:ml-0">
+          {icon}
           <h1 className="text-dark-purple font-semibold text-lg ml-2">
-            {lastSegment === "dashboard" ? "" : categoryName}
+            {categoryName}
           </h1>
-        </div>
+        </div> */}
         <div
           className={`fixed inset-y-0 left-0 transform ${
             isMenuOpen ? "translate-x-0" : "-translate-x-full"

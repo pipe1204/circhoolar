@@ -16,18 +16,13 @@ import {
 import { codeRef } from "@/lib/converters/SchoolCode";
 import { useSession } from "next-auth/react";
 import { userRef } from "@/lib/converters/User";
-import {
-  useSchoolCodeStore,
-  useSchoolNameStore,
-  useUserNameStore,
-} from "@/store/store";
+import { useSchoolCodeStore, useUserNameStore } from "@/store/store";
 import { Post } from "@/types/Types";
 import { postRef } from "@/lib/converters/Post";
 
 const page = () => {
   const schoolCode = useSchoolCodeStore((state) => state.schoolCode);
   const setUserName = useUserNameStore((state) => state.setUserName);
-  const schoolName = useSchoolNameStore((state) => state.schoolName);
   const setSchoolCode = useSchoolCodeStore((state) => state.setSchoolCode);
 
   const [validCode, setValidCode] = React.useState(false);
@@ -42,6 +37,7 @@ const page = () => {
         postsQuery,
         (querySnapshot) => {
           const fetchedPosts = querySnapshot.docs.map((doc) => doc.data());
+          console.log(fetchedPosts);
           setPosts(fetchedPosts);
         },
         (error) => {
@@ -71,7 +67,14 @@ const page = () => {
   };
 
   const checkCode = async (code: string, userId: string, name: string) => {
-    const docRef = codeRef(code);
+    if (!code) {
+      console.log("Code is undefined or empty");
+      setValidCode(false);
+      setErrorCode("Code is required");
+      return;
+    }
+
+    const docRef = doc(codeRef, code);
     const docSnapshot = await getDoc(docRef);
 
     if (docSnapshot.exists()) {
@@ -81,13 +84,6 @@ const page = () => {
 
       const userDocRef = userRef(userId);
       await updateDoc(userDocRef, { schoolCode: code, name: name });
-
-      // Create initial documents in the subcollections
-      const savedItemsRef = doc(userDocRef, "savedItems", "initial");
-      const soldItemsRef = doc(userDocRef, "soldItems", "initial");
-
-      await setDoc(savedItemsRef, { initialized: true });
-      await setDoc(soldItemsRef, { initialized: true });
     } else {
       console.log("No such document!");
       setValidCode(false);
@@ -97,7 +93,7 @@ const page = () => {
 
   return (
     <section className="p-2">
-      {schoolCode !== undefined || null ? (
+      {schoolCode !== null ? (
         <Masonry
           breakpointCols={breakpointColumnsObj}
           className="my-masonry-grid"
@@ -118,6 +114,7 @@ const page = () => {
                 condition={post.condition}
                 category={post.category}
                 isAlreadySaved={false}
+                updatingPost={false}
               />
             </div>
           ))}

@@ -19,7 +19,7 @@ import {
   useUserNameStore,
 } from "@/store/store";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
@@ -163,7 +163,7 @@ const page = () => {
       const userDocRef = userRef(session?.user?.id || "");
 
       // Check if the school code exists in the 'schools' collection
-      const schoolDocRef = codeRef(data.schoolCode);
+      const schoolDocRef = doc(codeRef, data.schoolCode);
       const schoolDocSnapshot = await getDoc(schoolDocRef);
 
       if (schoolDocSnapshot.exists()) {
@@ -189,8 +189,6 @@ const page = () => {
       }
     }
   };
-
-  console.log(schoolName);
 
   return (
     <section className="bg-light-white w-11/12 xl:w-3/4 mx-auto my-8 p-10 shadow-md rounded-lg flex flex-col justify-center items-center">

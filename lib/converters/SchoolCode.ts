@@ -18,4 +18,4 @@ const SchoolCodeConverter: FirestoreDataConverter<SchoolCode> = {
     }
 }
 
-export const codeRef = (code: string) => doc(db, 'schools', code,).withConverter(SchoolCodeConverter);
+export const codeRef = collection(db, 'schools').withConverter(SchoolCodeConverter);

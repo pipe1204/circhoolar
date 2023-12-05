@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -34,19 +34,23 @@ import {
   SelectValue,
 } from "../ui/select";
 import Image from "next/image";
-import { useSchoolCodeStore, useUserNameStore } from "@/store/store";
+import { useUserNameStore } from "@/store/store";
 import { useSession } from "next-auth/react";
 import { postRef } from "@/lib/converters/Post";
-import { addDoc, serverTimestamp } from "firebase/firestore";
+import { doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { Icons } from "../Icons";
+import { Post } from "@/types/Types";
 
 type Inputs = z.infer<typeof postItemSchema>;
 type Image = z.infer<typeof imageSchema>;
 
-const PostItemDialog = () => {
+interface UpdateItemDialogProps {
+  itemId: string;
+}
+
+const UpdateItemDialog = ({ itemId }: UpdateItemDialogProps) => {
   const { data: session } = useSession();
   const userName = useUserNameStore((state) => state.userName);
-  const schoolCode = useSchoolCodeStore((state) => state.schoolCode);
 
   const isBrowser = typeof window !== "undefined";
   const [priceType, setPriceType] = useState("");
@@ -56,6 +60,7 @@ const PostItemDialog = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [imageSelected, setImageSelected] = useState(true);
+  const [item, setItem] = useState<Post | null>(null);
 
   // react-hook-form
   const form = useForm<Inputs>({
@@ -67,6 +72,28 @@ const PostItemDialog = () => {
     },
   });
 
+  useEffect(() => {
+    const fetchPost = async () => {
+      if (itemId) {
+        try {
+          const docRef = doc(postRef, itemId); // Use the postRef with your converter
+          const docSnap = await getDoc(docRef);
+
+          if (docSnap.exists()) {
+            setItem(docSnap.data() as Post);
+            setFiles(docSnap.data()?.images);
+          } else {
+            console.log("No such document!");
+          }
+        } catch (error) {
+          console.error("Error fetching post:", error);
+        }
+      }
+    };
+
+    fetchPost();
+  }, [itemId]);
+
   const Imageform = useForm<Image>({
     resolver: zodResolver(imageSchema),
   });
@@ -75,37 +102,18 @@ const PostItemDialog = () => {
   const handleDialogChange = (isOpen: boolean) => {
     setIsOpen(isOpen);
 
-    if (!isOpen) {
-      // Reset form fields
-      form.reset();
-      Imageform.reset();
-
-      // Clear the file names and images state
-      setFiles([]);
-      setPriceType("Free");
-      setImageSelected(true);
-
-      // Reset file input
-      const fileInput = document.getElementById(
-        "file_input"
-      ) as HTMLInputElement;
-      if (fileInput) {
-        fileInput.value = "";
-      }
+    if (item && session?.user?.id) {
+      form.setValue("title", item.title);
+      form.setValue("description", item.description);
+      form.setValue("condition", item.condition);
+      form.setValue("category", item.category);
+      form.setValue("sellingmethod", item.sellingmethod);
+      form.setValue("price", item.price.toString());
     }
   };
 
   const handleCloseDialog = () => {
     setIsOpen(false);
-    // Reset form fields
-    form.reset();
-    Imageform.reset();
-
-    // Clear the file names and images state
-    setFiles([]);
-    setPriceType("Free");
-    setImageSelected(true);
-
     // Reset file input
     const fileInput = document.getElementById("file_input") as HTMLInputElement;
     if (fileInput) {
@@ -141,104 +149,94 @@ const PostItemDialog = () => {
     }
   };
 
-  const onDeleteFile = (index: number) => () => {
-    const newFiles = [...files];
-    newFiles.splice(index, 1);
-    setFiles(newFiles);
-    if (newFiles.length === 0) {
-      setImageSelected(true);
-    }
-    console.log(files);
-
-    const newFileObjects = [...fileObjects];
-    newFileObjects.splice(index, 1);
-    setFileObjects(newFileObjects);
-  };
-
   //Uploading files to CLoudinary and Firebase
   async function onSubmit(data: Inputs) {
     setLoading(true);
 
-    if (fileObjects.length > 0) {
-      try {
-        const uploadedImageUrls = await Promise.all(
-          fileObjects.map(async (file) => {
-            const formData = new FormData();
-            formData.append("file", file);
-            formData.append("upload_preset", "circhoolar");
-
-            const response = await fetch(
-              `https://api.cloudinary.com/v1_1/circhoo/image/upload`,
-              {
-                method: "POST",
-                body: formData,
-              }
-            );
-
-            const data = await response.json();
-            return data.secure_url;
-          })
-        );
-
-        // Here, `uploadedImageUrls` contains the URLs of all uploaded images.
-        // You can proceed with other operations, like updating Firebase.
-
-        const randomNumber = Math.floor(Math.random() * 10000);
-        const post = {
-          id: `${data.title}-${randomNumber}`,
-          title: data.title,
-          description: data.description,
-          price: data.sellingmethod === "Free" ? 0 : data.price,
-          sellingmethod: data.sellingmethod,
-          condition: data.condition,
-          category: data.category,
-          images:
-            uploadedImageUrls.length > 0
-              ? uploadedImageUrls
-              : [
-                  "https://res.cloudinary.com/circhoo/image/upload/v1701302694/Circhoolar-dark_bcrnqm.png",
-                ],
-          authorId: session?.user?.id ?? "Unknown",
-          author: session?.user?.name ?? userName ?? "Unknown",
-          avatar: session?.user?.image ?? "https://github.com/shadcn.png",
-          schoolCode: schoolCode || "Unknown",
-          createdAt: serverTimestamp(),
-          updatedAt: serverTimestamp(),
-        };
-
+    if (
+      data.title === item?.title &&
+      data.description === item?.description &&
+      data.condition === item?.condition &&
+      data.category === item?.category &&
+      data.sellingmethod === item?.sellingmethod &&
+      data.price === item?.price.toString() &&
+      files.length === 0
+    ) {
+      setLoading(false);
+      setIsOpen(false);
+      return;
+    } else {
+      if (fileObjects.length > 0) {
         try {
-          const docRef = await addDoc(postRef, post);
-          console.log("Post created successfully with ID:", docRef.id);
+          const uploadedImageUrls = await Promise.all(
+            fileObjects.map(async (file) => {
+              const formData = new FormData();
+              formData.append("file", file);
+              formData.append("upload_preset", "circhoolar");
+
+              const response = await fetch(
+                `https://api.cloudinary.com/v1_1/circhoo/image/upload`,
+                {
+                  method: "POST",
+                  body: formData,
+                }
+              );
+
+              const data = await response.json();
+              return data.secure_url;
+            })
+          );
+
+          // Upload the post to Firestore
+          const docRef = doc(postRef, itemId);
+          const docSnap = await getDoc(docRef);
+
+          if (docSnap.exists()) {
+            await updateDoc(docRef, {
+              title: data.title,
+              description: data.description,
+              condition: data.condition,
+              category: data.category,
+              sellingmethod: data.sellingmethod,
+              price: data.price,
+              images: uploadedImageUrls,
+              updatedAt: serverTimestamp(),
+            });
+            setLoading(false);
+            setIsOpen(false);
+          }
         } catch (error) {
-          console.error("Error creating post:", error);
+          console.error("Error uploading images:", error);
+        }
+      } else {
+        const docRef = doc(postRef, itemId);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          await updateDoc(docRef, {
+            title: data.title,
+            description: data.description,
+            condition: data.condition,
+            category: data.category,
+            sellingmethod: data.sellingmethod,
+            price: data.price,
+            updatedAt: serverTimestamp(),
+          });
+          setLoading(false);
+          setIsOpen(false);
         }
         setLoading(false);
-        setIsOpen(false);
-        setPriceType("Free");
-        setFiles([]);
-        setFileObjects([]);
-        setImageSelected(true);
-        form.reset({
-          title: "",
-          description: "",
-          price: "",
-          sellingmethod: "Free",
-          condition: "Great condition",
-          category: "",
-        });
-      } catch (error) {
-        console.error("Error uploading images:", error);
+        setError("Please upload an image");
       }
-    } else {
-      setLoading(false);
-      setError("Please upload an image");
     }
   }
 
   return (
     <Dialog open={isOpen} onOpenChange={handleDialogChange}>
       <DialogTrigger asChild>
-        <Button variant="secondary">Post an item</Button>
+        <Button variant="link" className="w-full text-dark-purple">
+          Edit post
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader className="w-full">
@@ -281,14 +279,10 @@ const PostItemDialog = () => {
             {files.length > 0 && (
               <div className="flex flex-col gap-2">
                 {files.map((file, index) => (
-                  <div key={index} className="flex justify-between">
+                  <div key={index}>
                     <p className=" text-paragraph-color text-sm font-semibold">
                       {file}
                     </p>
-                    <Icons.close
-                      className="text-paragraph-color cursor-pointer"
-                      onClick={onDeleteFile(index)}
-                    />
                   </div>
                 ))}
               </div>
@@ -485,15 +479,9 @@ const PostItemDialog = () => {
                   <Button
                     variant={"outline"}
                     className="text-light-white bg-background w-9/12"
-                    disabled={imageSelected}
                   >
-                    {loading ? "Uploading..." : "Post"}
+                    {loading ? "Uploading..." : "Update details"}
                   </Button>
-                  {imageSelected && (
-                    <p className="text-red text-sm mt-2">
-                      Please upload an image
-                    </p>
-                  )}
                 </div>
               </DialogFooter>
             </form>
@@ -504,4 +492,4 @@ const PostItemDialog = () => {
   );
 };
 
-export default PostItemDialog;
+export default UpdateItemDialog;
