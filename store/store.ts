@@ -34,3 +34,13 @@ export const useSchoolNameStore = create<SchoolNameState>((set) => ({
     schoolName: null,
     setSchoolName: (schoolName: string | null) => set({schoolName})
 }))
+
+interface SelectedSchoolState {
+    selectedSchool: string | null;
+    setSelectedSchool: (schoolName: string | null) => void;
+}
+
+export const useSelectedSchoolStore = create<SelectedSchoolState>((set) => ({
+    selectedSchool: null,
+    setSelectedSchool: (selectedSchool: string | null) => set({selectedSchool})
+}))

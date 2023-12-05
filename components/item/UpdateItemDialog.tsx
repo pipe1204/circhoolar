@@ -235,6 +235,7 @@ const UpdateItemDialog = ({ itemId }: UpdateItemDialogProps) => {
     <Dialog open={isOpen} onOpenChange={handleDialogChange}>
       <DialogTrigger asChild>
         <Button variant="link" className="w-full text-dark-purple">
+          <Icons.edit size={15} className="mr-2" />
           Edit post
         </Button>
       </DialogTrigger>

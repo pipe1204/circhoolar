@@ -193,7 +193,7 @@ const page = () => {
   return (
     <section className="bg-light-white w-11/12 xl:w-3/4 mx-auto my-8 p-10 shadow-md rounded-lg flex flex-col justify-center items-center">
       <div className="flex flex-col justify-center items-center">
-        <div className=" w-40 h-40 rounded-full overflow-hidden relative">
+        <div className="w-28 h-28 rounded-full overflow-hidden relative">
           <Image
             src={profileIamge || "https://github.com/shadcn.png"}
             alt={"Profile image"}

@@ -21,6 +21,17 @@ import { db } from "@/firebase";
 import { Icons } from "../Icons";
 import { usePathname } from "next/navigation";
 import UpdateItemDialog from "./UpdateItemDialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 interface CardItemProps {
   id: string;
@@ -208,15 +219,32 @@ const CardItem = ({
             <div className="w-full">
               <UpdateItemDialog itemId={id} />
             </div>
-            <div className="w-full">
-              <Button
-                variant={"link"}
-                className="w-full text-red"
-                onClick={handleDeleteFromFirebase(id)}
-              >
-                Delete post
-              </Button>
-            </div>
+            <AlertDialog>
+              <AlertDialogTrigger className="text-red flex justify-center items-center text-sm">
+                <Icons.trash size={15} className="mr-2" />
+                Delete
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle className="text-light-white">
+                    Are you absolutely sure?
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete
+                    your post and remove your data from our servers.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={handleDeleteFromFirebase(id)}
+                    className="bg-red text-light-white"
+                  >
+                    Continue
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         ) : (
           <div className="flex flex-col gap-y-2 justify-center items-center w-full xl:w-3/4 mx-auto">

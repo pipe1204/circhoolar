@@ -16,7 +16,11 @@ import {
 import { codeRef } from "@/lib/converters/SchoolCode";
 import { useSession } from "next-auth/react";
 import { userRef } from "@/lib/converters/User";
-import { useSchoolCodeStore, useUserNameStore } from "@/store/store";
+import {
+  useSchoolCodeStore,
+  useSelectedSchoolStore,
+  useUserNameStore,
+} from "@/store/store";
 import { Post } from "@/types/Types";
 import { postRef } from "@/lib/converters/Post";
 
@@ -24,30 +28,42 @@ const page = () => {
   const schoolCode = useSchoolCodeStore((state) => state.schoolCode);
   const setUserName = useUserNameStore((state) => state.setUserName);
   const setSchoolCode = useSchoolCodeStore((state) => state.setSchoolCode);
+  const selectedSchool = useSelectedSchoolStore(
+    (state) => state.selectedSchool
+  );
+  const setSelectedSchool = useSelectedSchoolStore(
+    (state) => state.setSelectedSchool
+  );
 
   const [validCode, setValidCode] = React.useState(false);
   const [errorCode, setErrorCode] = React.useState("");
   const [posts, setPosts] = React.useState<Post[]>([]);
 
   useEffect(() => {
-    if (schoolCode) {
-      const postsQuery = query(postRef, where("schoolCode", "==", schoolCode));
+    let postsQuery;
 
-      const unsubscribe = onSnapshot(
-        postsQuery,
-        (querySnapshot) => {
-          const fetchedPosts = querySnapshot.docs.map((doc) => doc.data());
-          console.log(fetchedPosts);
-          setPosts(fetchedPosts);
-        },
-        (error) => {
-          console.error("Error fetching posts:", error);
-        }
-      );
-
-      return () => unsubscribe(); // Clean up the listener when the component unmounts
+    // Check if schoolCode is 'All' or not set, then fetch all posts
+    if (selectedSchool === "All" || !selectedSchool) {
+      postsQuery = query(postRef);
+    } else {
+      // Apply filter when a specific school code is selected
+      postsQuery = query(postRef, where("schoolCode", "==", selectedSchool));
     }
-  }, [schoolCode]);
+
+    const unsubscribe = onSnapshot(
+      postsQuery,
+      (querySnapshot) => {
+        const fetchedPosts = querySnapshot.docs.map((doc) => doc.data());
+        console.log(fetchedPosts);
+        setPosts(fetchedPosts);
+      },
+      (error) => {
+        console.error("Error fetching posts:", error);
+      }
+    );
+
+    return () => unsubscribe();
+  }, [selectedSchool]);
 
   const breakpointColumnsObj = {
     default: 4,
