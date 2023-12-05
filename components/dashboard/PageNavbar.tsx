@@ -23,9 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import { schoolSchema } from "@/lib/validations/auth";
-import { useSchoolCodeStore } from "@/store/store";
-import path from "path";
-import { get } from "http";
+import { useSelectedSchoolStore } from "@/store/store";
 
 const PostItemDialog = dynamic(() => import("../item/PostItemDialog"), {
   ssr: false,
@@ -33,7 +31,9 @@ const PostItemDialog = dynamic(() => import("../item/PostItemDialog"), {
 type Inputs = z.infer<typeof schoolSchema>;
 
 const PageNavbar = () => {
-  const setSchoolCode = useSchoolCodeStore((state) => state.setSchoolCode);
+  const setSelectedSchool = useSelectedSchoolStore(
+    (state) => state.setSelectedSchool
+  );
 
   const form = useForm<Inputs>({
     resolver: zodResolver(schoolSchema),
@@ -129,12 +129,6 @@ const PageNavbar = () => {
             )}
           </button>
         </div>
-        {/* <div className="flex justify-center items-center ml-4 xl:ml-0">
-          {icon}
-          <h1 className="text-dark-purple font-semibold text-lg ml-2">
-            {categoryName}
-          </h1>
-        </div> */}
         <div
           className={`fixed inset-y-0 left-0 transform ${
             isMenuOpen ? "translate-x-0" : "-translate-x-full"
@@ -152,7 +146,7 @@ const PageNavbar = () => {
             <div className="mt-8 xl:mt-0">
               <NavLinks onClick={() => setIsMenuOpen(false)} />
             </div>
-            <div className="hidden flex-row items-center gap-x-2 ml-2 xl:ml-0 mt-2 xl:mt-0 mb-4 px-2 py-2 rounded-md">
+            <div className="flex flex-row items-center gap-x-2 ml-2 xl:ml-0 mt-2 xl:mt-0 mb-4 px-2 py-2 rounded-md">
               <Form {...form}>
                 <form className="grid gap-4">
                   <FormField
@@ -163,21 +157,23 @@ const PageNavbar = () => {
                         <Select
                           onValueChange={(value) => {
                             field.onChange(value);
-                            setSchoolCode(value);
+                            setSelectedSchool(value);
                           }}
                           defaultValue={field.value}
-                          disabled={true}
                         >
                           <FormControl>
                             <SelectTrigger className="text-light-white">
-                              <SelectValue placeholder="Select a school" />
+                              <SelectValue placeholder="Select school" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
+                            <SelectItem value="All">All Schools</SelectItem>
                             <SelectItem value="CSYP3141">
                               South Yarra Primary
                             </SelectItem>
-                            <SelectItem value="1234">Test</SelectItem>
+                            <SelectItem value="CMBG3141">
+                              Melbourne Boys Grammar
+                            </SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage />
@@ -196,7 +192,7 @@ const PageNavbar = () => {
             </div>
           )}
         </div>
-        <div className="hidden items-center gap-x-2 px-20 py-2 rounded-md">
+        <div className="hidden xl:flex items-center gap-x-2 px-20 py-2 rounded-md">
           <Form {...form}>
             <form className="grid gap-4">
               <FormField
@@ -207,21 +203,23 @@ const PageNavbar = () => {
                     <Select
                       onValueChange={(value) => {
                         field.onChange(value);
-                        setSchoolCode(value);
+                        setSelectedSchool(value);
                       }}
                       defaultValue={field.value}
-                      disabled={true}
                     >
                       <FormControl>
                         <SelectTrigger className="text-light-white">
-                          <SelectValue placeholder="Select another school" />
+                          <SelectValue placeholder="Select school" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
+                        <SelectItem value="All">All Schools</SelectItem>
                         <SelectItem value="CSYP3141">
                           South Yarra Primary
                         </SelectItem>
-                        <SelectItem value="1234">Test</SelectItem>
+                        <SelectItem value="CMBG3141">
+                          Melbourne Boys Grammar
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
