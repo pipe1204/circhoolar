@@ -158,6 +158,7 @@ const PageNavbar = () => {
                           onValueChange={(value) => {
                             field.onChange(value);
                             setSelectedSchool(value);
+                            setIsMenuOpen(false);
                           }}
                           defaultValue={field.value}
                         >
