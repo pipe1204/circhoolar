@@ -6,9 +6,8 @@ import ChatList from "@/components/user/ChatList";
 
 const page = () => {
   return (
-    <section className="h-full grid grid-cols-6 gap-x-4 rounded-md">
+    <section className="h-full w-full flex rounded-md mx-auto">
       <ChatList />
-      <ChatPage />
     </section>
   );
 };

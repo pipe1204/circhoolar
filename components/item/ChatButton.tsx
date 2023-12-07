@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { useToast } from "../ui/use-toast";
 import { Button } from "../ui/Button";
 import { Icons } from "../Icons";
-import { v4 as uuidv4 } from "uuid";
 import {
   doc,
   getDocs,
@@ -13,7 +12,7 @@ import {
   setDoc,
   where,
 } from "firebase/firestore";
-import { addChatRef, chatsRef } from "@/lib/converters/ChatMembers";
+import { chatsRef } from "@/lib/converters/ChatMembers";
 import { set } from "zod";
 import { db } from "@/firebase";
 

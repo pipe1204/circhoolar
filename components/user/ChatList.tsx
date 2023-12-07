@@ -1,14 +1,119 @@
-import { authOptions } from "@/auth";
-import { getDocs } from "firebase/firestore";
+import { db } from "@/firebase";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  getDoc,
+  deleteDoc,
+} from "firebase/firestore";
 import { useSession } from "next-auth/react";
+import { Post } from "@/types/Types";
+import React, { useEffect, useState } from "react";
+import ChatListRows from "./ChatListRows";
 
-import React from "react";
+type ChatData = {
+  author: string;
+  avatar: string;
+  title: string;
+  createdAt: string;
+  chatId: string;
+};
 
 const ChatList = () => {
   const { data: session } = useSession();
+  const [chatListData, setChatListData] = useState<ChatData[]>([]);
 
-  //   const chatsSnapshot = await getDocs(chatMembersCollectionGroupRef(session?.user?.id))
-  return <div className="col-span-2 bg-white rounded-md">ChatList</div>;
+  useEffect(() => {
+    const fetchChats = async () => {
+      if (session?.user?.id) {
+        // Fetch chats that include the current user's ID
+        const chatsRef = collection(db, "chats");
+        const q = query(
+          chatsRef,
+          where("chatId", ">=", session.user.id),
+          where("chatId", "<=", session.user.id + "\uf8ff")
+        );
+        const chatDocs = await getDocs(q);
+
+        const chatDataPromises = chatDocs.docs.map(async (chatDoc) => {
+          const chatData = chatDoc.data();
+          const postRef = doc(db, "posts", chatData.itemId);
+          const postDoc = await getDoc(postRef);
+
+          if (!postDoc.exists()) {
+            return null; // Handle the case where the post does not exist
+          }
+
+          const postData = postDoc.data() as Post;
+          return {
+            author: postData.author,
+            avatar: postData.avatar,
+            title: postData.title,
+            createdAt: chatData.createdAt.toDate().toLocaleString(),
+            chatId: chatDoc.id,
+          };
+        });
+
+        const formatDate = (createdAt: any) => {
+          if (!createdAt) return "";
+
+          // Check if createdAt is a Firebase Timestamp
+          let messageDate;
+          if (typeof createdAt === "object" && "toDate" in createdAt) {
+            messageDate = createdAt.toDate();
+          } else if (typeof createdAt === "number") {
+            // If createdAt is a number (timestamp in milliseconds)
+            messageDate = new Date(createdAt);
+          } else if (typeof createdAt === "string") {
+            // If createdAt is a string
+            messageDate = new Date(createdAt);
+          } else {
+            return "";
+          }
+
+          const today = new Date();
+          const isToday = messageDate.toDateString() === today.toDateString();
+
+          return isToday
+            ? messageDate.toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })
+            : messageDate.toLocaleDateString();
+        };
+
+        const resolvedChatData = (await Promise.all(chatDataPromises))
+          .filter((data): data is NonNullable<typeof data> => data !== null)
+          .map((chat) => ({
+            ...chat,
+            createdAt: formatDate(chat.createdAt), // Assuming createdAt is a Firebase timestamp
+          }));
+        setChatListData(resolvedChatData);
+      }
+    };
+
+    fetchChats();
+  }, [session]);
+
+  const handleDeleteMessage = async (chatId: string) => {
+    const chatRef = doc(db, "chats", chatId);
+    await deleteDoc(chatRef);
+    setChatListData((prev) => prev.filter((chat) => chat.chatId !== chatId));
+  };
+
+  return (
+    <div className="w-[95%] xl:w-3/4 mx-auto rounded-md p-0 xl:p-10 overflow-y-auto">
+      {chatListData.map((chat, index) => (
+        <ChatListRows
+          key={index}
+          {...chat}
+          onDelete={() => handleDeleteMessage(chat.chatId)}
+        />
+      ))}
+    </div>
+  );
 };
 
 export default ChatList;
