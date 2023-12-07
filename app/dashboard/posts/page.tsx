@@ -1,6 +1,5 @@
 "use client";
 
-import { SchoolCodeForm } from "@/components/SchoolCodeForm";
 import CardItem from "@/components/item/CardItem";
 import { postRef } from "@/lib/converters/Post";
 import { useSchoolCodeStore } from "@/store/store";

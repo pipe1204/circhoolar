@@ -84,3 +84,7 @@ export const profileSchema = z.object({
   }),
   schoolName: z.string()
   })
+
+  export const chatInputSchema = z.object({
+    input: z.string().max(1000),
+  })
