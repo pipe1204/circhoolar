@@ -61,10 +61,7 @@ const ChatInput = ({ chatId }: { chatId: string }) => {
             render={({ field }) => (
               <FormItem className="w-full">
                 <FormControl>
-                  <Input
-                    placeholder="Ask a question or start the conversation"
-                    {...field}
-                  />
+                  <Input placeholder="Start the conversation" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
