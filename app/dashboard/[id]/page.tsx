@@ -5,12 +5,17 @@ import { Button } from "@/components/ui/Button";
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { postRef } from "@/lib/converters/Post";
-import { doc, getDoc } from "firebase/firestore";
+import { deleteDoc, doc, getDoc, setDoc } from "firebase/firestore";
 import { Post } from "@/types/Types";
 import ChatButton from "@/components/user/ChatButton";
+import { useSession } from "next-auth/react";
+import { userRef } from "@/lib/converters/User";
+import { Icons } from "@/components/Icons";
 
 const page = () => {
   const [item, setItem] = useState<Post>();
+  const [isSaved, setIsSaved] = useState(false);
+  const { data: session } = useSession();
   const params = useParams();
 
   useEffect(() => {
@@ -22,6 +27,16 @@ const page = () => {
 
           if (docSnap.exists()) {
             setItem(docSnap.data() as Post);
+
+            if (session?.user?.id) {
+              const savedItemRef = doc(
+                userRef(session.user.id),
+                "savedItems",
+                params.id
+              );
+              const savedItemSnap = await getDoc(savedItemRef);
+              setIsSaved(savedItemSnap.exists());
+            }
           } else {
             console.log("No such document!");
           }
@@ -31,7 +46,22 @@ const page = () => {
       }
     };
     fetchItemData();
-  }, [params.id]);
+  }, [params.id, session?.user?.id]);
+
+  const handleWishlistClick = async () => {
+    if (session?.user?.id && item) {
+      const savedItemRef = doc(userRef(session.user.id), "savedItems", item.id);
+      if (isSaved) {
+        // Remove from wishlist
+        await deleteDoc(savedItemRef);
+        setIsSaved(false);
+      } else {
+        // Add to wishlist
+        await setDoc(savedItemRef, { ...item });
+        setIsSaved(true);
+      }
+    }
+  };
 
   const itemCondition = (condition: string | undefined) => {
     let conditionColor;
@@ -92,10 +122,16 @@ const page = () => {
               <div className="flex justify-around gap-2.5 w-full mb-2">
                 <div className="w-1/2">
                   <Button
+                    onClick={handleWishlistClick}
                     variant={"outlineLight"}
-                    className="w-full hover:text-light-white"
+                    className={`w-full hover:bg-transparent `}
                   >
-                    Add to wishlist
+                    <Icons.heart
+                      fill={`${isSaved ? "dark-purple" : "none"}`}
+                      size={18}
+                      className="mr-2 text-dark-purple"
+                    />
+                    {isSaved ? "Saved" : "Wishlist"}
                   </Button>
                 </div>
                 <div className="w-1/2">

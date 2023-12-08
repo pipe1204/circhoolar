@@ -3,7 +3,7 @@
 import { chatInputSchema } from "@/lib/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import {
@@ -15,13 +15,34 @@ import {
 } from "../ui/form";
 import { Button } from "../ui/Button";
 import { Input } from "../ui/Input";
-import { collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  onSnapshot,
+  serverTimestamp,
+  setDoc,
+} from "firebase/firestore";
 import { db } from "@/firebase";
+import { userRef } from "@/lib/converters/User";
 
 type CahtInput = z.infer<typeof chatInputSchema>;
+interface InputUser {
+  name: string;
+  email: string;
+  image: string;
+}
 
 const ChatInput = ({ chatId }: { chatId: string }) => {
   const { data: session } = useSession();
+  const [inputUser, setInputUser] = useState<InputUser>();
+
+  useEffect(() => {
+    const inputUserRef = userRef(session?.user?.id || "");
+    const unsubscribe = onSnapshot(inputUserRef, (doc) => {
+      setInputUser(doc.data());
+    });
+    return () => unsubscribe();
+  });
 
   const form = useForm<CahtInput>({
     resolver: zodResolver(chatInputSchema),
@@ -40,13 +61,15 @@ const ChatInput = ({ chatId }: { chatId: string }) => {
       text: inputCopy,
       timestamp: serverTimestamp(),
       user: {
-        name: session.user.name,
+        name: inputUser?.name,
         email: session.user.email,
         id: session.user.id,
-        image: session.user.image,
+        image: inputUser?.image,
       },
     });
   }
+
+  console.log(inputUser);
 
   return (
     <div className="sticky bottom-0">

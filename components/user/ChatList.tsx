@@ -54,7 +54,7 @@ const ChatList = () => {
 
           return {
             author: otherUserData?.name || "Unknown User",
-            avatar: otherUserData?.image || "/path/to/default/avatar.jpg", // Default avatar if not set
+            avatar: otherUserData?.image || "/path/to/default/avatar.jpg",
             title: postData.title,
             createdAt: chatData.createdAt.toDate().toLocaleString(),
             chatId: chatDoc.id,
@@ -108,8 +108,6 @@ const ChatList = () => {
     await deleteDoc(chatRef);
     setChatListData((prev) => prev.filter((chat) => chat.chatId !== chatId));
   };
-
-  console.log(chatListData);
 
   return (
     <div className="w-[95%] xl:w-3/4 mx-auto rounded-md p-0 xl:p-10 overflow-y-auto">
