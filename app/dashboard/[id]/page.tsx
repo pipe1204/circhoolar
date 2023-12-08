@@ -1,6 +1,5 @@
 "use client";
 
-import { Icons } from "@/components/Icons";
 import ImageGallery from "@/components/item/ImageGallery";
 import { Button } from "@/components/ui/Button";
 import React, { useEffect, useState } from "react";
@@ -8,6 +7,7 @@ import { useParams } from "next/navigation";
 import { postRef } from "@/lib/converters/Post";
 import { doc, getDoc } from "firebase/firestore";
 import { Post } from "@/types/Types";
+import ChatButton from "@/components/user/ChatButton";
 
 const page = () => {
   const [item, setItem] = useState<Post>();
@@ -107,10 +107,13 @@ const page = () => {
                   </Button>
                 </div>
               </div>
-              <Button variant={"secondary"}>
-                <Icons.message className="text-light-white mr-2" size={18} />
-                Ask a question
-              </Button>
+              <div className="w-full mx-auto">
+                <ChatButton
+                  itemId={item?.id}
+                  authorId={item?.authorId}
+                  avatar={item?.avatar}
+                />
+              </div>
             </div>
             <p className="mt-12 text-base text-gray tracking-wide">
               {item?.description}

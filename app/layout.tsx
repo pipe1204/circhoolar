@@ -2,6 +2,7 @@ import ClientProviders from "@/components/ClientProviders";
 import "./globals.css";
 import FirebaseAuthProvider from "@/components/FirebaseAuthProvider";
 import GlobalStateProvider from "@/components/GlobalStateProvider";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata = {
   title: "Circhoolar",
@@ -20,6 +21,7 @@ export default function RootLayout({
           <FirebaseAuthProvider>
             <GlobalStateProvider>
               <main>{children}</main>
+              <Toaster />
             </GlobalStateProvider>
           </FirebaseAuthProvider>
         </body>
