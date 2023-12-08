@@ -33,7 +33,7 @@ const ChatListRows = ({
 }: ChatDataProps) => {
   const router = useRouter();
   return (
-    <div className="flex justify-between w-full bg-light-white rounded-lg xl:rounded-xl shadow-sm p-2 xl:p-4 mb-4">
+    <div className="flex justify-between w-full bg-light-white rounded-lg xl:rounded-xl shadow-sm px-2 py-4 xl:p-4 mb-4">
       <div
         className="flex cursor-pointer"
         onClick={() => router.push(`/dashboard/messages/${chatId}`)}
