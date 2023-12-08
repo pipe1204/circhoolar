@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import ChatPage from "./[chatId]/page";
 import ChatList from "@/components/user/ChatList";
 
 const page = () => {

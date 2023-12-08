@@ -4,7 +4,6 @@ import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
 import PageNavbar from "@/components/dashboard/PageNavbar";
 import SideNav from "@/components/dashboard/Sidebar";
 import { usePathname } from "next/navigation";
-import path from "path";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -15,7 +14,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <PageNavbar />
       </div>
       <div className="flex flex-grow overflow-hidden">
-        <div className="w-full hidden xl:flex xl:w-64 h-screen overflow-y-auto">
+        <div className="w-full hidden xl:flex xl:w-64 overflow-y-auto">
           <SideNav />
         </div>
         <div className="w-full flex flex-col">

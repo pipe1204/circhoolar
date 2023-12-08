@@ -1,14 +1,13 @@
 "use client";
 
-import { Icons } from "@/components/Icons";
 import ImageGallery from "@/components/item/ImageGallery";
 import { Button } from "@/components/ui/Button";
 import React, { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { postRef } from "@/lib/converters/Post";
 import { doc, getDoc } from "firebase/firestore";
 import { Post } from "@/types/Types";
-import ChatButton from "@/components/item/ChatButton";
+import ChatButton from "@/components/user/ChatButton";
 
 const page = () => {
   const [item, setItem] = useState<Post>();

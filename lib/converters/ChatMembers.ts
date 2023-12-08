@@ -5,11 +5,7 @@ import {
   DocumentData,
   doc,
   collection,
-  where,
-  query,
-  collectionGroup,
 } from "firebase/firestore";
-import { User } from "@/types/Types";
 import { db } from "@/firebase";
 
 export interface ChatMembers {
@@ -56,20 +52,3 @@ export const addChatRef = (chatId: string, userId: string) =>
 export const chatsRef = collection(db, "chats").withConverter(
   chatMembersConverter
 );
-
-export const chatmembersRef = (chatId: string) =>
-  collection(db, "chats", chatId, "members").withConverter(
-    chatMembersConverter
-  );
-
-export const chatMemberAdminRef = (chatId: string) =>
-  query(
-    collection(db, "chats", chatId, "members"),
-    where("isAdmin", "==", true)
-  ).withConverter(chatMembersConverter);
-
-export const chatMembersCollectionGroupRef = (userId: string) =>
-  query(
-    collectionGroup(db, "members"),
-    where("userId", "==", userId)
-  ).withConverter(chatMembersConverter);
