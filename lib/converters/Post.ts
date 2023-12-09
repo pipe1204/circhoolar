@@ -23,7 +23,8 @@ const PostConverter: FirestoreDataConverter<Post> = {
             avatar: data.avatar,
             schoolCode: data.schoolCode,
             updatedAt: data.updatedAt,
-            category: data.category
+            category: data.category,
+            isSold: data.isSold
         } 
         return post;
     }

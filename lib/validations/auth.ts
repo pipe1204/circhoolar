@@ -88,3 +88,7 @@ export const profileSchema = z.object({
   export const chatInputSchema = z.object({
     input: z.string().max(1000),
   })
+
+  export const claimItem = z.object({
+    claim: z.string(),
+  });
