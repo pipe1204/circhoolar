@@ -196,7 +196,7 @@ const CardItem = ({
         </div>
         <div className="relative flex justify-center text-xs uppercase">
           <CardTitle
-            className="bg-background px-2 text-center text-light-white text-[8px] xl:text-[12px]"
+            className="bg-background w-1/2 px-2 text-center text-light-white text-[8px] xl:text-[12px]"
             as="h3"
           >
             {title}
@@ -284,7 +284,7 @@ const CardItem = ({
                   className="w-full text-sm mt-2"
                   onClick={handleSoldItem}
                 >
-                  {isAlreisSoadySold ? "Mark as available" : "Mark as sold"}
+                  {isAlreisSoadySold ? "Available" : "Mark as sold"}
                 </Button>
               </div>
             ) : (

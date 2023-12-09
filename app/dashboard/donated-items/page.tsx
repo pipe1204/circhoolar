@@ -1,5 +1,6 @@
 "use client";
 
+import Billboard from "@/components/Billboard";
 import CardItem from "@/components/item/CardItem";
 import { postRef } from "@/lib/converters/Post";
 import { userRef } from "@/lib/converters/User";
@@ -77,11 +78,7 @@ const page = () => {
           ))}
         </Masonry>
       ) : (
-        <div className="flex justify-center items-center">
-          <h1 className="text-xl xl:text-2xl text-dark-purple font-semibold">
-            You haven't sold or donated any items yet
-          </h1>
-        </div>
+        <Billboard text="You haven't sold or donated any items yet" />
       )}
     </section>
   );
