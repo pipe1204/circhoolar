@@ -14,6 +14,7 @@ import {
   getDocs,
   query,
   setDoc,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { userRef } from "@/lib/converters/User";
@@ -32,6 +33,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { postRef } from "@/lib/converters/Post";
+import { set } from "zod";
 
 interface CardItemProps {
   id: string;
@@ -47,6 +50,7 @@ interface CardItemProps {
   category: string;
   isAlreadySaved: boolean;
   updatingPost?: boolean;
+  isItemSold?: boolean;
   onRemoveFromWishlist?: (itemId: string) => void;
 }
 
@@ -63,15 +67,19 @@ const CardItem = ({
   category,
   isAlreadySaved,
   updatingPost,
+  isItemSold,
   onRemoveFromWishlist,
 }: CardItemProps) => {
   const pathName = usePathname();
   const { data: session } = useSession();
   const [isSaved, setIsSaved] = useState(isAlreadySaved);
+  const [isAlreisSoadySold, setIsAlreadySold] = useState<boolean | undefined>(
+    false
+  );
 
   useEffect(() => {
     const checkSavedStatus = async () => {
-      if (!isAlreadySaved && session?.user?.id) {
+      if (session?.user?.id) {
         const userID = session.user.id;
         const savedItemRef = doc(userRef(userID), "savedItems", id);
         const docSnap = await getDoc(savedItemRef);
@@ -79,6 +87,17 @@ const CardItem = ({
       }
     };
     checkSavedStatus();
+  }, [id, session?.user?.id]);
+
+  useEffect(() => {
+    const checkSoldStatus = async () => {
+      if (session?.user?.id) {
+        const docRef = doc(postRef, id);
+        const docSnap = await getDoc(docRef);
+        setIsAlreadySold(docSnap.data()?.isSold);
+      }
+    };
+    checkSoldStatus();
   }, [id, session?.user?.id]);
 
   const handleWishlistClick = async () => {
@@ -136,6 +155,18 @@ const CardItem = ({
         await deleteDoc(doc.ref); // Delete the saved post from this user's savedItems
       });
     });
+  };
+
+  const handleSoldItem = async () => {
+    const docRef = doc(postRef, id);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      await updateDoc(docRef, {
+        isSold: !docSnap.data().isSold,
+      });
+      setIsAlreadySold(!docSnap.data().isSold);
+    }
   };
 
   const itemCondition = ({ condition }: { condition: string }) => {
@@ -214,66 +245,78 @@ const CardItem = ({
         </h1>
       </div>
       <CardContent>
-        {updatingPost ? (
-          <div className="flex flex-col gap-y-2 justify-center items-center w-full xl:w-3/4 mx-auto">
-            <div className="w-full">
-              <UpdateItemDialog itemId={id} />
-            </div>
-            <AlertDialog>
-              <AlertDialogTrigger className="text-red flex justify-center items-center text-sm">
-                <Icons.trash size={15} className="mr-2" />
-                Delete
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle className="text-light-white">
-                    Are you absolutely sure?
-                  </AlertDialogTitle>
-                  <AlertDialogDescription>
-                    This action cannot be undone. This will permanently delete
-                    your post and remove your data from our servers.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={handleDeleteFromFirebase(id)}
-                    className="bg-red text-light-white"
-                  >
-                    Continue
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          </div>
-        ) : (
-          <div className="flex flex-col gap-y-2 justify-center items-center w-full xl:w-3/4 mx-auto">
-            <div className="w-full">
-              <Link href={`/dashboard/${id}`}>
+        {!isItemSold && (
+          <div>
+            {updatingPost ? (
+              <div className="flex flex-col gap-y-2 justify-center items-center w-full xl:w-3/4 mx-auto">
+                <div className="w-full">
+                  <UpdateItemDialog itemId={id} />
+                </div>
+                <AlertDialog>
+                  <AlertDialogTrigger className="text-red flex justify-center items-center text-sm">
+                    <Icons.trash size={15} className="mr-2" />
+                    Delete
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle className="text-light-white">
+                        Are you absolutely sure?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action cannot be undone. This will permanently
+                        delete your post and remove your data from our servers.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={handleDeleteFromFirebase(id)}
+                        className="bg-red text-light-white"
+                      >
+                        Continue
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
                 <Button
-                  variant={"outline"}
+                  variant={"default"}
                   size={"sm"}
-                  className="w-full text-light-white bg-dark-purple hover:bg-title-color hover:text-light-white"
+                  className="w-full text-sm mt-2"
+                  onClick={handleSoldItem}
                 >
-                  View
+                  {isAlreisSoadySold ? "Mark as available" : "Mark as sold"}
                 </Button>
-              </Link>
-            </div>
-            <div className="w-full">
-              <Button
-                onClick={handleWishlistClick}
-                variant={"outlineLight"}
-                size={"sm"}
-                className={`w-full hover:bg-transparent `}
-              >
-                <Icons.heart
-                  fill={`${isSaved ? "dark-purple" : "none"}`}
-                  size={18}
-                  className="mr-2 text-dark-purple"
-                />
-                {isSaved ? "Saved" : "Wishlist"}
-              </Button>
-            </div>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-y-2 justify-center items-center w-full xl:w-3/4 mx-auto">
+                <div className="w-full">
+                  <Link href={`/dashboard/${id}`}>
+                    <Button
+                      variant={"outline"}
+                      size={"sm"}
+                      className="w-full text-light-white bg-dark-purple hover:bg-title-color hover:text-light-white"
+                    >
+                      View
+                    </Button>
+                  </Link>
+                </div>
+                <div className="w-full">
+                  <Button
+                    onClick={handleWishlistClick}
+                    variant={"outlineLight"}
+                    size={"sm"}
+                    className={`w-full hover:bg-transparent `}
+                  >
+                    <Icons.heart
+                      fill={`${isSaved ? "dark-purple" : "none"}`}
+                      size={18}
+                      className="mr-2 text-dark-purple"
+                    />
+                    {isSaved ? "Saved" : "Wishlist"}
+                  </Button>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </CardContent>

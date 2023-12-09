@@ -44,17 +44,19 @@ const page = () => {
 
     // Check if schoolCode is 'All' or not set, then fetch all posts
     if (selectedSchool === "All" || !selectedSchool) {
-      postsQuery = query(postRef);
+      postsQuery = query(postRef, where("isSold", "==", false));
     } else {
-      // Apply filter when a specific school code is selected
-      postsQuery = query(postRef, where("schoolCode", "==", selectedSchool));
+      postsQuery = query(
+        postRef,
+        where("schoolCode", "==", selectedSchool),
+        where("isSold", "==", false)
+      );
     }
 
     const unsubscribe = onSnapshot(
       postsQuery,
       (querySnapshot) => {
         const fetchedPosts = querySnapshot.docs.map((doc) => doc.data());
-        console.log(fetchedPosts);
         setPosts(fetchedPosts);
       },
       (error) => {
@@ -131,6 +133,7 @@ const page = () => {
                 category={post.category}
                 isAlreadySaved={false}
                 updatingPost={false}
+                isItemSold={false}
               />
             </div>
           ))}

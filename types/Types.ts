@@ -15,6 +15,7 @@ export interface Post {
   createdAt: Timestamp;
   updatedAt: Timestamp;
   category: string;
+  isSold: boolean;
 }
 
 export interface User {

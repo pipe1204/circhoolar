@@ -11,12 +11,39 @@ import ChatButton from "@/components/user/ChatButton";
 import { useSession } from "next-auth/react";
 import { userRef } from "@/lib/converters/User";
 import { Icons } from "@/components/Icons";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { claimItem } from "@/lib/validations/auth";
+import { z } from "zod";
+
+type ClaimItem = z.infer<typeof claimItem>;
 
 const page = () => {
   const [item, setItem] = useState<Post>();
   const [isSaved, setIsSaved] = useState(false);
   const { data: session } = useSession();
   const params = useParams();
+
+  const form = useForm<ClaimItem>({
+    resolver: zodResolver(claimItem),
+    defaultValues: {
+      claim: "",
+    },
+  });
 
   useEffect(() => {
     const fetchItemData = async () => {
@@ -135,12 +162,47 @@ const page = () => {
                   </Button>
                 </div>
                 <div className="w-1/2">
-                  <Button
-                    variant={"outlineLight"}
-                    className="text-background hover:text-light-white w-full"
-                  >
-                    Claim
-                  </Button>
+                  {item?.sellingmethod === "Free" ? (
+                    <Form {...form}>
+                      <form className="grid gap-4">
+                        <FormField
+                          control={form.control}
+                          name="claim"
+                          render={({ field, fieldState: { error } }) => (
+                            <FormItem>
+                              <Select
+                                onValueChange={(value) => {
+                                  field.onChange(value);
+                                }}
+                                defaultValue={field.value}
+                              >
+                                <FormControl>
+                                  <SelectTrigger className="text-light-white">
+                                    <Icons.shrub size={18} />
+                                    <SelectValue placeholder="Claim this item" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectItem value="Donate">Donate</SelectItem>
+                                  <SelectItem value="Collect">
+                                    Collect
+                                  </SelectItem>
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </form>
+                    </Form>
+                  ) : (
+                    <Button
+                      variant={"outlineLight"}
+                      className="text-background hover:text-light-white w-full"
+                    >
+                      Buy now
+                    </Button>
+                  )}
                 </div>
               </div>
               <div className="w-full mx-auto">

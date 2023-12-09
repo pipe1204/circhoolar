@@ -65,6 +65,7 @@ const page = () => {
                 category={post.category}
                 isAlreadySaved={false}
                 updatingPost={true}
+                isItemSold={false}
               />
             </div>
           ))}

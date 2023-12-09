@@ -204,6 +204,7 @@ const PostItemDialog = () => {
           schoolCode: schoolCode || "Unknown",
           createdAt: serverTimestamp(),
           updatedAt: serverTimestamp(),
+          isSold: false,
         };
 
         try {

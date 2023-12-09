@@ -69,8 +69,6 @@ const ChatInput = ({ chatId }: { chatId: string }) => {
     });
   }
 
-  console.log(inputUser);
-
   return (
     <div className="sticky bottom-0">
       <Form {...form}>

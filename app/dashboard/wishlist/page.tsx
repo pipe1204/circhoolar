@@ -78,6 +78,7 @@ const page = () => {
                 isAlreadySaved={true}
                 onRemoveFromWishlist={removeItemFromState}
                 updatingPost={false}
+                isItemSold={false}
               />
             </div>
           ))}
