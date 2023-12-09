@@ -1,5 +1,6 @@
 "use client";
 
+import Billboard from "@/components/Billboard";
 import CardItem from "@/components/item/CardItem";
 import { postRef } from "@/lib/converters/Post";
 import { useSchoolCodeStore } from "@/store/store";
@@ -71,9 +72,7 @@ const page = () => {
           ))}
         </Masonry>
       ) : (
-        <div className="w-full xl:w-3/4 mx-auto mt-20">
-          <h1>Please enter your school code on the Discovery page</h1>
-        </div>
+        <Billboard text="Please enter your school code on the Discovery page" />
       )}
     </section>
   );

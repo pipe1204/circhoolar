@@ -143,7 +143,10 @@ const PageNavbar = () => {
                 <Icons.close className="text-primary-purple" />
               </button>
             </div>
-            <div className="mt-8 xl:mt-0">
+            <div className="mt-8 ml-4">
+              <PostItemDialog />
+            </div>
+            <div className="mt-4 xl:mt-0">
               <NavLinks onClick={() => setIsMenuOpen(false)} />
             </div>
             <div className="flex flex-row items-center gap-x-2 ml-2 xl:ml-0 mt-2 xl:mt-0 mb-4 px-2 py-2 rounded-md">
@@ -188,7 +191,7 @@ const PageNavbar = () => {
         </div>
         <div>
           {pathname === "/dashboard" && (
-            <div className="flex">
+            <div className="hidden xl:flex">
               <PostItemDialog />
             </div>
           )}

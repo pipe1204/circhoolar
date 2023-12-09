@@ -1,5 +1,6 @@
 "use client";
 
+import Billboard from "@/components/Billboard";
 import CardItem from "@/components/item/CardItem";
 import { userRef } from "@/lib/converters/User";
 import { Post } from "@/types/Types";
@@ -84,11 +85,7 @@ const page = () => {
           ))}
         </Masonry>
       ) : (
-        <div className="flex justify-center items-center">
-          <h1 className="text-xl xl:text-2xl text-dark-purple font-semibold">
-            You don't have any saved item
-          </h1>
-        </div>
+        <Billboard text="You don't have any saved items at the moment" />
       )}
     </section>
   );

@@ -29,7 +29,7 @@ const CardSampleCarousel = ({
   conditionColor,
 }: CardItemProps) => {
   return (
-    <Card className="bg-light-white w-full border border-light-white shadow-md rounded-lg overflow-hidden">
+    <Card className="bg-light-white w-4/5 mx-auto border border-light-white shadow-md rounded-lg overflow-hidden">
       <div className="relative mb-2 mt-4">
         <div className="absolute px-4 inset-0 flex items-center">
           <span className="w-full border-t border-background" />
