@@ -44,7 +44,7 @@ const page = () => {
   };
   return (
     <section className="p-2">
-      {code !== undefined || null ? (
+      {myPosts.length > 0 ? (
         <Masonry
           breakpointCols={breakpointColumnsObj}
           className="my-masonry-grid"
@@ -72,7 +72,7 @@ const page = () => {
           ))}
         </Masonry>
       ) : (
-        <Billboard text="Please enter your school code on the Discovery page" />
+        <Billboard text="You haven't created any posts yet" />
       )}
     </section>
   );

@@ -196,7 +196,7 @@ const CardItem = ({
         </div>
         <div className="relative flex justify-center text-xs uppercase">
           <CardTitle
-            className="bg-background w-1/2 px-2 text-center text-light-white text-[8px] xl:text-[12px]"
+            className="bg-background w-1/2 px-2 py-[3px] text-center text-light-white text-[8px] xl:text-[12px] rounded-sm"
             as="h3"
           >
             {title}

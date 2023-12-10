@@ -35,57 +35,61 @@ const ChatListRows = ({
   return (
     <div className="flex justify-between w-full bg-light-white rounded-lg xl:rounded-xl shadow-sm px-2 py-4 xl:p-4 mb-4">
       <div
-        className="flex cursor-pointer"
+        className="w-full flex justify-between cursor-pointer"
         onClick={() => router.push(`/dashboard/messages/${chatId}`)}
       >
-        <div className="relative w-10 h-10 xl:h-12 xl:w-12 rounded-full mr-2 xl:mr-4 overflow-hidden">
-          <Image
-            src={avatar}
-            alt="avatar"
-            width={100}
-            height={100}
-            className="absolute inset-0 object-cover w-full h-full"
-          />
+        <div className="flex">
+          <div className="relative w-10 h-10 xl:h-12 xl:w-12 rounded-full mr-2 xl:mr-4 overflow-hidden">
+            <Image
+              src={avatar}
+              alt="avatar"
+              width={100}
+              height={100}
+              className="absolute inset-0 object-cover w-full h-full"
+            />
+          </div>
+          <div>
+            <h1 className="text-dark-purple font-semibold text-sm xl:text-md">
+              {author}
+            </h1>
+            <p className="text-xs xl:text-sm text-gray">Message</p>
+          </div>
         </div>
-        <div>
-          <h1 className="text-dark-purple font-semibold text-sm xl:text-md">
-            {author}
-          </h1>
-          <p className="text-xs xl:text-sm text-gray">Message</p>
+        <div className="flex items-start">
+          <div className="flex flex-col items-end mr-4">
+            <h1 className="text-gray text-right font-semibold text-sm">
+              {title}
+            </h1>
+            <p className="text-gray text-sm">{createdAt}</p>
+          </div>
         </div>
       </div>
-      <div className="flex items-start">
-        <div className="flex flex-col mr-4">
-          <h1 className="text-gray font-semibold text-sm">{title}</h1>
-          <p className="text-gray text-sm">{createdAt}</p>
-        </div>
-        <div className="flex justify-center items-center rounded-full w-5 h-5 border border-red">
-          <AlertDialog>
-            <AlertDialogTrigger className="text-red flex justify-center items-center text-sm">
-              <Icons.close className="text-red cursor-pointer" size={15} />
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle className="text-light-white">
-                  Are you absolutely sure?
-                </AlertDialogTitle>
-                <AlertDialogDescription>
-                  This action cannot be undone. This will permanently delete
-                  this conversation and remove your data from our servers.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction
-                  onClick={onDelete}
-                  className="bg-red text-light-white"
-                >
-                  Continue
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        </div>
+      <div className="flex justify-center items-center rounded-full w-5 h-5 border border-red">
+        <AlertDialog>
+          <AlertDialogTrigger className="text-red flex justify-center items-center text-sm">
+            <Icons.close className="text-red cursor-pointer" size={15} />
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle className="text-light-white">
+                Are you absolutely sure?
+              </AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete this
+                conversation and remove your data from our servers.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={onDelete}
+                className="bg-red text-light-white"
+              >
+                Continue
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
   );
