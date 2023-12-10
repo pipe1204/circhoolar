@@ -13,6 +13,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import useWindowSize from "@/hooks/useWindowSize";
 
 type ChatDataProps = {
   author: string;
@@ -21,6 +22,7 @@ type ChatDataProps = {
   createdAt: string;
   onDelete?: () => void;
   chatId?: string;
+  lastMessage?: string;
 };
 
 const ChatListRows = ({
@@ -30,8 +32,39 @@ const ChatListRows = ({
   createdAt,
   chatId,
   onDelete,
+  lastMessage,
 }: ChatDataProps) => {
   const router = useRouter();
+  const { width } = useWindowSize();
+
+  const truncateMessage = (message: string | undefined) => {
+    if (typeof width === "undefined" || typeof message === "undefined") {
+      return null;
+    }
+    let maxLength = 50;
+
+    if (width < 768) maxLength = 20;
+    else if (width < 1024) maxLength = 40;
+
+    return message.length > maxLength
+      ? message?.substring(0, maxLength - 3) + "..."
+      : message;
+  };
+
+  const truncateTitle = (title: string | undefined) => {
+    if (typeof width === "undefined" || typeof title === "undefined") {
+      return null;
+    }
+    let maxLength = 30;
+
+    if (width < 768) maxLength = 10;
+    else if (width < 1024) maxLength = 20;
+
+    return title.length > maxLength
+      ? title?.substring(0, maxLength - 3) + "..."
+      : title;
+  };
+
   return (
     <div className="flex justify-between w-full bg-light-white rounded-lg xl:rounded-xl shadow-sm px-2 py-4 xl:p-4 mb-4">
       <div
@@ -52,13 +85,15 @@ const ChatListRows = ({
             <h1 className="text-dark-purple font-semibold text-sm xl:text-md">
               {author}
             </h1>
-            <p className="text-xs xl:text-sm text-gray">Message</p>
+            <p className="text-xs xl:text-sm text-gray">
+              {truncateMessage(lastMessage)}
+            </p>
           </div>
         </div>
         <div className="flex items-start">
           <div className="flex flex-col items-end mr-4">
             <h1 className="text-gray text-right font-semibold text-sm">
-              {title}
+              {truncateTitle(title)}
             </h1>
             <p className="text-gray text-sm">{createdAt}</p>
           </div>

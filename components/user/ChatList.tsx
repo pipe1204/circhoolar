@@ -7,6 +7,8 @@ import {
   doc,
   getDoc,
   deleteDoc,
+  orderBy,
+  limit,
 } from "firebase/firestore";
 import { useSession } from "next-auth/react";
 import { Post } from "@/types/Types";
@@ -19,6 +21,7 @@ type ChatData = {
   title: string;
   createdAt: string;
   chatId: string;
+  lastMessage: string;
 };
 
 const ChatList = () => {
@@ -52,12 +55,24 @@ const ChatList = () => {
 
           const postData = postDoc.data() as Post;
 
+          const messagesQuery = query(
+            collection(db, "chats", chatDoc.id, "messages"),
+            orderBy("timestamp", "desc"),
+            limit(1)
+          );
+          const messagesSnapshot = await getDocs(messagesQuery);
+          const lastMessage = messagesSnapshot.docs[0]?.data()?.text || "";
+
           return {
             author: otherUserData?.name || "Unknown User",
             avatar: otherUserData?.image || "/path/to/default/avatar.jpg",
             title: postData.title,
             createdAt: chatData.createdAt.toDate().toLocaleString(),
             chatId: chatDoc.id,
+            lastMessage:
+              lastMessage.length > 50
+                ? lastMessage.substring(0, 47) + "..."
+                : lastMessage,
           };
         });
 
@@ -125,6 +140,7 @@ const ChatList = () => {
               {...chat}
               onDelete={() => handleDeleteMessage(chat.chatId)}
               chatId={chat.chatId}
+              lastMessage={chat.lastMessage}
             />
           ))}
         </div>
