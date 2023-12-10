@@ -161,7 +161,7 @@ const page = () => {
 
         const messageRef = doc(collection(db, "chats", chatId, "messages"));
         await setDoc(messageRef, {
-          text: `Hi ${item.author}!, I am really interested in the ${item.title}`,
+          text: `Hi ${item.author}! I am interested in the ${item.title}`,
           timestamp: serverTimestamp(),
           user: {
             name: buyer?.name,
