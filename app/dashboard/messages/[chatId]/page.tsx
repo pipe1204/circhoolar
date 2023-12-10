@@ -18,6 +18,7 @@ const ChatPage = async ({ params: { chatId } }: ChatPageProps) => {
   const initialMessages = (await getDocs(sortedMessagesRef(chatId))).docs.map(
     (doc) => doc.data()
   );
+
   return (
     <div className="h-full w-full flex flex-col justify-between gap-y-4 mx-auto rounded-md p-0 xl:p-10 overflow-y-auto">
       <div className="bg-background h-[88%] rounded-lg overflow-y-auto flex-1">
