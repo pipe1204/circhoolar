@@ -3,9 +3,20 @@
 import ImageGallery from "@/components/item/ImageGallery";
 import { Button } from "@/components/ui/Button";
 import React, { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { postRef } from "@/lib/converters/Post";
-import { deleteDoc, doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  onSnapshot,
+  query,
+  serverTimestamp,
+  setDoc,
+  where,
+} from "firebase/firestore";
 import { Post } from "@/types/Types";
 import ChatButton from "@/components/user/ChatButton";
 import { useSession } from "next-auth/react";
@@ -30,20 +41,40 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { claimItem } from "@/lib/validations/auth";
 import { z } from "zod";
 import Link from "next/link";
+import { chatsRef } from "@/lib/converters/ChatMembers";
+import { db } from "@/firebase";
+import { toast } from "@/components/ui/use-toast";
 
 type ClaimItem = z.infer<typeof claimItem>;
+interface Buyer {
+  name: string;
+  email: string;
+  image: string;
+}
 
 const page = () => {
   const [item, setItem] = useState<Post>();
   const [isSaved, setIsSaved] = useState(false);
+  const [buyer, setBuyer] = useState<Buyer>();
   const { data: session } = useSession();
   const params = useParams();
+  const router = useRouter();
 
   const form = useForm<ClaimItem>({
     resolver: zodResolver(claimItem),
     defaultValues: {
       claim: "",
     },
+  });
+
+  useEffect(() => {
+    if (session?.user?.id) {
+      const buyerRef = userRef(session?.user?.id || "");
+      const unsubscribe = onSnapshot(buyerRef, (doc) => {
+        setBuyer(doc.data());
+      });
+      return () => unsubscribe();
+    }
   });
 
   useEffect(() => {
@@ -87,6 +118,66 @@ const page = () => {
         // Add to wishlist
         await setDoc(savedItemRef, { ...item });
         setIsSaved(true);
+      }
+    }
+  };
+
+  const handleClaimOption = async (value: string) => {
+    if (!session?.user?.id || !item?.id || !item.authorId) return;
+
+    if (value === "Collect") {
+      console.log("Yes its collect");
+      const q = query(
+        chatsRef,
+        where("itemId", "==", item.id),
+        where("members", "array-contains", session.user.id)
+      );
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        toast({
+          title: "Contacting seller...",
+          description: "Hold on tight. Taking you there shortly.",
+          duration: 3000,
+        });
+        setTimeout(() => {
+          const existingChat = querySnapshot.docs[0].data();
+          router.push(`/dashboard/messages/${existingChat.chatId}`);
+        }, 3000);
+      } else {
+        toast({
+          title: "Contacting seller now...",
+          description: "Please wait while we put you in touch.",
+          duration: 3000,
+        });
+        const chatId = session.user.id + "-" + item.authorId + "-" + item.id;
+        await setDoc(doc(db, "chats", chatId), {
+          itemId: item.id,
+          avatar: item.avatar,
+          members: [session.user.id, item.authorId],
+          createdAt: serverTimestamp(),
+          chatId: chatId,
+        });
+
+        const messageRef = doc(collection(db, "chats", chatId, "messages"));
+        await setDoc(messageRef, {
+          text: `Hi ${item.author}!, I am really interested in the ${item.title}`,
+          timestamp: serverTimestamp(),
+          user: {
+            name: buyer?.name,
+            email: session.user.email,
+            id: session.user.id,
+            image: buyer?.image,
+          },
+        });
+
+        console.log("Usrr has not a conversation");
+        router.push(`/dashboard/messages/${chatId}`);
+      }
+    } else {
+      console.log("The option is: ", value);
+      {
+        /**Crate logic for donation */
       }
     }
   };
@@ -175,6 +266,7 @@ const page = () => {
                                 <Select
                                   onValueChange={(value) => {
                                     field.onChange(value);
+                                    handleClaimOption(value);
                                   }}
                                   defaultValue={field.value}
                                 >
@@ -218,11 +310,11 @@ const page = () => {
                 </div>
               </div>
             ) : (
-              <p className="italic text-dark-purple">
+              <p className="text-dark-purple text-sm">
                 To edit your post go to{" "}
                 <Link
                   href={"/dashboard/posts"}
-                  className=" underline text-background"
+                  className=" underline text-background italic hover:text-dark-purple"
                 >
                   My posts page
                 </Link>

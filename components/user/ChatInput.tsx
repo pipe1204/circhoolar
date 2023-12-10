@@ -37,12 +37,14 @@ const ChatInput = ({ chatId }: { chatId: string }) => {
   const [inputUser, setInputUser] = useState<InputUser>();
 
   useEffect(() => {
-    const inputUserRef = userRef(session?.user?.id || "");
-    const unsubscribe = onSnapshot(inputUserRef, (doc) => {
-      setInputUser(doc.data());
-    });
-    return () => unsubscribe();
-  });
+    if (session?.user?.id) {
+      const inputUserRef = userRef(session.user.id);
+      const unsubscribe = onSnapshot(inputUserRef, (doc) => {
+        setInputUser(doc.data());
+      });
+      return () => unsubscribe();
+    }
+  }, [session?.user?.id]);
 
   const form = useForm<CahtInput>({
     resolver: zodResolver(chatInputSchema),
