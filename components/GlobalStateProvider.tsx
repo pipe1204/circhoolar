@@ -4,6 +4,7 @@ import { db } from "@/firebase";
 import { codeRef } from "@/lib/converters/SchoolCode";
 import { userRef } from "@/lib/converters/User";
 import {
+  useCurrentChatStore,
   useSchoolCodeStore,
   useSchoolNameStore,
   useTotalUnreadMessagesStore,
@@ -19,7 +20,7 @@ import {
   where,
 } from "firebase/firestore";
 import { useSession } from "next-auth/react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 function GlobalStateProvider({ children }: { children: React.ReactNode }) {
   const { data: session } = useSession();
@@ -30,34 +31,52 @@ function GlobalStateProvider({ children }: { children: React.ReactNode }) {
   const setTotalUnreadMessages = useTotalUnreadMessagesStore(
     (state) => state.setTotalUnreadMessages
   );
+  const currentChatId = useCurrentChatStore((state) => state.currentChatId);
 
-  const fetchTotalUnreadMessages = async () => {
-    if (session?.user?.id) {
-      const chatsRef = collection(db, "chats");
-      const q = query(
-        chatsRef,
-        where("members", "array-contains", session.user.id)
-      );
-      const chatDocs = await getDocs(q);
-      let totalUnreadCount = 0;
-
-      for (const chatDoc of chatDocs.docs) {
-        const unreadMessagesQuery = query(
-          collection(db, "chats", chatDoc.id, "messages"),
-          where("isRead", "==", false),
-          where("user.id", "!=", session.user.id)
-        );
-        const unreadMessagesSnapshot = await getDocs(unreadMessagesQuery);
-        totalUnreadCount += unreadMessagesSnapshot.docs.length;
-      }
-
-      setTotalUnreadMessages(totalUnreadCount);
-    }
-  };
+  const [chatUnreadCounts, setChatUnreadCounts] = useState({});
 
   useEffect(() => {
-    fetchTotalUnreadMessages();
-  }, [session?.user?.id]);
+    if (!session?.user?.id) return;
+
+    const chatsRef = collection(db, "chats");
+    const q = query(
+      chatsRef,
+      where("members", "array-contains", session.user.id)
+    );
+
+    const unsubscribeChats = onSnapshot(q, (snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        const chatId = change.doc.id;
+
+        if (chatId === currentChatId) return;
+
+        if (change.type === "added" || change.type === "modified") {
+          const unreadMessagesQuery = query(
+            collection(db, "chats", chatId, "messages"),
+            where("isRead", "==", false),
+            where("user.id", "!=", session.user.id)
+          );
+
+          onSnapshot(unreadMessagesQuery, (messagesSnapshot) => {
+            setChatUnreadCounts((prevCounts) => ({
+              ...prevCounts,
+              [chatId]: messagesSnapshot.docs.length,
+            }));
+          });
+        }
+      });
+    });
+
+    return () => unsubscribeChats();
+  }, [session?.user?.id, currentChatId]);
+
+  useEffect(() => {
+    const totalUnread = Object.values(chatUnreadCounts).reduce(
+      (total: number, count: any) => total + count,
+      0
+    );
+    setTotalUnreadMessages(totalUnread);
+  }, [chatUnreadCounts, setTotalUnreadMessages]);
 
   useEffect(() => {
     if (!session) return;

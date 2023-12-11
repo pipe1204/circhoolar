@@ -64,3 +64,13 @@ export const useTotalUnreadMessagesStore = create<TotalUnreadMessagesState>((set
     totalUnreadMessages: null,
     setTotalUnreadMessages: (totalUnreadMessages: number | null) => set({totalUnreadMessages})
 }))
+
+interface CurrentChatState {
+    currentChatId: string | null;
+    setCurrentChatId: (chatId: string | null) => void;
+  }
+  
+  export const useCurrentChatStore = create<CurrentChatState>((set) => ({
+    currentChatId: null,
+    setCurrentChatId: (chatId) => set({ currentChatId: chatId })
+  }));
