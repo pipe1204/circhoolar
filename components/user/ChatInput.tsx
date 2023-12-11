@@ -61,6 +61,7 @@ const ChatInput = ({ chatId }: { chatId: string }) => {
     const messageRef = doc(collection(db, "chats", chatId, "messages"));
     await setDoc(messageRef, {
       text: inputCopy,
+      isRead: false,
       timestamp: serverTimestamp(),
       user: {
         name: inputUser?.name,

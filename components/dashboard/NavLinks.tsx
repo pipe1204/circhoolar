@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Icons } from "../Icons";
+import { use } from "react";
+import { useTotalUnreadMessagesStore } from "@/store/store";
 
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
@@ -60,6 +62,9 @@ interface NavLinksProps {
 }
 
 export default function NavLinks({ onClick }: NavLinksProps) {
+  const totalUnreadMessages = useTotalUnreadMessagesStore(
+    (state) => state.totalUnreadMessages
+  );
   const pathName = usePathname();
   return (
     <>
@@ -70,6 +75,10 @@ export default function NavLinks({ onClick }: NavLinksProps) {
               {link.title}
             </h1>
             {link.links.map((link) => {
+              const showUnreadMessagesIndicator =
+                totalUnreadMessages !== null &&
+                totalUnreadMessages > 0 &&
+                link.name === "Messages";
               return (
                 <Link
                   key={link.name}
@@ -82,6 +91,13 @@ export default function NavLinks({ onClick }: NavLinksProps) {
                 >
                   {link.icon}
                   <p className="block">{link.name}</p>
+                  {showUnreadMessagesIndicator && (
+                    <div className="w-5 h-5 bg-red rounded-full flex justify-center items-center">
+                      <span className="text-light-white font-semibold text-xs">
+                        {totalUnreadMessages}
+                      </span>
+                    </div>
+                  )}
                 </Link>
               );
             })}

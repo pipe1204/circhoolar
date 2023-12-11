@@ -14,6 +14,7 @@ import { useSession } from "next-auth/react";
 import { Post } from "@/types/Types";
 import React, { useEffect, useState } from "react";
 import ChatListRows from "./ChatListRows";
+import { useTotalUnreadMessagesStore } from "@/store/store";
 
 type ChatData = {
   author: string;
@@ -22,11 +23,18 @@ type ChatData = {
   createdAt: string;
   chatId: string;
   lastMessage: string;
+  unreadCount: number;
 };
 
 const ChatList = () => {
   const { data: session } = useSession();
   const [chatListData, setChatListData] = useState<ChatData[]>([]);
+  const setTotalUnreadMessages = useTotalUnreadMessagesStore(
+    (state) => state.setTotalUnreadMessages
+  );
+  const totalUnreadMessages = useTotalUnreadMessagesStore(
+    (state) => state.totalUnreadMessages
+  );
 
   useEffect(() => {
     const fetchChats = async () => {
@@ -37,6 +45,8 @@ const ChatList = () => {
           where("members", "array-contains", session.user.id)
         );
         const chatDocs = await getDocs(q);
+
+        let totalUnreadCount = 0;
 
         const chatDataPromises = chatDocs.docs.map(async (chatDoc) => {
           const chatData = chatDoc.data();
@@ -63,6 +73,16 @@ const ChatList = () => {
           const messagesSnapshot = await getDocs(messagesQuery);
           const lastMessage = messagesSnapshot.docs[0]?.data()?.text || "";
 
+          const unreadMessagesQuery = query(
+            collection(db, "chats", chatDoc.id, "messages"),
+            where("isRead", "==", false),
+            where("user.id", "!=", session.user.id)
+          );
+          const unreadMessagesSnapshot = await getDocs(unreadMessagesQuery);
+          const unreadCount = unreadMessagesSnapshot.docs.length;
+
+          totalUnreadCount += unreadCount;
+
           return {
             author: otherUserData?.name || "Unknown User",
             avatar: otherUserData?.image || "/path/to/default/avatar.jpg",
@@ -73,6 +93,7 @@ const ChatList = () => {
               lastMessage.length > 50
                 ? lastMessage.substring(0, 47) + "..."
                 : lastMessage,
+            unreadCount,
           };
         });
 
@@ -112,6 +133,7 @@ const ChatList = () => {
           }));
 
         setChatListData(resolvedChatData);
+        setTotalUnreadMessages(totalUnreadCount);
       }
     };
 

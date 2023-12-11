@@ -54,3 +54,13 @@ export const useCategoriesStore = create<CategoriesState>((set) => ({
     categories: null,
     setCategories: (categories: string[] | null) => set({categories})
 }))
+
+interface TotalUnreadMessagesState {
+    totalUnreadMessages: number | null;
+    setTotalUnreadMessages: (totalUnreadMessages: number | null) => void;
+}
+
+export const useTotalUnreadMessagesStore = create<TotalUnreadMessagesState>((set) => ({
+    totalUnreadMessages: null,
+    setTotalUnreadMessages: (totalUnreadMessages: number | null) => set({totalUnreadMessages})
+}))
