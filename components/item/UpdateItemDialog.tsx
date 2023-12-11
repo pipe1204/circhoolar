@@ -408,6 +408,13 @@ const UpdateItemDialog = ({ itemId }: UpdateItemDialogProps) => {
                         </SelectItem>
                         <SelectItem value="Furniture">Furniture</SelectItem>
                         <SelectItem value="Electronics">Electronics</SelectItem>
+                        <SelectItem value="Sporting goods">
+                          Sportin goods
+                        </SelectItem>
+                        <SelectItem value="Home and Garden">
+                          Home and Garden
+                        </SelectItem>
+                        <SelectItem value="Vehicles">Vehicles</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />

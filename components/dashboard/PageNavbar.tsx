@@ -23,7 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import { schoolSchema } from "@/lib/validations/auth";
-import { useSelectedSchoolStore } from "@/store/store";
+import { useCategoriesStore, useSelectedSchoolStore } from "@/store/store";
 
 const PostItemDialog = dynamic(() => import("../item/PostItemDialog"), {
   ssr: false,
@@ -34,6 +34,8 @@ const PageNavbar = () => {
   const setSelectedSchool = useSelectedSchoolStore(
     (state) => state.setSelectedSchool
   );
+
+  const setCategories = useCategoriesStore((state) => state.setCategories);
 
   const form = useForm<Inputs>({
     resolver: zodResolver(schoolSchema),
@@ -98,10 +100,20 @@ const PageNavbar = () => {
   };
 
   const handleCategoryChange = (category: string) => {
-    setSelectedCategories((prev) => ({
-      ...prev,
-      [category]: !prev[category],
-    }));
+    setSelectedCategories((prev) => {
+      const updatedCategories = {
+        ...prev,
+        [category]: !prev[category],
+      };
+
+      // Update the global categories state
+      const selected = Object.entries(updatedCategories)
+        .filter(([_, isSelected]) => isSelected)
+        .map(([category]) => category);
+      setCategories(selected);
+
+      return updatedCategories;
+    });
   };
 
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -114,7 +126,7 @@ const PageNavbar = () => {
     <nav className="bg-light-white flex justify-between items-center border border-light-white-500 shadow-md w-full h-16">
       <div
         className={`flex ${
-          lastSegment === "dashboard" ? "justify-between" : "justify-start"
+          lastSegment === "dashboard" ? "justify-start" : "justify-start"
         } xl:justify-between items-center mx-6 xl:mx-10 w-full`}
       >
         <div className="xl:hidden flex justify-end items-center">
@@ -234,14 +246,14 @@ const PageNavbar = () => {
           </Form>
         </div>
         {categoryName === "Discover" && (
-          <div className="">
+          <div className="ml-8 xl:ml-0">
             <button
               onClick={toggleDropdown}
               className="flex gap-x-2 items-center rounded-md border-[1px] border-light-white-400 px-2 xl:px-8 py-[4px] bg-light-white shadow-sm cursor-pointer"
             >
               <Icons.backpack className="text-dark-purple" size={20} />
               <h1 className="text-dark-purple text-md font-semibold">
-                Category
+                Categories
               </h1>
             </button>
             {isDropdownOpen && (

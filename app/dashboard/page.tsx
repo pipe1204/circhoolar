@@ -7,7 +7,6 @@ import Masonry from "react-masonry-css";
 import {
   getDoc,
   updateDoc,
-  setDoc,
   doc,
   query,
   where,
@@ -17,6 +16,7 @@ import { codeRef } from "@/lib/converters/SchoolCode";
 import { useSession } from "next-auth/react";
 import { userRef } from "@/lib/converters/User";
 import {
+  useCategoriesStore,
   useSchoolCodeStore,
   useSelectedSchoolStore,
   useUserNameStore,
@@ -31,9 +31,7 @@ const page = () => {
   const selectedSchool = useSelectedSchoolStore(
     (state) => state.selectedSchool
   );
-  const setSelectedSchool = useSelectedSchoolStore(
-    (state) => state.setSelectedSchool
-  );
+  const categories = useCategoriesStore((state) => state.categories);
 
   const [validCode, setValidCode] = React.useState(false);
   const [errorCode, setErrorCode] = React.useState("");
@@ -42,7 +40,6 @@ const page = () => {
   useEffect(() => {
     let postsQuery;
 
-    // Check if schoolCode is 'All' or not set, then fetch all posts
     if (selectedSchool === "All" || !selectedSchool) {
       postsQuery = query(postRef, where("isSold", "==", false));
     } else {
@@ -51,6 +48,10 @@ const page = () => {
         where("schoolCode", "==", selectedSchool),
         where("isSold", "==", false)
       );
+    }
+
+    if (categories && categories.length > 0) {
+      postsQuery = query(postsQuery, where("category", "in", categories));
     }
 
     const unsubscribe = onSnapshot(
@@ -65,7 +66,7 @@ const page = () => {
     );
 
     return () => unsubscribe();
-  }, [selectedSchool]);
+  }, [selectedSchool, categories]);
 
   const breakpointColumnsObj = {
     default: 4,

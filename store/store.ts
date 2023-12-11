@@ -44,3 +44,13 @@ export const useSelectedSchoolStore = create<SelectedSchoolState>((set) => ({
     selectedSchool: null,
     setSelectedSchool: (selectedSchool: string | null) => set({selectedSchool})
 }))
+
+interface CategoriesState {
+    categories: string[] | null;
+    setCategories: (categories: string[] | null) => void;
+}
+
+export const useCategoriesStore = create<CategoriesState>((set) => ({
+    categories: null,
+    setCategories: (categories: string[] | null) => set({categories})
+}))
