@@ -67,8 +67,6 @@ const ChatListRows = ({
       : title;
   };
 
-  console.log(lastMessage);
-
   return (
     <div className="relative flex justify-between w-full bg-light-white rounded-lg xl:rounded-xl shadow-sm px-2 py-4 xl:p-4 mb-4 mt-4">
       {unreadCount > 0 && (

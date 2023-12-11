@@ -279,12 +279,12 @@ const CardItem = ({
                   </AlertDialogContent>
                 </AlertDialog>
                 <Button
-                  variant={"default"}
+                  variant={"link"}
                   size={"sm"}
-                  className="w-full text-sm mt-2"
+                  className="w-full text-sm mt-2 text-background underline"
                   onClick={handleSoldItem}
                 >
-                  {isAlreisSoadySold ? "Available" : "Mark as sold"}
+                  {isAlreisSoadySold ? "Back available" : "Mark as sold"}
                 </Button>
               </div>
             ) : (
