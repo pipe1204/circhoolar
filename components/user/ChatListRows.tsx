@@ -23,6 +23,7 @@ type ChatDataProps = {
   onDelete?: () => void;
   chatId?: string;
   lastMessage?: string;
+  unreadCount?: number;
 };
 
 const ChatListRows = ({
@@ -33,6 +34,7 @@ const ChatListRows = ({
   chatId,
   onDelete,
   lastMessage,
+  unreadCount = 0,
 }: ChatDataProps) => {
   const router = useRouter();
   const { width } = useWindowSize();
@@ -65,8 +67,17 @@ const ChatListRows = ({
       : title;
   };
 
+  console.log(lastMessage);
+
   return (
-    <div className="flex justify-between w-full bg-light-white rounded-lg xl:rounded-xl shadow-sm px-2 py-4 xl:p-4 mb-4">
+    <div className="relative flex justify-between w-full bg-light-white rounded-lg xl:rounded-xl shadow-sm px-2 py-4 xl:p-4 mb-4 mt-4">
+      {unreadCount > 0 && (
+        <div className="w-5 h-5 bg-red rounded-full flex justify-center items-center absolute top-[-8px]">
+          <span className="text-light-white font-semibold text-xs">
+            {unreadCount}
+          </span>
+        </div>
+      )}
       <div
         className="w-full flex justify-between cursor-pointer"
         onClick={() => router.push(`/dashboard/messages/${chatId}`)}
@@ -86,7 +97,9 @@ const ChatListRows = ({
               {author}
             </h1>
             <p className="text-xs xl:text-sm text-gray">
-              {truncateMessage(lastMessage)}
+              {lastMessage && lastMessage.length > 0
+                ? truncateMessage(lastMessage)
+                : "Start the conversation..."}
             </p>
           </div>
         </div>

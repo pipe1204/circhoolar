@@ -136,8 +136,8 @@ const page = () => {
 
       if (!querySnapshot.empty) {
         toast({
-          title: "Contacting seller...",
-          description: "Hold on tight. Taking you there shortly.",
+          title: "Contacting author...",
+          description: "Hold on tight. Taking you there now.",
           duration: 3000,
         });
         setTimeout(() => {
@@ -146,8 +146,8 @@ const page = () => {
         }, 3000);
       } else {
         toast({
-          title: "Contacting seller now...",
-          description: "Please wait while we put you in touch.",
+          title: "Contacting author...",
+          description: "Please wait while we create the chat room.",
           duration: 3000,
         });
         const chatId = session.user.id + "-" + item.authorId + "-" + item.id;
@@ -171,7 +171,7 @@ const page = () => {
           },
         });
 
-        console.log("Usrr has not a conversation");
+        console.log("User has not a conversation");
         router.push(`/dashboard/messages/${chatId}`);
       }
     } else {

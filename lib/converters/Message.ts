@@ -20,6 +20,7 @@ import {
   export interface Message {
     id: string;
     text: string;
+    isRead: boolean;
     timestamp: Date | null;
     user: ChatUser;
   }
@@ -28,6 +29,7 @@ import {
     toFirestore: function (message: Message): DocumentData {
       return {
         text: message.text,
+        isRead: message.isRead,
         timestamp: message.timestamp,
         user: message.user,
       };
@@ -40,6 +42,7 @@ import {
       return {
         id: snapshot.id,
         text: data.text,
+        isRead: data.isRead,
         timestamp: data.timestamp?.toDate(),
         user: data.user,
       };
