@@ -7,8 +7,13 @@ export const NavLinks = [
     "Clothing",
     "Toys",
     "Books",
-    "Infant & toddler",
+    "Infant & Toddler",
     "School supplies",
+    "Furniture",
+    "Sporting goods",
+    "Electronics",
+    "Home and Garden",
+    "Vehicles",
   ]
   
   export const footerLinks = [
