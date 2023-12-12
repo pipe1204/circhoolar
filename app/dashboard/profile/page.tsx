@@ -10,16 +10,15 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { codeRef } from "@/lib/converters/SchoolCode";
-import { userRef } from "@/lib/converters/User";
-import { profileSchema, schoolSchema } from "@/lib/validations/auth";
+import useImageUpload from "@/hooks/useImageUpload";
+import useProfileEdit from "@/hooks/useProfileEdit";
+import { profileSchema } from "@/lib/validations/auth";
 import {
   useSchoolCodeStore,
   useSchoolNameStore,
   useUserNameStore,
 } from "@/store/store";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
@@ -31,23 +30,30 @@ type Inputs = z.infer<typeof profileSchema>;
 const page = () => {
   const { data: session } = useSession();
   const profileIamge = useUserNameStore((state) => state.profileImage);
-  const setProfileImage = useUserNameStore((state) => state.setProfileImage);
   const userName = useUserNameStore((state) => state.userName) || "";
   const schoolCode = useSchoolCodeStore((state) => state.schoolCode) || "";
-  const setUserName = useUserNameStore((state) => state.setUserName);
-  const setSchoolCode = useSchoolCodeStore((state) => state.setSchoolCode);
-  const setSchoolName = useSchoolNameStore((state) => state.setSchoolName);
   const schoolName = useSchoolNameStore((state) => state.schoolName) || "";
-  const isBrowser = typeof window !== "undefined";
 
   const { register, handleSubmit } = useForm();
+  const {
+    files,
+    fileObjects,
+    isLoading: isImageLoading,
+    imageSelected,
+    onImageUpload,
+    onDeleteFile,
+    onImageSubmit,
+  } = useImageUpload();
+  const {
+    editProfile,
+    error,
+    isLoading: isProfileLoading,
+    hideEditProfile,
+    handleEditProfile,
+    handleCancelEditProfile,
+    handleProfileSubmit,
+  } = useProfileEdit();
 
-  const [files, setFiles] = useState<string[]>([]);
-  const [fileObjects, setFileObjects] = useState<File[]>([]);
-  const [imageSelected, setImageSelected] = useState(true);
-  const [editProfile, setEditProfile] = useState(true);
-  const [hideEditProfile, setHideEditProfile] = useState(false);
-  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<Inputs>({
@@ -68,127 +74,6 @@ const page = () => {
       form.setValue("schoolName", schoolName);
     }
   }, [userName, form, schoolName, schoolCode]);
-
-  const onImageUpload = async (data: any) => {
-    if (isBrowser) {
-      if (data.image.length > 0) {
-        const image = data.image[0];
-        setFiles([...files, image.name]);
-        setFileObjects((currentFiles) => [...currentFiles, image]);
-
-        const fileInput = document.getElementById(
-          "file_input"
-        ) as HTMLInputElement;
-        if (fileInput) {
-          fileInput.value = "";
-        }
-        setImageSelected(false);
-      }
-    }
-  };
-
-  //Delete files
-  const onDeleteFile = () => {
-    setFiles([]);
-    setFileObjects([]);
-    setImageSelected(true);
-  };
-
-  //Uploading files to CLoudinary and Firebase
-  async function onImageSubmit() {
-    if (fileObjects.length > 0) {
-      setIsLoading(true);
-      try {
-        const uploadedImageUrls = await Promise.all(
-          fileObjects.map(async (file) => {
-            const formData = new FormData();
-            formData.append("file", file);
-            formData.append("upload_preset", "circhoolar");
-
-            const response = await fetch(
-              `https://api.cloudinary.com/v1_1/circhoo/image/upload`,
-              {
-                method: "POST",
-                body: formData,
-              }
-            );
-
-            const data = await response.json();
-            return data.secure_url;
-          })
-        );
-
-        //Updating Firebase.
-        const userDocRef = userRef(session?.user?.id || "");
-        const docSnapshot = await getDoc(userDocRef);
-
-        if (docSnapshot.exists()) {
-          await updateDoc(userDocRef, { image: uploadedImageUrls[0] });
-          setProfileImage(uploadedImageUrls[0]);
-        } else {
-          console.log("No such document!");
-        }
-
-        setFiles([]);
-        setFileObjects([]);
-        setImageSelected(true);
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Error uploading images:", error);
-      }
-    }
-  }
-
-  const handleEditProfile = () => {
-    setEditProfile(false);
-    setHideEditProfile(true);
-  };
-
-  const handleCancelEditProfile = () => {
-    setEditProfile(true);
-    setHideEditProfile(false);
-    setError("");
-    form.setValue("name", userName);
-    form.setValue("schoolCode", schoolCode);
-  };
-
-  const onSubmit = async (data: Inputs) => {
-    setIsLoading(true);
-
-    if (data.name === userName && data.schoolCode === schoolCode) {
-      setHideEditProfile(false);
-      setIsLoading(false);
-      setEditProfile(true);
-    } else {
-      const userDocRef = userRef(session?.user?.id || "");
-
-      // Check if the school code exists in the 'schools' collection
-      const schoolDocRef = doc(codeRef, data.schoolCode);
-      const schoolDocSnapshot = await getDoc(schoolDocRef);
-
-      if (schoolDocSnapshot.exists()) {
-        // School code is valid, update user's profile
-        await updateDoc(userDocRef, {
-          name: data.name,
-          schoolCode: data.schoolCode,
-        });
-
-        setUserName(data.name);
-        setSchoolCode(data.schoolCode);
-        setSchoolName(schoolDocSnapshot.data()?.name);
-        setEditProfile(true);
-        setHideEditProfile(false);
-        setIsLoading(false);
-
-        console.log("Profile updated successfully");
-      } else {
-        setError("Invalid school code");
-        form.setValue("schoolCode", schoolCode);
-        setIsLoading(false);
-        console.error("Invalid school code");
-      }
-    }
-  };
 
   return (
     <section className="bg-light-white w-11/12 xl:w-3/4 mx-auto my-8 p-10 shadow-md rounded-lg flex flex-col justify-center items-center">
@@ -240,14 +125,16 @@ const page = () => {
           onClick={onImageSubmit}
           className="hover:text-light-white"
         >
-          {isLoading ? "Uploading..." : "Update profile image"}
+          {isImageLoading ? "Uploading..." : "Update profile image"}
         </Button>
       </div>
       <div className="w-full xl:w-1/2 mt-8">
         <Form {...form}>
           <form
             className="grid gap-4"
-            onSubmit={(...args) => void form.handleSubmit(onSubmit)(...args)}
+            onSubmit={(...args) =>
+              void form.handleSubmit(handleProfileSubmit)(...args)
+            }
           >
             <FormField
               control={form.control}
@@ -351,7 +238,7 @@ const page = () => {
               type="button"
               disabled={hideEditProfile}
             >
-              {isLoading ? "Loading..." : "Edit profile"}
+              {isProfileLoading ? "Loading..." : "Edit profile"}
             </Button>
             {error && <p className="text-red text-center">{error}</p>}
           </form>

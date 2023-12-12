@@ -2,39 +2,12 @@
 
 import Billboard from "@/components/Billboard";
 import CardItem from "@/components/item/CardItem";
-import { postRef } from "@/lib/converters/Post";
-import { useSchoolCodeStore } from "@/store/store";
-import { Post } from "@/types/Types";
-import { onSnapshot, query, where } from "firebase/firestore";
-import { useSession } from "next-auth/react";
-import React, { useEffect } from "react";
+import useUserPosts from "@/hooks/useUserPosts";
+import React from "react";
 import Masonry from "react-masonry-css";
 
 const page = () => {
-  const { data: session } = useSession();
-  const code = useSchoolCodeStore((state) => state.schoolCode);
-  const [myPosts, setMyPosts] = React.useState<Post[]>([]);
-  useEffect(() => {
-    if (session?.user?.id) {
-      const postsQuery = query(
-        postRef,
-        where("authorId", "==", session?.user?.id)
-      );
-
-      const unsubscribe = onSnapshot(
-        postsQuery,
-        (querySnapshot) => {
-          const fetchedPosts = querySnapshot.docs.map((doc) => doc.data());
-          setMyPosts(fetchedPosts);
-        },
-        (error) => {
-          console.error("Error fetching posts:", error);
-        }
-      );
-
-      return () => unsubscribe(); // Clean up the listener when the component unmounts
-    }
-  }, []);
+  const { myPosts } = useUserPosts();
 
   const breakpointColumnsObj = {
     default: 4,

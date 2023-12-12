@@ -2,45 +2,12 @@
 
 import Billboard from "@/components/Billboard";
 import CardItem from "@/components/item/CardItem";
-import { userRef } from "@/lib/converters/User";
-import { Post } from "@/types/Types";
-import { collection, getDocs } from "firebase/firestore";
-import { useSession } from "next-auth/react";
-import React, { useEffect, useState } from "react";
+import useSavedPosts from "@/hooks/useSavedPosts";
+import React from "react";
 import Masonry from "react-masonry-css";
 
-interface SavedItem {
-  docId: string;
-  postData: Post;
-}
-
 const page = () => {
-  const [savedItems, setSavedItems] = useState<SavedItem[]>([]);
-  const { data: session } = useSession();
-
-  useEffect(() => {
-    const fetchSavedItems = async () => {
-      if (session?.user?.id) {
-        const savedItemsRef = collection(
-          userRef(session.user.id),
-          "savedItems"
-        );
-        const querySnapshot = await getDocs(savedItemsRef);
-        const items = querySnapshot.docs.map((doc) => ({
-          docId: doc.id,
-          postData: doc.data() as Post,
-        }));
-        setSavedItems(items);
-      }
-    };
-    fetchSavedItems();
-  }, [session?.user?.id]);
-
-  const removeItemFromState = (itemId: string) => {
-    setSavedItems((currentItems) =>
-      currentItems.filter((item) => item.docId !== itemId)
-    );
-  };
+  const { savedItems, removeItemFromState } = useSavedPosts();
 
   const breakpointColumnsObj = {
     default: 4,

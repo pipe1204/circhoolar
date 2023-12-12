@@ -2,43 +2,12 @@
 
 import Billboard from "@/components/Billboard";
 import CardItem from "@/components/item/CardItem";
-import { postRef } from "@/lib/converters/Post";
-import { userRef } from "@/lib/converters/User";
-import { Post } from "@/types/Types";
-import {
-  collection,
-  doc,
-  getDocs,
-  onSnapshot,
-  query,
-  where,
-} from "firebase/firestore";
-import { useSession } from "next-auth/react";
-import React, { useEffect, useState } from "react";
+import useDonatedPosts from "@/hooks/useDonatedPosts";
+import React from "react";
 import Masonry from "react-masonry-css";
 
 const page = () => {
-  const [soldItems, setSoldItems] = useState<Post[]>([]);
-  const { data: session } = useSession();
-
-  useEffect(() => {
-    if (session?.user?.id) {
-      const soldItemsQuery = query(
-        postRef,
-        where("authorId", "==", session.user.id),
-        where("isSold", "==", true)
-      );
-
-      const unsubscribe = onSnapshot(soldItemsQuery, (querySnapshot) => {
-        const items = querySnapshot.docs.map((doc) => {
-          return { postId: doc.id, ...(doc.data() as Post) };
-        });
-        setSoldItems(items);
-      });
-
-      return () => unsubscribe();
-    }
-  }, [session?.user?.id]);
+  const { soldItems } = useDonatedPosts();
 
   const breakpointColumnsObj = {
     default: 4,
