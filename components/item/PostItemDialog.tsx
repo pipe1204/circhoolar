@@ -415,7 +415,7 @@ const PostItemDialog = () => {
                         <SelectItem value="Furniture">Furniture</SelectItem>
                         <SelectItem value="Electronics">Electronics</SelectItem>
                         <SelectItem value="Sporting goods">
-                          Sportin goods
+                          Sporting goods
                         </SelectItem>
                         <SelectItem value="Home and Garden">
                           Home and Garden

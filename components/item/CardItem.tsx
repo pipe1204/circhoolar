@@ -35,6 +35,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { postRef } from "@/lib/converters/Post";
 import { set } from "zod";
+import useCheckItemStatus from "@/hooks/useCheckItemStatus";
 
 interface CardItemProps {
   id: string;
@@ -72,33 +73,8 @@ const CardItem = ({
 }: CardItemProps) => {
   const pathName = usePathname();
   const { data: session } = useSession();
-  const [isSaved, setIsSaved] = useState(isAlreadySaved);
-  const [isAlreisSoadySold, setIsAlreadySold] = useState<boolean | undefined>(
-    false
-  );
-
-  useEffect(() => {
-    const checkSavedStatus = async () => {
-      if (session?.user?.id) {
-        const userID = session.user.id;
-        const savedItemRef = doc(userRef(userID), "savedItems", id);
-        const docSnap = await getDoc(savedItemRef);
-        setIsSaved(docSnap.exists());
-      }
-    };
-    checkSavedStatus();
-  }, [id, session?.user?.id]);
-
-  useEffect(() => {
-    const checkSoldStatus = async () => {
-      if (session?.user?.id) {
-        const docRef = doc(postRef, id);
-        const docSnap = await getDoc(docRef);
-        setIsAlreadySold(docSnap.data()?.isSold);
-      }
-    };
-    checkSoldStatus();
-  }, [id, session?.user?.id]);
+  const { isSaved, isAlreadySold, setIsSaved, setIsAlreadySold } =
+    useCheckItemStatus(id, isAlreadySaved);
 
   const handleWishlistClick = async () => {
     if (session?.user?.id) {
@@ -284,7 +260,7 @@ const CardItem = ({
                   className="w-full text-sm mt-2 text-background underline"
                   onClick={handleSoldItem}
                 >
-                  {isAlreisSoadySold ? "Back available" : "Mark as sold"}
+                  {isAlreadySold ? "Back available" : "Mark as sold"}
                 </Button>
               </div>
             ) : (

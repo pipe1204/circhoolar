@@ -2,112 +2,31 @@
 
 import { SchoolCodeForm } from "@/components/SchoolCodeForm";
 import CardItem from "@/components/item/CardItem";
-import React, { useEffect } from "react";
+import React from "react";
 import Masonry from "react-masonry-css";
-import {
-  getDoc,
-  updateDoc,
-  doc,
-  query,
-  where,
-  onSnapshot,
-} from "firebase/firestore";
-import { codeRef } from "@/lib/converters/SchoolCode";
-import { useSession } from "next-auth/react";
-import { userRef } from "@/lib/converters/User";
 import {
   useCategoriesStore,
   useSchoolCodeStore,
   useSelectedSchoolStore,
-  useUserNameStore,
 } from "@/store/store";
-import { Post } from "@/types/Types";
-import { postRef } from "@/lib/converters/Post";
+import useMainPosts from "@/hooks/useMainPosts";
+import useSchoolCodeVerification from "@/hooks/useSchoolVerificationCode";
 
 const page = () => {
   const schoolCode = useSchoolCodeStore((state) => state.schoolCode);
-  const setUserName = useUserNameStore((state) => state.setUserName);
-  const setSchoolCode = useSchoolCodeStore((state) => state.setSchoolCode);
   const selectedSchool = useSelectedSchoolStore(
     (state) => state.selectedSchool
   );
   const categories = useCategoriesStore((state) => state.categories);
 
-  const [validCode, setValidCode] = React.useState(false);
-  const [errorCode, setErrorCode] = React.useState("");
-  const [posts, setPosts] = React.useState<Post[]>([]);
-
-  useEffect(() => {
-    let postsQuery;
-
-    if (selectedSchool === "All" || !selectedSchool) {
-      postsQuery = query(postRef, where("isSold", "==", false));
-    } else {
-      postsQuery = query(
-        postRef,
-        where("schoolCode", "==", selectedSchool),
-        where("isSold", "==", false)
-      );
-    }
-
-    if (categories && categories.length > 0) {
-      postsQuery = query(postsQuery, where("category", "in", categories));
-    }
-
-    const unsubscribe = onSnapshot(
-      postsQuery,
-      (querySnapshot) => {
-        const fetchedPosts = querySnapshot.docs.map((doc) => doc.data());
-        setPosts(fetchedPosts);
-      },
-      (error) => {
-        console.error("Error fetching posts:", error);
-      }
-    );
-
-    return () => unsubscribe();
-  }, [selectedSchool, categories]);
+  const { posts, loading, error } = useMainPosts(selectedSchool, categories);
+  const { validCode, errorCode, handleCheckCode } = useSchoolCodeVerification();
 
   const breakpointColumnsObj = {
     default: 4,
     1100: 3,
     700: 2,
     // 500: 1,
-  };
-
-  const { data: session } = useSession();
-
-  const handleCheckCode = async (code: string, name: string) => {
-    if (session?.user?.id) {
-      await checkCode(code, session.user.id, name);
-    } else {
-      console.log("User is not logged in.");
-    }
-  };
-
-  const checkCode = async (code: string, userId: string, name: string) => {
-    if (!code) {
-      console.log("Code is undefined or empty");
-      setValidCode(false);
-      setErrorCode("Code is required");
-      return;
-    }
-
-    const docRef = doc(codeRef, code);
-    const docSnapshot = await getDoc(docRef);
-
-    if (docSnapshot.exists()) {
-      setValidCode(true);
-      setUserName(name);
-      setSchoolCode(code);
-
-      const userDocRef = userRef(userId);
-      await updateDoc(userDocRef, { schoolCode: code, name: name });
-    } else {
-      console.log("No such document!");
-      setValidCode(false);
-      setErrorCode("Wrong code. Please try again.");
-    }
   };
 
   return (

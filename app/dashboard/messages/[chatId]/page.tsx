@@ -3,24 +3,14 @@
 import { Button } from "@/components/ui/Button";
 import ChatInput from "@/components/user/ChatInput";
 import ChatMessages from "@/components/user/ChatMessages";
-import { db } from "@/firebase";
+import useFetchMessages from "@/hooks/useFetchMessages";
+import useMarkMessagesAsRead from "@/hooks/useMarkMessagesAsRead";
+import usePostDetails from "@/hooks/usePostDetails";
 import useWindowSize from "@/hooks/useWindowSize";
-import { Message, sortedMessagesRef } from "@/lib/converters/Message";
-import { postRef } from "@/lib/converters/Post";
 import { useCurrentChatStore } from "@/store/store";
-import { Post } from "@/types/Types";
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  updateDoc,
-  where,
-} from "firebase/firestore";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 interface ChatPageProps {
   params: {
@@ -35,74 +25,17 @@ const ChatPage = ({ params: { chatId } }: ChatPageProps) => {
     (state) => state.setCurrentChatId
   );
 
-  const [initialMessages, setInitialMessages] = useState<Message[]>([]);
-  const [currentPost, setCurrentPost] = useState<Post>();
-  const [isAlreisSoadySold, setIsAlreadySold] = useState<boolean | undefined>(
-    false
-  );
+  const messages = useFetchMessages(chatId);
+  useMarkMessagesAsRead(chatId);
+  const { post, isSold, toggleSoldStatus } = usePostDetails(chatId);
 
   useEffect(() => {
     setCurrentChatId(chatId);
 
     return () => {
-      setCurrentChatId(null); // Clear the current chat ID when unmounted
+      setCurrentChatId(null);
     };
   }, [chatId, setCurrentChatId]);
-
-  useEffect(() => {
-    const fetchMessages = async () => {
-      const messagesSnapshot = await getDocs(sortedMessagesRef(chatId));
-      const messages = messagesSnapshot.docs.map((doc) => doc.data());
-      setInitialMessages(messages);
-    };
-
-    fetchMessages();
-  }, [chatId]);
-
-  useEffect(() => {
-    const markMessagesAsRead = async () => {
-      const messagesQuery = query(
-        collection(db, "chats", chatId, "messages"),
-        where("isRead", "==", false),
-        where("user.id", "!=", session?.user?.id)
-      );
-      const messagesSnapshot = await getDocs(messagesQuery);
-      messagesSnapshot.docs.forEach(async (doc) => {
-        const messageRef = doc.ref;
-        await updateDoc(messageRef, { isRead: true });
-      });
-    };
-
-    if (session?.user?.id) {
-      markMessagesAsRead();
-    }
-  }, [chatId, session?.user?.id, initialMessages]);
-
-  useEffect(() => {
-    const checkPost = async () => {
-      if (session?.user?.id) {
-        const itemId = chatId.split("-").pop();
-
-        const docRef = doc(postRef, itemId);
-        const docSnap = await getDoc(docRef);
-        setCurrentPost(docSnap.data() as Post);
-        setIsAlreadySold(docSnap.data()?.isSold);
-      }
-    };
-    checkPost();
-  }, [chatId, session?.user?.id]);
-
-  const handleSoldItem = async () => {
-    const docRef = doc(postRef, currentPost?.id);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      await updateDoc(docRef, {
-        isSold: !docSnap.data().isSold,
-      });
-      setIsAlreadySold(!docSnap.data().isSold);
-    }
-  };
 
   const truncateTitle = (title: string | undefined) => {
     if (typeof width === "undefined" || typeof title === "undefined") {
@@ -120,27 +53,27 @@ const ChatPage = ({ params: { chatId } }: ChatPageProps) => {
 
   return (
     <div className="h-full w-full flex flex-col justify-between gap-y-2 mx-auto rounded-md p-0 overflow-y-auto">
-      {session?.user?.id === currentPost?.authorId && (
+      {session?.user?.id === post?.authorId && (
         <div className="flex justify-between items-center w-full xl:w-1/2 mx-auto p-2 xl:p-4 rounded-lg shadow-md bg-light-white">
           <div className="flex gap-x-4 items-center">
             <div className="relative w-12 h-12 overflow-hidden rounded-full">
               <Image
-                src={currentPost?.images[0] || "/Logo"}
+                src={post?.images[0] || "/Logo"}
                 alt="Item image"
                 height={100}
                 width={100}
               />
             </div>
             <h1 className="text-dark-purple font-semibold">
-              {truncateTitle(currentPost?.title)}
+              {truncateTitle(post?.title)}
             </h1>
           </div>
           <Button
             variant={"link"}
             className="text-red underline"
-            onClick={handleSoldItem}
+            onClick={toggleSoldStatus}
           >
-            {isAlreisSoadySold ? "Back available" : "Mark as sold"}
+            {isSold ? "Back available" : "Mark as sold"}
           </Button>
         </div>
       )}
@@ -149,7 +82,7 @@ const ChatPage = ({ params: { chatId } }: ChatPageProps) => {
         <ChatMessages
           chatId={chatId}
           session={session}
-          initialMessages={initialMessages}
+          initialMessages={messages}
         />
       </div>
       <div>
