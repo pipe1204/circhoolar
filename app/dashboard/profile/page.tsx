@@ -4,12 +4,24 @@ import { Icons } from "@/components/Icons";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import useDeleteUserAccount from "@/hooks/useDeleteUserAccount";
 import useImageUpload from "@/hooks/useImageUpload";
 import useProfileEdit from "@/hooks/useProfileEdit";
 import { profileSchema } from "@/lib/validations/auth";
@@ -53,8 +65,7 @@ const page = () => {
     handleCancelEditProfile,
     handleProfileSubmit,
   } = useProfileEdit();
-
-  const [isLoading, setIsLoading] = useState(false);
+  const { handleDeleteUserAccount } = useDeleteUserAccount();
 
   const form = useForm<Inputs>({
     resolver: zodResolver(profileSchema),
@@ -244,7 +255,34 @@ const page = () => {
           </form>
         </Form>
       </div>
-      <div>{/**Delete account */}</div>
+      <div className="mt-8">
+        <AlertDialog>
+          <AlertDialogTrigger className="text-red flex justify-center items-center text-sm">
+            <Icons.trash size={15} className="mr-2" />
+            Delete account
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle className="text-light-white">
+                Are you absolutely sure?
+              </AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete all
+                your information and remove your data from our servers.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={handleDeleteUserAccount}
+                className="bg-red text-light-white"
+              >
+                Continue
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      </div>
     </section>
   );
 };

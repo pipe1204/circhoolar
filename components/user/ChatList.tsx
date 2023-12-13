@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import ChatListRows from "./ChatListRows";
 import { useTotalUnreadMessagesStore } from "@/store/store";
 import useFetchChatData from "@/hooks/useFecthChatData";
+import Billboard from "../Billboard";
 
 const ChatList = () => {
   const { chatListData, setChatListData, totalUnreadMessages } =
@@ -26,9 +27,7 @@ const ChatList = () => {
     <div className="w-[95%] xl:w-3/4 mx-auto rounded-md p-0 xl:p-10 overflow-y-auto">
       {chatListData.length === 0 ? (
         <div className="flex justify-center w-[95%]">
-          <h1 className="text-xl xl:text-2xl text-dark-purple font-semibold">
-            You don't have any conversations
-          </h1>
+          <Billboard text="You don't have any conversations" />
         </div>
       ) : (
         <div>

@@ -14,7 +14,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <PageNavbar />
       </div>
       <div className="flex flex-grow overflow-hidden">
-        <div className="w-full hidden xl:flex xl:w-64 overflow-y-auto">
+        <div className="w-full hidden xl:flex xl:w-56 overflow-y-auto">
           <SideNav />
         </div>
         <div className="w-full flex flex-col">
