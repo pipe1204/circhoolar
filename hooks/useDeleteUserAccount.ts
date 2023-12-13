@@ -78,7 +78,7 @@ const useDeleteUserAccount = () => {
       await deleteUserAccounts(session.user.id);
       await deleteDoc(doc(db, "users", session.user.id));
 
-      console.log("User accounts and associated data deleted successfully");
+      console.log("User account and associated data deleted successfully");
 
       signOut({ callbackUrl: "/" });
     } catch (error) {
