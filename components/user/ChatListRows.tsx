@@ -68,7 +68,7 @@ const ChatListRows = ({
   };
 
   return (
-    <div className="relative flex justify-between w-full bg-light-white rounded-lg xl:rounded-xl shadow-sm px-2 py-4 xl:p-4 mb-4 mt-4">
+    <div className="relative flex justify-between w-full bg-light-white border border-light-white-500 rounded-lg xl:rounded-xl shadow-sm px-2 py-4 xl:p-4 mb-4 mt-4">
       {unreadCount > 0 && (
         <div className="w-5 h-5 bg-red rounded-full flex justify-center items-center absolute top-[-8px]">
           <span className="text-light-white font-semibold text-xs">
