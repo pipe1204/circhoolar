@@ -4,6 +4,7 @@ import { db } from "@/firebase";
 import { codeRef } from "@/lib/converters/SchoolCode";
 import { userRef } from "@/lib/converters/User";
 import {
+  useBankDetailsStore,
   useCurrentChatStore,
   useSchoolCodeStore,
   useSchoolNameStore,
@@ -19,8 +20,10 @@ import {
   query,
   where,
 } from "firebase/firestore";
+import { stat } from "fs";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
+import { set } from "zod";
 
 function GlobalStateProvider({ children }: { children: React.ReactNode }) {
   const { data: session } = useSession();
@@ -28,6 +31,14 @@ function GlobalStateProvider({ children }: { children: React.ReactNode }) {
   const setUserName = useUserNameStore((state) => state.setUserName);
   const setProfileImage = useUserNameStore((state) => state.setProfileImage);
   const setSchoolName = useSchoolNameStore((state) => state.setSchoolName);
+  const setHasBankDetails = useBankDetailsStore(
+    (state) => state.setHasBankDetails
+  );
+  const setBsbNumber = useBankDetailsStore((state) => state.setBsbNumber);
+  const setAccountNumber = useBankDetailsStore(
+    (state) => state.setAccountNumber
+  );
+  const setAccountName = useBankDetailsStore((state) => state.setAccountName);
   const setTotalUnreadMessages = useTotalUnreadMessagesStore(
     (state) => state.setTotalUnreadMessages
   );
@@ -94,6 +105,10 @@ function GlobalStateProvider({ children }: { children: React.ReactNode }) {
           setSchoolCode(docSnapShot.data().schoolCode);
           setUserName(docSnapShot.data().name);
           setProfileImage(docSnapShot.data().image);
+          setHasBankDetails(docSnapShot.data().hasBankDetails);
+          setBsbNumber(docSnapShot.data().bankDetails?.bsbNumber);
+          setAccountNumber(docSnapShot.data().bankDetails?.accountNumber);
+          setAccountName(docSnapShot.data().bankDetails?.accountName);
         } else {
           console.log("No such document!");
           setSchoolCode(null);

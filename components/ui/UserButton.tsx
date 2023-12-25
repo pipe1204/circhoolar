@@ -34,7 +34,7 @@ const UserButton = ({ session }: { session: Session | null }) => {
         <DropdownMenuSeparator />
         <Link href={"/dashboard/profile"}>
           <DropdownMenuItem className="cursor-pointer">
-            Profile
+            Account settings
           </DropdownMenuItem>
         </Link>
         <DropdownMenuItem

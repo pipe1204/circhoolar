@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import { getDoc, updateDoc, doc } from 'firebase/firestore';
-import { codeRef } from '@/lib/converters/SchoolCode';
-import { userRef } from '@/lib/converters/User';
-import { useSession } from 'next-auth/react';
-import { useUserNameStore, useSchoolCodeStore } from '@/store/store';
+import { useState } from "react";
+import { getDoc, updateDoc, doc } from "firebase/firestore";
+import { codeRef } from "@/lib/converters/SchoolCode";
+import { userRef } from "@/lib/converters/User";
+import { useSession } from "next-auth/react";
+import { useUserNameStore, useSchoolCodeStore } from "@/store/store";
 
 const useSchoolCodeVerification = () => {
   const [validCode, setValidCode] = useState<boolean>(false);
-  const [errorCode, setErrorCode] = useState<string>('');
+  const [errorCode, setErrorCode] = useState<string>("");
   const { data: session } = useSession();
   const setUserName = useUserNameStore((state) => state.setUserName);
   const setSchoolCode = useSchoolCodeStore((state) => state.setSchoolCode);
@@ -37,7 +37,11 @@ const useSchoolCodeVerification = () => {
       setSchoolCode(code);
 
       const userDocRef = userRef(userId);
-      await updateDoc(userDocRef, { schoolCode: code, name: name });
+      await updateDoc(userDocRef, {
+        schoolCode: code,
+        name: name,
+        hasBankDetails: false,
+      });
     } else {
       console.log("No such document!");
       setValidCode(false);
