@@ -19,18 +19,26 @@ export interface Post {
 }
 
 export interface User {
-    id: string;
-    name: string;
-    email: string;
-    image: string;
-    schoolCode: string;
-    createdAt: Timestamp;
-    updatedAt: Timestamp;
-    posts: Post[];
+  id: string;
+  name: string;
+  email: string;
+  image: string;
+  schoolCode: string;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+  posts: Post[];
+  hasBankDetails: boolean;
+  bankDetails: BankDetails;
+}
+
+interface BankDetails {
+  bsbNumber: string;
+  accountNumber: string;
+  accountName: string;
 }
 
 export interface SchoolCode {
-    id: string;
-    schoolCode: string;
-    name: string;
+  id: string;
+  schoolCode: string;
+  name: string;
 }

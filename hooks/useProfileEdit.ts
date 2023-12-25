@@ -1,28 +1,42 @@
-import { useState } from 'react';
-import { getDoc, updateDoc, doc } from 'firebase/firestore';
+import { useState } from "react";
+import { getDoc, updateDoc, doc } from "firebase/firestore";
 import { codeRef } from "@/lib/converters/SchoolCode";
 import { userRef } from "@/lib/converters/User";
-import { useSession } from 'next-auth/react';
-import { useUserNameStore, useSchoolCodeStore, useSchoolNameStore } from '@/store/store';
-import { z } from 'zod';
-import { profileSchema } from '@/lib/validations/auth';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { useSession } from "next-auth/react";
+import {
+  useUserNameStore,
+  useSchoolCodeStore,
+  useSchoolNameStore,
+  useBankDetailsStore,
+} from "@/store/store";
+import { z } from "zod";
+import { profileSchema } from "@/lib/validations/auth";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 type Inputs = z.infer<typeof profileSchema>;
+
 const useProfileEdit = () => {
   const [editProfile, setEditProfile] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [hideEditProfile, setHideEditProfile] = useState(false);
   const { data: session } = useSession();
   const setUserName = useUserNameStore((state) => state.setUserName);
   const setSchoolCode = useSchoolCodeStore((state) => state.setSchoolCode);
   const setSchoolName = useSchoolNameStore((state) => state.setSchoolName);
-  const profileIamge = useUserNameStore((state) => state.profileImage);
   const userName = useUserNameStore((state) => state.userName) || "";
   const schoolCode = useSchoolCodeStore((state) => state.schoolCode) || "";
   const schoolName = useSchoolNameStore((state) => state.schoolName) || "";
+  const bsbNumber = useBankDetailsStore((state) => state.bsbNumber) || "";
+  const accountNumber =
+    useBankDetailsStore((state) => state.accountNumber) || "";
+  const accountName = useBankDetailsStore((state) => state.accountName) || "";
+  const setBsbNumber = useBankDetailsStore((state) => state.setBsbNumber);
+  const setAccountNumber = useBankDetailsStore(
+    (state) => state.setAccountNumber
+  );
+  const setAccountName = useBankDetailsStore((state) => state.setAccountName);
 
   const form = useForm<Inputs>({
     resolver: zodResolver(profileSchema),
@@ -31,6 +45,9 @@ const useProfileEdit = () => {
       email: session?.user?.email || "",
       schoolCode: schoolCode,
       schoolName: schoolName,
+      bsbNumber: bsbNumber,
+      accountNumber: accountNumber,
+      accountName: accountName,
     },
   });
 
@@ -42,7 +59,7 @@ const useProfileEdit = () => {
   const handleCancelEditProfile = () => {
     setEditProfile(true);
     setHideEditProfile(false);
-    setError('');
+    setError("");
     form.setValue("name", userName);
     form.setValue("schoolCode", schoolCode);
   };
@@ -50,7 +67,13 @@ const useProfileEdit = () => {
   const handleProfileSubmit = async (data: any) => {
     setIsLoading(true);
 
-    if (data.name === userName && data.schoolCode === schoolCode) {
+    if (
+      data.name === userName &&
+      data.schoolCode === schoolCode &&
+      data.bsbNumber === bsbNumber &&
+      data.accountNumber === accountNumber &&
+      data.accountName === accountName
+    ) {
       setHideEditProfile(false);
       setIsLoading(false);
       setEditProfile(true);
@@ -66,11 +89,20 @@ const useProfileEdit = () => {
         await updateDoc(userDocRef, {
           name: data.name,
           schoolCode: data.schoolCode,
+          bankDetails: {
+            bsbNumber: data.bsbNumber,
+            accountNumber: data.accountNumber,
+            accountName: data.accountName,
+          },
+          hasBankDetails: true,
         });
 
         setUserName(data.name);
         setSchoolCode(data.schoolCode);
         setSchoolName(schoolDocSnapshot.data()?.name);
+        setBsbNumber(data.bsbNumber);
+        setAccountNumber(data.accountNumber);
+        setAccountName(data.accountName);
         setEditProfile(true);
         setHideEditProfile(false);
         setIsLoading(false);
@@ -85,7 +117,16 @@ const useProfileEdit = () => {
     }
   };
 
-  return { editProfile, error, isLoading, hideEditProfile, handleEditProfile, handleCancelEditProfile, handleProfileSubmit };
+  return {
+    form,
+    editProfile,
+    error,
+    isLoading,
+    hideEditProfile,
+    handleEditProfile,
+    handleCancelEditProfile,
+    handleProfileSubmit,
+  };
 };
 
 export default useProfileEdit;

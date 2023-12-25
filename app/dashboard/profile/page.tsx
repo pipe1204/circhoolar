@@ -26,18 +26,16 @@ import useImageUpload from "@/hooks/useImageUpload";
 import useProfileEdit from "@/hooks/useProfileEdit";
 import { profileSchema } from "@/lib/validations/auth";
 import {
+  useBankDetailsStore,
   useSchoolCodeStore,
   useSchoolNameStore,
   useUserNameStore,
 } from "@/store/store";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
-type Inputs = z.infer<typeof profileSchema>;
 
 const page = () => {
   const { data: session } = useSession();
@@ -45,11 +43,15 @@ const page = () => {
   const userName = useUserNameStore((state) => state.userName) || "";
   const schoolCode = useSchoolCodeStore((state) => state.schoolCode) || "";
   const schoolName = useSchoolNameStore((state) => state.schoolName) || "";
+  const bsbNumber = useBankDetailsStore((state) => state.bsbNumber) || "";
+  const accountNumber =
+    useBankDetailsStore((state) => state.accountNumber) || "";
+  const accountName = useBankDetailsStore((state) => state.accountName) || "";
+  const hasBankDetails = useBankDetailsStore((state) => state.hasBankDetails);
 
   const { register, handleSubmit } = useForm();
   const {
     files,
-    fileObjects,
     isLoading: isImageLoading,
     imageSelected,
     onImageUpload,
@@ -57,6 +59,7 @@ const page = () => {
     onImageSubmit,
   } = useImageUpload();
   const {
+    form,
     editProfile,
     error,
     isLoading: isProfileLoading,
@@ -67,22 +70,15 @@ const page = () => {
   } = useProfileEdit();
   const { handleDeleteUserAccount } = useDeleteUserAccount();
 
-  const form = useForm<Inputs>({
-    resolver: zodResolver(profileSchema),
-    defaultValues: {
-      name: userName,
-      email: session?.user?.email || "",
-      schoolCode: schoolCode,
-      schoolName: schoolName,
-    },
-  });
-
   useEffect(() => {
     if (userName) {
       form.setValue("name", userName);
       form.setValue("email", session?.user?.email || "");
       form.setValue("schoolCode", schoolCode);
       form.setValue("schoolName", schoolName);
+      form.setValue("bsbNumber", bsbNumber);
+      form.setValue("accountNumber", accountNumber);
+      form.setValue("accountName", accountName);
     }
   }, [userName, form, schoolName, schoolCode]);
 
@@ -147,6 +143,9 @@ const page = () => {
               void form.handleSubmit(handleProfileSubmit)(...args)
             }
           >
+            <h1 className="text-center text-primary-purple font-semibold">
+              Personal Details
+            </h1>
             <FormField
               control={form.control}
               name="email"
@@ -223,6 +222,67 @@ const page = () => {
                 </FormItem>
               )}
             />
+            <h1 className="text-center text-primary-purple font-semibold mt-4">
+              Bank Details
+            </h1>
+            <FormField
+              control={form.control}
+              name="bsbNumber"
+              render={({ field }) => (
+                <FormItem>
+                  <label className="text-sx text-dark-purple">BSB Number</label>
+                  <FormControl>
+                    <Input
+                      placeholder="123456"
+                      {...field}
+                      className="shadow-sm bg-light-white-100"
+                      disabled={editProfile}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="accountNumber"
+              render={({ field }) => (
+                <FormItem>
+                  <label className="text-sx text-dark-purple">
+                    Account Number
+                  </label>
+                  <FormControl>
+                    <Input
+                      placeholder="12345678"
+                      {...field}
+                      className="shadow-sm bg-light-white-100"
+                      disabled={editProfile}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="accountName"
+              render={({ field }) => (
+                <FormItem>
+                  <label className="text-sx text-dark-purple">
+                    Account Name
+                  </label>
+                  <FormControl>
+                    <Input
+                      placeholder="Jhon Doe"
+                      {...field}
+                      className="shadow-sm bg-light-white-100"
+                      disabled={editProfile}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             {!editProfile && (
               <div className="flex">
                 <Button
@@ -242,6 +302,16 @@ const page = () => {
                 </Button>
               </div>
             )}
+            {!hasBankDetails && (
+              <div className="w-full flex flex-col justify-center items-center">
+                <h1 className="text-center text-red text-sm xl:text-xs">
+                  Add bank details in order to sell your pre-loved items{" "}
+                </h1>
+                <span className="text-primary-purple text-sm xl:text-xs text-center mt-2">
+                  (You can still give them away for free!)
+                </span>
+              </div>
+            )}
             <Button
               variant={"outlineLight"}
               className="hover:text-light-white"
@@ -249,7 +319,7 @@ const page = () => {
               type="button"
               disabled={hideEditProfile}
             >
-              {isProfileLoading ? "Loading..." : "Edit profile"}
+              {isProfileLoading ? "Loading..." : "Edit account details"}
             </Button>
             {error && <p className="text-red text-center">{error}</p>}
           </form>

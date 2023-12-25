@@ -1,4 +1,4 @@
-import * as z from "zod"
+import * as z from "zod";
 
 export const authSignInSchema = z.object({
   email: z.string().email({
@@ -14,7 +14,7 @@ export const authSignInSchema = z.object({
       message:
         "Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character",
     }),
-})
+});
 
 export const authSignUpSchema = z.object({
   name: z.string().min(2, {
@@ -33,7 +33,7 @@ export const authSignUpSchema = z.object({
       message:
         "Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character",
     }),
-})
+});
 
 export const authSchoolCodeSchema = z.object({
   schoolCode: z.string().min(7, {
@@ -42,7 +42,7 @@ export const authSchoolCodeSchema = z.object({
   name: z.string().min(2, {
     message: "Name must be at least 2 characters long",
   }),
-})
+});
 
 export const postItemSchema = z.object({
   title: z.string().min(2, {
@@ -55,16 +55,18 @@ export const postItemSchema = z.object({
   sellingmethod: z.enum(["Free", "Cost"], {
     required_error: "You need to select a value.",
   }),
-  price: z.string().min(1, {
-    message: "Price must be at least 1 characters long",
-  }).regex(/^\d+$/, {
-    message: "Price must be a number",
-  }),
-  category: z
-    .string({
-      required_error: "Please select a category.",
+  price: z
+    .string()
+    .min(1, {
+      message: "Price must be at least 1 characters long",
     })
-})
+    .regex(/^\d+$/, {
+      message: "Price must be a number",
+    }),
+  category: z.string({
+    required_error: "Please select a category.",
+  }),
+});
 
 export const imageSchema = z.object({
   image: z.any(),
@@ -82,13 +84,22 @@ export const profileSchema = z.object({
   schoolCode: z.string().min(7, {
     message: "School code must be at least 7 characters long",
   }),
-  schoolName: z.string()
-  })
+  schoolName: z.string(),
+  bsbNumber: z.string().min(6, {
+    message: "BSB number must be at least 6 characters long",
+  }),
+  accountNumber: z.string().min(6, {
+    message: "Account number must be at least 6 characters long",
+  }),
+  accountName: z.string().min(3, {
+    message: "Account name code must be at least 3 characters long",
+  }),
+});
 
-  export const chatInputSchema = z.object({
-    input: z.string().max(1000),
-  })
+export const chatInputSchema = z.object({
+  input: z.string().max(1000),
+});
 
-  export const claimItem = z.object({
-    claim: z.string(),
-  });
+export const claimItem = z.object({
+  claim: z.string(),
+});
