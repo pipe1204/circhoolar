@@ -65,7 +65,7 @@ const page = () => {
               Please enter your full name and school code below to get started
             </h1>
           </div>
-          <div className="w-3/4 xl:w-1/3 mx-auto">
+          <div className="w-5/6 xl:w-1/3 mx-auto">
             <SchoolCodeForm
               checkCode={handleCheckCode}
               errorMessage={errorCode}

@@ -66,6 +66,7 @@ export default function NavLinks({ onClick }: NavLinksProps) {
     (state) => state.totalUnreadMessages
   );
   const pathName = usePathname();
+
   return (
     <>
       {SidebarLinks.map((link) => {
