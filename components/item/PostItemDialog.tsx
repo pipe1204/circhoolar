@@ -34,7 +34,11 @@ import {
   SelectValue,
 } from "../ui/select";
 import Image from "next/image";
-import { useSchoolCodeStore, useUserNameStore } from "@/store/store";
+import {
+  useBankDetailsStore,
+  useSchoolCodeStore,
+  useUserNameStore,
+} from "@/store/store";
 import { useSession } from "next-auth/react";
 import { postRef } from "@/lib/converters/Post";
 import { addDoc, serverTimestamp } from "firebase/firestore";
@@ -47,6 +51,7 @@ const PostItemDialog = () => {
   const { data: session } = useSession();
   const userName = useUserNameStore((state) => state.userName);
   const schoolCode = useSchoolCodeStore((state) => state.schoolCode);
+  const hasBankDetails = useBankDetailsStore((state) => state.hasBankDetails);
 
   const isBrowser = typeof window !== "undefined";
   const [priceType, setPriceType] = useState("");
@@ -159,6 +164,14 @@ const PostItemDialog = () => {
   async function onSubmit(data: Inputs) {
     setLoading(true);
 
+    if (data.sellingmethod === "Cost" && !hasBankDetails) {
+      setError(
+        "Please add your bank details in the account settings to sell items for a cost."
+      );
+      setLoading(false);
+      return;
+    }
+
     if (fileObjects.length > 0) {
       try {
         const uploadedImageUrls = await Promise.all(
@@ -179,9 +192,6 @@ const PostItemDialog = () => {
             return data.secure_url;
           })
         );
-
-        // Here, `uploadedImageUrls` contains the URLs of all uploaded images.
-        // You can proceed with other operations, like updating Firebase.
 
         const randomNumber = Math.floor(Math.random() * 10000);
         const post = {
@@ -497,6 +507,9 @@ const PostItemDialog = () => {
                   >
                     {loading ? "Uploading..." : "Post"}
                   </Button>
+                  {error && (
+                    <p className="text-red text-sm mt-2 text-center">{error}</p>
+                  )}
                   {imageSelected && (
                     <p className="text-red text-sm mt-2">
                       Please upload an image
