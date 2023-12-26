@@ -24,7 +24,6 @@ import {
 import useDeleteUserAccount from "@/hooks/useDeleteUserAccount";
 import useImageUpload from "@/hooks/useImageUpload";
 import useProfileEdit from "@/hooks/useProfileEdit";
-import { profileSchema } from "@/lib/validations/auth";
 import {
   useBankDetailsStore,
   useSchoolCodeStore,
@@ -33,9 +32,8 @@ import {
 } from "@/store/store";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 const page = () => {
   const { data: session } = useSession();
@@ -319,7 +317,7 @@ const page = () => {
               type="button"
               disabled={hideEditProfile}
             >
-              {isProfileLoading ? "Loading..." : "Edit account details"}
+              {isProfileLoading ? "Loading..." : "Edit details"}
             </Button>
             {error && <p className="text-red text-center">{error}</p>}
           </form>
