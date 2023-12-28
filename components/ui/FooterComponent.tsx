@@ -15,7 +15,7 @@ const FooterComponent = ({ buttonLabel, box }: FooterComponentProps) => {
         <h1 className="text-4xl xl:text-6xl font-bold text-white text-center">
           Where school communities thrive through sharing and sustainability
         </h1>
-        <Link href={"/signup"}>
+        <Link href={"/api/auth/signin"}>
           <Button
             type="button"
             variant="outline"
