@@ -11,6 +11,7 @@ import {
 } from "@/store/store";
 import useMainPosts from "@/hooks/useMainPosts";
 import useSchoolCodeVerification from "@/hooks/useSchoolVerificationCode";
+import Billboard from "@/components/Billboard";
 
 const page = () => {
   const schoolCode = useSchoolCodeStore((state) => state.schoolCode);
@@ -28,6 +29,14 @@ const page = () => {
     700: 2,
     // 500: 1,
   };
+
+  if (schoolCode !== null && posts.length === 0) {
+    return (
+      <section className="p-2">
+        <Billboard text="There are no posts at the moment" />
+      </section>
+    );
+  }
 
   return (
     <section className="p-2">

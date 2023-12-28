@@ -110,16 +110,38 @@ const CardItem = ({
     }
   };
 
-  const handleDeleteFromFirebase = (itemId: string) => async () => {
-    if (session?.user?.id) {
-      const postRef = doc(db, "posts", itemId);
-      await deleteDoc(postRef);
-      await removePostFromSavedItems(itemId);
-    }
-  };
+  const handleDeleteFromFirebase =
+    (itemId: string, imageUrl: string) => async () => {
+      if (session?.user?.id) {
+        const match = imageUrl.match(/circhoolar_items_upload\/(.+)\.jpg/);
+
+        if (match && match.length >= 2) {
+          const publicId = match[1];
+          try {
+            // Send DELETE request to Cloudinary
+            await fetch("/api/deleteImage", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ publicId }),
+            });
+
+            // Delete the post from Firebase
+            const postRef = doc(db, "posts", itemId);
+            await deleteDoc(postRef);
+            await removePostFromSavedItems(itemId);
+          } catch (error) {
+            console.error("Error deleting post:", error);
+          }
+        } else {
+          console.error("Invalid image URL format");
+        }
+      }
+    };
 
   const removePostFromSavedItems = async (postId: string) => {
-    const usersRef = collection(db, "users"); // Reference to the users collection
+    const usersRef = collection(db, "users");
     const allUsersSnapshot = await getDocs(usersRef);
 
     allUsersSnapshot.forEach(async (userDoc) => {
@@ -128,7 +150,7 @@ const CardItem = ({
       const querySnapshot = await getDocs(q);
 
       querySnapshot.forEach(async (doc) => {
-        await deleteDoc(doc.ref); // Delete the saved post from this user's savedItems
+        await deleteDoc(doc.ref);
       });
     });
   };
@@ -246,7 +268,7 @@ const CardItem = ({
                     <AlertDialogFooter>
                       <AlertDialogCancel>Cancel</AlertDialogCancel>
                       <AlertDialogAction
-                        onClick={handleDeleteFromFirebase(id)}
+                        onClick={handleDeleteFromFirebase(id, image)}
                         className="bg-red text-light-white"
                       >
                         Continue
