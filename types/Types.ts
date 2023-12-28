@@ -16,6 +16,7 @@ export interface Post {
   updatedAt: Timestamp;
   category: string;
   isSold: boolean;
+  schoolName: string;
 }
 
 export interface User {
