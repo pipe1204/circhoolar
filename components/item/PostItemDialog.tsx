@@ -232,6 +232,7 @@ const PostItemDialog = () => {
         setFiles([]);
         setFileObjects([]);
         setImageSelected(true);
+        setError("");
         form.reset({
           title: "",
           description: "",
