@@ -204,9 +204,11 @@ const page = () => {
   return (
     <div className="my-10">
       <div className="mx-auto max-w-screen-xl px-4 xl:px-8">
-        <div className="grid gap-8 xl:grid-cols-2">
-          <ImageGallery images={item?.images} />
-          <div className="xl:py-4">
+        <div className="flex flex-col w-full xl:flex-row gap-8">
+          <div className="flex-shrink-0 xl:w-1/2">
+            <ImageGallery images={item?.images} />
+          </div>
+          <div className="flex-grow w-full xl:w-1/2 xl:py-4">
             {item?.authorId !== session?.user?.id && (
               <div className="mb-4">
                 <p className="text-sm">
