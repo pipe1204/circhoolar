@@ -37,6 +37,7 @@ import Image from "next/image";
 import {
   useBankDetailsStore,
   useSchoolCodeStore,
+  useSchoolNameStore,
   useUserNameStore,
 } from "@/store/store";
 import { useSession } from "next-auth/react";
@@ -51,6 +52,7 @@ const PostItemDialog = () => {
   const { data: session } = useSession();
   const userName = useUserNameStore((state) => state.userName);
   const schoolCode = useSchoolCodeStore((state) => state.schoolCode);
+  const schoolName = useSchoolNameStore((state) => state.schoolName);
   const hasBankDetails = useBankDetailsStore((state) => state.hasBankDetails);
 
   const isBrowser = typeof window !== "undefined";
@@ -215,6 +217,7 @@ const PostItemDialog = () => {
           createdAt: serverTimestamp(),
           updatedAt: serverTimestamp(),
           isSold: false,
+          schoolName: schoolName,
         };
 
         try {

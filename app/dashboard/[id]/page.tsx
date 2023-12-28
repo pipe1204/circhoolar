@@ -206,7 +206,17 @@ const page = () => {
       <div className="mx-auto max-w-screen-xl px-4 xl:px-8">
         <div className="grid gap-8 xl:grid-cols-2">
           <ImageGallery images={item?.images} />
-          <div className="xl:py-8">
+          <div className="xl:py-4">
+            {item?.authorId !== session?.user?.id && (
+              <div className="mb-4">
+                <p className="text-sm">
+                  This item is from:{" "}
+                  <span className="text-dark-purple italic font-semibold">
+                    {item?.schoolName}
+                  </span>
+                </p>
+              </div>
+            )}
             <div className="mb-2 xl:mb-3">
               <span className="mb-0.5 inline-block text-title-color">
                 {item?.category}
