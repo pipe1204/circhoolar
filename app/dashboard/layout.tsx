@@ -3,7 +3,7 @@
 import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
 import PageNavbar from "@/components/dashboard/PageNavbar";
 import SideNav from "@/components/dashboard/Sidebar";
-import { useBankDetailsStore, useSchoolCodeStore } from "@/store/store";
+import { useSchoolCodeStore } from "@/store/store";
 import { usePathname } from "next/navigation";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -18,7 +18,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <PageNavbar />
         </div>
       )}
-      <div className="flex flex-grow overflow-hidden">
+      <div
+        className={`flex flex-grow ${
+          pathname === "/dashboard" || pathname === "/community"
+            ? "overflow-hidden"
+            : "xl:overflow-hidden"
+        }`}
+      >
         {schoolCode !== null && (
           <div className="w-full hidden xl:flex xl:w-56 overflow-y-auto">
             <SideNav />

@@ -207,7 +207,7 @@ const CardItem = ({
             {sellingmethod === "Free" ? sellingmethod : `$${price}`}
           </span>
         </div>
-        <div className="absolute bottom-4 left-4 xl:bottom-6 xl:left-6 flex justify-start items-center">
+        <div className="absolute w-5/6 bottom-4 left-4 xl:bottom-6 xl:left-6 flex justify-start items-center">
           <div className=" w-6 h-6 xl:w-7 xl:h-7 mr-2 rounded-full overflow-hidden relative">
             <Image
               src={avatar}
