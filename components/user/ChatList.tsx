@@ -23,8 +23,6 @@ const ChatList = () => {
     setChatListData((prev) => prev.filter((chat) => chat.chatId !== chatId));
   };
 
-  console.log(chatListData);
-
   return (
     <div className="w-[95%] xl:w-3/4 mx-auto rounded-md p-0 xl:p-10 overflow-y-auto">
       {chatListData.length === 0 ? (
