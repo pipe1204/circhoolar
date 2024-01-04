@@ -83,6 +83,10 @@ export const schoolSchema = z.object({
   schoolCode: z.string(),
 });
 
+export const topicSchema = z.object({
+  topicSelected: z.string(),
+});
+
 export const profileSchema = z.object({
   name: z.string().min(2, {
     message: "Title must be at least 2 characters long",

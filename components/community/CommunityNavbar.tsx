@@ -22,14 +22,14 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import { schoolSchema } from "@/lib/validations/auth";
+import { schoolSchema, topicSchema } from "@/lib/validations/auth";
 import { useCategoriesStore, useSelectedSchoolStore } from "@/store/store";
 import { Button } from "../ui/Button";
 
 const PostItemDialog = dynamic(() => import("../item/PostItemDialog"), {
   ssr: false,
 });
-type Inputs = z.infer<typeof schoolSchema>;
+type topicInputs = z.infer<typeof topicSchema>;
 
 const CommunityNavbar = () => {
   const setSelectedSchool = useSelectedSchoolStore(
@@ -38,10 +38,10 @@ const CommunityNavbar = () => {
 
   const setCategories = useCategoriesStore((state) => state.setCategories);
 
-  const form = useForm<Inputs>({
+  const topicForm = useForm<topicInputs>({
     resolver: zodResolver(schoolSchema),
     defaultValues: {
-      schoolCode: "",
+      topicSelected: "",
     },
   });
 
@@ -95,6 +95,7 @@ const CommunityNavbar = () => {
   const [selectedCategories, setSelectedCategories] = useState<
     Record<string, boolean>
   >({});
+  const [topic, setTopic] = useState<string | null>(null);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -142,66 +143,6 @@ const CommunityNavbar = () => {
             )}
           </button>
         </div>
-        <div
-          className={`fixed inset-y-0 left-0 transform ${
-            isMenuOpen ? "translate-x-0" : "-translate-x-full"
-          } w-64 bg-white shadow-md transition-transform duration-300 ease-in-out z-10 overflow-y-auto`}
-        >
-          <div className="flex flex-col w-full justify-between items-start">
-            <div className="absolute top-4 right-2">
-              <button
-                onClick={handleMenuClick}
-                className="flex mr-4 items-center justify-center w-10 h-10 rounded-full bg-lightest-purple"
-              >
-                <Icons.close className="text-primary-purple" />
-              </button>
-            </div>
-            <div className="mt-8 ml-4">
-              <PostItemDialog />
-            </div>
-            <div className="mt-4 xl:mt-0">
-              <NavLinks onClick={() => setIsMenuOpen(false)} />
-            </div>
-            <div className="flex flex-row items-center gap-x-2 ml-2 xl:ml-0 mt-2 xl:mt-0 mb-4 px-2 py-2 rounded-md">
-              <Form {...form}>
-                <form className="grid gap-4">
-                  <FormField
-                    control={form.control}
-                    name="schoolCode"
-                    render={({ field, fieldState: { error } }) => (
-                      <FormItem>
-                        <Select
-                          onValueChange={(value) => {
-                            field.onChange(value);
-                            setSelectedSchool(value);
-                            setIsMenuOpen(false);
-                          }}
-                          defaultValue={field.value}
-                        >
-                          <FormControl>
-                            <SelectTrigger className="text-light-white">
-                              <SelectValue placeholder="Select school" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value="All">All Schools</SelectItem>
-                            <SelectItem value="CSYP3141">
-                              South Yarra Primary
-                            </SelectItem>
-                            <SelectItem value="CMBG3141">
-                              Melbourne Boys Grammar
-                            </SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </form>
-              </Form>
-            </div>
-          </div>
-        </div>
         <div>
           {pathname === "/dashboard/community" && (
             <div className="hidden xl:flex">
@@ -209,56 +150,18 @@ const CommunityNavbar = () => {
             </div>
           )}
         </div>
-        <div className="hidden xl:flex items-center gap-x-2 px-20 py-2 rounded-md">
-          <Form {...form}>
-            <form className="grid gap-4">
-              <FormField
-                control={form.control}
-                name="schoolCode"
-                render={({ field, fieldState: { error } }) => (
-                  <FormItem>
-                    <Select
-                      onValueChange={(value) => {
-                        field.onChange(value);
-                        setSelectedSchool(value);
-                      }}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger className="text-light-white">
-                          <SelectValue placeholder="Select school" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="All">All Schools</SelectItem>
-                        <SelectItem value="CSYP3141">
-                          South Yarra Primary
-                        </SelectItem>
-                        <SelectItem value="CMBG3141">
-                          Melbourne Boys Grammar
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </form>
-          </Form>
-        </div>
         <div className="flex flex-row items-center gap-x-2 ml-4 xl:ml-0 mt-4 xl:mt-0 mb-4 xl:mb-0 px-2 py-2 rounded-md">
-          <Form {...form}>
+          <Form {...topicForm}>
             <form className="grid gap-4">
               <FormField
-                control={form.control}
-                name="schoolCode"
+                control={topicForm.control}
+                name="topicSelected"
                 render={({ field, fieldState: { error } }) => (
                   <FormItem>
                     <Select
                       onValueChange={(value) => {
                         field.onChange(value);
-                        setSelectedSchool(value);
-                        setIsMenuOpen(false);
+                        setTopic(value);
                       }}
                       defaultValue={field.value}
                     >
