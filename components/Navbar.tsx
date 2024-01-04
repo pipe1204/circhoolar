@@ -61,9 +61,9 @@ const Navbar = () => {
                   <Button
                     type="button"
                     variant="default"
-                    className="hidden xl:inline-block"
+                    className="hidden xl:inline-block xl:mr-2"
                   >
-                    Sign in
+                    Login
                   </Button>
                 </Link>
               </div>
@@ -116,7 +116,7 @@ const Navbar = () => {
                 variant="default"
                 className="inline-block w-full mb-2"
               >
-                Sign in
+                Login
               </Button>
             </Link>
           </div>
