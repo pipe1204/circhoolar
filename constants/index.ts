@@ -16,6 +16,32 @@ export const categoryFilters = [
   "Vehicles",
 ];
 
+export const topics = [
+  "Education and Learning",
+  "Health and Nutrition",
+  "Parenting Advice",
+  "Extracurricular Activities",
+  "Safety and Wellbeing",
+  "School Events and Activities",
+  "Special Needs Education",
+  "Technology and Learning",
+  "Teen Challenges",
+  "Financial Advice",
+  "Volunteering and Community Engagement",
+  "Local Resources and Recommendations",
+  "Bilingual/Multicultural Education",
+  "Legislation and Policy",
+  "Summer and Holiday Activities",
+  "Bullying and Social Issues",
+  "Home Schooling",
+  "Book and Media Recommendations",
+  "Career Guidance for Parents",
+  "Work-Life Balance",
+  "Coping with Change",
+  "Early Childhood Development",
+  "Parent-Teacher Communication",
+];
+
 export const footerLinks = [
   {
     title: "For schools",

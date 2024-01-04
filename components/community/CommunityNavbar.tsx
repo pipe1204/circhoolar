@@ -2,8 +2,8 @@
 import React, { useState } from "react";
 import { Icons } from "../Icons";
 import { usePathname } from "next/navigation";
-import { categoryFilters } from "@/constants";
-import NavLinks from "./NavLinks";
+import { topics } from "@/constants";
+import NavLinks from "../dashboard/NavLinks";
 import dynamic from "next/dynamic";
 import {
   Form,
@@ -24,13 +24,14 @@ import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import { schoolSchema } from "@/lib/validations/auth";
 import { useCategoriesStore, useSelectedSchoolStore } from "@/store/store";
+import { Button } from "../ui/Button";
 
 const PostItemDialog = dynamic(() => import("../item/PostItemDialog"), {
   ssr: false,
 });
 type Inputs = z.infer<typeof schoolSchema>;
 
-const PageNavbar = () => {
+const CommunityNavbar = () => {
   const setSelectedSchool = useSelectedSchoolStore(
     (state) => state.setSelectedSchool
   );
@@ -99,7 +100,7 @@ const PageNavbar = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  const handleCategoryChange = (category: string) => {
+  const handleTopicChange = (category: string) => {
     setSelectedCategories((prev) => {
       const updatedCategories = {
         ...prev,
@@ -126,7 +127,7 @@ const PageNavbar = () => {
     <nav className="bg-light-white flex justify-between items-center border border-light-white-500 shadow-md w-full h-16">
       <div
         className={`flex ${
-          lastSegment === "dashboard" ? "justify-start" : "justify-start"
+          lastSegment === "community" ? "justify-start" : "justify-start"
         } xl:justify-between items-center mx-6 xl:mx-10 w-full`}
       >
         <div className="xl:hidden flex justify-end items-center">
@@ -202,9 +203,9 @@ const PageNavbar = () => {
           </div>
         </div>
         <div>
-          {pathname === "/dashboard" && (
+          {pathname === "/dashboard/community" && (
             <div className="hidden xl:flex">
-              <PostItemDialog />
+              <Button>Ask a question</Button>
             </div>
           )}
         </div>
@@ -245,41 +246,44 @@ const PageNavbar = () => {
             </form>
           </Form>
         </div>
-        <div>
-          {categoryName === "discover" && (
-            <div className="ml-8 xl:ml-0">
-              <button
-                onClick={toggleDropdown}
-                className="flex gap-x-2 items-center rounded-md border-[1px] border-light-white-400 px-2 xl:px-8 py-[4px] bg-light-white shadow-sm cursor-pointer"
-              >
-                <Icons.backpack className="text-dark-purple" size={20} />
-                <h1 className="text-dark-purple text-md font-semibold">
-                  Categories
-                </h1>
-              </button>
-              {isDropdownOpen && (
-                <div className="bg-light-white px-3 shadow-md rounded-md mt-2 absolute z-10">
-                  {categoryFilters.map((category) => (
-                    <label
-                      key={category}
-                      className="flex items-center p-2 text-dark-purple text-sm font-semibold cursor-pointer"
+        <div className="flex flex-row items-center gap-x-2 ml-4 xl:ml-0 mt-4 xl:mt-0 mb-4 xl:mb-0 px-2 py-2 rounded-md">
+          <Form {...form}>
+            <form className="grid gap-4">
+              <FormField
+                control={form.control}
+                name="schoolCode"
+                render={({ field, fieldState: { error } }) => (
+                  <FormItem>
+                    <Select
+                      onValueChange={(value) => {
+                        field.onChange(value);
+                        setSelectedSchool(value);
+                        setIsMenuOpen(false);
+                      }}
+                      defaultValue={field.value}
                     >
-                      <input
-                        type="checkbox"
-                        checked={!!selectedCategories[category]}
-                        onChange={() => handleCategoryChange(category)}
-                      />
-                      <span className="ml-2">{category}</span>
-                    </label>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
+                      <FormControl>
+                        <SelectTrigger className="text-light-white">
+                          <SelectValue placeholder="Choose a topic" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="All">All topics</SelectItem>
+                        {topics.map((topic) => {
+                          return <SelectItem value={topic}>{topic}</SelectItem>;
+                        })}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </form>
+          </Form>
         </div>
       </div>
     </nav>
   );
 };
 
-export default PageNavbar;
+export default CommunityNavbar;
