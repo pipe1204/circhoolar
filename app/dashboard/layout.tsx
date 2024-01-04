@@ -15,16 +15,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <div className="flex flex-col h-screen">
       <DashboardNavbar />
       <div>
-        {schoolCode !== null && pathname === "/dashboard" && (
+        {schoolCode !== null && (
           <div className="flex xl:hidden">
             <PageNavbar />
-          </div>
-        )}
-      </div>
-      <div>
-        {schoolCode !== null && pathname === "/dashboard/community" && (
-          <div className="flex xl:hidden">
-            <CommunityNavbar />
           </div>
         )}
       </div>
