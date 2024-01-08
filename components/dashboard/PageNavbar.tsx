@@ -228,7 +228,7 @@ const PageNavbar = () => {
               </h1>
             </button>
             {isDropdownOpen && (
-              <div className="bg-light-white px-3 shadow-md rounded-md mt-2 absolute z-10">
+              <div className="bg-light-white px-3 shadow-md rounded-md mt-2 absolute top-28 z-10">
                 {categoryFilters.map((category) => (
                   <label
                     key={category}
