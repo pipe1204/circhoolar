@@ -42,6 +42,124 @@ export const topics = [
   "Parent-Teacher Communication",
 ];
 
+export const topicHeaders = [
+  {
+    topic: "Education and Learning",
+    description:
+      "Discussion about school curriculum, homework help, learning resources, and educational strategies.",
+  },
+  {
+    topic: "Health and Nutrition",
+    description:
+      "Topics on children’s health, dietary needs, recipes for kids, and managing food allergies.",
+  },
+  {
+    topic: "Parenting Advice",
+    description:
+      "Sharing experiences and tips on parenting, managing behavior, and developmental milestones.",
+  },
+  {
+    topic: "Extracurricular Activities",
+    description:
+      "Information about sports, arts, music, and other after-school activities.",
+  },
+  {
+    topic: "Safety and Wellbeing",
+    description:
+      "Discussing child safety (both online and offline), mental health, and emotional support.",
+  },
+  {
+    topic: "School Events and Activities",
+    description:
+      "Sharing information about upcoming school events, field trips, and holiday celebrations.",
+  },
+  {
+    topic: "Special Needs Education",
+    description:
+      "Resources and support for parents of children with special needs, including educational accommodations and therapies.",
+  },
+  {
+    topic: "Technology and Learning",
+    description:
+      "Discussing the role of technology in education, e-learning resources, and managing screen time.",
+  },
+  {
+    topic: "Teen Challenges",
+    description:
+      "Addressing issues specific to teenagers, like peer pressure, academic stress, and career guidance.",
+  },
+  {
+    topic: "Financial Advice",
+    description:
+      "Discussing savings for education, budgeting for school expenses, and fundraising ideas.",
+  },
+  {
+    topic: "Volunteering and Community Engagement",
+    description:
+      "Opportunities for parents to get involved in school activities and community projects.",
+  },
+  {
+    topic: "Local Resources and Recommendations",
+    description:
+      "Sharing information about local tutors, pediatricians, childcare, and other relevant services.",
+  },
+  {
+    topic: "Bilingual/Multicultural Education",
+    description:
+      "Topics for families raising bilingual or multicultural children.",
+  },
+  {
+    topic: "Legislation and Policy",
+    description:
+      "Discussions on education policy, school district decisions, and advocacy for change.",
+  },
+  {
+    topic: "Summer and Holiday Activities",
+    description:
+      "Ideas for keeping kids engaged and learning during school breaks.",
+  },
+  {
+    topic: "Bullying and Social Issues",
+    description:
+      "Addressing bullying, cyberbullying, social media challenges, and fostering empathy and social skills in children.",
+  },
+  {
+    topic: "Home Schooling",
+    description:
+      "Resources and support for parents who are homeschooling their children, including curriculum ideas and legal requirements.",
+  },
+  {
+    topic: "Book and Media Recommendations",
+    description:
+      "Sharing and discussing educational and entertaining books, movies, and TV shows appropriate for children.",
+  },
+  {
+    topic: "Career Guidance for Parents",
+    description:
+      "Helping parents guide their children in making career choices, understanding different career paths, and the importance of internships and work experience.",
+  },
+  {
+    topic: "Work-Life Balance",
+    description:
+      "Sharing strategies for balancing work and family responsibilities, time management, and stress reduction.",
+  },
+  {
+    topic: "Coping with Change",
+    description:
+      "Helping children deal with changes such as moving to a new school, parents' divorce, or the arrival of a new sibling.",
+  },
+  {
+    topic: "Early Childhood Development",
+    description:
+      "Focusing on preschoolers and toddlers, covering developmental milestones, early education, and play-based learning.",
+  },
+  {
+    topic: "Parent-Teacher Communication",
+    description:
+      "Strategies for effective communication with teachers and school staff, understanding the education system, and parent-teacher meetings.",
+  },
+];
+
 export const footerLinks = [
   {
     title: "For schools",
