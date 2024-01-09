@@ -274,7 +274,9 @@ const PageNavbar = () => {
                           <SelectItem value="All">All topics</SelectItem>
                           {topics.map((topic) => {
                             return (
-                              <SelectItem value={topic}>{topic}</SelectItem>
+                              <SelectItem key={topic} value={topic}>
+                                {topic}
+                              </SelectItem>
                             );
                           })}
                         </SelectContent>
