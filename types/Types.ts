@@ -19,6 +19,24 @@ export interface Post {
   schoolName: string;
 }
 
+export interface Question {
+  id: string;
+  title: string;
+  description: string;
+  link: string;
+  authorId: string;
+  author: string;
+  avatar: string;
+  schoolCode: string;
+  images: string[];
+  audience: "Private" | "Public";
+  identity: "Real name" | "Anonymous";
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+  topic: string;
+  schoolName: string;
+}
+
 export interface User {
   id: string;
   name: string;

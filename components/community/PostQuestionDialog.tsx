@@ -24,7 +24,7 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import { postItemSchema, imageSchema } from "@/lib/validations/auth";
+import { postQuestionSchema, imageSchema } from "@/lib/validations/auth";
 import { Textarea } from "../ui/textarea";
 import {
   Select,
@@ -35,42 +35,41 @@ import {
 } from "../ui/select";
 import Image from "next/image";
 import {
-  useBankDetailsStore,
   useSchoolCodeStore,
   useSchoolNameStore,
   useUserNameStore,
 } from "@/store/store";
 import { useSession } from "next-auth/react";
-import { postRef } from "@/lib/converters/Post";
+import { questionRef } from "@/lib/converters/Questions";
 import { addDoc, serverTimestamp } from "firebase/firestore";
 import { Icons } from "../Icons";
+import { topics } from "@/constants";
 
-type Inputs = z.infer<typeof postItemSchema>;
+type Inputs = z.infer<typeof postQuestionSchema>;
 type Image = z.infer<typeof imageSchema>;
 
-const PostItemDialog = () => {
+const PostQuestionDialog = () => {
   const { data: session } = useSession();
   const userName = useUserNameStore((state) => state.userName);
   const schoolCode = useSchoolCodeStore((state) => state.schoolCode);
   const schoolName = useSchoolNameStore((state) => state.schoolName);
-  const hasBankDetails = useBankDetailsStore((state) => state.hasBankDetails);
 
   const isBrowser = typeof window !== "undefined";
-  const [priceType, setPriceType] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [files, setFiles] = useState<string[]>([]);
   const [fileObjects, setFileObjects] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
+  const [imageSelected, setImageSelected] = useState(false);
   const [error, setError] = useState("");
-  const [imageSelected, setImageSelected] = useState(true);
+  const [imageUpload, setImageUpload] = useState("No image");
 
   // react-hook-form
   const form = useForm<Inputs>({
-    resolver: zodResolver(postItemSchema),
+    resolver: zodResolver(postQuestionSchema),
     defaultValues: {
-      title: "",
+      question: "",
       description: "",
-      price: "",
+      uploadImage: "No image",
     },
   });
 
@@ -83,11 +82,12 @@ const PostItemDialog = () => {
     setIsOpen(isOpen);
 
     if (!isOpen) {
+      // Reset form fields
       form.reset();
       Imageform.reset();
+
+      // Clear the file names and images state
       setFiles([]);
-      setPriceType("Free");
-      setImageSelected(true);
 
       // Reset file input
       const fileInput = document.getElementById(
@@ -104,8 +104,6 @@ const PostItemDialog = () => {
     form.reset();
     Imageform.reset();
     setFiles([]);
-    setPriceType("Free");
-    setImageSelected(true);
 
     // Reset file input
     const fileInput = document.getElementById("file_input") as HTMLInputElement;
@@ -114,10 +112,12 @@ const PostItemDialog = () => {
     }
   };
 
-  const handlePriceTypeChange = (value: string) => {
-    setPriceType(value);
-    if (value === "Free") {
-      form.setValue("price", "0");
+  const handleUploadImageToggle = (value: string) => {
+    setImageUpload(value);
+    if (value === "Upload image") {
+      setImageSelected(true);
+    } else {
+      setImageSelected(false);
     }
   };
 
@@ -157,15 +157,6 @@ const PostItemDialog = () => {
   //Uploading files to CLoudinary and Firebase
   async function onSubmit(data: Inputs) {
     setLoading(true);
-
-    if (data.sellingmethod === "Cost" && !hasBankDetails) {
-      setError(
-        "Please add your bank details in the account settings to sell items for a cost."
-      );
-      setLoading(false);
-      return;
-    }
-
     if (fileObjects.length > 0) {
       try {
         const uploadedImageUrls = await Promise.all(
@@ -173,7 +164,6 @@ const PostItemDialog = () => {
             const formData = new FormData();
             formData.append("file", file);
             formData.append("upload_preset", "circhoolar");
-
             const response = await fetch(
               `https://api.cloudinary.com/v1_1/circhoo/image/upload`,
               {
@@ -181,71 +171,58 @@ const PostItemDialog = () => {
                 body: formData,
               }
             );
-
             const data = await response.json();
             return data.secure_url;
           })
         );
-
         const randomNumber = Math.floor(Math.random() * 10000);
-        const post = {
-          id: `${data.title}-${randomNumber}`,
-          title: data.title,
+        const question = {
+          id: `${data.question}-${randomNumber}`,
+          title: data.question,
           description: data.description,
-          price: data.sellingmethod === "Free" ? 0 : data.price,
-          sellingmethod: data.sellingmethod,
-          condition: data.condition,
-          category: data.category,
-          images:
-            uploadedImageUrls.length > 0
-              ? uploadedImageUrls
-              : [
-                  "https://res.cloudinary.com/circhoo/image/upload/v1701302694/Circhoolar-dark_bcrnqm.png",
-                ],
+          topic: data.topic,
+          audience: data.audience,
+          identity: data.identity,
+          link: data.link ?? "",
+          images: uploadedImageUrls.length > 0 ? uploadedImageUrls : [""],
           authorId: session?.user?.id ?? "Unknown",
           author: session?.user?.name ?? userName ?? "Unknown",
           avatar: session?.user?.image ?? "https://github.com/shadcn.png",
           schoolCode: schoolCode || "Unknown",
           createdAt: serverTimestamp(),
           updatedAt: serverTimestamp(),
-          isSold: false,
           schoolName: schoolName,
         };
-
         try {
-          const docRef = await addDoc(postRef, post);
-          console.log("Post created successfully with ID:", docRef.id);
+          const docRef = await addDoc(questionRef, question);
+          console.log("Question created successfully with ID:", docRef.id);
         } catch (error) {
           console.error("Error creating post:", error);
         }
         setLoading(false);
         setIsOpen(false);
-        setPriceType("Free");
         setFiles([]);
         setFileObjects([]);
-        setImageSelected(true);
-        setError("");
         form.reset({
-          title: "",
+          question: "",
           description: "",
-          price: "",
-          sellingmethod: "Free",
-          condition: "Great condition",
-          category: "",
+          link: "",
+          topic: "",
+          audience: "Private",
+          identity: "Real name",
         });
       } catch (error) {
         console.error("Error uploading images:", error);
       }
     } else {
       setLoading(false);
-      setError("Please upload an image");
     }
   }
 
   return (
     <Dialog open={isOpen} onOpenChange={handleDialogChange}>
       <DialogTrigger asChild>
-        <Button variant="secondary">Post an item</Button>
+        <Button variant="secondary">Ask a question</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader className="w-full">
@@ -256,51 +233,56 @@ const PostItemDialog = () => {
             />
           </div>
           <DialogTitle className="text-light-white text-center">
-            Create a new post
+            Ask the community
           </DialogTitle>
           <DialogDescription className="text-light-white text-center">
-            Donate or sell an item to the community
+            Let other parents help you with any questions or concerns you might
+            have
           </DialogDescription>
         </DialogHeader>
         <div className="max-h-[450px] xl:max-h-[500px] overflow-y-auto">
-          <form
-            className="grid gap-4 mb-4"
-            onSubmit={handleSubmit(onImageSubmit)}
-          >
-            <label className="text-light-white text-sx">
-              Upload image (Required)
-            </label>
-            <input
-              {...register("image")}
-              className="w-full rounded-md border border-light-white text-light-white bg-background py-2 px-3"
-              id="file_input"
-              type="file"
-            />
-            <Button
-              type="submit"
-              variant={"outlineLight"}
-              className="text-background hover:text-light-white"
-            >
-              Upload file
-            </Button>
-          </form>
-          <div className="mb-4">
-            {files.length > 0 && (
-              <div className="flex flex-col gap-2">
-                {files.map((file, index) => (
-                  <div key={index} className="flex justify-between">
-                    <p className=" text-paragraph-color text-sm font-semibold">
-                      {file}
-                    </p>
-                    <Icons.close
-                      className="text-paragraph-color cursor-pointer"
-                      onClick={onDeleteFile(index)}
-                    />
+          {imageUpload === "Upload image" && (
+            <div>
+              <form
+                className="grid gap-4 mb-4"
+                onSubmit={handleSubmit(onImageSubmit)}
+              >
+                <label className="text-light-white text-sx">
+                  Image (Optional)
+                </label>
+                <input
+                  {...register("image")}
+                  className="w-full rounded-md border border-light-white text-light-white bg-background py-2 px-3"
+                  id="file_input"
+                  type="file"
+                />
+                <Button
+                  type="submit"
+                  variant={"outlineLight"}
+                  className="text-background hover:text-light-white"
+                >
+                  Upload file
+                </Button>
+              </form>
+              <div className="mb-4">
+                {files.length > 0 && (
+                  <div className="flex flex-col gap-2">
+                    {files.map((file, index) => (
+                      <div key={index} className="flex justify-between">
+                        <p className=" text-paragraph-color text-sm font-semibold">
+                          {file}
+                        </p>
+                        <Icons.close
+                          className="text-paragraph-color cursor-pointer"
+                          onClick={onDeleteFile(index)}
+                        />
+                      </div>
+                    ))}
                   </div>
-                ))}
+                )}
               </div>
-            )}
-          </div>
+            </div>
+          )}
           <Form {...form}>
             <form
               className="grid gap-4"
@@ -308,12 +290,44 @@ const PostItemDialog = () => {
             >
               <FormField
                 control={form.control}
-                name="title"
+                name="uploadImage"
                 render={({ field }) => (
-                  <FormItem>
-                    <label className="text-light-white text-sx">Title</label>
+                  <FormItem className="space-y-3">
+                    <FormLabel className="text-light-white">
+                      Upload an image (Optional)
+                    </FormLabel>
                     <FormControl>
-                      <Input placeholder="Brown shoes" {...field} />
+                      <RadioGroup
+                        onValueChange={(value) => {
+                          field.onChange(value);
+                          handleUploadImageToggle(value);
+                        }}
+                        defaultValue={field.value}
+                        className="flex flex-col space-y-1"
+                      >
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem
+                              value="No image"
+                              className="border border-light-white text-light-white"
+                            />
+                          </FormControl>
+                          <FormLabel className="font-normal text-light-white">
+                            No image
+                          </FormLabel>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem
+                              value="Upload image"
+                              className="border border-light-white text-light-white"
+                            />
+                          </FormControl>
+                          <FormLabel className="font-normal text-light-white">
+                            Upload image
+                          </FormLabel>
+                        </FormItem>
+                      </RadioGroup>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -321,15 +335,33 @@ const PostItemDialog = () => {
               />
               <FormField
                 control={form.control}
+                name="question"
+                render={({ field }) => (
+                  <FormItem>
+                    <label className="text-light-white text-sx">Title</label>
+                    <FormControl>
+                      <Input
+                        placeholder="How can I improve my toddler's language s
+                        kills?"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
                 name="description"
                 render={({ field }) => (
                   <FormItem>
                     <label className="text-light-white text-sx">
-                      Description (Optional)
+                      Text (Optional)
                     </label>
                     <FormControl>
                       <Textarea
-                        placeholder="Tell us a little bit about the item"
+                        placeholder="I am looking for tips and activities to boost my 2-year-old language development. What has worked for you and your child?"
                         className="resize-none text-light-white"
                         {...field}
                       />
@@ -340,11 +372,56 @@ const PostItemDialog = () => {
               />
               <FormField
                 control={form.control}
-                name="condition"
+                name="link"
+                render={({ field }) => (
+                  <FormItem>
+                    <label className="text-light-white text-sx">
+                      Add a link (Optional)
+                    </label>
+                    <FormControl>
+                      <Input placeholder="https://www.example.com" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="topic"
+                render={({ field, fieldState: { error } }) => (
+                  <FormItem>
+                    <FormLabel className="text-light-white">Topics</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="text-light-white">
+                          <SelectValue placeholder="Choose a topic" />
+                        </SelectTrigger>
+                      </FormControl>
+
+                      <SelectContent>
+                        {topics.map((topic) => {
+                          return (
+                            <SelectItem key={topic} value={topic}>
+                              {topic}
+                            </SelectItem>
+                          );
+                        })}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="audience"
                 render={({ field }) => (
                   <FormItem className="space-y-3">
                     <FormLabel className="text-light-white">
-                      Item condition
+                      Select an Audience for your question
                     </FormLabel>
                     <FormControl>
                       <RadioGroup
@@ -355,35 +432,30 @@ const PostItemDialog = () => {
                         <FormItem className="flex items-center space-x-3 space-y-0">
                           <FormControl>
                             <RadioGroupItem
-                              value="Great condition"
+                              value="Private"
                               className="border border-light-white text-light-white"
                             />
                           </FormControl>
                           <FormLabel className="font-normal text-light-white">
-                            Great condition
+                            Private
                           </FormLabel>
+                          <p className="text-xs text-light-white">
+                            (Post only on your school community)
+                          </p>
                         </FormItem>
                         <FormItem className="flex items-center space-x-3 space-y-0">
                           <FormControl>
                             <RadioGroupItem
-                              value="Good condition"
+                              value="Public"
                               className="border border-light-white text-light-white"
                             />
                           </FormControl>
                           <FormLabel className="font-normal text-light-white">
-                            Good condition
+                            Public
                           </FormLabel>
-                        </FormItem>
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem
-                              value="Fair condition"
-                              className="border border-light-white text-light-white"
-                            />
-                          </FormControl>
-                          <FormLabel className="font-normal text-light-white">
-                            Fair condition
-                          </FormLabel>
+                          <p className="text-xs text-light-white">
+                            (Post on other school communities too)
+                          </p>
                         </FormItem>
                       </RadioGroup>
                     </FormControl>
@@ -393,107 +465,47 @@ const PostItemDialog = () => {
               />
               <FormField
                 control={form.control}
-                name="category"
-                render={({ field, fieldState: { error } }) => (
-                  <FormItem>
-                    <FormLabel className="text-light-white">
-                      Item category
-                    </FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger className="text-light-white">
-                          <SelectValue placeholder="Select a category" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="Clothing">Clothing</SelectItem>
-                        <SelectItem value="Toys">Toys</SelectItem>
-                        <SelectItem value="Books">Books</SelectItem>
-                        <SelectItem value="Infant & Toddler">
-                          Infant & Toddler
-                        </SelectItem>
-                        <SelectItem value="School supplies">
-                          School supplies
-                        </SelectItem>
-                        <SelectItem value="Furniture">Furniture</SelectItem>
-                        <SelectItem value="Electronics">Electronics</SelectItem>
-                        <SelectItem value="Sporting goods">
-                          Sporting goods
-                        </SelectItem>
-                        <SelectItem value="Home and Garden">
-                          Home and Garden
-                        </SelectItem>
-                        <SelectItem value="Vehicles">Vehicles</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="sellingmethod"
+                name="identity"
                 render={({ field }) => (
                   <FormItem className="space-y-3">
-                    <FormLabel className="text-light-white">Price</FormLabel>
+                    <FormLabel className="text-light-white">
+                      Choose Your Posting Identity
+                    </FormLabel>
                     <FormControl>
                       <RadioGroup
-                        onValueChange={(value) => {
-                          field.onChange(value);
-                          handlePriceTypeChange(value);
-                        }}
+                        onValueChange={field.onChange}
                         defaultValue={field.value}
                         className="flex flex-col space-y-1"
                       >
                         <FormItem className="flex items-center space-x-3 space-y-0">
                           <FormControl>
                             <RadioGroupItem
-                              value="Free"
+                              value="Real name"
                               className="border border-light-white text-light-white"
                             />
                           </FormControl>
                           <FormLabel className="font-normal text-light-white">
-                            Free
+                            Use my real name
                           </FormLabel>
                         </FormItem>
                         <FormItem className="flex items-center space-x-3 space-y-0">
                           <FormControl>
                             <RadioGroupItem
-                              value="Cost"
+                              value="Anonymous"
                               className="border border-light-white text-light-white"
                             />
                           </FormControl>
                           <FormLabel className="font-normal text-light-white">
-                            Cost
+                            Anonymous
                           </FormLabel>
                         </FormItem>
                       </RadioGroup>
                     </FormControl>
-
-                    {priceType === "Cost" && (
-                      <FormField
-                        control={form.control}
-                        name="price"
-                        render={({ field }) => (
-                          <FormItem>
-                            <label className="text-light-white text-sx">
-                              Price
-                            </label>
-                            <FormControl>
-                              <Input placeholder="$10" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    )}
                     <FormMessage />
                   </FormItem>
                 )}
               />
+
               <DialogFooter>
                 <div className="w-full flex flex-col justify-center items-center my-10">
                   <Button
@@ -501,7 +513,7 @@ const PostItemDialog = () => {
                     className="text-light-white bg-background w-9/12"
                     disabled={imageSelected}
                   >
-                    {loading ? "Uploading..." : "Post"}
+                    {loading ? "Uploading..." : "Ask"}
                   </Button>
                   {error && (
                     <p className="text-red text-sm mt-2 text-center">{error}</p>
@@ -521,4 +533,4 @@ const PostItemDialog = () => {
   );
 };
 
-export default PostItemDialog;
+export default PostQuestionDialog;

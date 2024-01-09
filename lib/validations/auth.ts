@@ -75,6 +75,24 @@ export const postItemSchema = z.object({
   }),
 });
 
+export const postQuestionSchema = z.object({
+  question: z.string().min(2, {
+    message: "Title must be at least 2 characters long",
+  }),
+  description: z.string(),
+  link: z.string().optional(),
+  topic: z.string({
+    required_error: "Please select a topic.",
+  }),
+  audience: z.enum(["Private", "Public"], {
+    required_error: "You need to select an audience.",
+  }),
+  identity: z.enum(["Real name", "Anonymous"], {
+    required_error: "You need to select an identity.",
+  }),
+  uploadImage: z.enum(["No image", "Upload image"], {}),
+});
+
 export const imageSchema = z.object({
   image: z.any(),
 });

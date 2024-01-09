@@ -25,6 +25,7 @@ import type { z } from "zod";
 import { schoolSchema, topicSchema } from "@/lib/validations/auth";
 import { useCategoriesStore, useSelectedSchoolStore } from "@/store/store";
 import { Button } from "../ui/Button";
+import PostQuestionDialog from "./PostQuestionDialog";
 
 const PostItemDialog = dynamic(() => import("../item/PostItemDialog"), {
   ssr: false,
@@ -146,7 +147,7 @@ const CommunityNavbar = () => {
         <div>
           {pathname === "/dashboard/community" && (
             <div className="hidden xl:flex">
-              <Button>Ask a question</Button>
+              <PostQuestionDialog />
             </div>
           )}
         </div>

@@ -19,7 +19,7 @@ const Question = () => {
         <CardHeader>
           <CardTitle>This is a question</CardTitle>
         </CardHeader>
-        <Separator />
+        <Separator className="mb-2" />
         <CardContent>
           <CardDescription>
             This is the description or the answer to the questions people
