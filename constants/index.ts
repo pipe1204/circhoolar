@@ -44,6 +44,11 @@ export const topics = [
 
 export const topicHeaders = [
   {
+    topic: "All",
+    description:
+      "From Early Childhood Development, to Work-Life Balance, All the topics related to parenting and education.",
+  },
+  {
     topic: "Education and Learning",
     description:
       "Discussion about school curriculum, homework help, learning resources, and educational strategies.",
