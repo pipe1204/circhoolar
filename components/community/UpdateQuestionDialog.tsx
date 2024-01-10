@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -24,7 +24,7 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import { postQuestionSchema, imageSchema } from "@/lib/validations/auth";
+import { imageSchema, postQuestionSchema } from "@/lib/validations/auth";
 import { Textarea } from "../ui/textarea";
 import {
   Select,
@@ -34,33 +34,34 @@ import {
   SelectValue,
 } from "../ui/select";
 import Image from "next/image";
-import {
-  useSchoolCodeStore,
-  useSchoolNameStore,
-  useUserNameStore,
-} from "@/store/store";
+import { useUserNameStore } from "@/store/store";
 import { useSession } from "next-auth/react";
-import { questionRef } from "@/lib/converters/Questions";
-import { addDoc, serverTimestamp } from "firebase/firestore";
+import { doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { Icons } from "../Icons";
+import { Question } from "@/types/Types";
+import { questionRef } from "@/lib/converters/Questions";
 import { topics } from "@/constants";
 
 type Inputs = z.infer<typeof postQuestionSchema>;
 type Image = z.infer<typeof imageSchema>;
 
-const PostQuestionDialog = () => {
+interface UpdateItemDialogProps {
+  itemId: string;
+}
+
+const UpdateQuestionDialog = ({ itemId }: UpdateItemDialogProps) => {
   const { data: session } = useSession();
   const userName = useUserNameStore((state) => state.userName);
-  const schoolCode = useSchoolCodeStore((state) => state.schoolCode);
-  const schoolName = useSchoolNameStore((state) => state.schoolName);
 
   const isBrowser = typeof window !== "undefined";
+  const [priceType, setPriceType] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [files, setFiles] = useState<string[]>([]);
   const [fileObjects, setFileObjects] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
-  const [imageSelected, setImageSelected] = useState(false);
   const [error, setError] = useState("");
+  const [imageSelected, setImageSelected] = useState(true);
+  const [question, setQuestion] = useState<Question | null>(null);
   const [imageUpload, setImageUpload] = useState("No image");
 
   // react-hook-form
@@ -77,6 +78,33 @@ const PostQuestionDialog = () => {
     },
   });
 
+  useEffect(() => {
+    fetchQuestionData(itemId);
+  }, [itemId]);
+
+  const fetchQuestionData = async (itemId: string) => {
+    if (itemId) {
+      try {
+        const docRef = doc(questionRef, itemId); // Use the postRef with your converter
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          setQuestion(docSnap.data() as Question);
+          setFiles(docSnap.data()?.images);
+          if (docSnap.data()?.images.length > 0) {
+            setImageUpload("Upload image");
+          } else {
+            setImageUpload("No image");
+          }
+        } else {
+          console.log("No such document!");
+        }
+      } catch (error) {
+        console.error("Error fetching post:", error);
+      }
+    }
+  };
+
   const Imageform = useForm<Image>({
     resolver: zodResolver(imageSchema),
   });
@@ -85,30 +113,25 @@ const PostQuestionDialog = () => {
   const handleDialogChange = (isOpen: boolean) => {
     setIsOpen(isOpen);
 
-    if (!isOpen) {
-      // Reset form fields
-      form.reset();
-      Imageform.reset();
-
-      // Clear the file names and images state
-      setFiles([]);
-
-      // Reset file input
-      const fileInput = document.getElementById(
-        "file_input"
-      ) as HTMLInputElement;
-      if (fileInput) {
-        fileInput.value = "";
-      }
+    if (question && session?.user?.id) {
+      form.setValue("title", question.title);
+      form.setValue("description", question.description);
+      form.setValue("link", question.link);
+      form.setValue("topic", question.topic);
+      form.setValue("audience", question.audience);
+      form.setValue("identity", question.identity);
+      form.setValue(
+        "uploadImage",
+        imageUpload === "Upload image" ? "Upload image" : "No image"
+      );
     }
   };
 
+  console.log(imageUpload);
+
   const handleCloseDialog = () => {
     setIsOpen(false);
-    form.reset();
-    Imageform.reset();
-    setFiles([]);
-
+    fetchQuestionData(itemId);
     // Reset file input
     const fileInput = document.getElementById("file_input") as HTMLInputElement;
     if (fileInput) {
@@ -125,6 +148,7 @@ const PostQuestionDialog = () => {
     }
   };
 
+  //Uploading image files to UI for users to see
   const { register, handleSubmit } = useForm();
 
   const onImageSubmit = async (data: any) => {
@@ -145,84 +169,115 @@ const PostQuestionDialog = () => {
     }
   };
 
-  const onDeleteFile = (index: number) => () => {
-    const newFiles = [...files];
-    newFiles.splice(index, 1);
-    setFiles(newFiles);
-    if (newFiles.length === 0) {
-      setImageSelected(true);
-    }
-
-    const newFileObjects = [...fileObjects];
-    newFileObjects.splice(index, 1);
-    setFileObjects(newFileObjects);
-  };
-
   //Uploading files to CLoudinary and Firebase
   async function onSubmit(data: Inputs) {
     setLoading(true);
-    try {
-      const uploadedImageUrls = await Promise.all(
-        fileObjects.map(async (file) => {
-          const formData = new FormData();
-          formData.append("file", file);
-          formData.append("upload_preset", "circhoolar");
-          const response = await fetch(
-            `https://api.cloudinary.com/v1_1/circhoo/image/upload`,
-            {
-              method: "POST",
-              body: formData,
-            }
-          );
-          const data = await response.json();
-          return data.secure_url;
-        })
-      );
-      const randomNumber = Math.floor(Math.random() * 10000);
-      const question = {
-        id: `${data.title}-${randomNumber}`,
-        title: data.title,
-        description: data.description,
-        topic: data.topic,
-        audience: data.audience,
-        identity: data.identity,
-        link: data.link ?? "",
-        images: uploadedImageUrls.length > 0 ? uploadedImageUrls : [],
-        authorId: session?.user?.id ?? "Unknown",
-        author: session?.user?.name ?? userName ?? "Unknown",
-        avatar: session?.user?.image ?? "https://github.com/shadcn.png",
-        schoolCode: schoolCode || "Unknown",
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
-        schoolName: schoolName,
-      };
-      try {
-        const docRef = await addDoc(questionRef, question);
-        console.log("Question created successfully with ID:", docRef.id);
-      } catch (error) {
-        console.error("Error creating post:", error);
-      }
+
+    if (
+      data.title === question?.title &&
+      data.description === question?.description &&
+      data.topic === question?.topic &&
+      data.link === question?.link &&
+      data.audience === question?.audience &&
+      data.identity === question?.identity.toString() &&
+      files.length === 0
+    ) {
       setLoading(false);
       setIsOpen(false);
-      setFiles([]);
-      setFileObjects([]);
-      form.reset({
-        title: "",
-        description: "",
-        link: "",
-        topic: "",
-        audience: "Private",
-        identity: "Real name",
-      });
-    } catch (error) {
-      console.error("Error uploading images:", error);
+      return;
+    } else if (files.length > 0 && imageUpload === "No image") {
+      const docRef = doc(questionRef, itemId);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        await updateDoc(docRef, {
+          title: data.title,
+          description: data.description,
+          link: data.link,
+          topic: data.topic,
+          audience: data.audience,
+          identity: data.identity,
+          updatedAt: serverTimestamp(),
+          images: [],
+        });
+        setLoading(false);
+        setIsOpen(false);
+      }
+    } else {
+      if (fileObjects.length > 0) {
+        try {
+          const uploadedImageUrls = await Promise.all(
+            fileObjects.map(async (file) => {
+              const formData = new FormData();
+              formData.append("file", file);
+              formData.append("upload_preset", "circhoolar");
+
+              const response = await fetch(
+                `https://api.cloudinary.com/v1_1/circhoo/image/upload`,
+                {
+                  method: "POST",
+                  body: formData,
+                }
+              );
+
+              const data = await response.json();
+              return data.secure_url;
+            })
+          );
+
+          // Upload the post to Firestore
+          const docRef = doc(questionRef, itemId);
+          const docSnap = await getDoc(docRef);
+
+          if (docSnap.exists()) {
+            await updateDoc(docRef, {
+              title: data.title,
+              description: data.description,
+              link: data.link,
+              topic: data.topic,
+              audience: data.audience,
+              identity: data.identity,
+              images: uploadedImageUrls,
+              updatedAt: serverTimestamp(),
+            });
+            setLoading(false);
+            setIsOpen(false);
+            fetchQuestionData(itemId);
+          }
+        } catch (error) {
+          console.error("Error uploading images:", error);
+        }
+      } else {
+        const docRef = doc(questionRef, itemId);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          await updateDoc(docRef, {
+            title: data.title,
+            description: data.description,
+            link: data.link,
+            topic: data.topic,
+            audience: data.audience,
+            identity: data.identity,
+            updatedAt: serverTimestamp(),
+          });
+          setLoading(false);
+          setIsOpen(false);
+          fetchQuestionData(itemId);
+        }
+        setLoading(false);
+        setError("Please upload an image");
+      }
     }
   }
 
   return (
     <Dialog open={isOpen} onOpenChange={handleDialogChange}>
       <DialogTrigger asChild>
-        <Button variant="secondary">Ask</Button>
+        <Button variant="link" className="w-full text-dark-purple">
+          <Icons.edit size={15} className="mr-2" />
+          Edit
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader className="w-full">
@@ -233,11 +288,10 @@ const PostQuestionDialog = () => {
             />
           </div>
           <DialogTitle className="text-light-white text-center">
-            Ask the community
+            Create a new post
           </DialogTitle>
           <DialogDescription className="text-light-white text-center">
-            Let other parents help you with any questions or concerns you might
-            have
+            Donate or sell an item to the community
           </DialogDescription>
         </DialogHeader>
         <div className="max-h-[450px] xl:max-h-[500px] overflow-y-auto">
@@ -248,7 +302,7 @@ const PostQuestionDialog = () => {
                 onSubmit={handleSubmit(onImageSubmit)}
               >
                 <label className="text-light-white text-sx">
-                  Image (Optional)
+                  Upload image (Optional)
                 </label>
                 <input
                   {...register("image")}
@@ -268,14 +322,10 @@ const PostQuestionDialog = () => {
                 {files.length > 0 && (
                   <div className="flex flex-col gap-2">
                     {files.map((file, index) => (
-                      <div key={index} className="flex justify-between">
-                        <p className=" text-paragraph-color text-sm font-semibold">
+                      <div key={index}>
+                        <p className=" text-paragraph-color text-sm font-semibold overflow-auto">
                           {file}
                         </p>
-                        <Icons.close
-                          className="text-paragraph-color cursor-pointer"
-                          onClick={onDeleteFile(index)}
-                        />
                       </div>
                     ))}
                   </div>
@@ -283,6 +333,7 @@ const PostQuestionDialog = () => {
               </div>
             </div>
           )}
+
           <Form {...form}>
             <form
               className="grid gap-4"
@@ -505,24 +556,14 @@ const PostQuestionDialog = () => {
                   </FormItem>
                 )}
               />
-
               <DialogFooter>
                 <div className="w-full flex flex-col justify-center items-center my-10">
                   <Button
                     variant={"outline"}
                     className="text-light-white bg-background w-9/12"
-                    disabled={imageSelected}
                   >
-                    {loading ? "Uploading..." : "Ask"}
+                    {loading ? "Uploading..." : "Update details"}
                   </Button>
-                  {error && (
-                    <p className="text-red text-sm mt-2 text-center">{error}</p>
-                  )}
-                  {imageSelected && (
-                    <p className="text-red text-sm mt-2">
-                      Please upload an image
-                    </p>
-                  )}
                 </div>
               </DialogFooter>
             </form>
@@ -533,4 +574,4 @@ const PostQuestionDialog = () => {
   );
 };
 
-export default PostQuestionDialog;
+export default UpdateQuestionDialog;

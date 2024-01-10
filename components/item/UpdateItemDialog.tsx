@@ -73,26 +73,26 @@ const UpdateItemDialog = ({ itemId }: UpdateItemDialogProps) => {
   });
 
   useEffect(() => {
-    const fetchPost = async () => {
-      if (itemId) {
-        try {
-          const docRef = doc(postRef, itemId); // Use the postRef with your converter
-          const docSnap = await getDoc(docRef);
-
-          if (docSnap.exists()) {
-            setItem(docSnap.data() as Post);
-            setFiles(docSnap.data()?.images);
-          } else {
-            console.log("No such document!");
-          }
-        } catch (error) {
-          console.error("Error fetching post:", error);
-        }
-      }
-    };
-
-    fetchPost();
+    fetchItemData(itemId);
   }, [itemId]);
+
+  const fetchItemData = async (itemId: string) => {
+    if (itemId) {
+      try {
+        const docRef = doc(postRef, itemId); // Use the postRef with your converter
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          setItem(docSnap.data() as Post);
+          setFiles(docSnap.data()?.images);
+        } else {
+          console.log("No such document!");
+        }
+      } catch (error) {
+        console.error("Error fetching post:", error);
+      }
+    }
+  };
 
   const Imageform = useForm<Image>({
     resolver: zodResolver(imageSchema),
@@ -114,6 +114,7 @@ const UpdateItemDialog = ({ itemId }: UpdateItemDialogProps) => {
 
   const handleCloseDialog = () => {
     setIsOpen(false);
+    fetchItemData(itemId);
     // Reset file input
     const fileInput = document.getElementById("file_input") as HTMLInputElement;
     if (fileInput) {
@@ -204,6 +205,7 @@ const UpdateItemDialog = ({ itemId }: UpdateItemDialogProps) => {
             });
             setLoading(false);
             setIsOpen(false);
+            fetchItemData(itemId);
           }
         } catch (error) {
           console.error("Error uploading images:", error);
@@ -224,6 +226,7 @@ const UpdateItemDialog = ({ itemId }: UpdateItemDialogProps) => {
           });
           setLoading(false);
           setIsOpen(false);
+          fetchItemData(itemId);
         }
         setLoading(false);
         setError("Please upload an image");
@@ -281,7 +284,7 @@ const UpdateItemDialog = ({ itemId }: UpdateItemDialogProps) => {
               <div className="flex flex-col gap-2">
                 {files.map((file, index) => (
                   <div key={index}>
-                    <p className=" text-paragraph-color text-sm font-semibold">
+                    <p className=" text-paragraph-color text-sm font-semibold overflow-auto">
                       {file}
                     </p>
                   </div>
