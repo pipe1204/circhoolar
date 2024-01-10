@@ -13,11 +13,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import useMainQuestions from "@/hooks/useMainQuestions";
 import { communityQuestionsAudience } from "@/lib/validations/auth";
-import {
-  useAudienceSelectedStore,
-  useSelectedSchoolStore,
-  useTopicStore,
-} from "@/store/store";
+import { useAudienceSelectedStore, useTopicStore } from "@/store/store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect } from "react";
 import { set, useForm } from "react-hook-form";
