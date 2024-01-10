@@ -84,7 +84,18 @@ const page = () => {
                         />
                       </FormControl>
                       <FormLabel className="font-normal text-dark">
-                        My School Community
+                        My school community
+                      </FormLabel>
+                    </FormItem>
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem
+                          value="Own"
+                          className="border border-dark text-dark"
+                        />
+                      </FormControl>
+                      <FormLabel className="font-normal text-dark">
+                        My own posts
                       </FormLabel>
                     </FormItem>
                   </RadioGroup>

@@ -127,8 +127,6 @@ const UpdateQuestionDialog = ({ itemId }: UpdateItemDialogProps) => {
     }
   };
 
-  console.log(imageUpload);
-
   const handleCloseDialog = () => {
     setIsOpen(false);
     fetchQuestionData(itemId);
