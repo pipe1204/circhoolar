@@ -23,8 +23,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import { schoolSchema, topicSchema } from "@/lib/validations/auth";
-import { useCategoriesStore, useSelectedSchoolStore } from "@/store/store";
+import {
+  useCategoriesStore,
+  useSelectedSchoolStore,
+  useTopicStore,
+} from "@/store/store";
 import { Button } from "../ui/Button";
+import PostQuestionDialog from "../community/PostQuestionDialog";
 
 const PostItemDialog = dynamic(() => import("../item/PostItemDialog"), {
   ssr: false,
@@ -37,7 +42,7 @@ const PageNavbar = () => {
     (state) => state.setSelectedSchool
   );
 
-  const [topic, setTopic] = useState<string | null>(null);
+  const setTopic = useTopicStore((state) => state.setTopic);
 
   const setCategories = useCategoriesStore((state) => state.setCategories);
 
@@ -287,7 +292,7 @@ const PageNavbar = () => {
                 />
               </form>
             </Form>
-            <Button>Ask</Button>
+            <PostQuestionDialog />
           </div>
         )}
       </div>

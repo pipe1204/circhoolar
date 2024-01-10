@@ -56,6 +56,29 @@ export const useCategoriesStore = create<CategoriesState>((set) => ({
   setCategories: (categories: string[] | null) => set({ categories }),
 }));
 
+interface TopicState {
+  topic: string | null;
+  setTopic: (topic: string | null) => void;
+}
+
+export const useTopicStore = create<TopicState>((set) => ({
+  topic: null,
+  setTopic: (topic: string | null) => set({ topic }),
+}));
+
+interface audienceSelectedState {
+  audienceSelected: string | null;
+  setAudienceSelected: (audienceSelected: string | null) => void;
+}
+
+export const useAudienceSelectedStore = create<audienceSelectedState>(
+  (set) => ({
+    audienceSelected: null,
+    setAudienceSelected: (audienceSelected: string | null) =>
+      set({ audienceSelected }),
+  })
+);
+
 interface TotalUnreadMessagesState {
   totalUnreadMessages: number | null;
   setTotalUnreadMessages: (totalUnreadMessages: number | null) => void;

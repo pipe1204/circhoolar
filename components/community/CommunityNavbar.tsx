@@ -23,19 +23,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import { schoolSchema, topicSchema } from "@/lib/validations/auth";
-import { useCategoriesStore, useSelectedSchoolStore } from "@/store/store";
-import { Button } from "../ui/Button";
+import { useCategoriesStore, useTopicStore } from "@/store/store";
 import PostQuestionDialog from "./PostQuestionDialog";
 
-const PostItemDialog = dynamic(() => import("../item/PostItemDialog"), {
-  ssr: false,
-});
 type topicInputs = z.infer<typeof topicSchema>;
 
 const CommunityNavbar = () => {
-  const setSelectedSchool = useSelectedSchoolStore(
-    (state) => state.setSelectedSchool
-  );
+  const setTopic = useTopicStore((state) => state.setTopic);
 
   const setCategories = useCategoriesStore((state) => state.setCategories);
 
@@ -96,7 +90,6 @@ const CommunityNavbar = () => {
   const [selectedCategories, setSelectedCategories] = useState<
     Record<string, boolean>
   >({});
-  const [topic, setTopic] = useState<string | null>(null);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -174,7 +167,11 @@ const CommunityNavbar = () => {
                       <SelectContent>
                         <SelectItem value="All">All topics</SelectItem>
                         {topics.map((topic) => {
-                          return <SelectItem value={topic}>{topic}</SelectItem>;
+                          return (
+                            <SelectItem key={topic} value={topic}>
+                              {topic}
+                            </SelectItem>
+                          );
                         })}
                       </SelectContent>
                     </Select>

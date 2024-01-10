@@ -97,6 +97,10 @@ export const imageSchema = z.object({
   image: z.any(),
 });
 
+export const communityQuestionsAudience = z.object({
+  audience: z.enum(["Private", "Public"], {}),
+});
+
 export const schoolSchema = z.object({
   schoolCode: z.string(),
 });

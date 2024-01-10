@@ -157,72 +157,68 @@ const PostQuestionDialog = () => {
   //Uploading files to CLoudinary and Firebase
   async function onSubmit(data: Inputs) {
     setLoading(true);
-    if (fileObjects.length > 0) {
+    try {
+      const uploadedImageUrls = await Promise.all(
+        fileObjects.map(async (file) => {
+          const formData = new FormData();
+          formData.append("file", file);
+          formData.append("upload_preset", "circhoolar");
+          const response = await fetch(
+            `https://api.cloudinary.com/v1_1/circhoo/image/upload`,
+            {
+              method: "POST",
+              body: formData,
+            }
+          );
+          const data = await response.json();
+          return data.secure_url;
+        })
+      );
+      const randomNumber = Math.floor(Math.random() * 10000);
+      const question = {
+        id: `${data.question}-${randomNumber}`,
+        title: data.question,
+        description: data.description,
+        topic: data.topic,
+        audience: data.audience,
+        identity: data.identity,
+        link: data.link ?? "",
+        images: uploadedImageUrls.length > 0 ? uploadedImageUrls : [""],
+        authorId: session?.user?.id ?? "Unknown",
+        author: session?.user?.name ?? userName ?? "Unknown",
+        avatar: session?.user?.image ?? "https://github.com/shadcn.png",
+        schoolCode: schoolCode || "Unknown",
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+        schoolName: schoolName,
+      };
       try {
-        const uploadedImageUrls = await Promise.all(
-          fileObjects.map(async (file) => {
-            const formData = new FormData();
-            formData.append("file", file);
-            formData.append("upload_preset", "circhoolar");
-            const response = await fetch(
-              `https://api.cloudinary.com/v1_1/circhoo/image/upload`,
-              {
-                method: "POST",
-                body: formData,
-              }
-            );
-            const data = await response.json();
-            return data.secure_url;
-          })
-        );
-        const randomNumber = Math.floor(Math.random() * 10000);
-        const question = {
-          id: `${data.question}-${randomNumber}`,
-          title: data.question,
-          description: data.description,
-          topic: data.topic,
-          audience: data.audience,
-          identity: data.identity,
-          link: data.link ?? "",
-          images: uploadedImageUrls.length > 0 ? uploadedImageUrls : [""],
-          authorId: session?.user?.id ?? "Unknown",
-          author: session?.user?.name ?? userName ?? "Unknown",
-          avatar: session?.user?.image ?? "https://github.com/shadcn.png",
-          schoolCode: schoolCode || "Unknown",
-          createdAt: serverTimestamp(),
-          updatedAt: serverTimestamp(),
-          schoolName: schoolName,
-        };
-        try {
-          const docRef = await addDoc(questionRef, question);
-          console.log("Question created successfully with ID:", docRef.id);
-        } catch (error) {
-          console.error("Error creating post:", error);
-        }
-        setLoading(false);
-        setIsOpen(false);
-        setFiles([]);
-        setFileObjects([]);
-        form.reset({
-          question: "",
-          description: "",
-          link: "",
-          topic: "",
-          audience: "Private",
-          identity: "Real name",
-        });
+        const docRef = await addDoc(questionRef, question);
+        console.log("Question created successfully with ID:", docRef.id);
       } catch (error) {
-        console.error("Error uploading images:", error);
+        console.error("Error creating post:", error);
       }
-    } else {
       setLoading(false);
+      setIsOpen(false);
+      setFiles([]);
+      setFileObjects([]);
+      form.reset({
+        question: "",
+        description: "",
+        link: "",
+        topic: "",
+        audience: "Private",
+        identity: "Real name",
+      });
+    } catch (error) {
+      console.error("Error uploading images:", error);
     }
   }
 
   return (
     <Dialog open={isOpen} onOpenChange={handleDialogChange}>
       <DialogTrigger asChild>
-        <Button variant="secondary">Ask a question</Button>
+        <Button variant="secondary">Ask</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader className="w-full">
