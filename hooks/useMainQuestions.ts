@@ -1,13 +1,16 @@
+import { Session } from "next-auth";
 import { useEffect, useState } from "react";
 import { Question } from "@/types/Types";
 import { query, where, onSnapshot } from "firebase/firestore";
 import { questionRef } from "@/lib/converters/Questions";
 import { useSchoolCodeStore } from "@/store/store";
+import { useSession } from "next-auth/react";
 
 const useMainQuestions = (
   topic: string | null,
   audienceSelected: string | null
 ) => {
+  const { data: session } = useSession();
   const schoolCode = useSchoolCodeStore((state) => state.schoolCode);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -21,6 +24,11 @@ const useMainQuestions = (
       questionQuery = query(
         questionRef,
         where("audience", "==", audienceSelected)
+      );
+    } else if (audienceSelected === "Own") {
+      questionQuery = query(
+        questionRef,
+        where("author", "==", session?.user?.name)
       );
     } else {
       questionQuery = query(questionRef, where("schoolCode", "==", schoolCode));
