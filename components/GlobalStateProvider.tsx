@@ -15,15 +15,12 @@ import {
   collection,
   doc,
   getDoc,
-  getDocs,
   onSnapshot,
   query,
   where,
 } from "firebase/firestore";
-import { stat } from "fs";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
-import { set } from "zod";
 
 function GlobalStateProvider({ children }: { children: React.ReactNode }) {
   const { data: session } = useSession();
