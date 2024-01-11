@@ -27,6 +27,7 @@ import {
 import { db } from "@/firebase";
 import UpdateQuestionDialog from "./UpdateQuestionDialog";
 import Image from "next/image";
+import Link from "next/link";
 
 interface QuestionProps {
   question: Question;
@@ -117,44 +118,46 @@ const Question = ({ question }: QuestionProps) => {
           {timeDifference}
         </CardDescription>
       )}
-      <div className="cursor-pointer">
-        <CardHeader className="p-3">
-          <CardTitle className="text-background text-xl xl:text-2xl font-semibold">
-            {question.title}
-          </CardTitle>
-        </CardHeader>
-        <Separator className="mb-2" />
-        {question?.images?.length > 0 && (
-          <CardContent className="flex justify-center items-center">
-            {question?.images?.map((image, index) => (
-              <Image
-                key={index}
-                src={image}
-                alt="Question image"
-                width={400}
-                height={400}
-                className="rounded-md"
-              />
-            ))}
-          </CardContent>
-        )}
+      <Link href={`/dashboard/community/${question?.id}`}>
+        <div className="cursor-pointer">
+          <CardHeader className="p-3">
+            <CardTitle className="text-background text-xl xl:text-2xl font-semibold">
+              {question.title}
+            </CardTitle>
+          </CardHeader>
+          <Separator className="mb-2" />
+          {question?.images?.length > 0 && (
+            <CardContent className="flex justify-center items-center">
+              {question?.images?.map((image, index) => (
+                <Image
+                  key={index}
+                  src={image}
+                  alt="Question image"
+                  width={400}
+                  height={400}
+                  className="rounded-md"
+                />
+              ))}
+            </CardContent>
+          )}
 
-        <CardContent>
-          <CardDescription>{question.description}</CardDescription>
-        </CardContent>
-      </div>
-      <CardFooter>
-        <div className="flex flex-row gap-x-8">
-          <div className="flex flex-row items-center gap-x-2">
-            <Icons.heart className="text-gray-100 cursor-pointer" />
-            <CardDescription>Like</CardDescription>
-          </div>
-          <div className="flex flex-row items-center gap-x-2">
-            <Icons.message className="text-gray-100 cursor-pointer" />
-            <CardDescription>Comment</CardDescription>
-          </div>
+          <CardContent>
+            <CardDescription>{question.description}</CardDescription>
+          </CardContent>
         </div>
-      </CardFooter>
+        <CardFooter>
+          <div className="flex flex-row gap-x-8">
+            <div className="flex flex-row items-center gap-x-2">
+              <Icons.heart className="text-gray-100 cursor-pointer" />
+              <CardDescription>Like</CardDescription>
+            </div>
+            <div className="flex flex-row items-center gap-x-2">
+              <Icons.message className="text-gray-100 cursor-pointer" />
+              <CardDescription>Comment</CardDescription>
+            </div>
+          </div>
+        </CardFooter>
+      </Link>
     </Card>
   );
 };
