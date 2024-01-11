@@ -26,6 +26,7 @@ import {
 } from "../ui/alert-dialog";
 import { db } from "@/firebase";
 import UpdateQuestionDialog from "./UpdateQuestionDialog";
+import Image from "next/image";
 
 interface QuestionProps {
   question: Question;
@@ -123,6 +124,21 @@ const Question = ({ question }: QuestionProps) => {
           </CardTitle>
         </CardHeader>
         <Separator className="mb-2" />
+        {question?.images?.length > 0 && (
+          <CardContent className="flex justify-center items-center">
+            {question?.images?.map((image, index) => (
+              <Image
+                key={index}
+                src={image}
+                alt="Question image"
+                width={400}
+                height={400}
+                className="rounded-md"
+              />
+            ))}
+          </CardContent>
+        )}
+
         <CardContent>
           <CardDescription>{question.description}</CardDescription>
         </CardContent>
