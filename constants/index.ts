@@ -59,6 +59,11 @@ export const topicHeaders = [
       "Topics on children’s health, dietary needs, recipes for kids, and managing food allergies.",
   },
   {
+    topic: "Interacting with Pets",
+    description:
+      "Discussing the benefits of having pets, pet care, and safety around animals.",
+  },
+  {
     topic: "Parenting Advice",
     description:
       "Sharing experiences and tips on parenting, managing behavior, and developmental milestones.",
