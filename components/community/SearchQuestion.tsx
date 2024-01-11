@@ -29,11 +29,11 @@ import UpdateQuestionDialog from "./UpdateQuestionDialog";
 import Image from "next/image";
 import Link from "next/link";
 
-interface QuestionProps {
+interface SearchQuestionProps {
   question: Question;
 }
 
-const Question = ({ question }: QuestionProps) => {
+const SearchQuestion = ({ question }: SearchQuestionProps) => {
   const timeDifference = useFormatedDate(question.createdAt);
   const { data: session } = useSession();
 
@@ -72,44 +72,12 @@ const Question = ({ question }: QuestionProps) => {
     };
 
   return (
-    <Card className="bg-light-white border border-gray-50 shadow-sm hover:shadow-md hover:border-paragraph-color rounded-md p-4 my-4">
+    <Card className="bg-light-white border border-gray-50 shadow-sm hover:shadow-md hover:border-paragraph-color rounded-md p-4 mt-2">
       {session?.user?.name === question.author ? (
         <div className="flex flex-col-reverse xl:flex-row gap-x-4 justify-end items-end xl:items-center">
           <CardDescription className="text-right">
             Posted by you {timeDifference}
           </CardDescription>
-          <div className="flex flex-row text-right">
-            <UpdateQuestionDialog itemId={question.id} />
-            <AlertDialog>
-              <AlertDialogTrigger className="text-red flex justify-center items-center text-sm">
-                <Icons.trash size={15} className="mr-2" />
-                Delete
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle className="text-light-white">
-                    Are you absolutely sure?
-                  </AlertDialogTitle>
-                  <AlertDialogDescription>
-                    This action cannot be undone. This will permanently delete
-                    your post and remove your data from our servers.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={handleDeleteFromFirebase(
-                      question.id,
-                      question.images[0]
-                    )}
-                    className="bg-red text-light-white"
-                  >
-                    Continue
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          </div>
         </div>
       ) : (
         <CardDescription className="text-right">
@@ -121,7 +89,7 @@ const Question = ({ question }: QuestionProps) => {
       <Link href={`/dashboard/community/${question?.id}`}>
         <div className="cursor-pointer">
           <CardHeader className="p-3">
-            <CardTitle className="text-background text-xl xl:text-2xl font-semibold">
+            <CardTitle className="text-gray text-xl xl:text-lg font-medium">
               {question.title}
             </CardTitle>
           </CardHeader>
@@ -145,21 +113,9 @@ const Question = ({ question }: QuestionProps) => {
             <CardDescription>{question.description}</CardDescription>
           </CardContent>
         </div>
-        <CardFooter>
-          <div className="flex flex-row gap-x-8">
-            <div className="flex flex-row items-center gap-x-2">
-              <Icons.heart className="text-gray-100 cursor-pointer" />
-              <CardDescription>Like</CardDescription>
-            </div>
-            <div className="flex flex-row items-center gap-x-2">
-              <Icons.message className="text-gray-100 cursor-pointer" />
-              <CardDescription>Comment</CardDescription>
-            </div>
-          </div>
-        </CardFooter>
       </Link>
     </Card>
   );
 };
 
-export default Question;
+export default SearchQuestion;
