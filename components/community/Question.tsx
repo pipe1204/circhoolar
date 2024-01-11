@@ -149,11 +149,11 @@ const Question = ({ question }: QuestionProps) => {
           <div className="flex flex-row gap-x-8">
             <div className="flex flex-row items-center gap-x-2">
               <Icons.heart className="text-gray-100 cursor-pointer" />
-              <CardDescription>Like</CardDescription>
+              <CardDescription>0 Likes</CardDescription>
             </div>
             <div className="flex flex-row items-center gap-x-2">
               <Icons.message className="text-gray-100 cursor-pointer" />
-              <CardDescription>Comment</CardDescription>
+              <CardDescription>0 Answers</CardDescription>
             </div>
           </div>
         </CardFooter>
