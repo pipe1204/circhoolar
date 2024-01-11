@@ -325,10 +325,10 @@ const page = () => {
               <p className="text-dark-purple text-sm">
                 To edit your post go to{" "}
                 <Link
-                  href={"/dashboard/posts"}
+                  href={"/dashboard"}
                   className=" underline text-background italic hover:text-dark-purple"
                 >
-                  My posts page
+                  My items page on the main menu
                 </Link>
               </p>
             )}

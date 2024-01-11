@@ -69,10 +69,6 @@ const CommunityNavbar = () => {
         icon = <Icons.heart className="text-dark-purple" />;
         categoryName = "Donated items";
         break;
-      case "posts":
-        icon = <Icons.user className="text-dark-purple" />;
-        categoryName = "My Posts";
-        break;
       case "wishlist":
         icon = <Icons.heart className="text-dark-purple" />;
         categoryName = "Wishlist";

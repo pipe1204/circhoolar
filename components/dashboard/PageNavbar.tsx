@@ -23,35 +23,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import { schoolSchema, topicSchema } from "@/lib/validations/auth";
-import {
-  useCategoriesStore,
-  useSelectedSchoolStore,
-  useTopicStore,
-} from "@/store/store";
-import { Button } from "../ui/Button";
+import { useCategoriesStore, useTopicStore } from "@/store/store";
 import PostQuestionDialog from "../community/PostQuestionDialog";
 
 const PostItemDialog = dynamic(() => import("../item/PostItemDialog"), {
   ssr: false,
 });
-type SchoolInputs = z.infer<typeof schoolSchema>;
 type topicInputs = z.infer<typeof topicSchema>;
 
 const PageNavbar = () => {
-  const setSelectedSchool = useSelectedSchoolStore(
-    (state) => state.setSelectedSchool
-  );
-
   const setTopic = useTopicStore((state) => state.setTopic);
 
   const setCategories = useCategoriesStore((state) => state.setCategories);
-
-  const form = useForm<SchoolInputs>({
-    resolver: zodResolver(schoolSchema),
-    defaultValues: {
-      schoolCode: "",
-    },
-  });
 
   const topicForm = useForm<topicInputs>({
     resolver: zodResolver(schoolSchema),
@@ -88,10 +71,6 @@ const PageNavbar = () => {
       case "donated-items":
         icon = <Icons.heart className="text-dark-purple" />;
         categoryName = "Donated items";
-        break;
-      case "posts":
-        icon = <Icons.user className="text-dark-purple" />;
-        categoryName = "My Posts";
         break;
       case "wishlist":
         icon = <Icons.heart className="text-dark-purple" />;
@@ -170,44 +149,6 @@ const PageNavbar = () => {
               >
                 <Icons.close className="text-primary-purple" />
               </button>
-            </div>
-            <div className="flex flex-row items-center gap-x-2 ml-2 xl:ml-0 mt-2 xl:mt-0 px-2 pt-2 rounded-md">
-              <Form {...form}>
-                <form className="grid gap-4">
-                  <FormField
-                    control={form.control}
-                    name="schoolCode"
-                    render={({ field, fieldState: { error } }) => (
-                      <FormItem>
-                        <Select
-                          onValueChange={(value) => {
-                            field.onChange(value);
-                            setSelectedSchool(value);
-                            setIsMenuOpen(false);
-                          }}
-                          defaultValue={field.value}
-                        >
-                          <FormControl>
-                            <SelectTrigger className="text-light-white">
-                              <SelectValue placeholder="Select school" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value="All">All Schools</SelectItem>
-                            <SelectItem value="CSYP3141">
-                              South Yarra Primary
-                            </SelectItem>
-                            <SelectItem value="CMBG3141">
-                              Melbourne Boys Grammar
-                            </SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </form>
-              </Form>
             </div>
             <div className="mt-4 xl:mt-0">
               <NavLinks onClick={() => setIsMenuOpen(false)} />

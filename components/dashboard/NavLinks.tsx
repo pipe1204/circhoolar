@@ -39,11 +39,6 @@ const SidebarLinks = [
     title: "PERSONAL",
     links: [
       {
-        name: "My Posts",
-        href: "/dashboard/posts",
-        icon: <Icons.user />,
-      },
-      {
         name: "Donated items",
         href: "/dashboard/donated-items",
         icon: <Icons.sprout />,
