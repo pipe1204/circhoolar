@@ -2,27 +2,34 @@ import { useEffect, useState } from "react";
 import { Post } from "@/types/Types";
 import { postRef } from "@/lib/converters/Post";
 import { query, where, onSnapshot } from "firebase/firestore";
+import { useSession } from "next-auth/react";
+import { useSchoolCodeStore } from "@/store/store";
 
 const useMainPosts = (
   selectedSchool: string | null,
-  categories: string[] | null
+  categories: string[] | null,
+  itemsLocation: string | undefined
 ) => {
+  const { data: session } = useSession();
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
+  const schoolCode = useSchoolCodeStore((state) => state.schoolCode);
 
   useEffect(() => {
     setLoading(true);
     let postsQuery;
 
-    if (selectedSchool === "All" || !selectedSchool) {
+    if (itemsLocation === "Public" || !itemsLocation) {
       postsQuery = query(postRef, where("isSold", "==", false));
-    } else {
+    } else if (schoolCode && itemsLocation && itemsLocation === "Private") {
       postsQuery = query(
         postRef,
-        where("schoolCode", "==", selectedSchool),
+        where("schoolCode", "==", schoolCode),
         where("isSold", "==", false)
       );
+    } else {
+      postsQuery = query(postRef, where("author", "==", session?.user?.name));
     }
 
     if (categories && categories.length > 0) {
@@ -46,7 +53,7 @@ const useMainPosts = (
     );
 
     return () => unsubscribe();
-  }, [selectedSchool, categories]);
+  }, [itemsLocation, categories]);
 
   return { posts, loading, error };
 };

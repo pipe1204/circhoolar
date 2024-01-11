@@ -6,6 +6,7 @@ import { userRef } from "@/lib/converters/User";
 import {
   useBankDetailsStore,
   useCurrentChatStore,
+  useItemsLocationStore,
   useSchoolCodeStore,
   useSchoolNameStore,
   useTotalUnreadMessagesStore,
@@ -38,6 +39,9 @@ function GlobalStateProvider({ children }: { children: React.ReactNode }) {
   const setAccountName = useBankDetailsStore((state) => state.setAccountName);
   const setTotalUnreadMessages = useTotalUnreadMessagesStore(
     (state) => state.setTotalUnreadMessages
+  );
+  const setItemsLocation = useItemsLocationStore(
+    (state) => state.setItemsLocation
   );
   const currentChatId = useCurrentChatStore((state) => state.currentChatId);
 
@@ -106,6 +110,7 @@ function GlobalStateProvider({ children }: { children: React.ReactNode }) {
           setBsbNumber(docSnapShot.data().bankDetails?.bsbNumber);
           setAccountNumber(docSnapShot.data().bankDetails?.accountNumber);
           setAccountName(docSnapShot.data().bankDetails?.accountName);
+          setItemsLocation("Public");
         } else {
           console.log("No such document!");
           setSchoolCode(null);

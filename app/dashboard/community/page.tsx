@@ -49,68 +49,70 @@ const page = () => {
 
   return (
     <section className="p-2">
-      <Form {...form}>
-        <form className="grid gap-4 mb-4">
-          <FormField
-            control={form.control}
-            name="audience"
-            render={({ field }) => (
-              <FormItem className="space-y-3">
-                <FormControl>
-                  <RadioGroup
-                    onValueChange={(value) => {
-                      field.onChange(value);
-                      setAudienceSelected(value);
-                    }}
-                    defaultValue={field.value}
-                    className="flex flex-row gap-x-4"
-                  >
-                    <FormItem className="flex items-center space-x-3 space-y-0">
-                      <FormControl>
-                        <RadioGroupItem
-                          value="Public"
-                          className="border border-dark text-dark"
-                        />
-                      </FormControl>
-                      <FormLabel className="font-normal text-dark">
-                        All schools
-                      </FormLabel>
-                    </FormItem>
-                    <FormItem className="flex items-center space-x-3 space-y-0">
-                      <FormControl>
-                        <RadioGroupItem
-                          value="Private"
-                          className="border border-dark text-dark"
-                        />
-                      </FormControl>
-                      <FormLabel className="font-normal text-dark">
-                        My school community
-                      </FormLabel>
-                    </FormItem>
-                    <FormItem className="flex items-center space-x-3 space-y-0">
-                      <FormControl>
-                        <RadioGroupItem
-                          value="Own"
-                          className="border border-dark text-dark"
-                        />
-                      </FormControl>
-                      <FormLabel className="font-normal text-dark">
-                        My own posts
-                      </FormLabel>
-                    </FormItem>
-                  </RadioGroup>
-                </FormControl>
-              </FormItem>
-            )}
-          />
-        </form>
-      </Form>
       <div className="flex flex-col-reverse gap-y-4 xl:flex-row justify-between xl:gap-x-4">
         <div className="w-full xl:w-[60%]">
-          <TopicHeader />
-          {questions.map((question) => (
-            <Question key={question.id} question={question} />
-          ))}
+          <Form {...form}>
+            <form className="grid gap-4 p-4 rounded-md bg-card-color w-[84%] xl:w-[43.6%] fixed">
+              <FormField
+                control={form.control}
+                name="audience"
+                render={({ field }) => (
+                  <FormItem className="space-y-3">
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={(value) => {
+                          field.onChange(value);
+                          setAudienceSelected(value);
+                        }}
+                        defaultValue={field.value}
+                        className="flex flex-row justify-between gap-x-4"
+                      >
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem
+                              value="Public"
+                              className="border border-light-white text-light-white"
+                            />
+                          </FormControl>
+                          <FormLabel className="font-normal text-light-white">
+                            All schools
+                          </FormLabel>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem
+                              value="Private"
+                              className="border border-light-white text-light-white"
+                            />
+                          </FormControl>
+                          <FormLabel className="font-normal text-light-white">
+                            My school community
+                          </FormLabel>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem
+                              value="Own"
+                              className="border border-light-white text-light-white"
+                            />
+                          </FormControl>
+                          <FormLabel className="font-normal text-light-white">
+                            My posts
+                          </FormLabel>
+                        </FormItem>
+                      </RadioGroup>
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </form>
+          </Form>
+          <div className="mt-16 xl:mt-14">
+            <TopicHeader />
+            {questions.map((question) => (
+              <Question key={question.id} question={question} />
+            ))}
+          </div>
         </div>
         <div className="w-full xl:w-[40%]">
           <SearchBar />

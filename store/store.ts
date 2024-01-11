@@ -79,6 +79,17 @@ export const useAudienceSelectedStore = create<audienceSelectedState>(
   })
 );
 
+interface itemsLocationState {
+  itemsLocation: string | undefined;
+  setItemsLocation: (itemsLocation: string | undefined) => void;
+}
+
+export const useItemsLocationStore = create<itemsLocationState>((set) => ({
+  itemsLocation: undefined,
+  setItemsLocation: (itemsLocation: string | undefined) =>
+    set({ itemsLocation }),
+}));
+
 interface TotalUnreadMessagesState {
   totalUnreadMessages: number | null;
   setTotalUnreadMessages: (totalUnreadMessages: number | null) => void;
