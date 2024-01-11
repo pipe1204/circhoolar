@@ -63,7 +63,7 @@ const page = () => {
                       setAudienceSelected(value);
                     }}
                     defaultValue={field.value}
-                    className="flex flex-row space-y-1"
+                    className="flex flex-row gap-x-4"
                   >
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
