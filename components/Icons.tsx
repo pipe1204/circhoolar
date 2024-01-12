@@ -3,6 +3,7 @@ import {
   AlertTriangle,
   ArrowDown,
   ArrowUp,
+  ArrowLeft,
   Backpack,
   Baby,
   BarChart3,
@@ -78,6 +79,7 @@ import {
 //   export type Icon = LucideIcon
 
 export const Icons = {
+  ArrowLeft: ArrowLeft,
   sprout: Sprout,
   folderHeart: FolderHeart,
   trophy: Trophy,

@@ -32,6 +32,8 @@ import Image from "next/image";
 import { questionRef } from "@/lib/converters/Questions";
 import useFormatedDate from "@/hooks/useFormatedDate";
 import { db } from "@/firebase";
+import Link from "next/link";
+import { Button } from "@/components/ui/Button";
 
 const page = () => {
   const [question, setQuestion] = useState<Question>();
@@ -106,59 +108,69 @@ const page = () => {
     };
 
   return (
-    <Card className="bg-light-white border border-gray-50 shadow-sm rounded-md p-4 mt-2 xl:w-5/6 mx-auto">
-      {session?.user?.name === question?.author ? (
-        <div className="flex flex-col-reverse xl:flex-row gap-x-4 justify-end items-end xl:items-center">
+    <section>
+      <Link href="/dashboard/community" passHref>
+        <Button variant={"link"} size={"lg"} className="mb-8 px-0">
+          <Icons.ArrowLeft size={15} className="mr-2" />
+          Back
+        </Button>
+      </Link>
+      <Card className="bg-light-white border border-gray-50 shadow-sm rounded-md p-4 mt-2 xl:w-5/6 mx-auto">
+        {session?.user?.name === question?.author ? (
+          <div className="flex flex-col-reverse xl:flex-row gap-x-4 justify-end items-end xl:items-center">
+            <CardDescription className="text-right">
+              Posted by you {timeDifference}
+            </CardDescription>
+          </div>
+        ) : (
           <CardDescription className="text-right">
-            Posted by you {timeDifference}
+            Posted by{" "}
+            {question?.identity === "Real name"
+              ? question?.author
+              : "Anonymous"}{" "}
+            {timeDifference}
           </CardDescription>
-        </div>
-      ) : (
-        <CardDescription className="text-right">
-          Posted by{" "}
-          {question?.identity === "Real name" ? question?.author : "Anonymous"}{" "}
-          {timeDifference}
-        </CardDescription>
-      )}
-      <div>
-        <CardHeader className="p-3">
-          <CardTitle className="text-background text-xl xl:text-2xl font-semibold">
-            {question?.title}
-          </CardTitle>
-        </CardHeader>
-        <Separator className="mb-2" />
-        {question && question?.images?.length > 0 && (
-          <CardContent className="flex justify-center items-center">
-            {question?.images?.map((image, index) => (
-              <Image
-                key={index}
-                src={image}
-                alt="Question image"
-                width={400}
-                height={400}
-                className="rounded-md"
-              />
-            ))}
-          </CardContent>
         )}
+        <div>
+          <CardHeader className="p-3">
+            <CardTitle className="text-background text-xl xl:text-2xl font-semibold">
+              {question?.title}
+            </CardTitle>
+          </CardHeader>
+          <Separator className="mb-2" />
+          {question && question?.images?.length > 0 && (
+            <CardContent className="flex justify-center items-center">
+              {question?.images?.map((image, index) => (
+                <Image
+                  key={index}
+                  src={image}
+                  alt="Question image"
+                  width={400}
+                  height={400}
+                  className="rounded-md"
+                />
+              ))}
+            </CardContent>
+          )}
 
-        <CardContent>
-          <CardDescription>{question?.description}</CardDescription>
-        </CardContent>
-      </div>
-      <CardFooter>
-        <div className="flex flex-row gap-x-8">
-          <div className="flex flex-row items-center gap-x-2">
-            <Icons.heart className="text-gray-100 cursor-pointer" />
-            <CardDescription>Like</CardDescription>
-          </div>
-          <div className="flex flex-row items-center gap-x-2">
-            <Icons.message className="text-gray-100 cursor-pointer" />
-            <CardDescription>Comment</CardDescription>
-          </div>
+          <CardContent>
+            <CardDescription>{question?.description}</CardDescription>
+          </CardContent>
         </div>
-      </CardFooter>
-    </Card>
+        <CardFooter>
+          <div className="flex flex-row gap-x-8">
+            <div className="flex flex-row items-center gap-x-2">
+              <Icons.heart className="text-gray-100 cursor-pointer" />
+              <CardDescription>Like</CardDescription>
+            </div>
+            <div className="flex flex-row items-center gap-x-2">
+              <Icons.message className="text-gray-100 cursor-pointer" />
+              <CardDescription>Comment</CardDescription>
+            </div>
+          </div>
+        </CardFooter>
+      </Card>
+    </section>
   );
 };
 
