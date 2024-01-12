@@ -1,25 +1,25 @@
-import { number } from "zod";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import {
   addDoc,
   doc,
   getDoc,
-  getDocs,
-  query,
   serverTimestamp,
-  setDoc,
   updateDoc,
-  where,
 } from "firebase/firestore";
 import { db } from "@/firebase";
 import { Question } from "@/types/Types";
 import { questionRef } from "@/lib/converters/Questions";
 import { commentRef } from "@/lib/converters/Comments";
+import { useCommentCountStore } from "@/store/store";
 
 const useCreateAndDeleteComment = () => {
   const { data: session } = useSession();
   const [loading, setLoading] = useState<boolean>(false);
+
+  const setCommentCount = useCommentCountStore(
+    (state) => state.setCommentCount
+  );
 
   const onCreateComment = async (
     commentText: string,
@@ -53,9 +53,9 @@ const useCreateAndDeleteComment = () => {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      await updateDoc(docRef, {
-        numberOfComments: docSnap.data().numberOfComments + 1,
-      });
+      const currentComments = docSnap.data().numberOfComments + 1;
+      await updateDoc(docRef, { numberOfComments: currentComments });
+      setCommentCount(currentComments);
     }
     setLoading(false);
     setCommentText("");

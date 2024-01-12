@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -9,7 +9,7 @@ import {
 } from "../ui/Card";
 import { Separator } from "../ui/separator";
 import { Question } from "@/types/Types";
-import { deleteDoc, doc } from "firebase/firestore";
+import { deleteDoc, doc, getDoc } from "firebase/firestore";
 import { Icons } from "../Icons";
 import useFormatedDate from "@/hooks/useFormatedDate";
 import { useSession } from "next-auth/react";
@@ -28,6 +28,8 @@ import { db } from "@/firebase";
 import UpdateQuestionDialog from "./UpdateQuestionDialog";
 import Image from "next/image";
 import Link from "next/link";
+import { questionRef } from "@/lib/converters/Questions";
+import { useCommentCountStore } from "@/store/store";
 
 interface QuestionProps {
   question: Question;
@@ -75,7 +77,7 @@ const Question = ({ question, ownPost }: QuestionProps) => {
   return (
     <Card className="bg-light-white border border-gray-50 shadow-sm hover:shadow-md hover:border-paragraph-color rounded-md p-4 my-4">
       {ownPost ? (
-        <div className="flex flex-row justify-between items-center">
+        <div className="flex flex-col xl:flex-row justify-between items-end xl:items-center">
           <div>
             <p className="text-xs text-dark-purple font-semibold">
               {question.topic}
@@ -120,7 +122,7 @@ const Question = ({ question, ownPost }: QuestionProps) => {
           </div>
         </div>
       ) : (
-        <div className="flex flex-row justify-between items-center">
+        <div className="flex flex-col xl:flex-row justify-between items-end xl:items-center">
           <div>
             <p className="text-xs text-dark-purple font-semibold">
               {question.topic}
