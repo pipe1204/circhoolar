@@ -19,12 +19,27 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import { schoolSchema, topicSchema } from "@/lib/validations/auth";
-import { useCategoriesStore, useTopicStore } from "@/store/store";
+import {
+  useAudienceSelectedStore,
+  useCategoriesStore,
+  useItemsLocationStore,
+  useTopicStore,
+} from "@/store/store";
 import PostQuestionDialog from "../community/PostQuestionDialog";
+import { Button } from "../ui/Button";
 
 const PostItemDialog = dynamic(() => import("../item/PostItemDialog"), {
   ssr: false,
@@ -35,6 +50,18 @@ const PageNavbar = () => {
   const setTopic = useTopicStore((state) => state.setTopic);
 
   const setCategories = useCategoriesStore((state) => state.setCategories);
+
+  const audienceSelected = useAudienceSelectedStore(
+    (state) => state.audienceSelected
+  );
+  const setAudienceSelected = useAudienceSelectedStore(
+    (state) => state.setAudienceSelected
+  );
+
+  const setItemsLocation = useItemsLocationStore(
+    (state) => state.setItemsLocation
+  );
+  const itemsLocation = useItemsLocationStore((state) => state.itemsLocation);
 
   const topicForm = useForm<topicInputs>({
     resolver: zodResolver(schoolSchema),
@@ -86,6 +113,7 @@ const PageNavbar = () => {
   const { icon, categoryName } = getCategoryDetails(lastSegment);
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [selectedCategories, setSelectedCategories] = useState<
     Record<string, boolean>
   >({});
@@ -111,19 +139,15 @@ const PageNavbar = () => {
     });
   };
 
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-
   const handleMenuClick = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  console.log(audienceSelected);
+
   return (
     <nav className="bg-light-white flex justify-between items-center border border-light-white-500 shadow-md w-full h-16">
-      <div
-        className={`flex ${
-          lastSegment === "dashboard" ? "justify-start" : "justify-start"
-        } xl:justify-between items-center mx-6 xl:mx-10 w-full`}
-      >
+      <div className={`flex justify-between items-center mx-6 xl:mx-10 w-full`}>
         <div className="xl:hidden flex justify-end items-center">
           <button
             onClick={handleMenuClick}
@@ -162,41 +186,150 @@ const PageNavbar = () => {
             </div>
           )}
         </div>
+        <div className="hidden xl:flex">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="p-4">
+                <Icons.compass className="mr-4" />
+                Navigate
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+              <DropdownMenuLabel>Navigate</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuRadioGroup
+                value={itemsLocation || undefined}
+                onValueChange={setItemsLocation}
+              >
+                <DropdownMenuRadioItem value="Public">
+                  All schools
+                </DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="Private">
+                  My school community
+                </DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="Own">
+                  My items
+                </DropdownMenuRadioItem>
+              </DropdownMenuRadioGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+        <div className="hidden xl:flex">
+          <button
+            onClick={toggleDropdown}
+            className="flex gap-x-2 items-center rounded-md border-[1px] border-light-white-400 px-2 xl:px-8 py-[4px] bg-light-white shadow-sm cursor-pointer"
+          >
+            <Icons.store className="text-dark-purple" size={20} />
+            <h1 className="text-dark-purple text-md font-semibold">
+              Categories
+            </h1>
+          </button>
+          {isDropdownOpen && (
+            <div className="bg-light-white px-3 shadow-md rounded-md mt-2 absolute top-28 z-10">
+              {categoryFilters.map((category) => (
+                <label
+                  key={category}
+                  className="flex items-center p-2 text-dark-purple text-sm font-semibold cursor-pointer"
+                >
+                  <input
+                    type="checkbox"
+                    checked={!!selectedCategories[category]}
+                    onChange={() => handleCategoryChange(category)}
+                  />
+                  <span className="ml-2">{category}</span>
+                </label>
+              ))}
+            </div>
+          )}
+        </div>
+
         {categoryName === "discover" && (
-          <div className="flex flex-row justify-between items-center ml-2 xl:ml-0">
-            <button
-              onClick={toggleDropdown}
-              className="flex gap-x-2 items-center rounded-md border-[1px] border-light-white-400 px-2 xl:px-8 py-[4px] bg-light-white shadow-sm cursor-pointer"
-            >
-              <Icons.backpack className="text-dark-purple" size={20} />
-              <h1 className="text-dark-purple text-md font-semibold">
-                Categories
-              </h1>
-            </button>
-            {isDropdownOpen && (
-              <div className="bg-light-white px-3 shadow-md rounded-md mt-2 absolute top-28 z-10">
-                {categoryFilters.map((category) => (
-                  <label
-                    key={category}
-                    className="flex items-center p-2 text-dark-purple text-sm font-semibold cursor-pointer"
+          <div className="w-full xl:w-0 xl:hidden flex flex-row justify-between items-center mx-6 xl:mx-0">
+            <div className="flex xl:hidden">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="p-4">
+                    <Icons.compass />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56">
+                  <DropdownMenuLabel>Navigate</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuRadioGroup
+                    value={itemsLocation || undefined}
+                    onValueChange={setItemsLocation}
                   >
-                    <input
-                      type="checkbox"
-                      checked={!!selectedCategories[category]}
-                      onChange={() => handleCategoryChange(category)}
-                    />
-                    <span className="ml-2">{category}</span>
-                  </label>
-                ))}
-              </div>
-            )}
-            <div className="flex xl:hidden ml-8 xl:ml-0">
+                    <DropdownMenuRadioItem value="Public">
+                      All schools
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="Private">
+                      My school community
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="Own">
+                      My items
+                    </DropdownMenuRadioItem>
+                  </DropdownMenuRadioGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+            <div className="flex xl:hidden">
+              <button
+                onClick={toggleDropdown}
+                className="flex items-center rounded-md border-[1px] border-light-white-400 px-4 py-2 xl:py-0 xl:px-8 bg-light-white shadow-sm cursor-pointer"
+              >
+                <Icons.store className="text-dark-purple" size={20} />
+                <h1 className="text-dark-purple text-md font-semibold"></h1>
+              </button>
+              {isDropdownOpen && (
+                <div className="bg-light-white px-3 shadow-md rounded-md mt-2 absolute top-28 z-10">
+                  {categoryFilters.map((category) => (
+                    <label
+                      key={category}
+                      className="flex items-center p-2 text-dark-purple text-sm font-semibold cursor-pointer"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={!!selectedCategories[category]}
+                        onChange={() => handleCategoryChange(category)}
+                      />
+                      <span className="ml-2">{category}</span>
+                    </label>
+                  ))}
+                </div>
+              )}
+            </div>
+            <div className="flex xl:hidden xl:ml-0">
               <PostItemDialog />
             </div>
           </div>
         )}
         {categoryName === "community" && (
-          <div className="w-full flex flex-row justify-between items-center gap-x-2 ml-2 xl:ml-0 mt-4 xl:mt-0 mb-4 xl:mb-0 px-2 py-2 rounded-md">
+          <div className="w-full xl:w-0 xl:hidden flex flex-row justify-between items-center mx-6 xl:mx-0">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="p-4">
+                  <Icons.compass />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56">
+                <DropdownMenuLabel>Navigate</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuRadioGroup
+                  value={audienceSelected || undefined}
+                  onValueChange={setAudienceSelected}
+                >
+                  <DropdownMenuRadioItem value="Public">
+                    All schools
+                  </DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="Private">
+                    My school community
+                  </DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="Own">
+                    My posts
+                  </DropdownMenuRadioItem>
+                </DropdownMenuRadioGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <Form {...topicForm}>
               <form className="grid gap-4">
                 <FormField
@@ -213,7 +346,7 @@ const PageNavbar = () => {
                       >
                         <FormControl>
                           <SelectTrigger className="text-light-white">
-                            <SelectValue placeholder="Choose a topic" />
+                            <SelectValue placeholder="Topics" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -233,6 +366,7 @@ const PageNavbar = () => {
                 />
               </form>
             </Form>
+
             <PostQuestionDialog />
           </div>
         )}

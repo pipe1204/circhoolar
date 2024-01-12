@@ -13,20 +13,6 @@ import {
 import useMainPosts from "@/hooks/useMainPosts";
 import useSchoolCodeVerification from "@/hooks/useSchoolVerificationCode";
 import Billboard from "@/components/Billboard";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { communityQuestionsAudience } from "@/lib/validations/auth";
-import { z } from "zod";
-
-type Inputs = z.infer<typeof communityQuestionsAudience>;
 
 const page = () => {
   const schoolCode = useSchoolCodeStore((state) => state.schoolCode);
@@ -53,13 +39,6 @@ const page = () => {
     // 500: 1,
   };
 
-  const form = useForm<Inputs>({
-    resolver: zodResolver(communityQuestionsAudience),
-    defaultValues: {
-      audience: "Public",
-    },
-  });
-
   if (schoolCode !== null && posts.length === 0) {
     return (
       <section className="p-2">
@@ -72,67 +51,9 @@ const page = () => {
     <section className="p-2">
       {schoolCode !== null ? (
         <div>
-          <div className="">
-            <Form {...form}>
-              <form className="grid gap-4 ">
-                <FormField
-                  control={form.control}
-                  name="audience"
-                  render={({ field }) => (
-                    <FormItem className="space-y-3">
-                      <FormControl>
-                        <RadioGroup
-                          onValueChange={(value) => {
-                            field.onChange(value);
-                            setItemsLocation(value);
-                          }}
-                          defaultValue={field.value}
-                          className="flex flex-row justify-between gap-x-4 p-4 mb-4 rounded-md bg-card-color w-[84%] xl:w-[55%] fixed z-10"
-                        >
-                          <FormItem className="flex items-center space-x-3 space-y-0">
-                            <FormControl>
-                              <RadioGroupItem
-                                value="Public"
-                                className="border border-light-white text-light-white"
-                              />
-                            </FormControl>
-                            <FormLabel className="font-normal text-light-white">
-                              All schools
-                            </FormLabel>
-                          </FormItem>
-                          <FormItem className="flex items-center space-x-3 space-y-0">
-                            <FormControl>
-                              <RadioGroupItem
-                                value="Private"
-                                className="border border-light-white text-light-white"
-                              />
-                            </FormControl>
-                            <FormLabel className="font-normal text-light-white">
-                              My school community
-                            </FormLabel>
-                          </FormItem>
-                          <FormItem className="flex items-center space-x-3 space-y-0">
-                            <FormControl>
-                              <RadioGroupItem
-                                value="Own"
-                                className="border border-light-white text-light-white"
-                              />
-                            </FormControl>
-                            <FormLabel className="font-normal text-light-white">
-                              My items
-                            </FormLabel>
-                          </FormItem>
-                        </RadioGroup>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-              </form>
-            </Form>
-          </div>
           <Masonry
             breakpointCols={breakpointColumnsObj}
-            className="my-masonry-grid mt-20 xl:mt-16"
+            className="my-masonry-grid"
             columnClassName="my-masonry-grid_column"
           >
             {posts.map((post) => (

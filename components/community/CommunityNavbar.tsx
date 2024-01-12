@@ -1,10 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { Icons } from "../Icons";
 import { usePathname } from "next/navigation";
 import { topics } from "@/constants";
-import NavLinks from "../dashboard/NavLinks";
-import dynamic from "next/dynamic";
 import {
   Form,
   FormControl,
@@ -19,19 +17,33 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import { schoolSchema, topicSchema } from "@/lib/validations/auth";
-import { useCategoriesStore, useTopicStore } from "@/store/store";
+import { useAudienceSelectedStore, useTopicStore } from "@/store/store";
 import PostQuestionDialog from "./PostQuestionDialog";
+import { Button } from "../ui/Button";
 
 type topicInputs = z.infer<typeof topicSchema>;
 
 const CommunityNavbar = () => {
   const setTopic = useTopicStore((state) => state.setTopic);
-
-  const setCategories = useCategoriesStore((state) => state.setCategories);
+  const audienceSelected = useAudienceSelectedStore(
+    (state) => state.audienceSelected
+  );
+  const setAudienceSelected = useAudienceSelectedStore(
+    (state) => state.setAudienceSelected
+  );
 
   const topicForm = useForm<topicInputs>({
     resolver: zodResolver(schoolSchema),
@@ -44,69 +56,6 @@ const CommunityNavbar = () => {
   const pathSegments = pathname.split("/").filter(Boolean);
   const lastSegment =
     pathSegments.length > 0 ? pathSegments[pathSegments.length - 1] : "";
-
-  const capitalizeFirstLetter = (string: string) => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  };
-
-  const getCategoryDetails = (category: string) => {
-    let icon;
-    let categoryName;
-    switch (category.toLowerCase()) {
-      case "dashboard":
-        icon = <Icons.compass className="text-dark-purple" />;
-        categoryName = "discover";
-        break;
-      case "community":
-        icon = <Icons.folderHeart className="text-dark-purple" />;
-        categoryName = "community";
-        break;
-      case "messages":
-        icon = <Icons.message className="text-dark-purple" />;
-        categoryName = "Messages";
-        break;
-      case "donated-items":
-        icon = <Icons.heart className="text-dark-purple" />;
-        categoryName = "Donated items";
-        break;
-      case "wishlist":
-        icon = <Icons.heart className="text-dark-purple" />;
-        categoryName = "Wishlist";
-        break;
-      default:
-        icon = null; // default icon or null
-        categoryName = capitalizeFirstLetter(category);
-    }
-    return { icon, categoryName };
-  };
-
-  const { icon, categoryName } = getCategoryDetails(lastSegment);
-
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [selectedCategories, setSelectedCategories] = useState<
-    Record<string, boolean>
-  >({});
-
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-
-  const handleTopicChange = (category: string) => {
-    setSelectedCategories((prev) => {
-      const updatedCategories = {
-        ...prev,
-        [category]: !prev[category],
-      };
-
-      // Update the global categories state
-      const selected = Object.entries(updatedCategories)
-        .filter(([_, isSelected]) => isSelected)
-        .map(([category]) => category);
-      setCategories(selected);
-
-      return updatedCategories;
-    });
-  };
 
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
@@ -140,6 +89,32 @@ const CommunityNavbar = () => {
             </div>
           )}
         </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="p-4">
+              <Icons.compass className="mr-4" />
+              Navigate
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56">
+            <DropdownMenuLabel>Navigate</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuRadioGroup
+              value={audienceSelected || undefined}
+              onValueChange={setAudienceSelected}
+            >
+              <DropdownMenuRadioItem value="Public">
+                All schools
+              </DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="Private">
+                My school community
+              </DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="Own">
+                My posts
+              </DropdownMenuRadioItem>
+            </DropdownMenuRadioGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
         <div className="flex flex-row items-center gap-x-2 ml-4 xl:ml-0 mt-4 xl:mt-0 mb-4 xl:mb-0 px-2 py-2 rounded-md">
           <Form {...topicForm}>
             <form className="grid gap-4">
