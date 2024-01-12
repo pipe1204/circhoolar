@@ -101,6 +101,10 @@ export const communityQuestionsAudience = z.object({
   audience: z.enum(["Private", "Public"], {}),
 });
 
+export const commentPrivacy = z.object({
+  commenter: z.enum(["Name", "Anonymous"], {}),
+});
+
 export const schoolSchema = z.object({
   schoolCode: z.string(),
 });

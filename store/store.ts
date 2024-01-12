@@ -79,6 +79,19 @@ export const useAudienceSelectedStore = create<audienceSelectedState>(
   })
 );
 
+interface commenterIdentityState {
+  commenterIdentity: string | null;
+  setCommenterIdentity: (commenterIdentity: string | null) => void;
+}
+
+export const useCommenterIdentityStore = create<commenterIdentityState>(
+  (set) => ({
+    commenterIdentity: null,
+    setCommenterIdentity: (commenterIdentity: string | null) =>
+      set({ commenterIdentity }),
+  })
+);
+
 interface itemsLocationState {
   itemsLocation: string | undefined;
   setItemsLocation: (itemsLocation: string | undefined) => void;

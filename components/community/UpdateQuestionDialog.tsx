@@ -518,7 +518,7 @@ const UpdateQuestionDialog = ({ itemId }: UpdateItemDialogProps) => {
                 render={({ field }) => (
                   <FormItem className="space-y-3">
                     <FormLabel className="text-light-white">
-                      Choose Your Posting Identity
+                      Post this question as:
                     </FormLabel>
                     <FormControl>
                       <RadioGroup
@@ -534,7 +534,7 @@ const UpdateQuestionDialog = ({ itemId }: UpdateItemDialogProps) => {
                             />
                           </FormControl>
                           <FormLabel className="font-normal text-light-white">
-                            Use my real name
+                            Myself
                           </FormLabel>
                         </FormItem>
                         <FormItem className="flex items-center space-x-3 space-y-0">

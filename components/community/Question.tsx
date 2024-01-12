@@ -75,53 +75,67 @@ const Question = ({ question, ownPost }: QuestionProps) => {
   return (
     <Card className="bg-light-white border border-gray-50 shadow-sm hover:shadow-md hover:border-paragraph-color rounded-md p-4 my-4">
       {ownPost ? (
-        <div className="flex flex-col-reverse xl:flex-row gap-x-4 justify-end items-end xl:items-center">
-          <CardDescription className="text-right">
-            Posted by you {timeDifference}
-          </CardDescription>
-          <div className="flex flex-row text-right">
-            <UpdateQuestionDialog itemId={question.id} />
-            <AlertDialog>
-              <AlertDialogTrigger className="text-red flex justify-center items-center text-sm">
-                <Icons.trash size={15} className="mr-2" />
-                Delete
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle className="text-light-white">
-                    Are you absolutely sure?
-                  </AlertDialogTitle>
-                  <AlertDialogDescription>
-                    This action cannot be undone. This will permanently delete
-                    your post and remove your data from our servers.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={handleDeleteFromFirebase(
-                      question.id,
-                      question.images[0]
-                    )}
-                    className="bg-red text-light-white"
-                  >
-                    Continue
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+        <div className="flex flex-row justify-between items-center">
+          <div>
+            <p className="text-xs text-dark-purple font-semibold">
+              {question.topic}
+            </p>
+          </div>
+          <div className="flex flex-col-reverse xl:flex-row gap-x-4 justify-end items-end xl:items-center">
+            <CardDescription className="text-right">
+              Posted by you {timeDifference}
+            </CardDescription>
+            <div className="flex flex-row text-right">
+              <UpdateQuestionDialog itemId={question.id} />
+              <AlertDialog>
+                <AlertDialogTrigger className="text-red flex justify-center items-center text-sm">
+                  <Icons.trash size={15} className="mr-2" />
+                  Delete
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle className="text-light-white">
+                      Are you absolutely sure?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This action cannot be undone. This will permanently delete
+                      your post and remove your data from our servers.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={handleDeleteFromFirebase(
+                        question.id,
+                        question.images[0]
+                      )}
+                      className="bg-red text-light-white"
+                    >
+                      Continue
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
           </div>
         </div>
       ) : (
-        <CardDescription className="text-right">
-          Posted by{" "}
-          {session?.user?.name === question.author
-            ? "you"
-            : question.identity === "Real name"
-            ? question.author
-            : "Anonymous"}{" "}
-          {timeDifference}
-        </CardDescription>
+        <div className="flex flex-row justify-between items-center">
+          <div>
+            <p className="text-xs text-dark-purple font-semibold">
+              {question.topic}
+            </p>
+          </div>
+          <CardDescription className="text-right">
+            Posted by{" "}
+            {session?.user?.name === question.author
+              ? "you"
+              : question.identity === "Real name"
+              ? question.author
+              : "Anonymous"}{" "}
+            {timeDifference}
+          </CardDescription>
+        </div>
       )}
       <Link href={`/dashboard/community/${question?.id}`}>
         <div className="cursor-pointer">
@@ -150,15 +164,20 @@ const Question = ({ question, ownPost }: QuestionProps) => {
             <CardDescription>{question.description}</CardDescription>
           </CardContent>
         </div>
-        <CardFooter>
-          <div className="flex flex-row gap-x-8">
-            <div className="flex flex-row items-center gap-x-2">
-              <Icons.heart className="text-gray-100 cursor-pointer" />
-              <CardDescription>0 Likes</CardDescription>
-            </div>
-            <div className="flex flex-row items-center gap-x-2">
-              <Icons.message className="text-gray-100 cursor-pointer" />
-              <CardDescription>0 Answers</CardDescription>
+        <CardFooter className="mt-4">
+          <div className="flex flex-col gap-y-4">
+            <div className="flex flex-row gap-x-8">
+              <div className="flex flex-row items-center gap-x-2">
+                <Icons.heart className="text-gray-100 cursor-pointer" />
+                <CardDescription>0 Likes</CardDescription>
+              </div>
+              <div className="flex flex-row items-center gap-x-2">
+                <Icons.message className="text-gray-100 cursor-pointer" />
+                <CardDescription>
+                  {question.numberOfComments}{" "}
+                  {question.numberOfComments === 1 ? "Comment" : "Comments"}
+                </CardDescription>
+              </div>
             </div>
           </div>
         </CardFooter>

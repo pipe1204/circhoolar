@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { deleteDoc, doc, getDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { Question } from "@/types/Types";
 import { useSession } from "next-auth/react";
 import { userRef } from "@/lib/converters/User";
@@ -15,18 +15,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/Card";
-import UpdateQuestionDialog from "@/components/community/UpdateQuestionDialog";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import { questionRef } from "@/lib/converters/Questions";
@@ -34,6 +22,7 @@ import useFormatedDate from "@/hooks/useFormatedDate";
 import { db } from "@/firebase";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
+import Comments from "@/components/community/Comments";
 
 const page = () => {
   const [question, setQuestion] = useState<Question>();
@@ -73,40 +62,6 @@ const page = () => {
 
   const timeDifference = useFormatedDate(question?.createdAt || null);
 
-  const handleDeleteFromFirebase =
-    (itemId: string, image?: string) => async () => {
-      if (session?.user?.id) {
-        try {
-          const questionRef = doc(db, "questions", itemId);
-          await deleteDoc(questionRef);
-        } catch (error) {
-          console.error("Error deleting post:", error);
-        }
-        //Work on delete image function here
-        // const match = image?.match(/circhoolar_items_upload\/(.+)\.jpg/);
-        // if (match && match.length >= 2) {
-        //   const publicId = match[1];
-        //   try {
-        //     // Send DELETE request to Cloudinary
-        //     await fetch("/api/deleteImage", {
-        //       method: "POST",
-        //       headers: {
-        //         "Content-Type": "application/json",
-        //       },
-        //       body: JSON.stringify({ publicId }),
-        //     });
-        //     // Delete the post from Firebase
-        //     const questionRef = doc(db, "posts", itemId);
-        //     await deleteDoc(questionRef);
-        //   } catch (error) {
-        //     console.error("Error deleting post:", error);
-        //   }
-        // } else {
-        //   console.error("Invalid image URL format");
-        // }
-      }
-    };
-
   return (
     <section>
       <Link href="/dashboard/community" passHref>
@@ -115,7 +70,7 @@ const page = () => {
           Back
         </Button>
       </Link>
-      <Card className="bg-light-white border border-gray-50 shadow-sm rounded-md p-4 mt-2 xl:w-5/6 mx-auto">
+      <Card className="bg-light-white border border-gray-50 shadow-sm rounded-md p-4 mx-auto">
         {session?.user?.name === question?.author ? (
           <div className="flex flex-col-reverse xl:flex-row gap-x-4 justify-end items-end xl:items-center">
             <CardDescription className="text-right">
@@ -165,11 +120,15 @@ const page = () => {
             </div>
             <div className="flex flex-row items-center gap-x-2">
               <Icons.message className="text-gray-100 cursor-pointer" />
-              <CardDescription>Comment</CardDescription>
+              <CardDescription>
+                {question?.numberOfComments}{" "}
+                {question?.numberOfComments === 1 ? "Comment" : "Comments"}
+              </CardDescription>
             </div>
           </div>
         </CardFooter>
       </Card>
+      <Comments question={question as Question} />
     </section>
   );
 };
