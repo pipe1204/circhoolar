@@ -2,17 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import { Icons } from "./Icons";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "./ui/Card";
-import { Separator } from "./ui/separator";
 import { Timestamp, onSnapshot, query } from "firebase/firestore";
 import { questionRef } from "@/lib/converters/Questions";
-import Question from "./community/Question";
 import { useSchoolCodeStore } from "@/store/store";
 import SearchQuestion from "./community/SearchQuestion";
 
@@ -32,6 +23,7 @@ interface QuestionType {
   updatedAt: Timestamp;
   topic: string;
   schoolName: string;
+  numberOfComments: number;
 }
 
 const SearchBar = () => {
