@@ -1,4 +1,6 @@
+import { create } from "zustand";
 import { Timestamp } from "firebase/firestore";
+import { number } from "zod";
 
 export interface Post {
   id: string;
@@ -35,6 +37,18 @@ export interface Question {
   updatedAt: Timestamp;
   topic: string;
   schoolName: string;
+  numberOfComments: number;
+}
+
+export interface Comment {
+  id: string;
+  authorId: string;
+  author: string;
+  commenterIdentity: "Name" | "Anonymous";
+  questionId: string;
+  questionTitle: string;
+  text: string;
+  createdAt: Timestamp;
 }
 
 export interface User {

@@ -34,6 +34,7 @@ const QuestionConverter: FirestoreDataConverter<Question> = {
       schoolCode: data.schoolCode,
       updatedAt: data.updatedAt,
       schoolName: data.schoolName,
+      numberOfComments: data.numberOfComments,
     };
     return question;
   },
