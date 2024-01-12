@@ -87,7 +87,7 @@ const page = () => {
                             setItemsLocation(value);
                           }}
                           defaultValue={field.value}
-                          className="flex flex-row justify-between gap-x-4 p-4 mb-4 rounded-md bg-card-color w-[84%] xl:w-[74%] fixed z-10"
+                          className="flex flex-row justify-between gap-x-4 p-4 mb-4 rounded-md bg-card-color w-[84%] xl:w-[55%] fixed z-10"
                         >
                           <FormItem className="flex items-center space-x-3 space-y-0">
                             <FormControl>

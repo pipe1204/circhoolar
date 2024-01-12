@@ -15,12 +15,14 @@ import useMainQuestions from "@/hooks/useMainQuestions";
 import { communityQuestionsAudience } from "@/lib/validations/auth";
 import { useAudienceSelectedStore, useTopicStore } from "@/store/store";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSession } from "next-auth/react";
 import React, { useEffect } from "react";
 import { set, useForm } from "react-hook-form";
 import { z } from "zod";
 type Inputs = z.infer<typeof communityQuestionsAudience>;
 
 const page = () => {
+  const { data: session } = useSession();
   const topic = useTopicStore((state) => state.topic);
   const setTopic = useTopicStore((state) => state.setTopic);
   const audienceSelected = useAudienceSelectedStore(
@@ -110,7 +112,16 @@ const page = () => {
           <div className="mt-16 xl:mt-14">
             <TopicHeader />
             {questions.map((question) => (
-              <Question key={question.id} question={question} />
+              <Question
+                key={question.id}
+                question={question}
+                ownPost={
+                  session?.user?.name === question.author &&
+                  audienceSelected === "Own"
+                    ? true
+                    : false
+                }
+              />
             ))}
           </div>
         </div>

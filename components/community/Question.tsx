@@ -31,9 +31,10 @@ import Link from "next/link";
 
 interface QuestionProps {
   question: Question;
+  ownPost?: boolean;
 }
 
-const Question = ({ question }: QuestionProps) => {
+const Question = ({ question, ownPost }: QuestionProps) => {
   const timeDifference = useFormatedDate(question.createdAt);
   const { data: session } = useSession();
 
@@ -73,7 +74,7 @@ const Question = ({ question }: QuestionProps) => {
 
   return (
     <Card className="bg-light-white border border-gray-50 shadow-sm hover:shadow-md hover:border-paragraph-color rounded-md p-4 my-4">
-      {session?.user?.name === question.author ? (
+      {ownPost ? (
         <div className="flex flex-col-reverse xl:flex-row gap-x-4 justify-end items-end xl:items-center">
           <CardDescription className="text-right">
             Posted by you {timeDifference}
@@ -114,7 +115,11 @@ const Question = ({ question }: QuestionProps) => {
       ) : (
         <CardDescription className="text-right">
           Posted by{" "}
-          {question.identity === "Real name" ? question.author : "Anonymous"}{" "}
+          {session?.user?.name === question.author
+            ? "you"
+            : question.identity === "Real name"
+            ? question.author
+            : "Anonymous"}{" "}
           {timeDifference}
         </CardDescription>
       )}

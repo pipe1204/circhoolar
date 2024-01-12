@@ -2,7 +2,7 @@
 
 import ImageGallery from "@/components/item/ImageGallery";
 import { Button } from "@/components/ui/Button";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { postRef } from "@/lib/converters/Post";
 import {
@@ -204,6 +204,12 @@ const page = () => {
   return (
     <div className="my-10">
       <div className="mx-auto max-w-screen-xl px-4 xl:px-8">
+        <Link href="/dashboard" passHref>
+          <Button variant={"link"} size={"lg"} className="mb-8 px-0">
+            <Icons.ArrowLeft size={15} className="mr-2" />
+            Back
+          </Button>
+        </Link>
         <div className="flex flex-col w-full xl:flex-row gap-8">
           <div className="flex-shrink-0 xl:w-1/2">
             <ImageGallery images={item?.images} />
