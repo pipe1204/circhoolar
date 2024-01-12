@@ -32,7 +32,6 @@ const Comments = ({ question }: CommentsProps) => {
 
   const onDeleteComment = () => {};
 
-  console.log(commenterIdentity);
   return (
     <section>
       <Card className="bg-light-white border border-gray-50 shadow-sm rounded-md p-4 mt-2 mx-auto">

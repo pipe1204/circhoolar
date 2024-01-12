@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { doc, getDoc } from "firebase/firestore";
 import { Question } from "@/types/Types";
@@ -23,6 +23,7 @@ import { db } from "@/firebase";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import Comments from "@/components/community/Comments";
+import { useCommentCountStore } from "@/store/store";
 
 const page = () => {
   const [question, setQuestion] = useState<Question>();
@@ -30,35 +31,28 @@ const page = () => {
   const { data: session } = useSession();
   const params = useParams();
 
+  const commentCount = useCommentCountStore((state) => state.commentCount);
+
   useEffect(() => {
-    const fetchQuestionData = async () => {
-      if (params.id && typeof params.id === "string") {
-        try {
-          const docRef = doc(questionRef, params.id);
-          const docSnap = await getDoc(docRef);
-
-          if (docSnap.exists()) {
-            setQuestion(docSnap.data() as Question);
-
-            if (session?.user?.id) {
-              const savedItemRef = doc(
-                userRef(session.user.id),
-                "savedItems",
-                params.id
-              );
-              const savedItemSnap = await getDoc(savedItemRef);
-              setIsSaved(savedItemSnap.exists());
-            }
-          } else {
-            console.log("No such document!");
-          }
-        } catch (error) {
-          console.error("Error fetching item:", error);
-        }
-      }
-    };
     fetchQuestionData();
-  }, [params.id, session?.user?.id]);
+  }, [params.id, session?.user?.id, commentCount]);
+
+  const fetchQuestionData = async () => {
+    if (params.id && typeof params.id === "string") {
+      try {
+        const docRef = doc(questionRef, params.id);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          setQuestion(docSnap.data() as Question);
+        } else {
+          console.log("No such document!");
+        }
+      } catch (error) {
+        console.error("Error fetching item:", error);
+      }
+    }
+  };
 
   const timeDifference = useFormatedDate(question?.createdAt || null);
 

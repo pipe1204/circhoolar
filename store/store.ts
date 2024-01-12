@@ -92,6 +92,16 @@ export const useCommenterIdentityStore = create<commenterIdentityState>(
   })
 );
 
+interface commentCountState {
+  commentCount: number | null;
+  setCommentCount: (commentCount: number | null) => void;
+}
+
+export const useCommentCountStore = create<commentCountState>((set) => ({
+  commentCount: null,
+  setCommentCount: (commentCount: number | null) => set({ commentCount }),
+}));
+
 interface itemsLocationState {
   itemsLocation: string | undefined;
   setItemsLocation: (itemsLocation: string | undefined) => void;

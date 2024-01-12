@@ -51,7 +51,7 @@ const page = () => {
 
   return (
     <section className="p-2">
-      <div className="flex flex-col-reverse gap-y-4 xl:flex-row justify-between xl:gap-x-4">
+      <div className="flex flex-col gap-y-4 xl:flex-row justify-between xl:gap-x-4">
         <div className="w-full xl:w-[60%]">
           <Form {...form}>
             <form className="grid gap-4 p-4 rounded-md bg-card-color w-[84%] xl:w-[43.6%] fixed">
@@ -111,6 +111,9 @@ const page = () => {
           </Form>
           <div className="mt-16 xl:mt-14">
             <TopicHeader />
+            <div className="xl:hidden block w-full mt-4 mx-auto xl:w-[40%]">
+              <SearchBar />
+            </div>
             {questions.map((question) => (
               <Question
                 key={question.id}
@@ -125,7 +128,7 @@ const page = () => {
             ))}
           </div>
         </div>
-        <div className="w-full xl:w-[40%]">
+        <div className="hidden xl:flex w-full xl:w-[40%]">
           <SearchBar />
         </div>
       </div>
