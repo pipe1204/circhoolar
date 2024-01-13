@@ -41,7 +41,7 @@ const page = () => {
   }
 
   return (
-    <section className="p-2">
+    <section className="p-2 mb-28 xl:mb-0">
       {schoolCode !== null ? (
         <div>
           <Masonry
