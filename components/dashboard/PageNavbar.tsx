@@ -48,7 +48,7 @@ type topicInputs = z.infer<typeof topicSchema>;
 
 const PageNavbar = () => {
   const setTopic = useTopicStore((state) => state.setTopic);
-
+  const topic = useTopicStore((state) => state.topic);
   const setCategories = useCategoriesStore((state) => state.setCategories);
 
   const audienceSelected = useAudienceSelectedStore(
@@ -344,11 +344,11 @@ const PageNavbar = () => {
                       >
                         <FormControl>
                           <SelectTrigger className="text-light-white">
-                            <SelectValue placeholder="Topics" />
+                            <SelectValue placeholder={topic} />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="All">All topics</SelectItem>
+                          <SelectItem value="All topics">All topics</SelectItem>
                           {topics.map((topic) => {
                             return (
                               <SelectItem key={topic} value={topic}>

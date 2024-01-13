@@ -44,7 +44,7 @@ export const topics = [
 
 export const topicHeaders = [
   {
-    topic: "All",
+    topic: "All topics",
     description:
       "From Early Childhood Development, to Work-Life Balance, All the topics related to parenting and education.",
   },
