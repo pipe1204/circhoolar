@@ -4,11 +4,13 @@ import { db } from "@/firebase";
 import { codeRef } from "@/lib/converters/SchoolCode";
 import { userRef } from "@/lib/converters/User";
 import {
+  useAudienceSelectedStore,
   useBankDetailsStore,
   useCurrentChatStore,
   useItemsLocationStore,
   useSchoolCodeStore,
   useSchoolNameStore,
+  useTopicStore,
   useTotalUnreadMessagesStore,
   useUserNameStore,
 } from "@/store/store";
@@ -43,6 +45,10 @@ function GlobalStateProvider({ children }: { children: React.ReactNode }) {
   const setItemsLocation = useItemsLocationStore(
     (state) => state.setItemsLocation
   );
+  const setAudienceSelected = useAudienceSelectedStore(
+    (state) => state.setAudienceSelected
+  );
+  const setTopic = useTopicStore((state) => state.setTopic);
   const currentChatId = useCurrentChatStore((state) => state.currentChatId);
 
   const [chatUnreadCounts, setChatUnreadCounts] = useState({});
@@ -111,6 +117,8 @@ function GlobalStateProvider({ children }: { children: React.ReactNode }) {
           setAccountNumber(docSnapShot.data().bankDetails?.accountNumber);
           setAccountName(docSnapShot.data().bankDetails?.accountName);
           setItemsLocation("Public");
+          setAudienceSelected("Public");
+          setTopic("All topics");
         } else {
           console.log("No such document!");
           setSchoolCode(null);

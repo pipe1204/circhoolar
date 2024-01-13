@@ -34,7 +34,7 @@ const useMainQuestions = (
       questionQuery = query(questionRef, where("schoolCode", "==", schoolCode));
     }
 
-    if (topic && topic !== "All") {
+    if (topic && topic !== "All topics") {
       questionQuery = query(questionQuery, where("topic", "==", topic));
     }
 

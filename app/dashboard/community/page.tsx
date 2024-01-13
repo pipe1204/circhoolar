@@ -15,13 +15,9 @@ const page = () => {
   const audienceSelected = useAudienceSelectedStore(
     (state) => state.audienceSelected
   );
-  const setAudienceSelected = useAudienceSelectedStore(
-    (state) => state.setAudienceSelected
-  );
 
   useEffect(() => {
-    setAudienceSelected("Public");
-    setTopic("All");
+    setTopic(topic);
   }, []);
 
   const { questions } = useMainQuestions(topic, audienceSelected);

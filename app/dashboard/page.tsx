@@ -20,14 +20,7 @@ const page = () => {
     (state) => state.selectedSchool
   );
   const categories = useCategoriesStore((state) => state.categories);
-  const setItemsLocation = useItemsLocationStore(
-    (state) => state.setItemsLocation
-  );
   const itemsLocation = useItemsLocationStore((state) => state.itemsLocation);
-
-  useEffect(() => {
-    setItemsLocation("Public");
-  }, []);
 
   const { posts } = useMainPosts(selectedSchool, categories, itemsLocation);
   const { errorCode, handleCheckCode } = useSchoolCodeVerification();

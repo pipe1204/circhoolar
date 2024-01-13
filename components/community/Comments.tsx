@@ -1,13 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Card } from "../ui/Card";
 import CommentInput from "./CommentInput";
 import { Question } from "@/types/Types";
 import useCreateAndDeleteComment from "@/hooks/useCreateComment";
 import { useCommenterIdentityStore } from "@/store/store";
-import { set } from "zod";
 import CommentItem from "./CommentItem";
 import useFetchComments from "@/hooks/useFetchComments";
-import useFormatedDate from "@/hooks/useFormatedDate";
 
 interface CommentsProps {
   question: Question;
@@ -17,9 +15,6 @@ const Comments = ({ question }: CommentsProps) => {
   const commenterIdentity = useCommenterIdentityStore(
     (state) => state.commenterIdentity
   );
-  const setCommenterIdentity = useCommenterIdentityStore(
-    (state) => state.setCommenterIdentity
-  );
   const [commentText, setCommentText] = React.useState("");
   const { onCreateComment } = useCreateAndDeleteComment();
 
@@ -27,13 +22,10 @@ const Comments = ({ question }: CommentsProps) => {
     if (commentText.length > 0) {
       onCreateComment(commentText, question, setCommentText, commenterIdentity);
     }
+    console.log(commenterIdentity);
   };
 
   const { comments } = useFetchComments(question?.id);
-
-  useEffect(() => {
-    setCommenterIdentity("Name");
-  }, [commentText]);
 
   const onDeleteComment = () => {};
 

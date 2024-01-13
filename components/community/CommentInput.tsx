@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Card, CardDescription } from "../ui/Card";
 import { Button } from "../ui/Button";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
@@ -25,6 +25,10 @@ const CommentInput = ({
   const setCommenterIdentity = useCommenterIdentityStore(
     (state) => state.setCommenterIdentity
   );
+
+  useEffect(() => {
+    setCommenterIdentity("Name");
+  }, []);
 
   const form = useForm<Inputs>({
     resolver: zodResolver(commentPrivacy),

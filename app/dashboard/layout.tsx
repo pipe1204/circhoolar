@@ -21,7 +21,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
         )}
       </div>
-      <div className="flex flex-grow overflow-hidden">
+      <div className="flex flex-grow overflow-y-auto">
         {schoolCode !== null && (
           <div className="w-full hidden xl:flex xl:w-56 overflow-y-auto">
             <SideNav />

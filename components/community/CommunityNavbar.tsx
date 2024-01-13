@@ -38,6 +38,7 @@ type topicInputs = z.infer<typeof topicSchema>;
 
 const CommunityNavbar = () => {
   const setTopic = useTopicStore((state) => state.setTopic);
+  const topic = useTopicStore((state) => state.topic);
   const audienceSelected = useAudienceSelectedStore(
     (state) => state.audienceSelected
   );
@@ -132,11 +133,11 @@ const CommunityNavbar = () => {
                     >
                       <FormControl>
                         <SelectTrigger className="text-light-white">
-                          <SelectValue placeholder="Choose a topic" />
+                          <SelectValue placeholder={topic} />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="All">All topics</SelectItem>
+                        <SelectItem value="All topics">All topics</SelectItem>
                         {topics.map((topic) => {
                           return (
                             <SelectItem key={topic} value={topic}>

@@ -12,7 +12,9 @@ const TopicHeader = () => {
     <section>
       <Card className="text-light-white bg-card-color p-4 rounded-lg">
         <h1 className="text-2xl font-bold">
-          {headerTopic?.topic === "All" ? "All Topics" : headerTopic?.topic}
+          {headerTopic?.topic === "All topics"
+            ? "All Topics"
+            : headerTopic?.topic}
         </h1>
         <Separator className="text-light-white my-2" />
         <p className="text-sm text-gray-500">{headerTopic?.description}</p>
