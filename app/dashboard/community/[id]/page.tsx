@@ -57,7 +57,7 @@ const page = () => {
   const timeDifference = useFormatedDate(question?.createdAt || null);
 
   return (
-    <section>
+    <section className="mb-28 xl:mb-0">
       <Link href="/dashboard/community" passHref>
         <Button variant={"link"} size={"lg"} className="mb-8 px-0">
           <Icons.ArrowLeft size={15} className="mr-2" />

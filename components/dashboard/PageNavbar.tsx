@@ -145,7 +145,7 @@ const PageNavbar = () => {
 
   return (
     <nav className="bg-light-white flex justify-between items-center border border-light-white-500 shadow-md w-full h-16">
-      <div className={`flex justify-between items-center mx-6 xl:mx-10 w-full`}>
+      <div className="flex justify-between items-center mx-6 xl:mx-10 w-full">
         <div className="xl:hidden flex justify-end items-center">
           <button
             onClick={handleMenuClick}
@@ -275,7 +275,7 @@ const PageNavbar = () => {
                 onClick={toggleDropdown}
                 className="flex items-center rounded-md border-[1px] border-light-white-400 px-4 py-2 xl:py-0 xl:px-8 bg-light-white shadow-sm cursor-pointer"
               >
-                <Icons.store className="text-dark-purple" size={20} />
+                <Icons.store className="text-dark-purple" size={25} />
                 <h1 className="text-dark-purple text-md font-semibold"></h1>
               </button>
               {isDropdownOpen && (

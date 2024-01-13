@@ -45,10 +45,15 @@ function GlobalStateProvider({ children }: { children: React.ReactNode }) {
   const setItemsLocation = useItemsLocationStore(
     (state) => state.setItemsLocation
   );
+  const itemsLocation = useItemsLocationStore((state) => state.itemsLocation);
   const setAudienceSelected = useAudienceSelectedStore(
     (state) => state.setAudienceSelected
   );
+  const audienceSelected = useAudienceSelectedStore(
+    (state) => state.audienceSelected
+  );
   const setTopic = useTopicStore((state) => state.setTopic);
+  const topic = useTopicStore((state) => state.topic);
   const currentChatId = useCurrentChatStore((state) => state.currentChatId);
 
   const [chatUnreadCounts, setChatUnreadCounts] = useState({});
@@ -116,9 +121,9 @@ function GlobalStateProvider({ children }: { children: React.ReactNode }) {
           setBsbNumber(docSnapShot.data().bankDetails?.bsbNumber);
           setAccountNumber(docSnapShot.data().bankDetails?.accountNumber);
           setAccountName(docSnapShot.data().bankDetails?.accountName);
-          setItemsLocation("Public");
-          setAudienceSelected("Public");
-          setTopic("All topics");
+          setItemsLocation(itemsLocation || "Public");
+          setAudienceSelected(audienceSelected || "Public");
+          setTopic(topic || "All topics");
         } else {
           console.log("No such document!");
           setSchoolCode(null);
