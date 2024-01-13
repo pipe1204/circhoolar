@@ -6,6 +6,9 @@ import {
   QueryDocumentSnapshot,
   SnapshotOptions,
   collection,
+  orderBy,
+  query,
+  where,
 } from "firebase/firestore";
 
 const CommentConverter: FirestoreDataConverter<Comment> = {
@@ -35,3 +38,10 @@ const CommentConverter: FirestoreDataConverter<Comment> = {
 export const commentRef = collection(db, "comments").withConverter(
   CommentConverter
 );
+
+export const sortedCommentsRef = (questionId: string) =>
+  query(
+    commentRef,
+    where("questionId", "==", questionId),
+    orderBy("createdAt", "desc")
+  );

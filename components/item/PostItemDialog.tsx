@@ -245,7 +245,7 @@ const PostItemDialog = () => {
   return (
     <Dialog open={isOpen} onOpenChange={handleDialogChange}>
       <DialogTrigger asChild>
-        <Button variant="secondary">Post an item</Button>
+        <Button variant="secondary">Post</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader className="w-full">

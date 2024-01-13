@@ -5,6 +5,9 @@ import { Question } from "@/types/Types";
 import useCreateAndDeleteComment from "@/hooks/useCreateComment";
 import { useCommenterIdentityStore } from "@/store/store";
 import { set } from "zod";
+import CommentItem from "./CommentItem";
+import useFetchComments from "@/hooks/useFetchComments";
+import useFormatedDate from "@/hooks/useFormatedDate";
 
 interface CommentsProps {
   question: Question;
@@ -26,6 +29,8 @@ const Comments = ({ question }: CommentsProps) => {
     }
   };
 
+  const { comments } = useFetchComments(question?.id);
+
   useEffect(() => {
     setCommenterIdentity("Name");
   }, [commentText]);
@@ -40,6 +45,14 @@ const Comments = ({ question }: CommentsProps) => {
           setCommentText={setCommentText}
           handleClickComment={handleClickComment}
         />
+        {comments.map((comment) => (
+          <CommentItem
+            key={comment.id}
+            comment={comment}
+            onDeleteComment={onDeleteComment}
+            loadingDeleteComment={false}
+          />
+        ))}
       </Card>
     </section>
   );

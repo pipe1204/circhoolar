@@ -1,20 +1,36 @@
-import { useState, useEffect } from "react";
-import { db } from "@/firebase";
-import { Message, sortedMessagesRef } from "@/lib/converters/Message";
-import { getDocs } from "firebase/firestore";
+import { useState, useEffect, use } from "react";
+import { getDocs, orderBy, query } from "firebase/firestore";
+import { Comment } from "@/types/Types";
+import { sortedCommentsRef } from "@/lib/converters/Comments";
+import { useCommentCountStore } from "@/store/store";
 
-const useFetchMessages = (chatId: string) => {
-  const [comments, setComments] = useState<Message[]>([]);
+const useFetchComments = (questionId: string) => {
+  const commentCount = useCommentCountStore((state) => state.commentCount);
+  const [comments, setComments] = useState<Comment[]>([]);
   const [fetchLoading, setFetchLoading] = useState(false);
-  const [createLoading, setCreateLoading] = useState(false);
 
   useEffect(() => {
-    const fetchMessages = async () => {};
+    const fetchComments = async () => {
+      setFetchLoading(true);
+      if (!questionId) return;
+      try {
+        // Update the query to order by timestamp
+        const q = sortedCommentsRef(questionId);
+        const commentsSnapshot = await getDocs(q);
+        const fetchedComments = commentsSnapshot.docs.map(
+          (doc) => doc.data() as Comment
+        );
+        setComments(fetchedComments);
+        setFetchLoading(false);
+      } catch (error) {
+        console.log("Error fetching comments:", error);
+      }
+    };
 
-    fetchMessages();
-  }, [chatId]);
+    fetchComments();
+  }, [questionId, commentCount]);
 
-  return { comments, fetchLoading, createLoading };
+  return { comments, fetchLoading };
 };
 
-export default useFetchMessages;
+export default useFetchComments;
