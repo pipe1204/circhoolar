@@ -202,7 +202,7 @@ const page = () => {
   };
 
   return (
-    <div className="my-10">
+    <div className="mb-20">
       <div className="mx-auto max-w-screen-xl px-4 xl:px-8">
         <Link href="/dashboard" passHref>
           <Button variant={"link"} size={"lg"} className="mb-8 px-0">

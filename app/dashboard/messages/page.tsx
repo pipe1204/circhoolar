@@ -5,7 +5,7 @@ import ChatList from "@/components/user/ChatList";
 
 const page = () => {
   return (
-    <section className="h-full w-full flex rounded-md mx-auto mb-28 xl:mb-0">
+    <section className="h-full w-full flex rounded-md mx-auto pb-28 xl:pb-10">
       <ChatList />
     </section>
   );
