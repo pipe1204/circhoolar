@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import {
   addDoc,
+  deleteDoc,
   doc,
   getDoc,
   serverTimestamp,
@@ -61,7 +62,27 @@ const useCreateAndDeleteComment = () => {
     setCommentText("");
   };
 
-  return { onCreateComment, loading };
+  const onDeleteComment = async (commentId: string, question: Question) => {
+    if (session?.user?.id) {
+      try {
+        const commentDocRef = doc(db, "comments", commentId);
+        await deleteDoc(commentDocRef);
+        console.log("Comment deleted successfully");
+      } catch (error) {
+        console.error("Error deleting comment:", error);
+      }
+      const docRef = doc(questionRef, question.id);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const currentComments = docSnap.data().numberOfComments - 1;
+        await updateDoc(docRef, { numberOfComments: currentComments });
+        setCommentCount(currentComments);
+      }
+    }
+  };
+
+  return { onCreateComment, onDeleteComment, loading };
 };
 
 export default useCreateAndDeleteComment;

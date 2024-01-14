@@ -23,7 +23,7 @@ const page = () => {
   const { questions } = useMainQuestions(topic, audienceSelected);
 
   return (
-    <section className="p-2 mb-28 xl:mb-0">
+    <section className="p-2 pb-28 xl:pb-10">
       <div className="flex flex-col-reverse gap-y-4 xl:flex-row justify-between xl:gap-x-4">
         <div className="w-full xl:w-[60%]">
           <div>

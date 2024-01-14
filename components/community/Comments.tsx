@@ -16,18 +16,19 @@ const Comments = ({ question }: CommentsProps) => {
     (state) => state.commenterIdentity
   );
   const [commentText, setCommentText] = React.useState("");
-  const { onCreateComment } = useCreateAndDeleteComment();
+  const { onCreateComment, onDeleteComment } = useCreateAndDeleteComment();
 
   const handleClickComment = (commentText: string) => {
     if (commentText.length > 0) {
       onCreateComment(commentText, question, setCommentText, commenterIdentity);
     }
-    console.log(commenterIdentity);
+  };
+
+  const handleDelete = (commentId: string) => {
+    onDeleteComment(commentId, question);
   };
 
   const { comments } = useFetchComments(question?.id);
-
-  const onDeleteComment = () => {};
 
   return (
     <section>
@@ -41,8 +42,7 @@ const Comments = ({ question }: CommentsProps) => {
           <CommentItem
             key={comment.id}
             comment={comment}
-            onDeleteComment={onDeleteComment}
-            loadingDeleteComment={false}
+            handleDelete={handleDelete}
           />
         ))}
       </Card>

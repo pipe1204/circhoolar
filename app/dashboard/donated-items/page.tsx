@@ -18,7 +18,7 @@ const page = () => {
 
   const defaultImage = "/Logo-dark.jpg";
   return (
-    <section className="p-2 mb-28 xl:mb-0">
+    <section className="p-2 pb-28 xl:pb-10">
       {soldItems.length > 0 ? (
         <Masonry
           breakpointCols={breakpointColumnsObj}

@@ -7,22 +7,29 @@ import {
   CardFooter,
   CardHeader,
 } from "../ui/Card";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../ui/alert-dialog";
 import { Icons } from "../Icons";
 import useFormatedDate from "@/hooks/useFormatedDate";
 import { useSession } from "next-auth/react";
 import { Button } from "../ui/Button";
+import useCreateAndDeleteComment from "@/hooks/useCreateComment";
 
 interface CommentItemProps {
   comment: Comment;
-  onDeleteComment: (comment: string) => void;
-  loadingDeleteComment: boolean;
+  handleDelete: (commentId: string) => void;
 }
 
-const CommentItem = ({
-  comment,
-  onDeleteComment,
-  loadingDeleteComment,
-}: CommentItemProps) => {
+const CommentItem = ({ comment, handleDelete }: CommentItemProps) => {
   const { data: session } = useSession();
 
   const timeDifference = useFormatedDate(comment.createdAt);
@@ -43,11 +50,34 @@ const CommentItem = ({
           </div>
           <div>
             {session?.user?.name === comment.author ? (
-              <div>
+              <div className="flex flex-row text-right">
                 <Button variant={"link"}>Edit</Button>
-                <Button variant={"link"} className="text-red">
-                  Delete
-                </Button>
+                <AlertDialog>
+                  <AlertDialogTrigger className="text-red flex justify-center items-center text-sm">
+                    <Icons.trash size={15} className="mr-2" />
+                    Delete
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle className="text-light-white">
+                        Are you absolutely sure?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action cannot be undone. This will permanently
+                        delete your post and remove your data from our servers.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={() => handleDelete(comment.id)}
+                        className="bg-red text-light-white"
+                      >
+                        Continue
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
             ) : (
               ""
