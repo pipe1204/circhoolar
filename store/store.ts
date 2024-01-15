@@ -102,6 +102,28 @@ export const useCommentCountStore = create<commentCountState>((set) => ({
   setCommentCount: (commentCount: number | null) => set({ commentCount }),
 }));
 
+interface likeCommentState {
+  likeCommentCount: number | null;
+  setLikeCommentCount: (likeCommentCount: number | null) => void;
+}
+
+export const useLikeCommentCountStore = create<likeCommentState>((set) => ({
+  likeCommentCount: null,
+  setLikeCommentCount: (likeCommentCount: number | null) =>
+    set({ likeCommentCount }),
+}));
+
+interface likeQuestionState {
+  likeQuestionCount: number | null;
+  setLikeQuestionCount: (likeQuestionCount: number | null) => void;
+}
+
+export const useLikeQuestionCountStore = create<likeQuestionState>((set) => ({
+  likeQuestionCount: null,
+  setLikeQuestionCount: (likeQuestionCount: number | null) =>
+    set({ likeQuestionCount }),
+}));
+
 interface itemsLocationState {
   itemsLocation: string | undefined;
   setItemsLocation: (itemsLocation: string | undefined) => void;

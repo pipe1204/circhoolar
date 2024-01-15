@@ -1,11 +1,14 @@
-import { useState, useEffect, use } from "react";
-import { getDocs, orderBy, query } from "firebase/firestore";
+import { useState, useEffect } from "react";
+import { getDocs } from "firebase/firestore";
 import { Comment } from "@/types/Types";
 import { sortedCommentsRef } from "@/lib/converters/Comments";
-import { useCommentCountStore } from "@/store/store";
+import { useCommentCountStore, useLikeCommentCountStore } from "@/store/store";
 
 const useFetchComments = (questionId: string) => {
   const commentCount = useCommentCountStore((state) => state.commentCount);
+  const likeCommentCount = useLikeCommentCountStore(
+    (state) => state.likeCommentCount
+  );
   const [comments, setComments] = useState<Comment[]>([]);
   const [fetchLoading, setFetchLoading] = useState(false);
 
@@ -28,7 +31,7 @@ const useFetchComments = (questionId: string) => {
     };
 
     fetchComments();
-  }, [questionId, commentCount]);
+  }, [questionId, commentCount, likeCommentCount]);
 
   return { comments, fetchLoading };
 };

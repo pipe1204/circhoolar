@@ -71,6 +71,8 @@ export function SignUpForm() {
               accountNumber: "",
               accountName: "",
             },
+            likedQuestions: [],
+            likedComments: [],
           })
             .then(() => {
               console.log("User document created successfully");

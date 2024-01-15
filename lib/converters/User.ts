@@ -29,6 +29,8 @@ const UserConverter: FirestoreDataConverter<User> = {
       posts: data.posts,
       hasBankDetails: data.hasBankDetails,
       bankDetails: data.bankDetails,
+      likedQuestions: data.likedQuestions,
+      likedComments: data.likedComments,
     };
     return user;
   },

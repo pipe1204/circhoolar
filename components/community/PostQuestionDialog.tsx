@@ -196,6 +196,7 @@ const PostQuestionDialog = () => {
         updatedAt: serverTimestamp(),
         schoolName: schoolName,
         numberOfComments: 0,
+        numberOfLikes: 0,
       };
       try {
         const docRef = await addDoc(questionRef, question);
