@@ -8,6 +8,7 @@ import {
   deleteDoc,
   doc,
   getDoc,
+  QuerySnapshot,
 } from "firebase/firestore";
 
 const useDeleteUserAccount = () => {
@@ -81,20 +82,29 @@ const useDeleteUserAccount = () => {
     }
   };
 
-  const deleteUserComments = async (userId: string) => {
-    const userRef = doc(db, "users", userId);
-    const userSnap = await getDoc(userRef);
+  const fetchUserQuestions = async (userId: string) => {
+    const questionsQuery = query(
+      collection(db, "questions"),
+      where("authorId", "==", userId)
+    );
+    return await getDocs(questionsQuery);
+  };
 
-    if (userSnap.exists()) {
-      const userComments = userSnap.data().comments;
-
-      if (userComments && userComments.length > 0) {
-        for (const commentId of userComments) {
-          const commentRef = doc(db, "comments", commentId);
-          await deleteDoc(commentRef);
-          console.log("Comment deleted successfully");
-        }
-      }
+  const deleteUserCommentsForQuestions = async (
+    questionsSnapshot: QuerySnapshot
+  ) => {
+    for (const questionDoc of questionsSnapshot.docs) {
+      const questionId = questionDoc.id;
+      console.log("questionId:", questionId);
+      const commentsQuery = query(
+        collection(db, "comments"),
+        where("questionId", "==", questionId)
+      );
+      const commentsSnapshot = await getDocs(commentsQuery);
+      commentsSnapshot.forEach(async (commentDoc) => {
+        console.log("commentDoc", commentDoc.ref);
+        await deleteDoc(commentDoc.ref);
+      });
     }
   };
 
@@ -105,10 +115,11 @@ const useDeleteUserAccount = () => {
       await deleteUserSubcollections(session.user.id);
       await deleteUserPosts(session.user.id);
       await deleteUserChats(session.user.id);
+      const questionsSnapshot = await fetchUserQuestions(session.user.id);
+      await deleteUserCommentsForQuestions(questionsSnapshot);
+      await deleteUserQuestions(session.user.id);
       await deleteUserAccounts(session.user.id);
       await deleteDoc(doc(db, "users", session.user.id));
-      await deleteUserQuestions(session.user.id);
-      await deleteUserComments(session.user.id);
 
       console.log("User account and associated data deleted successfully");
 
