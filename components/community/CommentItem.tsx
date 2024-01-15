@@ -18,6 +18,12 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Icons } from "../Icons";
 import useFormatedDate from "@/hooks/useFormatedDate";
 import { useSession } from "next-auth/react";
@@ -49,7 +55,7 @@ const CommentItem = ({ comment, handleDelete }: CommentItemProps) => {
       <CardContent className="px-4">
         <p>{comment.text}</p>
       </CardContent>
-      <CardFooter className="xl:p-4">
+      <CardFooter className="flex flex-col items-start gap-y-4 xl:p-4">
         <div className="flex flex-row items-center gap-x-8">
           <CardDescription
             className="flex flex-row items-center gap-x-2"
@@ -99,6 +105,35 @@ const CommentItem = ({ comment, handleDelete }: CommentItemProps) => {
             )}
           </div>
         </div>
+        {comment.authorId === session?.user?.id &&
+          comment.likedBy?.length > 0 && (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="flex flex-row gap-x-2">
+                    <CardDescription>
+                      {comment.likedBy.includes(session?.user?.name || "")
+                        ? `You${
+                            comment.likedBy.length > 1
+                              ? " and others liked this"
+                              : " liked this"
+                          }`
+                        : `${comment.likedBy[0]}${
+                            comment.likedBy.length > 1
+                              ? " and others liked this"
+                              : " liked this"
+                          }`}
+                    </CardDescription>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  {comment.likedBy.map((name, index) => (
+                    <p key={index}>{name}</p>
+                  ))}
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
       </CardFooter>
     </Card>
   );

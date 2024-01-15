@@ -197,6 +197,7 @@ const PostQuestionDialog = () => {
         schoolName: schoolName,
         numberOfComments: 0,
         numberOfLikes: 0,
+        likedBy: [] as string[],
       };
       try {
         const docRef = await addDoc(questionRef, question);

@@ -36,6 +36,7 @@ const QuestionConverter: FirestoreDataConverter<Question> = {
       schoolName: data.schoolName,
       numberOfComments: data.numberOfComments,
       numberOfLikes: data.numberOfLikes,
+      likedBy: data.likedBy,
     };
     return question;
   },

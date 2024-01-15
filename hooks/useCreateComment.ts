@@ -44,6 +44,7 @@ const useCreateAndDeleteComment = () => {
       text: commentText,
       createdAt: serverTimestamp(),
       numberOfLikes: 0,
+      likedBy: [] as string[],
     };
     try {
       const docRef = await addDoc(commentRef, newComment);
