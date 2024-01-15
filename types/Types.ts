@@ -38,12 +38,14 @@ export interface Question {
   topic: string;
   schoolName: string;
   numberOfComments: number;
+  comments: string[];
   numberOfLikes: number;
   likedBy: string[];
 }
 
 export interface Comment {
   id: string;
+  commentId: string;
   authorId: string;
   author: string;
   commenterIdentity: "Name" | "Anonymous";

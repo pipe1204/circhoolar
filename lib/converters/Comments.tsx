@@ -6,6 +6,7 @@ import {
   QueryDocumentSnapshot,
   SnapshotOptions,
   collection,
+  doc,
   orderBy,
   query,
   where,
@@ -23,6 +24,7 @@ const CommentConverter: FirestoreDataConverter<Comment> = {
 
     const comment: Comment = {
       id: snapshot.id,
+      commentId: data.commentId,
       authorId: data.authorId,
       author: data.author,
       commenterIdentity: data.commenterIdentity,
@@ -40,6 +42,9 @@ const CommentConverter: FirestoreDataConverter<Comment> = {
 export const commentRef = collection(db, "comments").withConverter(
   CommentConverter
 );
+
+export const singleCommentRef = (commentId: string) =>
+  doc(db, "comments", commentId).withConverter(CommentConverter);
 
 export const sortedCommentsRef = (questionId: string) =>
   query(

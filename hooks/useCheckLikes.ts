@@ -109,47 +109,44 @@ const useCheckLikes = (question?: Question, comment?: Comment) => {
 
   const handleCommentLikeCheck = async (commentId: string) => {
     if (session?.user?.id) {
-      const docRef = doc(db, "users", session?.user?.id);
-      const docSnap = await getDoc(docRef);
+      const userDocRef = doc(db, "users", session.user.id);
+      const userDocSnap = await getDoc(userDocRef);
 
-      if (docSnap.exists()) {
-        const userData = docSnap.data();
-        if (userData?.likedComments?.includes(commentId)) {
-          await updateDoc(docRef, {
-            likedComments: arrayRemove(commentId),
-          });
-          setIsCommentLiked(false);
-          const commentRef = doc(db, "comments", commentId);
-          const docSnap = await getDoc(commentRef);
-          if (docSnap.exists()) {
-            const commentData = docSnap.data();
-            const currentLikes = commentData?.numberOfLikes - 1;
+      if (userDocSnap.exists()) {
+        const userData = userDocSnap.data();
+        const commentRef = doc(db, "comments", commentId);
+        const commentDocSnap = await getDoc(commentRef);
 
-            await updateDoc(commentRef, {
-              numberOfLikes: currentLikes,
-              likedBy: arrayRemove(session?.user?.name),
+        if (commentDocSnap.exists()) {
+          const commentData = commentDocSnap.data();
+          let currentLikes = commentData.numberOfLikes;
+
+          if (userData.likedComments?.includes(commentId)) {
+            // If comment is already liked, unlike it
+            await updateDoc(userDocRef, {
+              likedComments: arrayRemove(commentId),
             });
-            setLikeCommentCount(currentLikes);
-            console.log("Comment removed from array");
-          }
-        } else {
-          await updateDoc(docRef, {
-            likedComments: arrayUnion(commentId),
-          });
-          setIsCommentLiked(true);
-          const commentRef = doc(db, "comments", commentId);
-          const docSnap = await getDoc(commentRef);
-          if (docSnap.exists()) {
-            const commentData = docSnap.data();
-            const currentLikes = commentData?.numberOfLikes + 1;
-
-            await updateDoc(commentRef, {
-              numberOfLikes: currentLikes,
-              likedBy: arrayUnion(session?.user?.name),
+            setIsCommentLiked(false);
+            currentLikes--;
+          } else {
+            // If comment is not liked, like it
+            await updateDoc(userDocRef, {
+              likedComments: arrayUnion(commentId),
             });
-            setLikeCommentCount(currentLikes);
-            console.log("Comment added to array");
+            setIsCommentLiked(true);
+            currentLikes++;
           }
+
+          // Update the comment's like count in Firestore
+          await updateDoc(commentRef, {
+            numberOfLikes: currentLikes,
+            likedBy: userData.likedComments?.includes(commentId)
+              ? arrayRemove(session.user.name)
+              : arrayUnion(session.user.name),
+          });
+
+          // Update local state to reflect the new like count
+          setLikeCommentCount(currentLikes);
         }
       }
     }
@@ -162,6 +159,7 @@ const useCheckLikes = (question?: Question, comment?: Comment) => {
     handleCommentLikeCheck,
     isQuestionLiked,
     isCommentLiked,
+    setIsCommentLiked,
   };
 };
 

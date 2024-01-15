@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import {
   addDoc,
+  arrayRemove,
+  arrayUnion,
   deleteDoc,
   doc,
   getDoc,
@@ -10,7 +12,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "@/firebase";
-import { Question } from "@/types/Types";
+import { Comment, Question } from "@/types/Types";
 import { questionRef } from "@/lib/converters/Questions";
 import { commentRef } from "@/lib/converters/Comments";
 import { useCommentCountStore } from "@/store/store";
@@ -35,6 +37,7 @@ const useCreateAndDeleteComment = () => {
     const commentId = session?.user.id + "-" + question.id + "-" + randomNumber;
     const newComment = {
       id: commentId,
+      commentId: commentId,
       authorId: session.user.id,
       author: session.user.name,
       commenterIdentity:
@@ -58,17 +61,20 @@ const useCreateAndDeleteComment = () => {
 
     if (docSnap.exists()) {
       const currentComments = docSnap.data().numberOfComments + 1;
-      await updateDoc(docRef, { numberOfComments: currentComments });
+      await updateDoc(docRef, {
+        numberOfComments: currentComments,
+        comments: arrayUnion(commentId),
+      });
       setCommentCount(currentComments);
     }
     setLoading(false);
     setCommentText("");
   };
 
-  const onDeleteComment = async (commentId: string, question: Question) => {
+  const onDeleteComment = async (comment: Comment, question: Question) => {
     if (session?.user?.id) {
       try {
-        const commentDocRef = doc(db, "comments", commentId);
+        const commentDocRef = doc(db, "comments", comment.id);
         await deleteDoc(commentDocRef);
         console.log("Comment deleted successfully");
       } catch (error) {
@@ -79,7 +85,10 @@ const useCreateAndDeleteComment = () => {
 
       if (docSnap.exists()) {
         const currentComments = docSnap.data().numberOfComments - 1;
-        await updateDoc(docRef, { numberOfComments: currentComments });
+        await updateDoc(docRef, {
+          numberOfComments: currentComments,
+          comments: arrayRemove(comment.commentId),
+        });
         setCommentCount(currentComments);
       }
     }

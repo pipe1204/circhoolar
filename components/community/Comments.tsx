@@ -1,7 +1,7 @@
 import React from "react";
 import { Card } from "../ui/Card";
 import CommentInput from "./CommentInput";
-import { Question } from "@/types/Types";
+import { Comment, Question } from "@/types/Types";
 import useCreateAndDeleteComment from "@/hooks/useCreateComment";
 import { useCommenterIdentityStore } from "@/store/store";
 import CommentItem from "./CommentItem";
@@ -24,11 +24,11 @@ const Comments = ({ question }: CommentsProps) => {
     }
   };
 
-  const handleDelete = (commentId: string) => {
-    onDeleteComment(commentId, question);
+  const handleDelete = (comment: Comment) => {
+    onDeleteComment(comment, question);
   };
 
-  const { comments } = useFetchComments(question?.id);
+  const { comments, fetchSingleComment } = useFetchComments(question?.id);
 
   return (
     <section>
@@ -43,6 +43,7 @@ const Comments = ({ question }: CommentsProps) => {
             key={comment.id}
             comment={comment}
             handleDelete={handleDelete}
+            fetchSingleComment={fetchSingleComment}
           />
         ))}
       </Card>

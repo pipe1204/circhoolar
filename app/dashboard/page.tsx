@@ -2,7 +2,7 @@
 
 import { SchoolCodeForm } from "@/components/SchoolCodeForm";
 import CardItem from "@/components/item/CardItem";
-import React, { useEffect } from "react";
+import React from "react";
 import Masonry from "react-masonry-css";
 import {
   useCategoriesStore,

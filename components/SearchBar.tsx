@@ -2,38 +2,16 @@
 
 import React, { useEffect, useState } from "react";
 import { Icons } from "./Icons";
-import { Timestamp, onSnapshot, query } from "firebase/firestore";
+import { onSnapshot, query } from "firebase/firestore";
 import { questionRef } from "@/lib/converters/Questions";
 import { useSchoolCodeStore } from "@/store/store";
 import SearchQuestion from "./community/SearchQuestion";
-
-interface QuestionType {
-  id: string;
-  title: string;
-  description: string;
-  link: string;
-  authorId: string;
-  author: string;
-  avatar: string;
-  schoolCode: string;
-  images: string[];
-  audience: "Private" | "Public";
-  identity: "Real name" | "Anonymous";
-  createdAt: Timestamp;
-  updatedAt: Timestamp;
-  topic: string;
-  schoolName: string;
-  numberOfComments: number;
-  numberOfLikes: number;
-  likedBy: string[];
-}
+import { Question } from "@/types/Types";
 
 const SearchBar = () => {
   const schoolCode = useSchoolCodeStore((state) => state.schoolCode);
-  const [questions, setQuestions] = useState<QuestionType[]>([]);
-  const [filteredQuestions, setFilteredQuestions] = useState<QuestionType[]>(
-    []
-  );
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [filteredQuestions, setFilteredQuestions] = useState<Question[]>([]);
 
   useEffect(() => {
     let questionQuery;
@@ -44,7 +22,7 @@ const SearchBar = () => {
       questionQuery,
       (querySnapshot) => {
         const fetchedQuestions = querySnapshot.docs.map(
-          (doc) => doc.data() as QuestionType
+          (doc) => doc.data() as Question
         );
         setQuestions(fetchedQuestions);
       },
