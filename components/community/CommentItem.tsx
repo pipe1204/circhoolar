@@ -1,5 +1,5 @@
 import { Comment } from "@/types/Types";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -29,48 +29,79 @@ import useFormatedDate from "@/hooks/useFormatedDate";
 import { useSession } from "next-auth/react";
 import { Button } from "../ui/Button";
 import useCheckLikes from "@/hooks/useCheckLikes";
+import useFetchAllUsers from "@/hooks/useFetchAllUsers";
+import { useLikeCommentCountStore } from "@/store/store";
 
 interface CommentItemProps {
   comment: Comment;
-  handleDelete: (commentId: string) => void;
+  handleDelete: (comment: Comment) => void;
+  fetchSingleComment: (
+    commentId: string
+  ) => Promise<Comment | null | undefined>;
 }
 
-const CommentItem = ({ comment, handleDelete }: CommentItemProps) => {
+const CommentItem = ({
+  comment,
+  handleDelete,
+  fetchSingleComment,
+}: CommentItemProps) => {
   const { data: session } = useSession();
   const { checkIfCommentLiked, handleCommentLikeCheck, isCommentLiked } =
     useCheckLikes(undefined, comment);
 
+  const likeCommentCount = useLikeCommentCountStore(
+    (state) => state.likeCommentCount
+  );
+
+  const [localComment, setLocalComment] = useState<Comment>(comment);
+
+  const { users } = useFetchAllUsers();
+
   useEffect(() => {
     checkIfCommentLiked();
-  }, [session?.user?.id, comment.id]);
+  }, [session?.user?.id, comment.id, likeCommentCount]);
 
   const timeDifference = useFormatedDate(comment.createdAt);
+
+  const isAuthorInUsers = () => {
+    return users.some((user) => user.id === comment.authorId);
+  };
+
+  const handleCommentLike = async () => {
+    await handleCommentLikeCheck(comment.id);
+    const updatedComment = await fetchSingleComment(comment.id);
+    if (updatedComment) {
+      setLocalComment(updatedComment);
+    }
+  };
+
   return (
     <Card className="bg-light-white border-none shadow-none my-4">
       <CardHeader className="xl:p-4">
         <CardDescription>
-          {comment.commenterIdentity} · {timeDifference}
+          {isAuthorInUsers() ? localComment.commenterIdentity : "Deleted user"}{" "}
+          · {timeDifference}
         </CardDescription>
       </CardHeader>
       <CardContent className="px-4">
-        <p>{comment.text}</p>
+        <p>{localComment.text}</p>
       </CardContent>
       <CardFooter className="flex flex-col items-start gap-y-4 xl:p-4">
         <div className="flex flex-row items-center gap-x-8">
           <CardDescription
             className="flex flex-row items-center gap-x-2"
-            onClick={() => handleCommentLikeCheck(comment.id)}
+            onClick={() => handleCommentLike()}
           >
             <Icons.heart
               className="text-gray-100 cursor-pointer"
               size={20}
               fill={isCommentLiked ? "red" : "none"}
             />
-            {comment.numberOfLikes}{" "}
-            {comment.numberOfLikes === 1 ? "Like" : "Likes"}
+            {localComment.numberOfLikes}{" "}
+            {localComment.numberOfLikes === 1 ? "Like" : "Likes"}
           </CardDescription>
           <div>
-            {session?.user?.name === comment.author ? (
+            {session?.user?.name === localComment.author ? (
               <div className="flex flex-row text-right">
                 <Button variant={"link"}>Edit</Button>
                 <AlertDialog>
@@ -91,7 +122,7 @@ const CommentItem = ({ comment, handleDelete }: CommentItemProps) => {
                     <AlertDialogFooter>
                       <AlertDialogCancel>Cancel</AlertDialogCancel>
                       <AlertDialogAction
-                        onClick={() => handleDelete(comment.id)}
+                        onClick={() => handleDelete(localComment)}
                         className="bg-red text-light-white"
                       >
                         Continue
@@ -105,21 +136,21 @@ const CommentItem = ({ comment, handleDelete }: CommentItemProps) => {
             )}
           </div>
         </div>
-        {comment.authorId === session?.user?.id &&
-          comment.likedBy?.length > 0 && (
+        {localComment.authorId === session?.user?.id &&
+          localComment.likedBy?.length > 0 && (
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <div className="flex flex-row gap-x-2">
                     <CardDescription>
-                      {comment.likedBy.includes(session?.user?.name || "")
+                      {localComment.likedBy.includes(session?.user?.name || "")
                         ? `You${
-                            comment.likedBy.length > 1
+                            localComment.likedBy.length > 1
                               ? " and others liked this"
                               : " liked this"
                           }`
-                        : `${comment.likedBy[0]}${
-                            comment.likedBy.length > 1
+                        : `${localComment.likedBy[0]}${
+                            localComment.likedBy.length > 1
                               ? " and others liked this"
                               : " liked this"
                           }`}
@@ -127,7 +158,7 @@ const CommentItem = ({ comment, handleDelete }: CommentItemProps) => {
                   </div>
                 </TooltipTrigger>
                 <TooltipContent>
-                  {comment.likedBy.map((name, index) => (
+                  {localComment.likedBy.map((name, index) => (
                     <p key={index}>{name}</p>
                   ))}
                 </TooltipContent>

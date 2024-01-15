@@ -4,6 +4,7 @@ import {
   SnapshotOptions,
   DocumentData,
   doc,
+  collection,
 } from "firebase/firestore";
 import { User } from "@/types/Types";
 import { db } from "@/firebase";
@@ -38,3 +39,5 @@ const UserConverter: FirestoreDataConverter<User> = {
 
 export const userRef = (userId: string) =>
   doc(db, "users", userId).withConverter(UserConverter);
+
+export const usersRef = collection(db, "users").withConverter(UserConverter);

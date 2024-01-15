@@ -7,6 +7,7 @@ import {
   getDocs,
   deleteDoc,
   doc,
+  getDoc,
 } from "firebase/firestore";
 
 const useDeleteUserAccount = () => {
@@ -68,6 +69,35 @@ const useDeleteUserAccount = () => {
     }
   };
 
+  //Delete user questions
+  const deleteUserQuestions = async (userId: string) => {
+    const questionsRef = collection(db, "questions");
+    const questionsSnapshot = await getDocs(questionsRef);
+    for (const questionDoc of questionsSnapshot.docs) {
+      const questionAuthorId = questionDoc.data().authorId;
+      if (questionAuthorId === userId) {
+        await deleteDoc(questionDoc.ref);
+      }
+    }
+  };
+
+  const deleteUserComments = async (userId: string) => {
+    const userRef = doc(db, "users", userId);
+    const userSnap = await getDoc(userRef);
+
+    if (userSnap.exists()) {
+      const userComments = userSnap.data().comments;
+
+      if (userComments && userComments.length > 0) {
+        for (const commentId of userComments) {
+          const commentRef = doc(db, "comments", commentId);
+          await deleteDoc(commentRef);
+          console.log("Comment deleted successfully");
+        }
+      }
+    }
+  };
+
   const handleDeleteUserAccount = async () => {
     if (!session?.user?.id) return;
 
@@ -77,6 +107,8 @@ const useDeleteUserAccount = () => {
       await deleteUserChats(session.user.id);
       await deleteUserAccounts(session.user.id);
       await deleteDoc(doc(db, "users", session.user.id));
+      await deleteUserQuestions(session.user.id);
+      await deleteUserComments(session.user.id);
 
       console.log("User account and associated data deleted successfully");
 

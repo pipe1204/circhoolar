@@ -196,6 +196,7 @@ const PostQuestionDialog = () => {
         updatedAt: serverTimestamp(),
         schoolName: schoolName,
         numberOfComments: 0,
+        comments: [] as string[],
         numberOfLikes: 0,
         likedBy: [] as string[],
       };
