@@ -1,3 +1,4 @@
+import { number } from "zod";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import {
@@ -42,6 +43,7 @@ const useCreateAndDeleteComment = () => {
       questionTitle: question.title,
       text: commentText,
       createdAt: serverTimestamp(),
+      numberOfLikes: 0,
     };
     try {
       const docRef = await addDoc(commentRef, newComment);

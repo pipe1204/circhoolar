@@ -38,6 +38,7 @@ export interface Question {
   topic: string;
   schoolName: string;
   numberOfComments: number;
+  numberOfLikes: number;
 }
 
 export interface Comment {
@@ -49,6 +50,7 @@ export interface Comment {
   questionTitle: string;
   text: string;
   createdAt: Timestamp;
+  numberOfLikes: number;
 }
 
 export interface User {
@@ -62,6 +64,8 @@ export interface User {
   posts: Post[];
   hasBankDetails: boolean;
   bankDetails: BankDetails;
+  likedQuestions: string[];
+  likedComments: string[];
 }
 
 interface BankDetails {

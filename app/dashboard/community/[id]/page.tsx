@@ -2,10 +2,17 @@
 
 import React, { use, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { doc, getDoc } from "firebase/firestore";
 import { Question } from "@/types/Types";
 import { useSession } from "next-auth/react";
-import { userRef } from "@/lib/converters/User";
+import {
+  arrayRemove,
+  arrayUnion,
+  deleteDoc,
+  doc,
+  getDoc,
+  increment,
+  updateDoc,
+} from "firebase/firestore";
 import { Icons } from "@/components/Icons";
 import {
   Card,
@@ -23,19 +30,30 @@ import { db } from "@/firebase";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import Comments from "@/components/community/Comments";
-import { useCommentCountStore } from "@/store/store";
+import { useCommentCountStore, useLikeQuestionCountStore } from "@/store/store";
 
 const page = () => {
   const [question, setQuestion] = useState<Question>();
   const [isSaved, setIsSaved] = useState(false);
+  const [fillLike, setFillLike] = React.useState(false);
   const { data: session } = useSession();
   const params = useParams();
 
   const commentCount = useCommentCountStore((state) => state.commentCount);
+  const setLikeQuestionCount = useLikeQuestionCountStore(
+    (state) => state.setLikeQuestionCount
+  );
+  const likeQuestionCount = useLikeQuestionCountStore(
+    (state) => state.likeQuestionCount
+  );
 
   useEffect(() => {
     fetchQuestionData();
-  }, [params.id, session?.user?.id, commentCount]);
+  }, [params.id, session?.user?.id, commentCount, likeQuestionCount]);
+
+  useEffect(() => {
+    checkIfLiked();
+  }, [session?.user?.id, question?.id]);
 
   const fetchQuestionData = async () => {
     if (params.id && typeof params.id === "string") {
@@ -50,6 +68,68 @@ const page = () => {
         }
       } catch (error) {
         console.error("Error fetching item:", error);
+      }
+    }
+  };
+
+  const checkIfLiked = async () => {
+    if (session?.user?.id) {
+      const docRef = doc(db, "users", session.user.id);
+      const docSnap = await getDoc(docRef);
+
+      if (
+        docSnap.exists() &&
+        docSnap.data().likedQuestions?.includes(question?.id)
+      ) {
+        setFillLike(true);
+      } else {
+        setFillLike(false);
+      }
+    }
+  };
+
+  const handleLikeCheck = async (questionId: string) => {
+    if (session?.user?.id) {
+      const docRef = doc(db, "users", session?.user?.id);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const userData = docSnap.data();
+        if (userData?.likedQuestions?.includes(questionId)) {
+          await updateDoc(docRef, {
+            likedQuestions: arrayRemove(questionId),
+          });
+          setFillLike(false);
+          const questionRef = doc(db, "questions", questionId);
+          const docSnap = await getDoc(questionRef);
+          if (docSnap.exists()) {
+            const questionData = docSnap.data();
+            const currentLikes = questionData?.numberOfLikes - 1;
+
+            await updateDoc(questionRef, {
+              numberOfLikes: currentLikes,
+            });
+            setLikeQuestionCount(currentLikes);
+            console.log("Question removed from array");
+          }
+        } else {
+          await updateDoc(docRef, {
+            likedQuestions: arrayUnion(questionId),
+          });
+          setFillLike(true);
+          const questionRef = doc(db, "questions", questionId);
+          const docSnap = await getDoc(questionRef);
+          if (docSnap.exists()) {
+            const questionData = docSnap.data();
+            const currentLikes = questionData?.numberOfLikes + 1;
+
+            await updateDoc(questionRef, {
+              numberOfLikes: currentLikes,
+            });
+            setLikeQuestionCount(currentLikes);
+            console.log("Question added to array");
+          }
+        }
       }
     }
   };
@@ -109,8 +189,16 @@ const page = () => {
         <CardFooter>
           <div className="flex flex-row gap-x-8">
             <div className="flex flex-row items-center gap-x-2">
-              <Icons.heart className="text-gray-100 cursor-pointer" />
-              <CardDescription>Like</CardDescription>
+              <div onClick={() => handleLikeCheck(question?.id || "")}>
+                <Icons.heart
+                  className="text-gray-100 cursor-pointer"
+                  fill={fillLike ? "red" : "none"}
+                />
+              </div>
+              <CardDescription>
+                {question?.numberOfLikes}{" "}
+                {question?.numberOfLikes === 1 ? "Like" : "Likes"}
+              </CardDescription>
             </div>
             <div className="flex flex-row items-center gap-x-2">
               <Icons.message className="text-gray-100 cursor-pointer" />

@@ -24,6 +24,7 @@ interface QuestionType {
   topic: string;
   schoolName: string;
   numberOfComments: number;
+  numberOfLikes: number;
 }
 
 const SearchBar = () => {

@@ -9,7 +9,7 @@ import {
 } from "../ui/Card";
 import { Separator } from "../ui/separator";
 import { Question } from "@/types/Types";
-import { deleteDoc, doc, getDoc } from "firebase/firestore";
+import { deleteDoc, doc } from "firebase/firestore";
 import { Icons } from "../Icons";
 import useFormatedDate from "@/hooks/useFormatedDate";
 import { useSession } from "next-auth/react";
@@ -28,8 +28,7 @@ import { db } from "@/firebase";
 import UpdateQuestionDialog from "./UpdateQuestionDialog";
 import Image from "next/image";
 import Link from "next/link";
-import { questionRef } from "@/lib/converters/Questions";
-import { useCommentCountStore } from "@/store/store";
+import useCheckLikes from "@/hooks/useCheckLikes";
 
 interface QuestionProps {
   question: Question;
@@ -39,6 +38,12 @@ interface QuestionProps {
 const Question = ({ question, ownPost }: QuestionProps) => {
   const timeDifference = useFormatedDate(question.createdAt);
   const { data: session } = useSession();
+  const { checkIfQuestionLiked, handleQuestionLikeCheck, isQuestionLiked } =
+    useCheckLikes(question);
+
+  useEffect(() => {
+    checkIfQuestionLiked();
+  }, [session?.user?.id, question.id]);
 
   const handleDeleteFromFirebase =
     (itemId: string, image?: string) => async () => {
@@ -166,13 +171,23 @@ const Question = ({ question, ownPost }: QuestionProps) => {
             <CardDescription>{question.description}</CardDescription>
           </CardContent>
         </div>
-        <CardFooter className="mt-4">
-          <div className="flex flex-col gap-y-4">
-            <div className="flex flex-row gap-x-8">
-              <div className="flex flex-row items-center gap-x-2">
-                <Icons.heart className="text-gray-100 cursor-pointer" />
-                <CardDescription>0 Likes</CardDescription>
+      </Link>
+      <CardFooter className="mt-4">
+        <div className="flex flex-col gap-y-4">
+          <div className="flex flex-row gap-x-8">
+            <div className="flex flex-row items-center gap-x-2">
+              <div onClick={() => handleQuestionLikeCheck(question.id)}>
+                <Icons.heart
+                  className="text-gray-100 cursor-pointer"
+                  fill={isQuestionLiked ? "red" : "none"}
+                />
               </div>
+              <CardDescription>
+                {question.numberOfLikes}{" "}
+                {question.numberOfLikes === 1 ? "Like" : "Likes"}
+              </CardDescription>
+            </div>
+            <Link href={`/dashboard/community/${question?.id}`}>
               <div className="flex flex-row items-center gap-x-2">
                 <Icons.message className="text-gray-100 cursor-pointer" />
                 <CardDescription>
@@ -180,10 +195,10 @@ const Question = ({ question, ownPost }: QuestionProps) => {
                   {question.numberOfComments === 1 ? "Comment" : "Comments"}
                 </CardDescription>
               </div>
-            </div>
+            </Link>
           </div>
-        </CardFooter>
-      </Link>
+        </div>
+      </CardFooter>
     </Card>
   );
 };

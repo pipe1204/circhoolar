@@ -41,6 +41,8 @@ const useSchoolCodeVerification = () => {
         schoolCode: code,
         name: name,
         hasBankDetails: false,
+        likedQuestions: [],
+        likedComments: [],
       });
     } else {
       console.log("No such document!");

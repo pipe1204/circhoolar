@@ -1,5 +1,5 @@
 import { Comment } from "@/types/Types";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -22,7 +22,7 @@ import { Icons } from "../Icons";
 import useFormatedDate from "@/hooks/useFormatedDate";
 import { useSession } from "next-auth/react";
 import { Button } from "../ui/Button";
-import useCreateAndDeleteComment from "@/hooks/useCreateComment";
+import useCheckLikes from "@/hooks/useCheckLikes";
 
 interface CommentItemProps {
   comment: Comment;
@@ -31,6 +31,12 @@ interface CommentItemProps {
 
 const CommentItem = ({ comment, handleDelete }: CommentItemProps) => {
   const { data: session } = useSession();
+  const { checkIfCommentLiked, handleCommentLikeCheck, isCommentLiked } =
+    useCheckLikes(undefined, comment);
+
+  useEffect(() => {
+    checkIfCommentLiked();
+  }, [session?.user?.id, comment.id]);
 
   const timeDifference = useFormatedDate(comment.createdAt);
   return (
@@ -45,9 +51,18 @@ const CommentItem = ({ comment, handleDelete }: CommentItemProps) => {
       </CardContent>
       <CardFooter className="xl:p-4">
         <div className="flex flex-row items-center gap-x-8">
-          <div>
-            <Icons.heart className="text-gray-100 cursor-pointer" size={20} />
-          </div>
+          <CardDescription
+            className="flex flex-row items-center gap-x-2"
+            onClick={() => handleCommentLikeCheck(comment.id)}
+          >
+            <Icons.heart
+              className="text-gray-100 cursor-pointer"
+              size={20}
+              fill={isCommentLiked ? "red" : "none"}
+            />
+            {comment.numberOfLikes}{" "}
+            {comment.numberOfLikes === 1 ? "Like" : "Likes"}
+          </CardDescription>
           <div>
             {session?.user?.name === comment.author ? (
               <div className="flex flex-row text-right">
