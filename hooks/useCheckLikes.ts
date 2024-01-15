@@ -79,6 +79,7 @@ const useCheckLikes = (question?: Question, comment?: Comment) => {
 
             await updateDoc(questionRef, {
               numberOfLikes: currentLikes,
+              likedBy: arrayRemove(session?.user?.name),
             });
             setLikeQuestionCount(currentLikes);
             console.log("Question removed from array");
@@ -96,6 +97,7 @@ const useCheckLikes = (question?: Question, comment?: Comment) => {
 
             await updateDoc(questionRef, {
               numberOfLikes: currentLikes,
+              likedBy: arrayUnion(session?.user?.name),
             });
             setLikeQuestionCount(currentLikes);
             console.log("Question added to array");
@@ -125,6 +127,7 @@ const useCheckLikes = (question?: Question, comment?: Comment) => {
 
             await updateDoc(commentRef, {
               numberOfLikes: currentLikes,
+              likedBy: arrayRemove(session?.user?.name),
             });
             setLikeCommentCount(currentLikes);
             console.log("Comment removed from array");
@@ -142,6 +145,7 @@ const useCheckLikes = (question?: Question, comment?: Comment) => {
 
             await updateDoc(commentRef, {
               numberOfLikes: currentLikes,
+              likedBy: arrayUnion(session?.user?.name),
             });
             setLikeCommentCount(currentLikes);
             console.log("Comment added to array");

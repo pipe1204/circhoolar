@@ -25,6 +25,7 @@ interface QuestionType {
   schoolName: string;
   numberOfComments: number;
   numberOfLikes: number;
+  likedBy: string[];
 }
 
 const SearchBar = () => {

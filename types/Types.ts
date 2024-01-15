@@ -39,6 +39,7 @@ export interface Question {
   schoolName: string;
   numberOfComments: number;
   numberOfLikes: number;
+  likedBy: string[];
 }
 
 export interface Comment {
@@ -51,6 +52,7 @@ export interface Comment {
   text: string;
   createdAt: Timestamp;
   numberOfLikes: number;
+  likedBy: string[];
 }
 
 export interface User {

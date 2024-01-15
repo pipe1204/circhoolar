@@ -24,6 +24,12 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { db } from "@/firebase";
 import UpdateQuestionDialog from "./UpdateQuestionDialog";
 import Image from "next/image";
@@ -197,6 +203,35 @@ const Question = ({ question, ownPost }: QuestionProps) => {
               </div>
             </Link>
           </div>
+          {question.authorId === session?.user?.id &&
+            question.likedBy?.length > 0 && (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className="flex flex-row gap-x-2">
+                      <CardDescription>
+                        {question.likedBy.includes(session?.user?.name || "")
+                          ? `You${
+                              question.likedBy.length > 1
+                                ? " and others liked this"
+                                : " liked this"
+                            }`
+                          : `${question.likedBy[0]}${
+                              question.likedBy.length > 1
+                                ? " and others liked this"
+                                : " liked this"
+                            }`}
+                      </CardDescription>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    {question.likedBy.map((name, index) => (
+                      <p key={index}>{name}</p>
+                    ))}
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
         </div>
       </CardFooter>
     </Card>

@@ -31,6 +31,7 @@ const CommentConverter: FirestoreDataConverter<Comment> = {
       text: data.text,
       createdAt: data.createdAt,
       numberOfLikes: data.numberOfLikes,
+      likedBy: data.likedBy,
     };
     return comment;
   },
