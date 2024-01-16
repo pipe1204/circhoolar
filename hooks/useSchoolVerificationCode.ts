@@ -8,7 +8,7 @@ import { useUserNameStore, useSchoolCodeStore } from "@/store/store";
 const useSchoolCodeVerification = () => {
   const [validCode, setValidCode] = useState<boolean>(false);
   const [errorCode, setErrorCode] = useState<string>("");
-  const { data: session } = useSession();
+  const { data: session, update } = useSession();
   const setUserName = useUserNameStore((state) => state.setUserName);
   const setSchoolCode = useSchoolCodeStore((state) => state.setSchoolCode);
 
@@ -44,6 +44,7 @@ const useSchoolCodeVerification = () => {
         likedQuestions: [],
         likedComments: [],
       });
+      await update({ ...session, user: { ...session?.user, name: name } });
     } else {
       console.log("No such document!");
       setValidCode(false);
