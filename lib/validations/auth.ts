@@ -105,6 +105,11 @@ export const commentPrivacy = z.object({
   commenter: z.enum(["Name", "Anonymous"], {}),
 });
 
+export const updateCommentAuth = z.object({
+  text: z.string().max(1000),
+  commenter: z.enum(["Name", "Anonymous"], {}),
+});
+
 export const schoolSchema = z.object({
   schoolCode: z.string(),
 });
