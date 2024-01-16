@@ -31,6 +31,7 @@ import { Button } from "../ui/Button";
 import useCheckLikes from "@/hooks/useCheckLikes";
 import useFetchAllUsers from "@/hooks/useFetchAllUsers";
 import { useLikeCommentCountStore } from "@/store/store";
+import UpdateCommentDialog from "./UpdateCommentDialog";
 
 interface CommentItemProps {
   comment: Comment;
@@ -75,6 +76,13 @@ const CommentItem = ({
     }
   };
 
+  const refreshComment = async () => {
+    const updatedComment = await fetchSingleComment(comment.id);
+    if (updatedComment) {
+      setLocalComment(updatedComment);
+    }
+  };
+
   return (
     <Card className="bg-light-white border-none shadow-none my-4">
       <CardHeader className="xl:p-4">
@@ -103,7 +111,10 @@ const CommentItem = ({
           <div>
             {session?.user?.name === localComment.author ? (
               <div className="flex flex-row text-right">
-                <Button variant={"link"}>Edit</Button>
+                <UpdateCommentDialog
+                  comment={localComment}
+                  onUpdateSuccess={refreshComment}
+                />
                 <AlertDialog>
                   <AlertDialogTrigger className="text-red flex justify-center items-center text-sm">
                     <Icons.trash size={15} className="mr-2" />

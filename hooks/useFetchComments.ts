@@ -5,7 +5,7 @@ import { sortedCommentsRef } from "@/lib/converters/Comments";
 import { useCommentCountStore, useLikeCommentCountStore } from "@/store/store";
 import { singleCommentRef } from "@/lib/converters/Comments";
 
-const useFetchComments = (questionId: string) => {
+const useFetchComments = (questionId?: string) => {
   const commentCount = useCommentCountStore((state) => state.commentCount);
   const likeCommentCount = useLikeCommentCountStore(
     (state) => state.likeCommentCount
