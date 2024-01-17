@@ -2,9 +2,10 @@
 
 import { SchoolCodeForm } from "@/components/SchoolCodeForm";
 import CardItem from "@/components/item/CardItem";
-import React from "react";
+import React, { useEffect } from "react";
 import Masonry from "react-masonry-css";
 import {
+  useAudienceSelectedStore,
   useCategoriesStore,
   useItemsLocationStore,
   useSchoolCodeStore,
@@ -13,6 +14,7 @@ import {
 import useMainPosts from "@/hooks/useMainPosts";
 import useSchoolCodeVerification from "@/hooks/useSchoolVerificationCode";
 import Billboard from "@/components/Billboard";
+import { CardTitle } from "@/components/ui/Card";
 
 const page = () => {
   const schoolCode = useSchoolCodeStore((state) => state.schoolCode);
@@ -25,12 +27,35 @@ const page = () => {
   const { posts } = useMainPosts(selectedSchool, categories, itemsLocation);
   const { errorCode, handleCheckCode } = useSchoolCodeVerification();
 
+  const setAudienceSelected = useAudienceSelectedStore(
+    (state) => state.setAudienceSelected
+  );
+
+  useEffect(() => {
+    setAudienceSelected("Public");
+  }, []);
+
   const breakpointColumnsObj = {
     default: 4,
     1100: 3,
     700: 2,
     // 500: 1,
   };
+
+  let audienceTitle;
+  switch (itemsLocation) {
+    case "Public":
+      audienceTitle = "All schools communities";
+      break;
+    case "Private":
+      audienceTitle = "My school community";
+      break;
+    case "Own":
+      audienceTitle = "My items";
+      break;
+    default:
+      break;
+  }
 
   if (schoolCode !== null && posts.length === 0) {
     return (
@@ -44,6 +69,16 @@ const page = () => {
     <section className="p-2 mb-28 xl:mb-0">
       {schoolCode !== null ? (
         <div>
+          <div className="relative mb-8">
+            <div className="absolute px-4 inset-0 flex items-center">
+              <span className="w-full border-t border-primary-purple" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <CardTitle className="bg-primary-purple w-3/4 xl:w-1/2 px-2 py-[3px] text-center text-light-white text-lg xl:text-2xl rounded-md">
+                {audienceTitle}
+              </CardTitle>
+            </div>
+          </div>
           <Masonry
             breakpointCols={breakpointColumnsObj}
             className="my-masonry-grid"

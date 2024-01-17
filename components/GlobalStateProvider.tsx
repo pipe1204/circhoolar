@@ -122,7 +122,6 @@ function GlobalStateProvider({ children }: { children: React.ReactNode }) {
           setAccountNumber(docSnapShot.data().bankDetails?.accountNumber);
           setAccountName(docSnapShot.data().bankDetails?.accountName);
           setItemsLocation(itemsLocation || "Public");
-          setAudienceSelected(audienceSelected || "Public");
           setTopic(topic || "All topics");
         } else {
           console.log("No such document!");
