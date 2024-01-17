@@ -71,7 +71,7 @@ const useCreateAndDeleteComment = () => {
     setCommentText("");
   };
 
-  const onDeleteComment = async (comment: Comment, question: Question) => {
+  const onDeleteComment = async (comment: Comment) => {
     if (session?.user?.id) {
       try {
         const commentDocRef = doc(db, "comments", comment.id);
@@ -80,7 +80,7 @@ const useCreateAndDeleteComment = () => {
       } catch (error) {
         console.error("Error deleting comment:", error);
       }
-      const docRef = doc(questionRef, question.id);
+      const docRef = doc(questionRef, comment.questionId);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {

@@ -1,5 +1,6 @@
 "use client";
 
+import Billboard from "@/components/Billboard";
 import SearchBar from "@/components/SearchBar";
 import Question from "@/components/community/Question";
 import TopicHeader from "@/components/community/TopicHeader";
@@ -21,6 +22,14 @@ const page = () => {
   }, []);
 
   const { questions } = useMainQuestions(topic, audienceSelected);
+
+  if (questions.length === 0) {
+    return (
+      <section className="p-2">
+        <Billboard text="There are no posts at this moment" />
+      </section>
+    );
+  }
 
   return (
     <section className="p-2 pb-28 xl:pb-10">

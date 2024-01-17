@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   Card,
   CardContent,
@@ -44,6 +44,7 @@ interface QuestionProps {
 const Question = ({ question, ownPost }: QuestionProps) => {
   const timeDifference = useFormatedDate(question.createdAt);
   const { data: session } = useSession();
+
   const { checkIfQuestionLiked, handleQuestionLikeCheck, isQuestionLiked } =
     useCheckLikes(question);
 

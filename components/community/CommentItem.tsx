@@ -1,5 +1,5 @@
 import { Comment } from "@/types/Types";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -32,6 +32,7 @@ import useCheckLikes from "@/hooks/useCheckLikes";
 import useFetchAllUsers from "@/hooks/useFetchAllUsers";
 import { useLikeCommentCountStore } from "@/store/store";
 import UpdateCommentDialog from "./UpdateCommentDialog";
+import { usePathname } from "next/navigation";
 
 interface CommentItemProps {
   comment: Comment;
@@ -47,6 +48,7 @@ const CommentItem = ({
   fetchSingleComment,
 }: CommentItemProps) => {
   const { data: session } = useSession();
+  const path = usePathname();
   const { checkIfCommentLiked, handleCommentLikeCheck, isCommentLiked } =
     useCheckLikes(undefined, comment);
 
@@ -109,7 +111,8 @@ const CommentItem = ({
             {localComment.numberOfLikes === 1 ? "Like" : "Likes"}
           </CardDescription>
           <div>
-            {session?.user?.name === localComment.author ? (
+            {session?.user?.name === localComment.author &&
+            path !== "/dashboard/comments" ? (
               <div className="flex flex-row text-right">
                 <UpdateCommentDialog
                   comment={localComment}

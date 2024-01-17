@@ -42,6 +42,7 @@ import {
   LogOut,
   Menu,
   MessageCircle,
+  HelpingHand,
   Minus,
   Moon,
   MoreHorizontal,
@@ -152,6 +153,7 @@ export const Icons = {
   clothing: Shirt,
   shoes: Footprints,
   accessories: HardHat,
+  helpingHand: HelpingHand,
   google: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"

@@ -48,6 +48,11 @@ const SidebarLinks = [
         href: "/dashboard/wishlist",
         icon: <Icons.heart />,
       },
+      {
+        name: "My commnents",
+        href: "/dashboard/comments",
+        icon: <Icons.helpingHand />,
+      },
     ],
   },
 ];
