@@ -4,6 +4,7 @@ import Billboard from "@/components/Billboard";
 import SearchBar from "@/components/SearchBar";
 import Question from "@/components/community/Question";
 import TopicHeader from "@/components/community/TopicHeader";
+import { CardTitle } from "@/components/ui/Card";
 import useMainQuestions from "@/hooks/useMainQuestions";
 import { useAudienceSelectedStore, useTopicStore } from "@/store/store";
 import { useSession } from "next-auth/react";
@@ -23,6 +24,21 @@ const page = () => {
 
   const { questions } = useMainQuestions(topic, audienceSelected);
 
+  let audienceTitle;
+  switch (audienceSelected) {
+    case "Public":
+      audienceTitle = "All schools communities";
+      break;
+    case "Private":
+      audienceTitle = "My school community";
+      break;
+    case "Own":
+      audienceTitle = "My posts";
+      break;
+    default:
+      break;
+  }
+
   if (questions.length === 0) {
     return (
       <section className="p-2">
@@ -36,6 +52,16 @@ const page = () => {
       <div className="flex flex-col-reverse gap-y-4 xl:flex-row justify-between xl:gap-x-4">
         <div className="w-full xl:w-[60%]">
           <div>
+            <div className="relative mb-4">
+              <div className="absolute px-4 inset-0 flex items-center">
+                <span className="w-full border-t border-primary-purple" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <CardTitle className="bg-primary-purple w-3/4 xl:w-2/3 px-2 py-[3px] text-center text-light-white text-lg xl:text-2xl rounded-md">
+                  {audienceTitle}
+                </CardTitle>
+              </div>
+            </div>
             <TopicHeader />
             {questions.map((question) => (
               <Question
