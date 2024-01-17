@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { getDoc, getDocs } from "firebase/firestore";
+import { collection, getDoc, getDocs } from "firebase/firestore";
 import { Comment } from "@/types/Types";
-import { sortedCommentsRef } from "@/lib/converters/Comments";
+import { commentRef, sortedCommentsRef } from "@/lib/converters/Comments";
 import { useCommentCountStore, useLikeCommentCountStore } from "@/store/store";
 import { singleCommentRef } from "@/lib/converters/Comments";
+import { db } from "@/firebase";
 
 const useFetchComments = (questionId?: string) => {
   const commentCount = useCommentCountStore((state) => state.commentCount);
@@ -12,6 +13,7 @@ const useFetchComments = (questionId?: string) => {
   );
   const [comments, setComments] = useState<Comment[]>([]);
   const [fetchLoading, setFetchLoading] = useState(false);
+  const [userComments, setUserComments] = useState<Comment[]>([]);
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -34,6 +36,26 @@ const useFetchComments = (questionId?: string) => {
     fetchComments();
   }, [questionId, commentCount, likeCommentCount]);
 
+  useEffect(() => {
+    const fetchUserComments = async () => {
+      try {
+        const userCommentsRef = collection(db, "comments");
+        const userCommentsSnapshot = await getDocs(userCommentsRef);
+        const userComments = userCommentsSnapshot.docs.map(
+          (doc) => doc.data() as Comment
+        );
+        setUserComments(userComments);
+      } catch (error) {
+        console.log(
+          "There was an error trying to fetch user comments: ",
+          error
+        );
+      }
+    };
+
+    fetchUserComments();
+  }, []);
+
   const fetchSingleComment = async (commentId: string) => {
     try {
       const commentInputRef = singleCommentRef(commentId);
@@ -51,7 +73,12 @@ const useFetchComments = (questionId?: string) => {
     }
   };
 
-  return { comments, fetchLoading, fetchSingleComment };
+  return {
+    comments,
+    userComments,
+    fetchLoading,
+    fetchSingleComment,
+  };
 };
 
 export default useFetchComments;

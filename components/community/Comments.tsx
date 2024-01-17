@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Card } from "../ui/Card";
 import CommentInput from "./CommentInput";
 import { Comment, Question } from "@/types/Types";
@@ -17,6 +17,7 @@ const Comments = ({ question }: CommentsProps) => {
   );
   const [commentText, setCommentText] = React.useState("");
   const { onCreateComment, onDeleteComment } = useCreateAndDeleteComment();
+  const { comments, fetchSingleComment } = useFetchComments(question?.id);
 
   const handleClickComment = (commentText: string) => {
     if (commentText.length > 0) {
@@ -25,10 +26,8 @@ const Comments = ({ question }: CommentsProps) => {
   };
 
   const handleDelete = (comment: Comment) => {
-    onDeleteComment(comment, question);
+    onDeleteComment(comment);
   };
-
-  const { comments, fetchSingleComment } = useFetchComments(question?.id);
 
   return (
     <section>
