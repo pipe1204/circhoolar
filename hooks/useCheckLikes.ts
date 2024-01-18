@@ -13,6 +13,7 @@ import {
 import { Comment, Question } from "@/types/Types";
 import { useSession } from "next-auth/react";
 import { db } from "@/firebase";
+import { userRef } from "@/lib/converters/User";
 
 const useCheckLikes = (question?: Question, comment?: Comment) => {
   const { data: session } = useSession();
@@ -66,6 +67,7 @@ const useCheckLikes = (question?: Question, comment?: Comment) => {
 
       if (docSnap.exists()) {
         const userData = docSnap.data();
+        //Check if question is already liked and remove it from array
         if (userData?.likedQuestions?.includes(questionId)) {
           await updateDoc(docRef, {
             likedQuestions: arrayRemove(questionId),
@@ -83,6 +85,22 @@ const useCheckLikes = (question?: Question, comment?: Comment) => {
             });
             setLikeQuestionCount(currentLikes);
             console.log("Question removed from array");
+          }
+
+          //Remove notification from author of question
+          const docRefUser = userRef(docSnap.data()?.authorId);
+          await updateDoc(docRefUser, {
+            notifications: arrayRemove(
+              `${session.user.name} liked your post ${question?.title}`
+            ),
+          });
+          const docSnapUser = await getDoc(docRefUser);
+          if (docSnapUser.exists()) {
+            if (docSnapUser.data().notifications.length === 0) {
+              await updateDoc(docRefUser, {
+                unreadNotifications: false,
+              });
+            }
           }
         } else {
           await updateDoc(docRef, {
@@ -102,6 +120,15 @@ const useCheckLikes = (question?: Question, comment?: Comment) => {
             setLikeQuestionCount(currentLikes);
             console.log("Question added to array");
           }
+
+          //Add notification to author of question
+          const docRefUser = userRef(docSnap.data()?.authorId);
+          await updateDoc(docRefUser, {
+            notifications: arrayUnion(
+              `${session.user.name} liked your post ${question?.title}`
+            ),
+            unreadNotifications: true,
+          });
         }
       }
     }

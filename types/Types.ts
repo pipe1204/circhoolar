@@ -71,6 +71,8 @@ export interface User {
   bankDetails: BankDetails;
   likedQuestions: string[];
   likedComments: string[];
+  notifications: string[];
+  unreadNotifications: boolean;
 }
 
 interface BankDetails {

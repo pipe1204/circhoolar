@@ -1,4 +1,4 @@
-import { number } from "zod";
+import { number, set } from "zod";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import {
@@ -15,7 +15,11 @@ import { db } from "@/firebase";
 import { Comment, Question } from "@/types/Types";
 import { questionRef } from "@/lib/converters/Questions";
 import { commentRef } from "@/lib/converters/Comments";
-import { useCommentCountStore } from "@/store/store";
+import {
+  useCommentCountStore,
+  useUnreadNotificationsStore,
+} from "@/store/store";
+import { userRef } from "@/lib/converters/User";
 
 const useCreateAndDeleteComment = () => {
   const { data: session } = useSession();
@@ -23,6 +27,9 @@ const useCreateAndDeleteComment = () => {
 
   const setCommentCount = useCommentCountStore(
     (state) => state.setCommentCount
+  );
+  const setUnreadNotifications = useUnreadNotificationsStore(
+    (state) => state.setUnreadNotifications
   );
 
   const onCreateComment = async (
@@ -70,6 +77,17 @@ const useCreateAndDeleteComment = () => {
       });
       setCommentCount(currentComments);
     }
+
+    //Add notification to author of question
+    const docRefUser = userRef(question.authorId);
+    await updateDoc(docRefUser, {
+      notifications: arrayUnion(
+        `${
+          commenterIdentity === "Name" ? session.user.name : "Anonymous"
+        } commented on your post ${question.title}`
+      ),
+      unreadNotifications: true,
+    });
     setLoading(false);
     setCommentText("");
   };
@@ -94,6 +112,23 @@ const useCreateAndDeleteComment = () => {
           commentedBy: arrayRemove(comment.commenterIdentity),
         });
         setCommentCount(currentComments);
+
+        //Remove notification from author of question
+        const docRefUser = userRef(docSnap.data().authorId);
+        await updateDoc(docRefUser, {
+          notifications: arrayRemove(
+            `${comment.commenterIdentity} commented on your post ${comment.questionTitle}`
+          ),
+          unreadNotifications: true,
+        });
+        const docSnapUser = await getDoc(docRefUser);
+        if (docSnapUser.exists()) {
+          if (docSnapUser.data().notifications.length === 0) {
+            await updateDoc(docRefUser, {
+              unreadNotifications: false,
+            });
+          }
+        }
       }
     }
   };
