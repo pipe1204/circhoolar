@@ -51,7 +51,7 @@ const SidebarLinks = [
       {
         name: "My commnents",
         href: "/dashboard/comments",
-        icon: <Icons.helpingHand />,
+        icon: <Icons.subtitles />,
       },
     ],
   },

@@ -64,6 +64,9 @@ const useCreateAndDeleteComment = () => {
       await updateDoc(docRef, {
         numberOfComments: currentComments,
         comments: arrayUnion(commentId),
+        commentedBy: arrayUnion(
+          commenterIdentity === "Name" ? session.user.name : "Anonymous"
+        ),
       });
       setCommentCount(currentComments);
     }
@@ -88,6 +91,7 @@ const useCreateAndDeleteComment = () => {
         await updateDoc(docRef, {
           numberOfComments: currentComments,
           comments: arrayRemove(comment.commentId),
+          commentedBy: arrayRemove(comment.commenterIdentity),
         });
         setCommentCount(currentComments);
       }

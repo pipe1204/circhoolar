@@ -41,6 +41,7 @@ export interface Question {
   comments: string[];
   numberOfLikes: number;
   likedBy: string[];
+  commentedBy: string[];
 }
 
 export interface Comment {

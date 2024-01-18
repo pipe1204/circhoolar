@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import { useSchoolCodeStore } from "@/store/store";
 import { codeRef } from "@/lib/converters/SchoolCode";
 import { doc, getDoc } from "firebase/firestore";
+import { Icons } from "../Icons";
 
 const DashboardNavbar = () => {
   const { data: session } = useSession();
@@ -40,6 +41,9 @@ const DashboardNavbar = () => {
         <Image src={"/Logo-light.png"} alt={"Logo"} width={130} height={50} />
         <div className="flex gap-x-8 items-center">
           <div className="flex gap-x-4 items-center">
+            <div className="w-8 h-8 flex justify-center items-center">
+              <Icons.bell className="text-light-white" size={22} fill="white" />
+            </div>
             <h1 className="text-light-white text-xs xl:text-lg font-semibold">
               {schoolName}
             </h1>

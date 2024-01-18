@@ -245,7 +245,7 @@ const PostItemDialog = () => {
   return (
     <Dialog open={isOpen} onOpenChange={handleDialogChange}>
       <DialogTrigger asChild>
-        <Button variant="secondary">Give</Button>
+        <Button variant="secondary">Give / Sell</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader className="w-full">
@@ -256,7 +256,7 @@ const PostItemDialog = () => {
             />
           </div>
           <DialogTitle className="text-light-white text-center">
-            Create a new post
+            List new items
           </DialogTitle>
           <DialogDescription className="text-light-white text-center">
             Donate or sell an item to the community
