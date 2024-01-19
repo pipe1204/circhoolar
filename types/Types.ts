@@ -41,6 +41,7 @@ export interface Question {
   comments: string[];
   numberOfLikes: number;
   likedBy: string[];
+  commentedBy: string[];
 }
 
 export interface Comment {
@@ -70,6 +71,13 @@ export interface User {
   bankDetails: BankDetails;
   likedQuestions: string[];
   likedComments: string[];
+  notifications: Notification[];
+}
+
+interface Notification {
+  id: string;
+  text: string;
+  unread: boolean;
 }
 
 interface BankDetails {

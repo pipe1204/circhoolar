@@ -63,6 +63,7 @@ import {
   Sprout,
   Star,
   SunMedium,
+  Subtitles,
   Trash,
   Trophy,
   Twitter,
@@ -80,6 +81,7 @@ import {
 //   export type Icon = LucideIcon
 
 export const Icons = {
+  subtitles: Subtitles,
   ArrowLeft: ArrowLeft,
   sprout: Sprout,
   folderHeart: FolderHeart,

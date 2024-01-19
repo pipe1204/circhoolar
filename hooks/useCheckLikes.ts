@@ -13,6 +13,7 @@ import {
 import { Comment, Question } from "@/types/Types";
 import { useSession } from "next-auth/react";
 import { db } from "@/firebase";
+import { userRef } from "@/lib/converters/User";
 
 const useCheckLikes = (question?: Question, comment?: Comment) => {
   const { data: session } = useSession();
@@ -66,6 +67,7 @@ const useCheckLikes = (question?: Question, comment?: Comment) => {
 
       if (docSnap.exists()) {
         const userData = docSnap.data();
+        //Check if question is already liked and remove it from array
         if (userData?.likedQuestions?.includes(questionId)) {
           await updateDoc(docRef, {
             likedQuestions: arrayRemove(questionId),
@@ -84,6 +86,18 @@ const useCheckLikes = (question?: Question, comment?: Comment) => {
             setLikeQuestionCount(currentLikes);
             console.log("Question removed from array");
           }
+
+          //Remove notification from author of question
+          const docRefUser = userRef(docSnap.data()?.authorId);
+          if (docSnap.data()?.authorId !== session.user.id) {
+            await updateDoc(docRefUser, {
+              notifications: arrayRemove({
+                id: `${questionId}-${docSnap.data()?.authorId}`,
+                text: `${session.user.name} liked your post ${question?.title}`,
+                unread: true,
+              }),
+            });
+          }
         } else {
           await updateDoc(docRef, {
             likedQuestions: arrayUnion(questionId),
@@ -101,6 +115,18 @@ const useCheckLikes = (question?: Question, comment?: Comment) => {
             });
             setLikeQuestionCount(currentLikes);
             console.log("Question added to array");
+          }
+
+          //Add notification to author of question
+          const docRefUser = userRef(docSnap.data()?.authorId);
+          if (docSnap.data()?.authorId !== session.user.id) {
+            await updateDoc(docRefUser, {
+              notifications: arrayUnion({
+                id: `${questionId}-${docSnap.data()?.authorId}`,
+                text: `${session.user.name} liked your post ${question?.title}`,
+                unread: true,
+              }),
+            });
           }
         }
       }
@@ -128,6 +154,18 @@ const useCheckLikes = (question?: Question, comment?: Comment) => {
             });
             setIsCommentLiked(false);
             currentLikes--;
+
+            //Remove notification from author of comment
+            const docRefUser = userRef(commentData.authorId);
+            if (commentData.authorId !== session.user.id) {
+              await updateDoc(docRefUser, {
+                notifications: arrayRemove({
+                  id: `${commentId}-${commentData.authorId}`,
+                  text: `${session.user.name} liked your comment`,
+                  unread: false,
+                }),
+              });
+            }
           } else {
             // If comment is not liked, like it
             await updateDoc(userDocRef, {
@@ -135,6 +173,18 @@ const useCheckLikes = (question?: Question, comment?: Comment) => {
             });
             setIsCommentLiked(true);
             currentLikes++;
+
+            //Add notification to author of comment
+            const docRefUser = userRef(commentData.authorId);
+            if (commentData.authorId !== session.user.id) {
+              await updateDoc(docRefUser, {
+                notifications: arrayUnion({
+                  id: `${commentId}-${commentData.authorId}`,
+                  text: `${session.user.name} liked your comment`,
+                  unread: true,
+                }),
+              });
+            }
           }
 
           // Update the comment's like count in Firestore

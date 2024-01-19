@@ -57,7 +57,7 @@ const page = () => {
                 <span className="w-full border-t border-primary-purple" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <CardTitle className="bg-primary-purple w-3/4 xl:w-2/3 px-2 py-[3px] text-center text-light-white text-lg xl:text-2xl rounded-md">
+                <CardTitle className="bg-primary-purple w-3/4 xl:w-2/3 px-2 py-[3px] text-center text-light-white text-lg xl:text-xl rounded-md">
                   {audienceTitle}
                 </CardTitle>
               </div>

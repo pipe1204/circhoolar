@@ -43,6 +43,7 @@ const useSchoolCodeVerification = () => {
         hasBankDetails: false,
         likedQuestions: [],
         likedComments: [],
+        notifications: [],
       });
       await update({ ...session, user: { ...session?.user, name: name } });
     } else {

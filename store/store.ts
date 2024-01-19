@@ -148,6 +148,19 @@ export const useTotalUnreadMessagesStore = create<TotalUnreadMessagesState>(
   })
 );
 
+interface UnreadNotificationsState {
+  unreadNotifications: boolean | null;
+  setUnreadNotifications: (unreadNotifications: boolean | null) => void;
+}
+
+export const useUnreadNotificationsStore = create<UnreadNotificationsState>(
+  (set) => ({
+    unreadNotifications: null,
+    setUnreadNotifications: (unreadNotifications: boolean | null) =>
+      set({ unreadNotifications }),
+  })
+);
+
 interface CurrentChatState {
   currentChatId: string | null;
   setCurrentChatId: (chatId: string | null) => void;

@@ -4,7 +4,6 @@ import { db } from "@/firebase";
 import { codeRef } from "@/lib/converters/SchoolCode";
 import { userRef } from "@/lib/converters/User";
 import {
-  useAudienceSelectedStore,
   useBankDetailsStore,
   useCurrentChatStore,
   useItemsLocationStore,
@@ -12,6 +11,7 @@ import {
   useSchoolNameStore,
   useTopicStore,
   useTotalUnreadMessagesStore,
+  useUnreadNotificationsStore,
   useUserNameStore,
 } from "@/store/store";
 import {
@@ -42,21 +42,19 @@ function GlobalStateProvider({ children }: { children: React.ReactNode }) {
   const setTotalUnreadMessages = useTotalUnreadMessagesStore(
     (state) => state.setTotalUnreadMessages
   );
+  const setUnreadNotifications = useUnreadNotificationsStore(
+    (state) => state.setUnreadNotifications
+  );
   const setItemsLocation = useItemsLocationStore(
     (state) => state.setItemsLocation
   );
   const itemsLocation = useItemsLocationStore((state) => state.itemsLocation);
-  const setAudienceSelected = useAudienceSelectedStore(
-    (state) => state.setAudienceSelected
-  );
-  const audienceSelected = useAudienceSelectedStore(
-    (state) => state.audienceSelected
-  );
   const setTopic = useTopicStore((state) => state.setTopic);
   const topic = useTopicStore((state) => state.topic);
   const currentChatId = useCurrentChatStore((state) => state.currentChatId);
 
   const [chatUnreadCounts, setChatUnreadCounts] = useState({});
+  const [notificationUnreadCounts, setNotificationUnreadCounts] = useState({});
 
   useEffect(() => {
     if (!session?.user?.id) return;
@@ -108,6 +106,10 @@ function GlobalStateProvider({ children }: { children: React.ReactNode }) {
       userRef(session.user.id),
       async (docSnapShot) => {
         if (docSnapShot.exists()) {
+          const hasUnreadNotifications = docSnapShot
+            .data()
+            .notifications.some((notification) => notification.unread);
+          setUnreadNotifications(hasUnreadNotifications);
           if (!docSnapShot.data().schoolCode) return;
           const docRef = doc(codeRef, docSnapShot.data().schoolCode);
           const schoolDocSnapshot = await getDoc(docRef);

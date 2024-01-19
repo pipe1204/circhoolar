@@ -1,4 +1,4 @@
-import { number } from "zod";
+import { number, set } from "zod";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import {
@@ -16,6 +16,7 @@ import { Comment, Question } from "@/types/Types";
 import { questionRef } from "@/lib/converters/Questions";
 import { commentRef } from "@/lib/converters/Comments";
 import { useCommentCountStore } from "@/store/store";
+import { userRef } from "@/lib/converters/User";
 
 const useCreateAndDeleteComment = () => {
   const { data: session } = useSession();
@@ -64,8 +65,25 @@ const useCreateAndDeleteComment = () => {
       await updateDoc(docRef, {
         numberOfComments: currentComments,
         comments: arrayUnion(commentId),
+        commentedBy: arrayUnion(
+          commenterIdentity === "Name" ? session.user.name : "Anonymous"
+        ),
       });
       setCommentCount(currentComments);
+    }
+
+    //Add notification to author of question
+    const docRefUser = userRef(question.authorId);
+    if (question.authorId !== session.user.id) {
+      await updateDoc(docRefUser, {
+        notifications: arrayUnion({
+          id: `${commentId}-${question.id}-${question.authorId}`,
+          text: `${
+            commenterIdentity === "Name" ? session.user.name : "Anonymous"
+          } commented on your post ${question.title}`,
+          unread: true,
+        }),
+      });
     }
     setLoading(false);
     setCommentText("");
@@ -88,8 +106,23 @@ const useCreateAndDeleteComment = () => {
         await updateDoc(docRef, {
           numberOfComments: currentComments,
           comments: arrayRemove(comment.commentId),
+          commentedBy: arrayRemove(comment.commenterIdentity),
         });
         setCommentCount(currentComments);
+
+        //Remove notification from author of question
+        const docRefUser = userRef(docSnap.data().authorId);
+        if (docSnap.data().authorId !== session.user.id) {
+          await updateDoc(docRefUser, {
+            notifications: arrayRemove({
+              id: `${comment.commentId}-${comment.questionId}-${
+                docSnap.data().authorId
+              }`,
+              text: `${comment.commenterIdentity} commented on your post ${comment.questionTitle}`,
+              unread: true,
+            }),
+          });
+        }
       }
     }
   };
