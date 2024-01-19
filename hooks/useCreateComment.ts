@@ -80,7 +80,7 @@ const useCreateAndDeleteComment = () => {
           id: `${commentId}-${question.id}-${question.authorId}`,
           text: `${
             commenterIdentity === "Name" ? session.user.name : "Anonymous"
-          } commented on your post ${question.title}`,
+          } commented on your post - ${question.title}`,
           unread: true,
         }),
       });
@@ -118,7 +118,7 @@ const useCreateAndDeleteComment = () => {
               id: `${comment.commentId}-${comment.questionId}-${
                 docSnap.data().authorId
               }`,
-              text: `${comment.commenterIdentity} commented on your post ${comment.questionTitle}`,
+              text: `${comment.commenterIdentity} commented on your post - ${comment.questionTitle}`,
               unread: true,
             }),
           });

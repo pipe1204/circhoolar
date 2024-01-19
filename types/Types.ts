@@ -74,13 +74,13 @@ export interface User {
   notifications: Notification[];
 }
 
-interface Notification {
+export interface Notification {
   id: string;
   text: string;
   unread: boolean;
 }
 
-interface BankDetails {
+export interface BankDetails {
   bsbNumber: string;
   accountNumber: string;
   accountName: string;

@@ -96,7 +96,7 @@ const CommentItem = ({
       <CardContent className="px-4">
         <p>{localComment.text}</p>
       </CardContent>
-      <CardFooter className="flex flex-col items-start gap-y-4 xl:p-4">
+      <CardFooter className="flex flex-col items-start xl:p-4">
         <div className="flex flex-row items-center gap-x-8">
           <CardDescription
             className="flex flex-row items-center gap-x-2"
