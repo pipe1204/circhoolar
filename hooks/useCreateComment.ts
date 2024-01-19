@@ -15,10 +15,7 @@ import { db } from "@/firebase";
 import { Comment, Question } from "@/types/Types";
 import { questionRef } from "@/lib/converters/Questions";
 import { commentRef } from "@/lib/converters/Comments";
-import {
-  useCommentCountStore,
-  useUnreadNotificationsStore,
-} from "@/store/store";
+import { useCommentCountStore } from "@/store/store";
 import { userRef } from "@/lib/converters/User";
 
 const useCreateAndDeleteComment = () => {
@@ -27,9 +24,6 @@ const useCreateAndDeleteComment = () => {
 
   const setCommentCount = useCommentCountStore(
     (state) => state.setCommentCount
-  );
-  const setUnreadNotifications = useUnreadNotificationsStore(
-    (state) => state.setUnreadNotifications
   );
 
   const onCreateComment = async (
@@ -80,14 +74,17 @@ const useCreateAndDeleteComment = () => {
 
     //Add notification to author of question
     const docRefUser = userRef(question.authorId);
-    await updateDoc(docRefUser, {
-      notifications: arrayUnion(
-        `${
-          commenterIdentity === "Name" ? session.user.name : "Anonymous"
-        } commented on your post ${question.title}`
-      ),
-      unreadNotifications: true,
-    });
+    if (question.authorId !== session.user.id) {
+      await updateDoc(docRefUser, {
+        notifications: arrayUnion({
+          id: `${commentId}-${question.id}-${question.authorId}`,
+          text: `${
+            commenterIdentity === "Name" ? session.user.name : "Anonymous"
+          } commented on your post ${question.title}`,
+          unread: true,
+        }),
+      });
+    }
     setLoading(false);
     setCommentText("");
   };
@@ -115,19 +112,16 @@ const useCreateAndDeleteComment = () => {
 
         //Remove notification from author of question
         const docRefUser = userRef(docSnap.data().authorId);
-        await updateDoc(docRefUser, {
-          notifications: arrayRemove(
-            `${comment.commenterIdentity} commented on your post ${comment.questionTitle}`
-          ),
-          unreadNotifications: true,
-        });
-        const docSnapUser = await getDoc(docRefUser);
-        if (docSnapUser.exists()) {
-          if (docSnapUser.data().notifications.length === 0) {
-            await updateDoc(docRefUser, {
-              unreadNotifications: false,
-            });
-          }
+        if (docSnap.data().authorId !== session.user.id) {
+          await updateDoc(docRefUser, {
+            notifications: arrayRemove({
+              id: `${comment.commentId}-${comment.questionId}-${
+                docSnap.data().authorId
+              }`,
+              text: `${comment.commenterIdentity} commented on your post ${comment.questionTitle}`,
+              unread: true,
+            }),
+          });
         }
       }
     }

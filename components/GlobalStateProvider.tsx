@@ -106,6 +106,10 @@ function GlobalStateProvider({ children }: { children: React.ReactNode }) {
       userRef(session.user.id),
       async (docSnapShot) => {
         if (docSnapShot.exists()) {
+          const hasUnreadNotifications = docSnapShot
+            .data()
+            .notifications.some((notification) => notification.unread);
+          setUnreadNotifications(hasUnreadNotifications);
           if (!docSnapShot.data().schoolCode) return;
           const docRef = doc(codeRef, docSnapShot.data().schoolCode);
           const schoolDocSnapshot = await getDoc(docRef);
@@ -121,7 +125,6 @@ function GlobalStateProvider({ children }: { children: React.ReactNode }) {
           setAccountName(docSnapShot.data().bankDetails?.accountName);
           setItemsLocation(itemsLocation || "Public");
           setTopic(topic || "All topics");
-          setUnreadNotifications(docSnapShot.data().unreadNotifications);
         } else {
           console.log("No such document!");
           setSchoolCode(null);

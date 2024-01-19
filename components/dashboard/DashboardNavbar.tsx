@@ -6,6 +6,7 @@ import UserButton from "../ui/UserButton";
 import { useSession } from "next-auth/react";
 import {
   useCommentCountStore,
+  useLikeCommentCountStore,
   useSchoolCodeStore,
   useUnreadNotificationsStore,
 } from "@/store/store";
@@ -24,6 +25,9 @@ const DashboardNavbar = () => {
     (state) => state.setUnreadNotifications
   );
   const commentCount = useCommentCountStore((state) => state.commentCount);
+  const likeCommentCount = useLikeCommentCountStore(
+    (state) => state.likeCommentCount
+  );
 
   const [schoolName, setSchoolName] = React.useState("");
 
@@ -31,11 +35,14 @@ const DashboardNavbar = () => {
     if (session?.user?.id) {
       const inputUserRef = userRef(session.user.id);
       const unsubscribe = onSnapshot(inputUserRef, (doc) => {
-        setUnreadNotifications(doc.data()?.unreadNotifications || null);
+        const hasUnreadNotifications = doc
+          .data()
+          ?.notifications.some((notification) => notification.unread);
+        setUnreadNotifications(hasUnreadNotifications || null);
       });
       return () => unsubscribe();
     }
-  }, [commentCount]);
+  }, [commentCount, likeCommentCount]);
 
   useEffect(() => {
     // Define an async function inside useEffect
@@ -56,6 +63,8 @@ const DashboardNavbar = () => {
       fetchData(); // Call the async function
     }
   }, [schoolCode]);
+
+  console.log(unreadNotifications);
 
   return (
     <nav className="bg-dark-purple w-full h-16">
