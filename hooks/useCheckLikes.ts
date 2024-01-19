@@ -93,7 +93,7 @@ const useCheckLikes = (question?: Question, comment?: Comment) => {
             await updateDoc(docRefUser, {
               notifications: arrayRemove({
                 id: `${questionId}-${docSnap.data()?.authorId}`,
-                text: `${session.user.name} liked your post ${question?.title}`,
+                text: `${session.user.name} liked your post - ${question?.title}`,
                 unread: true,
               }),
             });
@@ -123,7 +123,7 @@ const useCheckLikes = (question?: Question, comment?: Comment) => {
             await updateDoc(docRefUser, {
               notifications: arrayUnion({
                 id: `${questionId}-${docSnap.data()?.authorId}`,
-                text: `${session.user.name} liked your post ${question?.title}`,
+                text: `${session.user.name} liked your post - ${question?.title}`,
                 unread: true,
               }),
             });
