@@ -35,6 +35,7 @@ import UpdateQuestionDialog from "./UpdateQuestionDialog";
 import Image from "next/image";
 import Link from "next/link";
 import useCheckLikes from "@/hooks/useCheckLikes";
+import UserAvatar from "../ui/UserAvatar";
 
 interface QuestionProps {
   question: Question;
@@ -134,21 +135,33 @@ const Question = ({ question, ownPost }: QuestionProps) => {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col xl:flex-row justify-between items-end xl:items-center">
-          <div>
-            <p className="text-sm text-dark-purple font-semibold">
-              {question.topic}
-            </p>
+        <div>
+          <div className="flex justify-end mb-2">
+            <UserAvatar
+              name={
+                question.identity === "Real name"
+                  ? question.author
+                  : "Anonymous"
+              }
+              image={question.identity === "Real name" ? question.avatar : null}
+            />
           </div>
-          <CardDescription className="text-right">
-            Posted by{" "}
-            {session?.user?.name === question.author
-              ? "you"
-              : question.identity === "Real name"
-              ? question.author
-              : "Anonymous"}{" "}
-            {timeDifference}
-          </CardDescription>
+          <div className="flex flex-col xl:flex-row justify-between items-end xl:items-center">
+            <div>
+              <p className="text-sm text-dark-purple font-semibold">
+                {question.topic}
+              </p>
+            </div>
+            <CardDescription className="text-right">
+              Posted by{" "}
+              {session?.user?.name === question.author
+                ? "you"
+                : question.identity === "Real name"
+                ? question.author
+                : "Anonymous"}{" "}
+              {timeDifference}
+            </CardDescription>
+          </div>
         </div>
       )}
       <Link href={`/dashboard/community/${question?.id}`}>
