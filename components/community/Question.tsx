@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -136,7 +136,7 @@ const Question = ({ question, ownPost }: QuestionProps) => {
       ) : (
         <div className="flex flex-col xl:flex-row justify-between items-end xl:items-center">
           <div>
-            <p className="text-xs text-dark-purple font-semibold">
+            <p className="text-sm text-dark-purple font-semibold">
               {question.topic}
             </p>
           </div>
