@@ -189,18 +189,18 @@ const PageNavbar = () => {
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="p-4">
                 <Icons.compass className="mr-4" />
-                Navigate
+                Communities
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56">
-              <DropdownMenuLabel>Navigate</DropdownMenuLabel>
+              <DropdownMenuLabel>Navigate communities</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuRadioGroup
                 value={itemsLocation || undefined}
                 onValueChange={setItemsLocation}
               >
                 <DropdownMenuRadioItem value="Public">
-                  All schools
+                  All schools communities
                 </DropdownMenuRadioItem>
                 <DropdownMenuRadioItem value="Private">
                   My school community
@@ -251,14 +251,14 @@ const PageNavbar = () => {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56">
-                  <DropdownMenuLabel>Navigate</DropdownMenuLabel>
+                  <DropdownMenuLabel>Navigate communities</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuRadioGroup
                     value={itemsLocation || undefined}
                     onValueChange={setItemsLocation}
                   >
                     <DropdownMenuRadioItem value="Public">
-                      All schools
+                      All schools communities
                     </DropdownMenuRadioItem>
                     <DropdownMenuRadioItem value="Private">
                       My school community
@@ -310,14 +310,14 @@ const PageNavbar = () => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56">
-                <DropdownMenuLabel>Navigate</DropdownMenuLabel>
+                <DropdownMenuLabel>Navigate communities</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuRadioGroup
                   value={audienceSelected || undefined}
                   onValueChange={setAudienceSelected}
                 >
                   <DropdownMenuRadioItem value="Public">
-                    All schools
+                    All schools communities
                   </DropdownMenuRadioItem>
                   <DropdownMenuRadioItem value="Private">
                     My school community

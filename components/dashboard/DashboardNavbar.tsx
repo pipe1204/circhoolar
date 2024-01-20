@@ -124,7 +124,7 @@ const DashboardNavbar = () => {
                     <SheetDescription className="text-center">
                       There is some activity. Please see below
                     </SheetDescription>
-                    <ul className="flex flex-col px-8">
+                    <ul className="flex flex-col px-4">
                       {notifications.map((notification) => (
                         <div
                           key={notification.id}
