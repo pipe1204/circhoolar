@@ -76,15 +76,19 @@ const useCheckLikes = (question?: Question, comment?: Comment) => {
           const questionRef = doc(db, "questions", questionId);
           const docSnap = await getDoc(questionRef);
           if (docSnap.exists()) {
-            const questionData = docSnap.data();
-            const currentLikes = questionData?.numberOfLikes - 1;
+            if (docSnap.data()?.numberOfLikes === 0) {
+              setLikeQuestionCount(0);
+            } else {
+              const questionData = docSnap.data();
+              const currentLikes = questionData?.numberOfLikes - 1;
 
-            await updateDoc(questionRef, {
-              numberOfLikes: currentLikes,
-              likedBy: arrayRemove(session?.user?.name),
-            });
-            setLikeQuestionCount(currentLikes);
-            console.log("Question removed from array");
+              await updateDoc(questionRef, {
+                numberOfLikes: currentLikes,
+                likedBy: arrayRemove(session?.user?.name),
+              });
+              setLikeQuestionCount(currentLikes);
+              console.log("Question removed from array");
+            }
           }
 
           //Remove notification from author of question
@@ -144,6 +148,10 @@ const useCheckLikes = (question?: Question, comment?: Comment) => {
         const commentDocSnap = await getDoc(commentRef);
 
         if (commentDocSnap.exists()) {
+          if (commentDocSnap.data()?.numberOfLikes === 0) {
+            setLikeCommentCount(0);
+          }
+
           const commentData = commentDocSnap.data();
           let currentLikes = commentData.numberOfLikes;
 

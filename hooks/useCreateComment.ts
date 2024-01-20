@@ -102,13 +102,17 @@ const useCreateAndDeleteComment = () => {
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        const currentComments = docSnap.data().numberOfComments - 1;
-        await updateDoc(docRef, {
-          numberOfComments: currentComments,
-          comments: arrayRemove(comment.commentId),
-          commentedBy: arrayRemove(comment.commenterIdentity),
-        });
-        setCommentCount(currentComments);
+        if (docSnap.data().numberOfComments === 0) {
+          setCommentCount(0);
+        } else {
+          const currentComments = docSnap.data().numberOfComments - 1;
+          await updateDoc(docRef, {
+            numberOfComments: currentComments,
+            comments: arrayRemove(comment.commentId),
+            commentedBy: arrayRemove(comment.commenterIdentity),
+          });
+          setCommentCount(currentComments);
+        }
 
         //Remove notification from author of question
         const docRefUser = userRef(docSnap.data().authorId);
