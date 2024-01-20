@@ -108,7 +108,7 @@ function GlobalStateProvider({ children }: { children: React.ReactNode }) {
         if (docSnapShot.exists()) {
           const hasUnreadNotifications = docSnapShot
             .data()
-            .notifications.some((notification) => notification.unread);
+            ?.notifications?.some((notification) => notification.unread);
           setUnreadNotifications(hasUnreadNotifications);
           if (!docSnapShot.data().schoolCode) return;
           const docRef = doc(codeRef, docSnapShot.data().schoolCode);

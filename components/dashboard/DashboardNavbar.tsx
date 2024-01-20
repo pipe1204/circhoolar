@@ -50,15 +50,13 @@ const DashboardNavbar = () => {
       const unsubscribe = onSnapshot(inputUserRef, (doc) => {
         const hasUnreadNotifications = doc
           .data()
-          ?.notifications.some((notification) => notification.unread);
+          ?.notifications?.some((notification) => notification.unread);
         setUnreadNotifications(hasUnreadNotifications || null);
         setNotifications(doc.data()?.notifications || []);
       });
       return () => unsubscribe();
     }
   }, [commentCount, likeCommentCount]);
-
-  console.log(notifications);
 
   useEffect(() => {
     // Define an async function inside useEffect

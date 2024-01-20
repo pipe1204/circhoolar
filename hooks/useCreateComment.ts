@@ -32,6 +32,7 @@ const useCreateAndDeleteComment = () => {
     setCommentText: (value: string) => void,
     commenterIdentity: string | null
   ) => {
+    setLoading(true);
     if (!session?.user?.id || !commentText) return;
 
     const randomNumber = Math.floor(Math.random() * 10000);
