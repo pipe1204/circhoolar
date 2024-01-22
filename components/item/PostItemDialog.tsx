@@ -229,8 +229,8 @@ const PostItemDialog = () => {
           title: "",
           description: "",
           price: "",
-          sellingmethod: "Free",
-          condition: "Great condition",
+          sellingmethod: undefined,
+          condition: undefined,
           category: "",
         });
       } catch (error) {
