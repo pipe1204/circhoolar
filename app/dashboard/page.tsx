@@ -36,10 +36,11 @@ const page = () => {
   }, []);
 
   const breakpointColumnsObj = {
-    default: 4,
+    default: 5,
+    1500: 4,
     1100: 3,
     700: 2,
-    // 500: 1,
+    500: 1,
   };
 
   let audienceTitle;

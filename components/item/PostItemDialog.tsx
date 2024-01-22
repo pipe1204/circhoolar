@@ -123,20 +123,87 @@ const PostItemDialog = () => {
 
   const { register, handleSubmit } = useForm();
 
+  function resizeImage(
+    file: File,
+    maxWidth: number,
+    maxHeight: number,
+    callback: (resizedImage: File) => void
+  ) {
+    const reader = new FileReader();
+    reader.onload = (e: ProgressEvent<FileReader>) => {
+      const img = document.createElement("img");
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+
+        if (!ctx) {
+          throw new Error("Unable to get canvas context");
+        }
+
+        const desiredMaxWidth = 1200;
+        const desiredMaxHeight = 1200;
+
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > desiredMaxWidth) {
+            height *= desiredMaxWidth / width;
+            width = desiredMaxWidth;
+          }
+        } else {
+          if (height > desiredMaxHeight) {
+            width *= desiredMaxHeight / height;
+            height = desiredMaxHeight;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        ctx.drawImage(img, 0, 0, width, height);
+
+        canvas.toBlob(
+          (blob) => {
+            if (!blob) {
+              throw new Error("Unable to get canvas blob");
+            }
+
+            const resizedImage = new File([blob], file.name, {
+              type: "image/jpeg",
+              lastModified: Date.now(),
+            });
+            callback(resizedImage);
+          },
+          "image/jpeg",
+          0.98
+        );
+      };
+      if (e.target?.result) {
+        img.src = e.target.result as string;
+      } else {
+        throw new Error("FileReader did not load the file correctly");
+      }
+    };
+    reader.readAsDataURL(file);
+  }
+
   const onImageSubmit = async (data: any) => {
     if (isBrowser) {
       if (data.image.length > 0) {
         const image = data.image[0];
-        setFiles([...files, image.name]);
-        setFileObjects((currentFiles) => [...currentFiles, image]);
 
-        const fileInput = document.getElementById(
-          "file_input"
-        ) as HTMLInputElement;
-        if (fileInput) {
-          fileInput.value = "";
-        }
-        setImageSelected(false);
+        resizeImage(image, 800, 600, async (resizedImage: File) => {
+          setFiles([...files, resizedImage.name]);
+          setFileObjects((currentFiles) => [...currentFiles, resizedImage]);
+
+          const fileInput = document.getElementById(
+            "file_input"
+          ) as HTMLInputElement;
+          if (fileInput) {
+            fileInput.value = "";
+          }
+          setImageSelected(false);
+        });
       }
     }
   };
