@@ -113,30 +113,30 @@ const CardItem = ({
   const handleDeleteFromFirebase =
     (itemId: string, imageUrl: string) => async () => {
       if (session?.user?.id) {
-        const match = imageUrl.match(/circhoolar_items_upload\/(.+)\.jpg/);
+        // Delete the post from Firebase
+        const postRef = doc(db, "posts", itemId);
+        await deleteDoc(postRef);
+        await removePostFromSavedItems(itemId);
+        // const match = imageUrl.match(/circhoolar_items_upload\/(.+)\.jpg/);
 
-        if (match && match.length >= 2) {
-          const publicId = match[1];
-          try {
-            // Send DELETE request to Cloudinary
-            await fetch("/api/deleteImage", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ publicId }),
-            });
+        // if (match && match.length >= 2) {
+        //   const publicId = match[1];
+        //   try {
+        //     // Send DELETE request to Cloudinary
+        //     await fetch("/api/deleteImage", {
+        //       method: "POST",
+        //       headers: {
+        //         "Content-Type": "application/json",
+        //       },
+        //       body: JSON.stringify({ publicId }),
+        //     });
 
-            // Delete the post from Firebase
-            const postRef = doc(db, "posts", itemId);
-            await deleteDoc(postRef);
-            await removePostFromSavedItems(itemId);
-          } catch (error) {
-            console.error("Error deleting post:", error);
-          }
-        } else {
-          console.error("Invalid image URL format");
-        }
+        //   } catch (error) {
+        //     console.error("Error deleting post:", error);
+        //   }
+        // } else {
+        //   console.error("Invalid image URL format");
+        // }
       }
     };
 

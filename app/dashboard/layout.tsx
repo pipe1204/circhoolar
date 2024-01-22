@@ -4,15 +4,21 @@ import CommunityNavbar from "@/components/community/CommunityNavbar";
 import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
 import PageNavbar from "@/components/dashboard/PageNavbar";
 import SideNav from "@/components/dashboard/Sidebar";
-import { useBankDetailsStore, useSchoolCodeStore } from "@/store/store";
-import { usePathname } from "next/navigation";
+import { useSchoolCodeStore } from "@/store/store";
+import { useParams, usePathname } from "next/navigation";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const schoolCode = useSchoolCodeStore((state) => state.schoolCode);
 
   const pathname = usePathname();
+  const params = useParams();
+
   return (
-    <div className="flex flex-col h-screen">
+    <div
+      className={`flex flex-col ${
+        pathname === `/dashboard/${params.id}` ? "h-full" : "h-screen"
+      } xl:h-screen`}
+    >
       <DashboardNavbar />
       <div>
         {schoolCode !== null && (
@@ -42,7 +48,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               </div>
             )}
           </div>
-          <div className="flex-grow bg-lightest-purple w-full h-full paddings overflow-y-auto">
+          <div className="flex-grow bg-lightest-purple w-full h-full py-6 px-4 xl:py-12 xl:px-20 overflow-y-auto">
             {children}
           </div>
         </div>
