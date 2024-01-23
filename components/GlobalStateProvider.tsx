@@ -54,7 +54,6 @@ function GlobalStateProvider({ children }: { children: React.ReactNode }) {
   const currentChatId = useCurrentChatStore((state) => state.currentChatId);
 
   const [chatUnreadCounts, setChatUnreadCounts] = useState({});
-  const [notificationUnreadCounts, setNotificationUnreadCounts] = useState({});
 
   useEffect(() => {
     if (!session?.user?.id) return;

@@ -67,8 +67,7 @@ const page = () => {
   const params = useParams();
   const router = useRouter();
   const shareUrl = typeof window !== "undefined" ? window.location.href : "";
-  const circhoolarWebsite = "https://www.circhoolar.com/schools";
-  const ShareMessage = `Check this item on Circhoolar, The Schools Community Hubs! Can't see the page? Refer your school to ${circhoolarWebsite}`;
+  const ShareMessage = `Check this item on Circhoolar, The Schools Community Hubs!`;
 
   const form = useForm<ClaimItem>({
     resolver: zodResolver(claimItem),
