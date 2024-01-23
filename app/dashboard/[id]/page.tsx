@@ -44,6 +44,13 @@ import Link from "next/link";
 import { chatsRef } from "@/lib/converters/ChatMembers";
 import { db } from "@/firebase";
 import { toast } from "@/components/ui/use-toast";
+import { CardDescription } from "@/components/ui/Card";
+import {
+  WhatsappShareButton,
+  WhatsappIcon,
+  TwitterShareButton,
+  TwitterIcon,
+} from "react-share";
 
 type ClaimItem = z.infer<typeof claimItem>;
 interface Buyer {
@@ -59,6 +66,9 @@ const page = () => {
   const { data: session } = useSession();
   const params = useParams();
   const router = useRouter();
+  const shareUrl = typeof window !== "undefined" ? window.location.href : "";
+  const circhoolarWebsite = "https://www.circhoolar.com/schools";
+  const ShareMessage = `Check this item on Circhoolar, The Schools Community Hubs! Can't see the page? Refer your school to ${circhoolarWebsite}`;
 
   const form = useForm<ClaimItem>({
     resolver: zodResolver(claimItem),
@@ -229,9 +239,20 @@ const page = () => {
               <span className="mb-0.5 inline-block text-title-color">
                 {item?.category}
               </span>
-              <h2 className="text-2xl font-bold text-background xl:text-3xl">
-                {item?.title}
-              </h2>
+              <div className="flex flex-row items-center">
+                <h2 className="text-2xl font-bold text-background xl:text-3xl mr-2 xl:mr-4">
+                  {item?.title}
+                </h2>
+                <div className="flex flex-row items-center gap-x-2 cursor-pointer">
+                  <WhatsappShareButton url={shareUrl} title={ShareMessage}>
+                    <WhatsappIcon size={32} round />
+                  </WhatsappShareButton>
+                  <TwitterShareButton url={shareUrl} title={ShareMessage}>
+                    <TwitterIcon size={32} round />
+                  </TwitterShareButton>
+                  <CardDescription>Share item</CardDescription>
+                </div>
+              </div>
             </div>
             <div className="mb-6 flex items-center gap-1 xl:mb-10">
               <div
