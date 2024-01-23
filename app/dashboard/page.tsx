@@ -14,7 +14,8 @@ import {
 import useMainPosts from "@/hooks/useMainPosts";
 import useSchoolCodeVerification from "@/hooks/useSchoolVerificationCode";
 import Billboard from "@/components/Billboard";
-import { CardTitle } from "@/components/ui/Card";
+import { CardDescription, CardTitle } from "@/components/ui/Card";
+import Link from "next/link";
 
 const page = () => {
   const schoolCode = useSchoolCodeStore((state) => state.schoolCode);
@@ -119,6 +120,19 @@ const page = () => {
               checkCode={handleCheckCode}
               errorMessage={errorCode}
             />
+          </div>
+          <div className="text-center mt-6 w-full xl:w-1/2 mx-auto">
+            <CardDescription>
+              If you don't have a school code, please contact your school
+              administrator to get one; or refer your school at{" "}
+              <Link
+                className=" text-primary-purple"
+                href={"https://www.circhoolar.com/schools"}
+              >
+                https://www.circhoolar.com/schools
+              </Link>{" "}
+              to join Circhoolar.
+            </CardDescription>
           </div>
         </div>
       )}
