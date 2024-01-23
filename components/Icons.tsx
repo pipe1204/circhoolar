@@ -54,6 +54,7 @@ import {
   Search,
   Send,
   Settings,
+  Share,
   Shirt,
   ShoppingBag,
   ShoppingCart,
@@ -81,6 +82,7 @@ import {
 //   export type Icon = LucideIcon
 
 export const Icons = {
+  share: Share,
   subtitles: Subtitles,
   ArrowLeft: ArrowLeft,
   sprout: Sprout,
