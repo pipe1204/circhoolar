@@ -51,6 +51,7 @@ import {
   TwitterShareButton,
   TwitterIcon,
 } from "react-share";
+import { useSchoolCodeStore } from "@/store/store";
 
 type ClaimItem = z.infer<typeof claimItem>;
 interface Buyer {
@@ -60,6 +61,7 @@ interface Buyer {
 }
 
 const page = () => {
+  const schoolCode = useSchoolCodeStore((state) => state.schoolCode);
   const [item, setItem] = useState<Post>();
   const [isSaved, setIsSaved] = useState(false);
   const [buyer, setBuyer] = useState<Buyer>();
@@ -67,7 +69,7 @@ const page = () => {
   const params = useParams();
   const router = useRouter();
   const shareUrl = typeof window !== "undefined" ? window.location.href : "";
-  const ShareMessage = `Check this item on Circhoolar, The Schools Community Hubs!`;
+  const ShareMessage = `Check this item on Circhoolar, The Schools Community Hub!`;
 
   const form = useForm<ClaimItem>({
     resolver: zodResolver(claimItem),
@@ -210,6 +212,8 @@ const page = () => {
     return conditionColor;
   };
 
+  console.log(schoolCode);
+
   return (
     <div className="mb-20">
       <div className="mx-auto max-w-screen-xl px-4 xl:px-8">
@@ -275,88 +279,103 @@ const page = () => {
                   : ""}
               </span>
             </div>
-            {item?.authorId !== session?.user?.id ? (
-              <div className="flex flex-col gap-2 w-full xl:w-3/4">
-                <div className="flex justify-around gap-2.5 w-full mb-2">
-                  <div className="w-1/2">
-                    <Button
-                      onClick={handleWishlistClick}
-                      variant={"outlineLight"}
-                      className={`w-full hover:bg-transparent `}
-                    >
-                      <Icons.heart
-                        fill={`${isSaved ? "dark-purple" : "none"}`}
-                        size={18}
-                        className="mr-2 text-dark-purple"
-                      />
-                      {isSaved ? "Saved" : "Wishlist"}
-                    </Button>
-                  </div>
-                  <div className="w-1/2">
-                    {item?.sellingmethod === "Free" ? (
-                      <Form {...form}>
-                        <form className="grid gap-4">
-                          <FormField
-                            control={form.control}
-                            name="claim"
-                            render={({ field, fieldState: { error } }) => (
-                              <FormItem>
-                                <Select
-                                  onValueChange={(value) => {
-                                    field.onChange(value);
-                                    handleClaimOption(value);
-                                  }}
-                                  defaultValue={field.value}
-                                >
-                                  <FormControl>
-                                    <SelectTrigger className="text-light-white">
-                                      <Icons.shrub size={18} />
-                                      <SelectValue placeholder="Claim" />
-                                    </SelectTrigger>
-                                  </FormControl>
-                                  <SelectContent>
-                                    <SelectItem value="Donate">
-                                      Donate
-                                    </SelectItem>
-                                    <SelectItem value="Collect">
-                                      Collect
-                                    </SelectItem>
-                                  </SelectContent>
-                                </Select>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                        </form>
-                      </Form>
-                    ) : (
-                      <Button
-                        variant={"outlineLight"}
-                        className="text-background hover:text-light-white w-full"
-                      >
-                        Buy now
-                      </Button>
-                    )}
-                  </div>
-                </div>
-                <div className="w-full mx-auto">
-                  <ChatButton
-                    itemId={item?.id}
-                    authorId={item?.authorId}
-                    avatar={item?.avatar}
-                  />
-                </div>
-              </div>
-            ) : (
-              <p className="text-dark-purple text-sm">
-                To edit your post go to{" "}
+            {schoolCode === null ? (
+              <p className="text-dark-purple italic font-semibold">
+                To buy or claim this item, please join your school community hub
+                or create a new account at{" "}
                 <Link
                   href={"/dashboard"}
-                  className=" underline text-background italic hover:text-dark-purple"
+                  className=" underline hover:text-paragraph-color"
                 >
-                  My items page on the main menu
+                  here
                 </Link>
               </p>
+            ) : (
+              <div>
+                {item?.authorId !== session?.user?.id ? (
+                  <div className="flex flex-col gap-2 w-full xl:w-3/4">
+                    <div className="flex justify-around gap-2.5 w-full mb-2">
+                      <div className="w-1/2">
+                        <Button
+                          onClick={handleWishlistClick}
+                          variant={"outlineLight"}
+                          className={`w-full hover:bg-transparent `}
+                        >
+                          <Icons.heart
+                            fill={`${isSaved ? "dark-purple" : "none"}`}
+                            size={18}
+                            className="mr-2 text-dark-purple"
+                          />
+                          {isSaved ? "Saved" : "Wishlist"}
+                        </Button>
+                      </div>
+                      <div className="w-1/2">
+                        {item?.sellingmethod === "Free" ? (
+                          <Form {...form}>
+                            <form className="grid gap-4">
+                              <FormField
+                                control={form.control}
+                                name="claim"
+                                render={({ field, fieldState: { error } }) => (
+                                  <FormItem>
+                                    <Select
+                                      onValueChange={(value) => {
+                                        field.onChange(value);
+                                        handleClaimOption(value);
+                                      }}
+                                      defaultValue={field.value}
+                                    >
+                                      <FormControl>
+                                        <SelectTrigger className="text-light-white">
+                                          <Icons.shrub size={18} />
+                                          <SelectValue placeholder="Claim" />
+                                        </SelectTrigger>
+                                      </FormControl>
+                                      <SelectContent>
+                                        <SelectItem value="Donate">
+                                          Donate
+                                        </SelectItem>
+                                        <SelectItem value="Collect">
+                                          Collect
+                                        </SelectItem>
+                                      </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                            </form>
+                          </Form>
+                        ) : (
+                          <Button
+                            variant={"outlineLight"}
+                            className="text-background hover:text-light-white w-full"
+                          >
+                            Buy now
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                    <div className="w-full mx-auto">
+                      <ChatButton
+                        itemId={item?.id}
+                        authorId={item?.authorId}
+                        avatar={item?.avatar}
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-dark-purple text-sm">
+                    To edit your post go to{" "}
+                    <Link
+                      href={"/dashboard"}
+                      className=" underline text-background italic hover:text-dark-purple"
+                    >
+                      My items page on the main menu
+                    </Link>
+                  </p>
+                )}
+              </div>
             )}
             <p className="mt-12 text-base text-gray tracking-wide">
               {item?.description}
