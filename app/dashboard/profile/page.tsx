@@ -32,6 +32,7 @@ import {
 } from "@/store/store";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
@@ -82,6 +83,12 @@ const page = () => {
 
   return (
     <section className="bg-light-white w-11/12 xl:w-3/4 mx-auto my-8 p-10 shadow-md rounded-lg flex flex-col justify-center items-center">
+      <Link href="/dashboard" passHref>
+        <Button variant={"link"} size={"lg"} className="mb-8 px-0">
+          <Icons.ArrowLeft size={15} className="mr-2" />
+          Back
+        </Button>
+      </Link>
       <div className="flex flex-col justify-center items-center">
         <div className="w-28 h-28 rounded-full overflow-hidden relative">
           <Image

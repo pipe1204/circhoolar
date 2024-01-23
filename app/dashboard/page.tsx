@@ -122,16 +122,23 @@ const page = () => {
             />
           </div>
           <div className="text-center mt-6 w-full xl:w-1/2 mx-auto">
-            <CardDescription>
+            <CardDescription className="text-md">
               If you don't have a school code, please contact your school
               administrator to get one; or refer your school at{" "}
               <Link
-                className=" text-primary-purple"
+                className="text-primary-purple"
                 href={"https://www.circhoolar.com/schools"}
               >
                 https://www.circhoolar.com/schools
               </Link>{" "}
               to join Circhoolar.
+            </CardDescription>
+            <CardDescription className="text-md mt-6">
+              Alternatively, email us at{" "}
+              <span className="text-primary-purple">
+                schools@circhoolar.com
+              </span>{" "}
+              to get in touch with your school.
             </CardDescription>
           </div>
         </div>
