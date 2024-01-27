@@ -161,6 +161,35 @@ export const useUnreadNotificationsStore = create<UnreadNotificationsState>(
   })
 );
 
+interface IsUnreadMessagesEmailSentState {
+  isUnreadMessagesEmailSent: boolean | null;
+  setIsUnreadMessagesEmailSent: (
+    isUnreadMessagesEmailSent: boolean | null
+  ) => void;
+}
+
+export const useIsUnreadMessagesEmailSentStore =
+  create<IsUnreadMessagesEmailSentState>((set) => ({
+    isUnreadMessagesEmailSent: false,
+    setIsUnreadMessagesEmailSent: (isUnreadMessagesEmailSent: boolean | null) =>
+      set({ isUnreadMessagesEmailSent }),
+  }));
+
+interface IsUnreadNotificationsEmailSentState {
+  isUnreadNotificationsEmailSent: boolean | null;
+  setIsUnreadNotificationsEmailSent: (
+    isUnreadNotificationsEmailSent: boolean | null
+  ) => void;
+}
+
+export const useIsUnreadNotificationsEmailSentStore =
+  create<IsUnreadNotificationsEmailSentState>((set) => ({
+    isUnreadNotificationsEmailSent: null,
+    setIsUnreadNotificationsEmailSent: (
+      isUnreadNotificationsEmailSent: boolean | null
+    ) => set({ isUnreadNotificationsEmailSent }),
+  }));
+
 interface CurrentChatState {
   currentChatId: string | null;
   setCurrentChatId: (chatId: string | null) => void;

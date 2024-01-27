@@ -212,8 +212,6 @@ const page = () => {
     return conditionColor;
   };
 
-  console.log(schoolCode);
-
   return (
     <div className="mb-20">
       <div className="mx-auto max-w-screen-xl px-4 xl:px-8">

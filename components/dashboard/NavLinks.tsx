@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Icons } from "../Icons";
-import { use } from "react";
 import { useTotalUnreadMessagesStore } from "@/store/store";
 
 // Map of links to display in the side navigation.
