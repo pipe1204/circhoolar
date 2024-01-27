@@ -1,11 +1,13 @@
 "use client";
 
 import { db } from "@/firebase";
+import useMessagesEmailNotifications from "@/hooks/useMessagesEmailNotifications";
 import { codeRef } from "@/lib/converters/SchoolCode";
 import { userRef } from "@/lib/converters/User";
 import {
   useBankDetailsStore,
   useCurrentChatStore,
+  useIsUnreadMessagesEmailSentStore,
   useItemsLocationStore,
   useSchoolCodeStore,
   useSchoolNameStore,
@@ -26,6 +28,7 @@ import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 
 function GlobalStateProvider({ children }: { children: React.ReactNode }) {
+  useMessagesEmailNotifications();
   const { data: session } = useSession();
   const setSchoolCode = useSchoolCodeStore((state) => state.setSchoolCode);
   const setUserName = useUserNameStore((state) => state.setUserName);
@@ -41,6 +44,9 @@ function GlobalStateProvider({ children }: { children: React.ReactNode }) {
   const setAccountName = useBankDetailsStore((state) => state.setAccountName);
   const setTotalUnreadMessages = useTotalUnreadMessagesStore(
     (state) => state.setTotalUnreadMessages
+  );
+  const setIsUnreadMessagesEmailSent = useIsUnreadMessagesEmailSentStore(
+    (state) => state.setIsUnreadMessagesEmailSent
   );
   const setUnreadNotifications = useUnreadNotificationsStore(
     (state) => state.setUnreadNotifications
@@ -95,6 +101,10 @@ function GlobalStateProvider({ children }: { children: React.ReactNode }) {
       (total: number, count: any) => total + count,
       0
     );
+
+    if (totalUnread === 0) {
+      setIsUnreadMessagesEmailSent(false);
+    }
     setTotalUnreadMessages(totalUnread);
   }, [chatUnreadCounts, setTotalUnreadMessages]);
 
