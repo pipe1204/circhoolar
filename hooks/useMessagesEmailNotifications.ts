@@ -3,7 +3,7 @@ import {
   useTotalUnreadMessagesStore,
 } from "../store/store";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 
 const useMessagesEmailNotifications = () => {
   const { data: session } = useSession();
@@ -17,19 +17,16 @@ const useMessagesEmailNotifications = () => {
   const setIsUnreadMessagesEmailSent = useIsUnreadMessagesEmailSentStore(
     (state) => state.setIsUnreadMessagesEmailSent
   );
-  const [emailTimer, setEmailTimer] = useState<NodeJS.Timeout | number | null>(
-    null
-  );
+
+  const emailTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    console.log("Start:", totalUnreadMessages, isUnreadMessagesEmailSent);
     const sendEmail = async () => {
       const requestBody = JSON.stringify({
         email: session?.user?.email,
         name: session?.user?.name,
       });
 
-      console.log("Sending Request:", requestBody);
       const response = await fetch("/api/emailNotification", {
         method: "POST",
         headers: {
@@ -49,42 +46,32 @@ const useMessagesEmailNotifications = () => {
       !isUnreadMessagesEmailSent
     ) {
       // Start or restart the timer
-      if (emailTimer !== null) {
-        clearTimeout(emailTimer as NodeJS.Timeout);
+      if (emailTimerRef.current !== null) {
+        clearTimeout(emailTimerRef.current);
       }
       console.log(
         "Calling the send email:",
         totalUnreadMessages,
         isUnreadMessagesEmailSent
       );
-      setEmailTimer(
-        setTimeout(() => {
-          sendEmail();
-          console.log(
-            "Just sent the email:",
-            totalUnreadMessages,
-            isUnreadMessagesEmailSent
-          );
-          setIsUnreadMessagesEmailSent(true);
-        }, 300000)
-      );
+      emailTimerRef.current = setTimeout(() => {
+        sendEmail();
+        setIsUnreadMessagesEmailSent(true);
+      }, 300000);
     }
 
-    if (totalUnreadMessages && totalUnreadMessages === 0) {
-      console.log(
-        "Setting back to 0:",
-        totalUnreadMessages,
-        isUnreadMessagesEmailSent
-      );
+    if (totalUnreadMessages === 0 && emailTimerRef.current !== null) {
+      clearTimeout(emailTimerRef.current);
+      emailTimerRef.current = null;
       setIsUnreadMessagesEmailSent(false);
     }
 
     return () => {
-      if (emailTimer !== null) {
-        clearTimeout(emailTimer as NodeJS.Timeout);
+      if (emailTimerRef.current !== null) {
+        clearTimeout(emailTimerRef.current);
       }
     };
-  }, [totalUnreadMessages]);
+  }, [totalUnreadMessages, isUnreadMessagesEmailSent]);
 };
 
 export default useMessagesEmailNotifications;
