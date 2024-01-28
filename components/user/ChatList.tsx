@@ -1,21 +1,12 @@
 import { db } from "@/firebase";
 import { doc, deleteDoc } from "firebase/firestore";
-import React, { useEffect } from "react";
+import React from "react";
 import ChatListRows from "./ChatListRows";
-import { useTotalUnreadMessagesStore } from "@/store/store";
 import useFetchChatData from "@/hooks/useFecthChatData";
 import Billboard from "../Billboard";
 
 const ChatList = () => {
-  const { chatListData, setChatListData, totalUnreadMessages } =
-    useFetchChatData();
-  const setTotalUnreadMessages = useTotalUnreadMessagesStore(
-    (state) => state.setTotalUnreadMessages
-  );
-
-  useEffect(() => {
-    setTotalUnreadMessages(totalUnreadMessages);
-  }, [totalUnreadMessages, setTotalUnreadMessages]);
+  const { chatListData, setChatListData } = useFetchChatData();
 
   const handleDeleteMessage = async (chatId: string) => {
     const chatRef = doc(db, "chats", chatId);

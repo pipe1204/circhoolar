@@ -1,4 +1,3 @@
-import { use } from "react";
 import { useState, useEffect } from "react";
 import { db } from "@/firebase";
 import {
@@ -27,7 +26,7 @@ type ChatData = {
 const useFetchChatData = () => {
   const { data: session } = useSession();
   const [chatListData, setChatListData] = useState<ChatData[]>([]);
-  const [totalUnreadMessages, setTotalUnreadMessages] = useState<number>(0);
+
   useEffect(() => {
     const fetchChats = async () => {
       if (session?.user?.id) {
@@ -118,13 +117,13 @@ const useFetchChatData = () => {
           }));
 
         setChatListData(resolvedChatData);
-        setTotalUnreadMessages(totalUnreadCount);
+        return totalUnreadCount;
       }
     };
 
     fetchChats();
   }, [session]);
-  return { chatListData, totalUnreadMessages, setChatListData };
+  return { chatListData, setChatListData };
 };
 
 export default useFetchChatData;

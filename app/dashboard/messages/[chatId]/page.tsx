@@ -20,6 +20,7 @@ interface ChatPageProps {
 
 const ChatPage = ({ params: { chatId } }: ChatPageProps) => {
   const { data: session } = useSession();
+
   const { width } = useWindowSize();
   const setCurrentChatId = useCurrentChatStore(
     (state) => state.setCurrentChatId
