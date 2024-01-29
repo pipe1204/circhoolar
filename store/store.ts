@@ -1,6 +1,6 @@
 import { set } from "zod";
 import { create } from "zustand";
-import { User } from "../types/Types";
+import { Notification } from "../types/Types";
 
 interface SchoolCodeState {
   schoolCode: string | null;
@@ -147,6 +147,17 @@ export const useTotalUnreadMessagesStore = create<TotalUnreadMessagesState>(
       set({ totalUnreadMessages }),
   })
 );
+
+interface NotificationsState {
+  Notifications: Notification[] | null;
+  setNotifications: (Notifications: Notification[] | null) => void;
+}
+
+export const useNotificationsStore = create<NotificationsState>((set) => ({
+  Notifications: null,
+  setNotifications: (Notifications: Notification[] | null) =>
+    set({ Notifications }),
+}));
 
 interface UnreadNotificationsState {
   unreadNotifications: boolean | null;

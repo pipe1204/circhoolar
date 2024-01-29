@@ -2,12 +2,14 @@
 
 import { db } from "@/firebase";
 import useMessagesEmailNotifications from "@/hooks/useMessagesEmailNotifications";
+import useNotificationsEmail from "@/hooks/useNotificationsEmail";
 import { codeRef } from "@/lib/converters/SchoolCode";
 import { userRef } from "@/lib/converters/User";
 import {
   useBankDetailsStore,
   useCurrentChatStore,
   useItemsLocationStore,
+  useNotificationsStore,
   useSchoolCodeStore,
   useSchoolNameStore,
   useTopicStore,
@@ -29,6 +31,7 @@ import React, { useEffect, useState } from "react";
 
 function GlobalStateProvider({ children }: { children: React.ReactNode }) {
   useMessagesEmailNotifications();
+  useNotificationsEmail();
   const { data: session } = useSession();
   const pathname = usePathname();
   const setSchoolCode = useSchoolCodeStore((state) => state.setSchoolCode);
@@ -48,6 +51,9 @@ function GlobalStateProvider({ children }: { children: React.ReactNode }) {
   );
   const setUnreadNotifications = useUnreadNotificationsStore(
     (state) => state.setUnreadNotifications
+  );
+  const setNotifications = useNotificationsStore(
+    (state) => state.setNotifications
   );
   const setItemsLocation = useItemsLocationStore(
     (state) => state.setItemsLocation
@@ -113,6 +119,7 @@ function GlobalStateProvider({ children }: { children: React.ReactNode }) {
             .data()
             ?.notifications?.some((notification) => notification.unread);
           setUnreadNotifications(hasUnreadNotifications);
+          setNotifications(docSnapShot.data()?.notifications || []);
           if (!docSnapShot.data().schoolCode) return;
           const docRef = doc(codeRef, docSnapShot.data().schoolCode);
           const schoolDocSnapshot = await getDoc(docRef);

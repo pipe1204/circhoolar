@@ -4,9 +4,9 @@ interface EmailTemplateProps {
   name: string;
 }
 
-export const EmailTemplate = ({ name }: EmailTemplateProps) => (
+export const EmailMessagesTemplate = ({ name }: EmailTemplateProps) => (
   <div className="flex flex-col justify-center items-center">
-    <h2>Hi, {name}! 👋🏼</h2>
+    <h4>Hi, {name}! 👋🏼</h4>
     <p>
       Great news! You've sparked some interest in the Circhoolar community. 🚀
     </p>
