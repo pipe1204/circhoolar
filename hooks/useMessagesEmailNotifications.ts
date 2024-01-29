@@ -54,7 +54,7 @@ const useMessagesEmailNotifications = () => {
         sendEmail();
         setIsUnreadMessagesEmailSent(true);
         console.log("Sending email", isUnreadMessagesEmailSent);
-      }, 10000); //300000
+      }, 300000); // 5 minutes
     }
 
     if (totalUnreadMessages === 0 && emailTimerRef.current !== null) {

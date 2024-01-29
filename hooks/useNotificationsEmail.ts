@@ -65,7 +65,7 @@ const useNotificationsEmail = () => {
           unreadNotifications,
           isUnreadNotificationsEmailSent
         );
-      }, 850000);
+      }, 850000); // 14 minutes
     }
 
     if (!unreadNotifications && emailTimerRef.current !== null) {
