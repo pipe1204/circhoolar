@@ -21,13 +21,14 @@ const useMessagesEmailNotifications = () => {
   const emailTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
+    console.log("start the useEffect", isUnreadMessagesEmailSent);
     const sendEmail = async () => {
       const requestBody = JSON.stringify({
         email: session?.user?.email,
         name: session?.user?.name,
       });
 
-      const response = await fetch("/api/emailNotification", {
+      const response = await fetch("/api/emailMessageNotification", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -45,25 +46,22 @@ const useMessagesEmailNotifications = () => {
       totalUnreadMessages >= 1 &&
       !isUnreadMessagesEmailSent
     ) {
-      // Start or restart the timer
       if (emailTimerRef.current !== null) {
         clearTimeout(emailTimerRef.current);
       }
-      console.log(
-        "Calling the send email:",
-        totalUnreadMessages,
-        isUnreadMessagesEmailSent
-      );
+      console.log("Calling timeout to send email", isUnreadMessagesEmailSent);
       emailTimerRef.current = setTimeout(() => {
         sendEmail();
         setIsUnreadMessagesEmailSent(true);
-      }, 300000);
+        console.log("Sending email", isUnreadMessagesEmailSent);
+      }, 10000); //300000
     }
 
     if (totalUnreadMessages === 0 && emailTimerRef.current !== null) {
       clearTimeout(emailTimerRef.current);
       emailTimerRef.current = null;
       setIsUnreadMessagesEmailSent(false);
+      console.log("Messages checked", isUnreadMessagesEmailSent);
     }
 
     return () => {

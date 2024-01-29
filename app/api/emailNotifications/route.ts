@@ -1,4 +1,4 @@
-import { EmailTemplate } from "@/components/user/EmailTemplate";
+import { EmailNotificationsTemplate } from "@/components/user/EmailNotificationsTemplate";
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
@@ -12,8 +12,8 @@ export async function POST(req: any) {
     const data = (await resend.emails.send({
       from: "Circhoolar <info@circhoolar.com>",
       to: [email],
-      subject: "💌 You've Got New Messages on Circhoolar!",
-      react: EmailTemplate({ name: name }),
+      subject: "🔔 You've Got New Notifications on Circhoolar!",
+      react: EmailNotificationsTemplate({ name: name }),
     })) as any;
 
     if (data.status === "success") {
