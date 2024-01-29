@@ -37,6 +37,11 @@ const UserButton = ({ session }: { session: Session | null }) => {
             Account settings
           </DropdownMenuItem>
         </Link>
+        <Link href={"/dashboard/optout-email"}>
+          <DropdownMenuItem className="cursor-pointer">
+            Notifications
+          </DropdownMenuItem>
+        </Link>
         <DropdownMenuItem
           onClick={() => signOut({ callbackUrl: "/" })}
           className="cursor-pointer"

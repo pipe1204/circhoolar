@@ -73,6 +73,7 @@ export function SignUpForm() {
             },
             likedQuestions: [],
             likedComments: [],
+            hasOptOutNotifications: false,
           })
             .then(() => {
               console.log("User document created successfully");

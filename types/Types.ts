@@ -72,6 +72,7 @@ export interface User {
   likedQuestions: string[];
   likedComments: string[];
   notifications: Notification[];
+  hasOptOutNotifications: boolean;
 }
 
 export interface Notification {

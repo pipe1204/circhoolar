@@ -8,19 +8,25 @@ import {
   useSchoolCodeStore,
   useSchoolNameStore,
   useBankDetailsStore,
+  useHasOptOutNotificationsStore,
 } from "@/store/store";
 import { z } from "zod";
-import { profileSchema } from "@/lib/validations/auth";
+import { notificationsSchema, profileSchema } from "@/lib/validations/auth";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 type Inputs = z.infer<typeof profileSchema>;
+type notificationsInputs = z.infer<typeof notificationsSchema>;
 
 const useProfileEdit = () => {
   const [editProfile, setEditProfile] = useState(true);
+  const [editPreferences, setEditPreferences] = useState(true);
+
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [hideEditProfile, setHideEditProfile] = useState(false);
+  const [hideEditPreferences, setHideEditPreferences] = useState(false);
+
   const { data: session } = useSession();
   const setUserName = useUserNameStore((state) => state.setUserName);
   const setSchoolCode = useSchoolCodeStore((state) => state.setSchoolCode);
@@ -37,6 +43,12 @@ const useProfileEdit = () => {
     (state) => state.setAccountNumber
   );
   const setAccountName = useBankDetailsStore((state) => state.setAccountName);
+  const hasOptOutNotifications = useHasOptOutNotificationsStore(
+    (state) => state.hasOptOutNotifications || ""
+  );
+  const setHasOptOutNotifications = useHasOptOutNotificationsStore(
+    (state) => state.setHasOptOutNotifications
+  );
 
   const form = useForm<Inputs>({
     resolver: zodResolver(profileSchema),
@@ -51,9 +63,21 @@ const useProfileEdit = () => {
     },
   });
 
+  const notificationForm = useForm<notificationsInputs>({
+    resolver: zodResolver(notificationsSchema),
+    defaultValues: {
+      optout: hasOptOutNotifications,
+    },
+  });
+
   const handleEditProfile = () => {
     setEditProfile(false);
     setHideEditProfile(true);
+  };
+
+  const handleEditPreferences = () => {
+    setEditPreferences(false);
+    setHideEditPreferences(true);
   };
 
   const handleCancelEditProfile = () => {
@@ -62,6 +86,12 @@ const useProfileEdit = () => {
     setError("");
     form.setValue("name", userName);
     form.setValue("schoolCode", schoolCode);
+  };
+
+  const handleCancelEditreferences = () => {
+    notificationForm.setValue("optout", hasOptOutNotifications);
+    setEditPreferences(true);
+    setHideEditPreferences(false);
   };
 
   const handleProfileSubmit = async (data: any) => {
@@ -117,15 +147,44 @@ const useProfileEdit = () => {
     }
   };
 
+  const handlePreferencesSubmit = async (data: any) => {
+    setIsLoading(true);
+
+    if (data.optout === hasOptOutNotifications) {
+      setHideEditPreferences(false);
+      setIsLoading(false);
+      setEditPreferences(true);
+    } else {
+      const userDocRef = userRef(session?.user?.id || "");
+
+      await updateDoc(userDocRef, {
+        hasOptOutNotifications: data.optout === "Yes" ? true : false,
+      });
+
+      setHasOptOutNotifications(data.optout);
+      setEditPreferences(true);
+      setHideEditPreferences(false);
+      setIsLoading(false);
+
+      console.log("Preferences updated successfully");
+    }
+  };
+
   return {
     form,
+    notificationForm,
     editProfile,
     error,
     isLoading,
     hideEditProfile,
+    editPreferences,
+    hideEditPreferences,
     handleEditProfile,
     handleCancelEditProfile,
     handleProfileSubmit,
+    handlePreferencesSubmit,
+    handleCancelEditreferences,
+    handleEditPreferences,
   };
 };
 

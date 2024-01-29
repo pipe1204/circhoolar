@@ -118,6 +118,10 @@ export const topicSchema = z.object({
   topicSelected: z.string(),
 });
 
+export const notificationsSchema = z.object({
+  optout: z.string(),
+});
+
 export const profileSchema = z.object({
   name: z.string().min(2, {
     message: "Title must be at least 2 characters long",

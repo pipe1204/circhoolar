@@ -8,6 +8,7 @@ import { userRef } from "@/lib/converters/User";
 import {
   useBankDetailsStore,
   useCurrentChatStore,
+  useHasOptOutNotificationsStore,
   useItemsLocationStore,
   useNotificationsStore,
   useSchoolCodeStore,
@@ -61,6 +62,9 @@ function GlobalStateProvider({ children }: { children: React.ReactNode }) {
   const setTopic = useTopicStore((state) => state.setTopic);
   const topic = useTopicStore((state) => state.topic);
   const currentChatId = useCurrentChatStore((state) => state.currentChatId);
+  const setHasOptOutNotifications = useHasOptOutNotificationsStore(
+    (state) => state.setHasOptOutNotifications
+  );
 
   const [chatUnreadCounts, setChatUnreadCounts] = useState({});
 
@@ -134,6 +138,9 @@ function GlobalStateProvider({ children }: { children: React.ReactNode }) {
           setAccountName(docSnapShot.data().bankDetails?.accountName);
           setItemsLocation(itemsLocation || "Public");
           setTopic(topic || "All topics");
+          setHasOptOutNotifications(
+            docSnapShot.data()?.hasOptOutNotifications === false ? "No" : "Yes"
+          );
         } else {
           console.log("No such document!");
           setSchoolCode(null);
