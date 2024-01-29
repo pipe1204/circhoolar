@@ -149,14 +149,14 @@ export const useTotalUnreadMessagesStore = create<TotalUnreadMessagesState>(
 );
 
 interface NotificationsState {
-  Notifications: Notification[] | null;
-  setNotifications: (Notifications: Notification[] | null) => void;
+  notifications: Notification[] | null;
+  setNotifications: (notifications: Notification[] | null) => void;
 }
 
 export const useNotificationsStore = create<NotificationsState>((set) => ({
-  Notifications: null,
-  setNotifications: (Notifications: Notification[] | null) =>
-    set({ Notifications }),
+  notifications: null,
+  setNotifications: (notifications: Notification[] | null) =>
+    set({ notifications }),
 }));
 
 interface UnreadNotificationsState {

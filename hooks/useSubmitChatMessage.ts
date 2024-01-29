@@ -6,12 +6,16 @@ import { db } from "@/firebase";
 import { Session } from "next-auth";
 
 interface InputUser {
-    name: string;
-    email: string;
-    image: string;
-  }
+  name: string;
+  email: string;
+  image: string;
+}
 
-export function useSubmitChatMessage(chatId: string, session?: Session | null, inputUser?: InputUser) {
+export function useSubmitChatMessage(
+  chatId: string,
+  session?: Session | null,
+  inputUser?: InputUser
+) {
   const form = useForm({
     resolver: zodResolver(chatInputSchema),
     defaultValues: {

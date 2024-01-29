@@ -26,14 +26,12 @@ import {
   where,
 } from "firebase/firestore";
 import { useSession } from "next-auth/react";
-import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 function GlobalStateProvider({ children }: { children: React.ReactNode }) {
   useMessagesEmailNotifications();
   useNotificationsEmail();
   const { data: session } = useSession();
-  const pathname = usePathname();
   const setSchoolCode = useSchoolCodeStore((state) => state.setSchoolCode);
   const setUserName = useUserNameStore((state) => state.setUserName);
   const setProfileImage = useUserNameStore((state) => state.setProfileImage);
@@ -52,6 +50,7 @@ function GlobalStateProvider({ children }: { children: React.ReactNode }) {
   const setUnreadNotifications = useUnreadNotificationsStore(
     (state) => state.setUnreadNotifications
   );
+  const notifications = useNotificationsStore((state) => state.notifications);
   const setNotifications = useNotificationsStore(
     (state) => state.setNotifications
   );
@@ -119,7 +118,7 @@ function GlobalStateProvider({ children }: { children: React.ReactNode }) {
             .data()
             ?.notifications?.some((notification) => notification.unread);
           setUnreadNotifications(hasUnreadNotifications);
-          setNotifications(docSnapShot.data()?.notifications || []);
+          setNotifications(docSnapShot.data()?.notifications || notifications);
           if (!docSnapShot.data().schoolCode) return;
           const docRef = doc(codeRef, docSnapShot.data().schoolCode);
           const schoolDocSnapshot = await getDoc(docRef);
