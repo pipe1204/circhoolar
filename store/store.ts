@@ -172,6 +172,18 @@ export const useUnreadNotificationsStore = create<UnreadNotificationsState>(
   })
 );
 
+interface hasOptOutNotificationsState {
+  hasOptOutNotifications: string | null;
+  setHasOptOutNotifications: (hasOptOutNotifications: string | null) => void;
+}
+
+export const useHasOptOutNotificationsStore =
+  create<hasOptOutNotificationsState>((set) => ({
+    hasOptOutNotifications: null,
+    setHasOptOutNotifications: (hasOptOutNotifications: string | null) =>
+      set({ hasOptOutNotifications }),
+  }));
+
 interface IsUnreadMessagesEmailSentState {
   isUnreadMessagesEmailSent: boolean | null;
   setIsUnreadMessagesEmailSent: (
