@@ -57,7 +57,10 @@ exports.checkUnreadNotifications = functions.firestore
     }
 
     // Reset isUnreadNotificationsEmailSent to false when unreadMessages goes back to 0
-    if (userData.unreadMessages === 0 && previousUserData.unreadMessages > 0) {
+    if (
+      userData.notifications.length === 0 &&
+      previousUserData.notifications.length > 0
+    ) {
       await change.after.ref.update({ isUnreadNotificationsEmailSent: false });
       console.log("isUnreadNotificationsEmailSent reset to false");
     }
