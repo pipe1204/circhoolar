@@ -88,7 +88,7 @@ const useFetchChatData = () => {
           const unreadMessagesQuery = query(
             collection(db, "chats", chatDoc.id, "messages"),
             where("isRead", "==", false),
-            where("user.id", "!=", session.user.id)
+            where("sender.id", "!=", session.user.id)
           );
           const unreadMessagesSnapshot = await getDocs(unreadMessagesQuery);
           const unreadCount = unreadMessagesSnapshot.docs.length;
