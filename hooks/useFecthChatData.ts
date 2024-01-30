@@ -97,7 +97,9 @@ const useFetchChatData = () => {
 
           return {
             author: otherUserData?.name || "Unknown User",
-            avatar: otherUserData?.image || "/path/to/default/avatar.jpg",
+            avatar:
+              otherUserData?.image ||
+              "https://res.cloudinary.com/circhoo/image/upload/v1706651643/Circhoolar_Icon_rfim4h.png",
             title: postData.title,
             createdAt: chatData.createdAt,
             chatId: chatDoc.id,

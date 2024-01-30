@@ -3,28 +3,28 @@ const functions = require("firebase-functions");
 
 sgMail.setApiKey(functions.config().sendgrid.key);
 
-const emailHandler = async (email, name) => {
+const emailNotificationsHandler = async (email, name) => {
   const msg = {
     to: email,
     from: functions.config().email.from,
-    subject: "💌 You've Got New Messages on Circhoolar!",
-    html: `<h4>Hi ${name},</h4>
+    subject: "🔔 You've Got New Notifications on Circhoolar!",
+    html: `<h4>Hello ${name}! 😊,</h4>
     <p>
-      Great news! You've sparked some interest in the Circhoolar community. 🚀
+      Your posts are creating a buzz in the Circhoolar community! 🎉
     </p>
     <p>
-      There are unread messages waiting for you. They might be inquiries about any items you have posted or replies from sellers!
+      You have new notifications on your posts. It's the perfect time to engage
+      with your fellow Circhoolarians.
     </p>
     <p>
-      Don't keep them waiting! Check your messages now and connect with other
-      Circhoolar users.
+      Dive back into the conversation and see what others are saying.
     </p>
     <a
       href="https://www.circhoolar.com/dashboard"
       target="_blank"
       rel="noopener noreferrer"
     >
-      Go to Messages
+      View Notifications
     </a>
     <p>Regards,</p>
     <p>The Circhoolar Team</p>
@@ -39,4 +39,4 @@ const emailHandler = async (email, name) => {
   }
 };
 
-module.exports = { emailHandler };
+module.exports = { emailNotificationsHandler };

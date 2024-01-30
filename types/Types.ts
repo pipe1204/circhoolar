@@ -73,7 +73,8 @@ export interface User {
   likedComments: string[];
   notifications: Notification[];
   unreadMessages: number;
-  isEmailSent: boolean;
+  isUnreadMessagesEmailSent: boolean;
+  isUnreadnotificationsEmailSent: boolean;
   hasOptOutNotifications: boolean;
 }
 
