@@ -50,7 +50,8 @@ const useSchoolCodeVerification = () => {
         likedComments: [],
         notifications: [],
         unreadMessages: 0,
-        isEmailSent: false,
+        isUnreadMessagesEmailSent: false,
+        isUnreadnotificationsEmailSent: false,
         hasOptOutNotifications: false,
       });
       await update({ ...session, user: { ...session?.user, name: name } });
