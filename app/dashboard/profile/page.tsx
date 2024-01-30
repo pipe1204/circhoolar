@@ -92,7 +92,10 @@ const page = () => {
       <div className="flex flex-col justify-center items-center">
         <div className="w-28 h-28 rounded-full overflow-hidden relative">
           <Image
-            src={profileIamge || "https://github.com/shadcn.png"}
+            src={
+              profileIamge ||
+              "https://res.cloudinary.com/circhoo/image/upload/v1706651643/Circhoolar_Icon_rfim4h.png"
+            }
             alt={"Profile image"}
             width={150}
             height={150}

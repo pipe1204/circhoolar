@@ -41,9 +41,17 @@ const useSchoolCodeVerification = () => {
         schoolCode: code,
         name: name,
         hasBankDetails: false,
+        bankDetails: {
+          bsbNumber: "",
+          accountNumber: "",
+          accountName: "",
+        },
         likedQuestions: [],
         likedComments: [],
         notifications: [],
+        unreadMessages: 0,
+        isEmailSent: false,
+        hasOptOutNotifications: false,
       });
       await update({ ...session, user: { ...session?.user, name: name } });
     } else {
