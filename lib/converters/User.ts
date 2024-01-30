@@ -33,6 +33,8 @@ const UserConverter: FirestoreDataConverter<User> = {
       likedQuestions: data.likedQuestions,
       likedComments: data.likedComments,
       notifications: data.notifications,
+      unreadMessages: data.unreadMessages,
+      isEmailSent: data.isEmailSent,
       hasOptOutNotifications: data.hasOptOutNotifications,
     };
     return user;

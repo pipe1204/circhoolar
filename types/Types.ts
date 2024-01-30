@@ -72,6 +72,8 @@ export interface User {
   likedQuestions: string[];
   likedComments: string[];
   notifications: Notification[];
+  unreadMessages: number;
+  isEmailSent: boolean;
   hasOptOutNotifications: boolean;
 }
 

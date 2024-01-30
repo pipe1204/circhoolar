@@ -1,8 +1,6 @@
 "use client";
 
 import { db } from "@/firebase";
-import useMessagesEmailNotifications from "@/hooks/useMessagesEmailNotifications";
-import useNotificationsEmail from "@/hooks/useNotificationsEmail";
 import { codeRef } from "@/lib/converters/SchoolCode";
 import { userRef } from "@/lib/converters/User";
 import {
@@ -24,14 +22,13 @@ import {
   getDoc,
   onSnapshot,
   query,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 
 function GlobalStateProvider({ children }: { children: React.ReactNode }) {
-  useMessagesEmailNotifications();
-  useNotificationsEmail();
   const { data: session } = useSession();
   const setSchoolCode = useSchoolCodeStore((state) => state.setSchoolCode);
   const setUserName = useUserNameStore((state) => state.setUserName);
@@ -109,6 +106,17 @@ function GlobalStateProvider({ children }: { children: React.ReactNode }) {
       0
     );
     setTotalUnreadMessages(totalUnread);
+
+    const updateNumberUnreadMessages = async () => {
+      if (session?.user.id) {
+        const docUserRef = userRef(session.user.id);
+        await updateDoc(docUserRef, {
+          unreadMessages: totalUnread,
+        });
+      }
+    };
+
+    updateNumberUnreadMessages();
   }, [chatUnreadCounts]);
 
   useEffect(() => {
