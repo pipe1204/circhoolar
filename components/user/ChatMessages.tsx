@@ -41,10 +41,10 @@ const ChatMessages = ({
         </div>
       )}
       {messages?.map((message) => {
-        const isSender = message.user.id === session?.user?.id;
+        const isSender = message?.sender?.id === session?.user?.id;
         return (
           <div
-            key={message.id}
+            key={message.sender.id + message.timestamp}
             className={`flex my-2 items-end ${
               !isSender ? "flex-row-reverse justify-end" : ""
             }`}
@@ -61,7 +61,7 @@ const ChatMessages = ({
                   isSender ? "text-right" : "text-left"
                 }`}
               >
-                {message?.user?.name.split(" ")[0]}
+                {message?.sender?.name?.split(" ")[0]}
               </p>
 
               <div className="flex space-x-2">
@@ -69,8 +69,8 @@ const ChatMessages = ({
               </div>
             </div>
             <UserAvatar
-              name={message.user.name}
-              image={message.user.image}
+              name={message?.sender?.name}
+              image={message?.sender?.image}
               className={`${isSender && "order-1"}`}
             />
           </div>

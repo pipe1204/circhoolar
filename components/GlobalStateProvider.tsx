@@ -84,7 +84,7 @@ function GlobalStateProvider({ children }: { children: React.ReactNode }) {
           const unreadMessagesQuery = query(
             collection(db, "chats", chatId, "messages"),
             where("isRead", "==", false),
-            where("user.id", "!=", session.user.id)
+            where("sender.id", "!=", session.user.id)
           );
 
           onSnapshot(unreadMessagesQuery, (messagesSnapshot) => {
