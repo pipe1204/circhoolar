@@ -190,7 +190,9 @@ const PostQuestionDialog = () => {
         images: uploadedImageUrls.length > 0 ? uploadedImageUrls : [],
         authorId: session?.user?.id ?? "Unknown",
         author: session?.user?.name ?? userName ?? "Unknown",
-        avatar: session?.user?.image ?? "https://github.com/shadcn.png",
+        avatar:
+          session?.user?.image ??
+          "https://res.cloudinary.com/circhoo/image/upload/v1706651643/Circhoolar_Icon_rfim4h.png",
         schoolCode: schoolCode || "Unknown",
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),

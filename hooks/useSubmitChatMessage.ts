@@ -77,7 +77,9 @@ export function useSubmitChatMessage(
         name: inputUser?.name,
         email: session.user.email,
         id: session.user.id,
-        image: inputUser?.image,
+        image:
+          inputUser?.image ||
+          "https://res.cloudinary.com/circhoo/image/upload/v1706651643/Circhoolar_Icon_rfim4h.png",
       },
       receiver: {
         name: receiverData.name,
