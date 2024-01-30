@@ -73,6 +73,9 @@ export function SignUpForm() {
             },
             likedQuestions: [],
             likedComments: [],
+            notifications: [],
+            unreadMessages: 0,
+            isEmailSent: false,
             hasOptOutNotifications: false,
           })
             .then(() => {
