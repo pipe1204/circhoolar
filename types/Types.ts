@@ -81,7 +81,7 @@ export interface User {
 export interface Notification {
   id: string;
   text: string;
-  unread: boolean;
+  read: boolean;
 }
 
 export interface BankDetails {

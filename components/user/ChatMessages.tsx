@@ -44,7 +44,7 @@ const ChatMessages = ({
         const isSender = message?.sender?.id === session?.user?.id;
         return (
           <div
-            key={message.sender.id + message.timestamp}
+            key={message?.sender?.id + message?.timestamp}
             className={`flex my-2 items-end ${
               !isSender ? "flex-row-reverse justify-end" : ""
             }`}
@@ -65,7 +65,7 @@ const ChatMessages = ({
               </p>
 
               <div className="flex space-x-2">
-                <p>{message.text}</p>
+                <p>{message?.text}</p>
               </div>
             </div>
             <UserAvatar

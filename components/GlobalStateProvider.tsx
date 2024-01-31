@@ -1,6 +1,7 @@
 "use client";
 
 import { db } from "@/firebase";
+import useCheckLikes from "@/hooks/useCheckLikes";
 import { codeRef } from "@/lib/converters/SchoolCode";
 import { userRef } from "@/lib/converters/User";
 import {
@@ -30,6 +31,8 @@ import React, { useEffect, useState } from "react";
 
 function GlobalStateProvider({ children }: { children: React.ReactNode }) {
   const { data: session } = useSession();
+  const { isCommentLiked, isQuestionLiked } = useCheckLikes();
+
   const setSchoolCode = useSchoolCodeStore((state) => state.setSchoolCode);
   const setUserName = useUserNameStore((state) => state.setUserName);
   const setProfileImage = useUserNameStore((state) => state.setProfileImage);
@@ -126,11 +129,6 @@ function GlobalStateProvider({ children }: { children: React.ReactNode }) {
       userRef(session.user.id),
       async (docSnapShot) => {
         if (docSnapShot.exists()) {
-          const hasUnreadNotifications = docSnapShot
-            .data()
-            ?.notifications?.some((notification) => notification.unread);
-          setUnreadNotifications(hasUnreadNotifications);
-          setNotifications(docSnapShot.data()?.notifications || notifications);
           if (!docSnapShot.data().schoolCode) return;
           const docRef = doc(codeRef, docSnapShot.data().schoolCode);
           const schoolDocSnapshot = await getDoc(docRef);
@@ -146,6 +144,10 @@ function GlobalStateProvider({ children }: { children: React.ReactNode }) {
           setAccountName(docSnapShot.data().bankDetails?.accountName);
           setItemsLocation(itemsLocation || "Public");
           setTopic(topic || "All topics");
+          setUnreadNotifications(
+            docSnapShot.data()?.notifications.length === 0 ? false : true
+          );
+          setNotifications(docSnapShot.data()?.notifications);
           setHasOptOutNotifications(
             docSnapShot.data()?.hasOptOutNotifications === false ? "No" : "Yes"
           );
