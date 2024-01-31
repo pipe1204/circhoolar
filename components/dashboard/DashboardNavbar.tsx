@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import {
   useCommentCountStore,
   useLikeCommentCountStore,
+  useNotificationsStore,
   useSchoolCodeStore,
   useUnreadNotificationsStore,
 } from "@/store/store";
@@ -26,13 +27,19 @@ import { Icons } from "../Icons";
 import { userRef } from "@/lib/converters/User";
 import { Button } from "../ui/Button";
 import { Notification } from "@/types/Types";
+import useCheckLikes from "@/hooks/useCheckLikes";
 
 const DashboardNavbar = () => {
   const { data: session } = useSession();
+  const { isCommentLiked, isQuestionLiked } = useCheckLikes();
   const schoolCode = useSchoolCodeStore((state) => state.schoolCode);
   const unreadNotifications = useUnreadNotificationsStore(
     (state) => state.unreadNotifications
   );
+  const setNotifications = useNotificationsStore(
+    (state) => state.setNotifications
+  );
+  const notifications = useNotificationsStore((state) => state.notifications);
   const setUnreadNotifications = useUnreadNotificationsStore(
     (state) => state.setUnreadNotifications
   );
@@ -42,21 +49,19 @@ const DashboardNavbar = () => {
   );
 
   const [schoolName, setSchoolName] = React.useState("");
-  const [notifications, setNotifications] = React.useState<Notification[]>([]);
 
   useEffect(() => {
     if (session?.user?.id) {
       const inputUserRef = userRef(session.user.id);
       const unsubscribe = onSnapshot(inputUserRef, (doc) => {
-        const hasUnreadNotifications = doc
-          .data()
-          ?.notifications?.some((notification) => notification.unread);
-        setUnreadNotifications(hasUnreadNotifications || null);
-        setNotifications(doc.data()?.notifications || []);
+        setUnreadNotifications(
+          doc.data()?.notifications.length === 0 ? false : true
+        );
+        setNotifications(doc.data()?.notifications || null);
       });
       return () => unsubscribe();
     }
-  }, [commentCount, likeCommentCount]);
+  }, [commentCount, likeCommentCount, isCommentLiked, isQuestionLiked]);
 
   useEffect(() => {
     // Define an async function inside useEffect
@@ -110,7 +115,7 @@ const DashboardNavbar = () => {
                   />
                 </div>
               </SheetTrigger>
-              {notifications.length > 0 ? (
+              {notifications && notifications.length > 0 ? (
                 <SheetContent side={"right"} className=" overflow-y-auto">
                   <SheetHeader className="mt-8">
                     <SheetTitle className="text-center text-xl">

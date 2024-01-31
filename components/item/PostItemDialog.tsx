@@ -328,7 +328,16 @@ const PostItemDialog = () => {
             List new items
           </DialogTitle>
           <DialogDescription className="text-light-white text-center">
-            Donate or sell an item to the community
+            To keep the community safe, you need to add your bank details{" "}
+            <a
+              href="/dashboard/profile"
+              rel="noopener noreferrer"
+              className=" text-paragraph-color underline"
+            >
+              here
+            </a>{" "}
+            in order to sell items for a cost. You can still give items for free
+            or received cash when selling them 🫶🏼.
           </DialogDescription>
         </DialogHeader>
         <div className="max-h-[450px] xl:max-h-[500px] overflow-y-auto">

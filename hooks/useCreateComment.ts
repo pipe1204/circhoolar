@@ -82,7 +82,7 @@ const useCreateAndDeleteComment = () => {
           text: `${
             commenterIdentity === "Name" ? session.user.name : "Anonymous"
           } commented on your post - ${question.title}`,
-          unread: true,
+          read: false,
         }),
       });
     }
@@ -124,7 +124,7 @@ const useCreateAndDeleteComment = () => {
                 docSnap.data().authorId
               }`,
               text: `${comment.commenterIdentity} commented on your post - ${comment.questionTitle}`,
-              unread: true,
+              read: false,
             }),
           });
         }

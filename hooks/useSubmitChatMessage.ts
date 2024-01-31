@@ -85,7 +85,9 @@ export function useSubmitChatMessage(
         name: receiverData.name,
         email: receiverData.email,
         id: receiverId,
-        image: receiverData.image,
+        image:
+          receiverData.image ||
+          "https://res.cloudinary.com/circhoo/image/upload/v1706651643/Circhoolar_Icon_rfim4h.png",
       },
     });
     await updateUnreadMessagesCount(receiverId);

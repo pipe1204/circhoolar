@@ -96,9 +96,11 @@ const useCheckLikes = (question?: Question, comment?: Comment) => {
           if (docSnap.data()?.authorId !== session.user.id) {
             await updateDoc(docRefUser, {
               notifications: arrayRemove({
-                id: `${questionId}-${docSnap.data()?.authorId}`,
+                id: `${questionId}-${docSnap.data()?.authorId}-${
+                  session.user.id
+                }`,
                 text: `${session.user.name} liked your post - ${question?.title}`,
-                unread: true,
+                read: false,
               }),
             });
           }
@@ -126,9 +128,11 @@ const useCheckLikes = (question?: Question, comment?: Comment) => {
           if (docSnap.data()?.authorId !== session.user.id) {
             await updateDoc(docRefUser, {
               notifications: arrayUnion({
-                id: `${questionId}-${docSnap.data()?.authorId}`,
+                id: `${questionId}-${docSnap.data()?.authorId}-${
+                  session.user.id
+                }`,
                 text: `${session.user.name} liked your post - ${question?.title}`,
-                unread: true,
+                read: false,
               }),
             });
           }
@@ -168,9 +172,9 @@ const useCheckLikes = (question?: Question, comment?: Comment) => {
             if (commentData.authorId !== session.user.id) {
               await updateDoc(docRefUser, {
                 notifications: arrayRemove({
-                  id: `${commentId}-${commentData.authorId}`,
+                  id: `${commentId}-${commentData.authorId}-${session.user.id}`,
                   text: `${session.user.name} liked your comment`,
-                  unread: false,
+                  read: false,
                 }),
               });
             }
@@ -187,9 +191,9 @@ const useCheckLikes = (question?: Question, comment?: Comment) => {
             if (commentData.authorId !== session.user.id) {
               await updateDoc(docRefUser, {
                 notifications: arrayUnion({
-                  id: `${commentId}-${commentData.authorId}`,
+                  id: `${commentId}-${commentData.authorId}-${session.user.id}`,
                   text: `${session.user.name} liked your comment`,
-                  unread: true,
+                  read: false,
                 }),
               });
             }
