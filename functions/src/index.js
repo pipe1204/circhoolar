@@ -65,3 +65,48 @@ exports.checkUnreadNotifications = functions.firestore
       console.log("isUnreadNotificationsEmailSent reset to false");
     }
   });
+
+async function sendEmailToAllUsers(type) {
+  const usersSnapshot = await admin.firestore().collection("users").get();
+  const emailPromises = [];
+  usersSnapshot.forEach((doc) => {
+    const user = doc.data();
+    if (user.email && !user.hasOptOutNotifications) {
+      emailPromises.push(
+        emailNewItemsPostsSenderHandler(user.email, user.name, type)
+      );
+    }
+  });
+  await Promise.all(emailPromises);
+}
+
+// Scheduled function to check conditions and send emails
+exports.sendUpdateEmails = functions.pubsub
+  .schedule("every 24 hours")
+  .onRun(async (context) => {
+    const now = admin.firestore.Timestamp.now();
+    const fiveDaysAgoSeconds = now.seconds - 5 * 24 * 60 * 60;
+    const fiveDaysAgo = new admin.firestore.Timestamp(fiveDaysAgoSeconds, 0);
+
+    // Check for new posts
+    const newPosts = await admin
+      .firestore()
+      .collection("posts")
+      .where("createdAt", ">", fiveDaysAgo)
+      .get();
+
+    if (newPosts.size >= 5) {
+      await sendEmailToAllUsers("items");
+    }
+
+    // Check for new questions
+    const newQuestions = await admin
+      .firestore()
+      .collection("questions")
+      .where("createdAt", ">", fiveDaysAgo)
+      .get();
+
+    if (newQuestions.size >= 5) {
+      await sendEmailToAllUsers("questions");
+    }
+  });
