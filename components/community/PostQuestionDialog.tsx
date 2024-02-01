@@ -213,6 +213,7 @@ const PostQuestionDialog = () => {
       setIsOpen(false);
       setFiles([]);
       setFileObjects([]);
+      setImageUpload("No image");
       form.reset({
         title: "",
         description: "",
@@ -220,6 +221,7 @@ const PostQuestionDialog = () => {
         topic: "",
         audience: "Private",
         identity: "Real name",
+        uploadImage: "No image",
       });
     } catch (error) {
       console.error("Error uploading images:", error);

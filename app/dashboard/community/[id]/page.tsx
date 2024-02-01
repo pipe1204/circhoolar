@@ -102,16 +102,17 @@ const page = () => {
           </CardHeader>
           <Separator className="mb-2" />
           {question && question?.images?.length > 0 && (
-            <CardContent className="flex justify-center items-center">
+            <CardContent className="flex flex-col xl:flex-row justify-center items-center space-y-4 xl:space-x-4 p-2 overflow-y-auto xl:overflow-x-auto">
               {question?.images?.map((image, index) => (
-                <Image
-                  key={index}
-                  src={image}
-                  alt="Question image"
-                  width={400}
-                  height={400}
-                  className="rounded-md"
-                />
+                <div key={index} className="flex-shrink-0">
+                  <Image
+                    src={image}
+                    alt="Question image"
+                    width={200}
+                    height={200}
+                    className="rounded-md"
+                  />
+                </div>
               ))}
             </CardContent>
           )}

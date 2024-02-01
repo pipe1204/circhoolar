@@ -81,8 +81,8 @@ export const postQuestionSchema = z.object({
   }),
   description: z.string(),
   link: z.string().optional(),
-  topic: z.string({
-    required_error: "Please select a topic.",
+  topic: z.string().min(2, {
+    message: "Please select a topic.",
   }),
   audience: z.enum(["Private", "Public"], {
     required_error: "You need to select an audience.",

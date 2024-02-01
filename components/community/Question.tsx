@@ -54,35 +54,42 @@ const Question = ({ question, ownPost }: QuestionProps) => {
   }, [session?.user?.id, question.id]);
 
   const handleDeleteFromFirebase =
-    (itemId: string, image?: string) => async () => {
+    (itemId: string, images?: string[]) => async () => {
       if (session?.user?.id) {
-        try {
-          const questionRef = doc(db, "questions", itemId);
-          await deleteDoc(questionRef);
-        } catch (error) {
-          console.error("Error deleting post:", error);
-        }
-        //Work on delete image function here
-        // const match = image?.match(/circhoolar_items_upload\/(.+)\.jpg/);
-        // if (match && match.length >= 2) {
-        //   const publicId = match[1];
+        const questionRef = doc(db, "questions", itemId);
+        await deleteDoc(questionRef);
+        // if (images && images.length > 0) {
         //   try {
-        //     // Send DELETE request to Cloudinary
-        //     await fetch("/api/deleteImage", {
-        //       method: "POST",
-        //       headers: {
-        //         "Content-Type": "application/json",
-        //       },
-        //       body: JSON.stringify({ publicId }),
-        //     });
-        //     // Delete the post from Firebase
-        //     const questionRef = doc(db, "posts", itemId);
+        //     // Iterate over each image URL in the array
+        //     await Promise.all(
+        //       images.map(async (image) => {
+        //         const match = image.match(/circhoolar_items_upload\/(.+)\.jpg/);
+        //         if (match && match.length >= 2) {
+        //           const publicId = match[1];
+        //           // Send DELETE request to Cloudinary for each image
+        //           await fetch("/api/deleteImage", {
+        //             method: "POST",
+        //             headers: {
+        //               "Content-Type": "application/json",
+        //             },
+        //             body: JSON.stringify({ publicId }),
+        //           });
+        //         } else {
+        //           console.error("Invalid image URL format");
+        //         }
+        //       })
+        //     );
+
+        //     // Delete the post from Firebase after all images have been deleted
+        //     const questionRef = doc(db, "questions", itemId);
         //     await deleteDoc(questionRef);
         //   } catch (error) {
-        //     console.error("Error deleting post:", error);
+        //     console.error("Error deleting post or images:", error);
         //   }
         // } else {
-        //   console.error("Invalid image URL format");
+        //   // If there are no images, just delete the post from Firebase
+        //   const questionRef = doc(db, "questions", itemId);
+        //   await deleteDoc(questionRef);
         // }
       }
     };
@@ -122,7 +129,7 @@ const Question = ({ question, ownPost }: QuestionProps) => {
                     <AlertDialogAction
                       onClick={handleDeleteFromFirebase(
                         question.id,
-                        question.images[0]
+                        question.images
                       )}
                       className="bg-red text-light-white"
                     >
@@ -173,16 +180,17 @@ const Question = ({ question, ownPost }: QuestionProps) => {
           </CardHeader>
           <Separator className="mb-2" />
           {question?.images?.length > 0 && (
-            <CardContent className="flex justify-center items-center">
+            <CardContent className="flex flex-col xl:flex-row justify-center items-center space-y-4 xl:space-x-4 p-2 overflow-y-auto xl:overflow-x-auto">
               {question?.images?.map((image, index) => (
-                <Image
-                  key={index}
-                  src={image}
-                  alt="Question image"
-                  width={400}
-                  height={400}
-                  className="rounded-md"
-                />
+                <div key={index} className="flex-shrink-0">
+                  <Image
+                    src={image}
+                    alt="Question image"
+                    width={200}
+                    height={200}
+                    className="rounded-md"
+                  />
+                </div>
               ))}
             </CardContent>
           )}
