@@ -122,11 +122,9 @@ const page = () => {
     if (session?.user?.id && item) {
       const savedItemRef = doc(userRef(session.user.id), "savedItems", item.id);
       if (isSaved) {
-        // Remove from wishlist
         await deleteDoc(savedItemRef);
         setIsSaved(false);
       } else {
-        // Add to wishlist
         await setDoc(savedItemRef, { ...item });
         setIsSaved(true);
       }
