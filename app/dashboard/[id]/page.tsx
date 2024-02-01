@@ -137,7 +137,6 @@ const page = () => {
     if (!session?.user?.id || !item?.id || !item.authorId) return;
 
     if (value === "Collect") {
-      console.log("Yes its collect");
       const q = query(
         chatsRef,
         where("itemId", "==", item.id),

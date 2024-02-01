@@ -1,0 +1,7 @@
+{
+  "/dashboard/page": "app/dashboard/page.js",
+  "/dashboard/messages/[chatId]/page": "app/dashboard/messages/[chatId]/page.js",
+  "/dashboard/messages/page": "app/dashboard/messages/page.js",
+  "/dashboard/community/page": "app/dashboard/community/page.js",
+  "/dashboard/[id]/page": "app/dashboard/[id]/page.js"
+}
