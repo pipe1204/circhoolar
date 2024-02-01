@@ -111,33 +111,39 @@ const CardItem = ({
   };
 
   const handleDeleteFromFirebase =
-    (itemId: string, imageUrl: string) => async () => {
-      if (session?.user?.id) {
-        // Delete the post from Firebase
-        const postRef = doc(db, "posts", itemId);
-        await deleteDoc(postRef);
-        await removePostFromSavedItems(itemId);
-        // const match = imageUrl.match(/circhoolar_items_upload\/(.+)\.jpg/);
+    (itemId: string, images: string | string[]) => async () => {
+      if (!session?.user?.id) return;
 
-        // if (match && match.length >= 2) {
-        //   const publicId = match[1];
-        //   try {
-        //     // Send DELETE request to Cloudinary
-        //     await fetch("/api/deleteImage", {
-        //       method: "POST",
-        //       headers: {
-        //         "Content-Type": "application/json",
-        //       },
-        //       body: JSON.stringify({ publicId }),
-        //     });
+      const postRef = doc(db, "posts", itemId);
+      await deleteDoc(postRef);
+      await removePostFromSavedItems(itemId);
 
-        //   } catch (error) {
-        //     console.error("Error deleting post:", error);
-        //   }
-        // } else {
-        //   console.error("Invalid image URL format");
-        // }
-      }
+      // const imageUrls = Array.isArray(images) ? images : [images];
+
+      // try {
+      //   // Delete each image
+      //   for (const imageUrl of imageUrls) {
+      //     const match = imageUrl.match(/circhoolar_items_upload\/(.+)\.jpg/);
+
+      //     if (match && match.length >= 2) {
+      //       const publicId = match[1];
+      //       await fetch("/api/deleteImage", {
+      //         method: "POST",
+      //         headers: { "Content-Type": "application/json" },
+      //         body: JSON.stringify({ publicId }),
+      //       });
+      //     } else {
+      //       console.error("Invalid image URL format:", imageUrl);
+      //     }
+      //   }
+
+      //   // Delete the post from Firebase after all images have been processed
+      //   const postRef = doc(db, "posts", itemId);
+      //   await deleteDoc(postRef);
+      //   await removePostFromSavedItems(itemId);
+      // } catch (error) {
+      //   console.error("Error deleting post or images:", error);
+      // }
     };
 
   const removePostFromSavedItems = async (postId: string) => {
