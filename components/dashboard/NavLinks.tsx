@@ -5,15 +5,13 @@ import { usePathname } from "next/navigation";
 import { Icons } from "../Icons";
 import { useTotalUnreadMessagesStore } from "@/store/store";
 
-// Map of links to display in the side navigation.
-// Depending on the size of the application, this would be stored in a database.
 const SidebarLinks = [
   {
     title: "DASHBOARD",
     links: [
       { name: "Discover", href: "/dashboard", icon: <Icons.compass /> },
       {
-        name: "Community",
+        name: "Forum",
         href: "/dashboard/community",
         icon: <Icons.folderHeart />,
       },

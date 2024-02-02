@@ -33,7 +33,7 @@ const IndexPage = () => {
             className="text-3xl xl:text-6xl font-bold mb-4 text-white"
             variants={{ hidden: { opacity: 0, y: -20 }, visible }}
           >
-            Reimagining
+            Transforming
             <span className="text-title-color">
               {" "}
               Educational Communities,{" "}
