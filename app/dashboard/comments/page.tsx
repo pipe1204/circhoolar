@@ -34,7 +34,7 @@ const page = () => {
       </section>
     );
   }
-
+  console.log(userComments);
   return (
     <section className="p-2 mb-28 xl:mb-0">
       <div>

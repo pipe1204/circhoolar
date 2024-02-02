@@ -104,11 +104,11 @@ const CommunityNavbar = () => {
               value={audienceSelected || undefined}
               onValueChange={setAudienceSelected}
             >
-              <DropdownMenuRadioItem value="Public">
-                All schools communities
-              </DropdownMenuRadioItem>
               <DropdownMenuRadioItem value="Private">
-                My school community
+                My community
+              </DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="Public">
+                All communities
               </DropdownMenuRadioItem>
               <DropdownMenuRadioItem value="Own">
                 My posts

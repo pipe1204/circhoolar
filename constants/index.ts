@@ -1,6 +1,6 @@
 export const NavLinks = [
-  { href: "/schools", key: "Schools", text: "For Schools" },
-  { href: "/parents", key: "Parents", text: "For Parents" },
+  { href: "/schools", key: "Schools", text: "Educational centres" },
+  { href: "/parents", key: "Parents", text: "Parents" },
 ];
 
 export const categoryFilters = [
@@ -172,7 +172,7 @@ export const topicHeaders = [
 
 export const footerLinks = [
   {
-    title: "For schools",
+    title: "Educational centres",
     links: [
       {
         name: "Join circhoolar",
@@ -185,7 +185,7 @@ export const footerLinks = [
     ],
   },
   {
-    title: "For parents",
+    title: "Parents",
     links: [
       {
         name: "Post an item",
@@ -196,11 +196,11 @@ export const footerLinks = [
         href: "/api/auth/signin",
       },
       {
-        name: "Search schools",
+        name: "Search Educational centres",
         href: "/api/auth/signin",
       },
       {
-        name: "Refer a school",
+        name: "Refer a Educational centre",
         href: "/refer-a-school",
       },
     ],

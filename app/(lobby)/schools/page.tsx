@@ -31,15 +31,15 @@ const page = () => {
             className="text-3xl xl:text-6xl font-bold mb-4 text-white"
             variants={{ hidden: { opacity: 0, y: -20 }, visible }}
           >
-            Uniting Schools and Communities for a
+            Uniting Educational centres and Communities for a
             <span className="text-title-color"> Sustainable </span>Future
           </motion.h1>
           <motion.p
             className="text-lg text-paragraph-color mb-8"
             variants={itemVariants}
           >
-            Empower Your School with Circhoolar – Foster Community Spirit and
-            Environmental Stewardship
+            Empower Your School and Childcare Centre with Circhoolar – Foster
+            Community Spirit and Environmental Stewardship
           </motion.p>
         </motion.article>
         <div className="my-10 xl:mt-20">
@@ -67,11 +67,10 @@ const page = () => {
         <div className="flex flex-col">
           <div className="flex flex-col w-9/11 xl:w-1/2 mx-auto my-10">
             <h1 className="text-3xl xl:text-4xl font-bold mb-4 text-white text-center">
-              The Advantages of Circhoolar for Schools
+              The Advantages of Circhoolar for Educational centres
             </h1>
             <p className="text-lg text-paragraph-color text-center">
-              Discover How Circhoolar Elevates School Communities and the
-              Environment
+              Discover How Circhoolar Elevates Communities and the Environment
             </p>
           </div>
           <div className="flex flex-col xl:flex-row justify-around items-center xl:items-stretch">
@@ -82,14 +81,14 @@ const page = () => {
             >
               <Card className="w-full h-full bg-dark py-8 px-8 flex flex-col justify-start items-center text-center">
                 <h2 className="text-lg text-white font-bold mb-4">
-                  Strengthening School-Parent Bonds
+                  Strengthening Educational Community Bonds
                 </h2>
                 <p className=" text-paragraph-color">
-                  Circhoolar offers a unique platform for schools to tighten
-                  their community ties. By facilitating the exchange of
+                  Circhoolar offers a unique platform for Education centres to
+                  tighten their community ties. By facilitating the exchange of
                   children's essentials among parents, it nurtures a closer,
-                  more engaged school community. This approach fosters a sense
-                  of belonging and collective responsibility, making the school
+                  more engaged community. This approach fosters a sense of
+                  belonging and collective responsibility, making the
                   environment more inclusive and supportive.
                 </p>
               </Card>
@@ -105,11 +104,11 @@ const page = () => {
                 </h2>
                 <p className=" text-paragraph-color">
                   Join the forefront of environmental change with Circhoolar.
-                  Our platform helps schools lead by example in practicing
-                  circular economy principles. By encouraging the reuse and
-                  recycling of children’s items, schools play a crucial role in
-                  reducing waste and CO2 emissions, instilling valuable lessons
-                  in sustainability among students.
+                  Our platform helps Educational centres lead by example in
+                  practicing circular economy principles. By encouraging the
+                  reuse and recycling of children’s items, these play a crucial
+                  role in reducing waste and CO2 emissions, instilling valuable
+                  lessons in sustainability among students and children.
                 </p>
               </Card>
             </motion.div>
@@ -120,15 +119,15 @@ const page = () => {
             >
               <Card className="w-full h-full bg-dark py-8 px-8 flex flex-col justify-start items-center text-center">
                 <h2 className="text-lg text-white font-bold mb-4">
-                  Facilitating Fundraising for School Initiatives
+                  Facilitating Fundraising for Educational Initiatives
                 </h2>
                 <p className=" text-paragraph-color">
                   Circhoolar isn’t just about a forum and exchanges; it’s a tool
-                  for schools to raise funds for their initiatives. Transactions
-                  on our platform can include optional donations, with proceeds
-                  going directly to the school or charities they support. This
-                  feature provides a novel, community-driven way to fund school
-                  projects and causes.
+                  for Educational centres to raise funds for their initiatives.
+                  Transactions on our platform can include optional donations,
+                  with proceeds going directly to the centre or charities they
+                  support. This feature provides a novel, community-driven way
+                  to fund educational centres projects and causes.
                 </p>
               </Card>
             </motion.div>

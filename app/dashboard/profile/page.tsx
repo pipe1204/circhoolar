@@ -196,7 +196,7 @@ const page = () => {
               render={({ field }) => (
                 <FormItem>
                   <label className="text-sx text-dark-purple">
-                    School code
+                    Access code
                   </label>
                   <FormControl>
                     <Input
@@ -216,7 +216,7 @@ const page = () => {
               render={({ field }) => (
                 <FormItem>
                   <label className="text-sx text-dark-purple">
-                    School name
+                    Educational centre name
                   </label>
                   <FormControl>
                     <Input

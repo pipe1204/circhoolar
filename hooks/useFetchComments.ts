@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
-import { collection, getDoc, getDocs } from "firebase/firestore";
+import { collection, getDoc, getDocs, query, where } from "firebase/firestore";
 import { Comment } from "@/types/Types";
 import { commentRef, sortedCommentsRef } from "@/lib/converters/Comments";
 import { useCommentCountStore, useLikeCommentCountStore } from "@/store/store";
 import { singleCommentRef } from "@/lib/converters/Comments";
 import { db } from "@/firebase";
+import { useSession } from "next-auth/react";
 
 const useFetchComments = (questionId?: string) => {
+  const { data: session } = useSession();
   const commentCount = useCommentCountStore((state) => state.commentCount);
   const likeCommentCount = useLikeCommentCountStore(
     (state) => state.likeCommentCount
@@ -40,7 +42,11 @@ const useFetchComments = (questionId?: string) => {
     const fetchUserComments = async () => {
       try {
         const userCommentsRef = collection(db, "comments");
-        const userCommentsSnapshot = await getDocs(userCommentsRef);
+        const q = query(
+          userCommentsRef,
+          where("authorId", "==", session?.user?.id)
+        );
+        const userCommentsSnapshot = await getDocs(q);
         const userComments = userCommentsSnapshot.docs.map(
           (doc) => doc.data() as Comment
         );
