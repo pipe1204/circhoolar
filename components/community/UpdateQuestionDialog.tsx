@@ -503,7 +503,7 @@ const UpdateQuestionDialog = ({ itemId }: UpdateItemDialogProps) => {
                             Public
                           </FormLabel>
                           <p className="text-xs text-light-white">
-                            (Post on other school communities too)
+                            (Post on other communities too)
                           </p>
                         </FormItem>
                       </RadioGroup>

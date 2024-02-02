@@ -199,11 +199,11 @@ const PageNavbar = () => {
                 value={itemsLocation || undefined}
                 onValueChange={setItemsLocation}
               >
-                <DropdownMenuRadioItem value="Public">
-                  All schools communities
-                </DropdownMenuRadioItem>
                 <DropdownMenuRadioItem value="Private">
-                  My school community
+                  My community
+                </DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="Public">
+                  All communities
                 </DropdownMenuRadioItem>
                 <DropdownMenuRadioItem value="Own">
                   My items
@@ -258,10 +258,10 @@ const PageNavbar = () => {
                     onValueChange={setItemsLocation}
                   >
                     <DropdownMenuRadioItem value="Public">
-                      All schools communities
+                      All communities
                     </DropdownMenuRadioItem>
                     <DropdownMenuRadioItem value="Private">
-                      My school community
+                      My community
                     </DropdownMenuRadioItem>
                     <DropdownMenuRadioItem value="Own">
                       My items
@@ -316,11 +316,11 @@ const PageNavbar = () => {
                   value={audienceSelected || undefined}
                   onValueChange={setAudienceSelected}
                 >
-                  <DropdownMenuRadioItem value="Public">
-                    All schools communities
-                  </DropdownMenuRadioItem>
                   <DropdownMenuRadioItem value="Private">
-                    My school community
+                    My community
+                  </DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="Public">
+                    All communities
                   </DropdownMenuRadioItem>
                   <DropdownMenuRadioItem value="Own">
                     My posts

@@ -7,7 +7,8 @@ import Head from "next/head";
 
 export const metadata = {
   title: "Circhoolar",
-  description: "Revolutionizing School communities through Circular Economy",
+  description:
+    "Revolutionizing Educational centres communities through Circular Economy",
 };
 
 export default function RootLayout({

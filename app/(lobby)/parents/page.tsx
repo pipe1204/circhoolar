@@ -34,7 +34,8 @@ const page = () => {
             variants={{ hidden: { opacity: 0, y: -20 }, visible }}
           >
             Strengthening
-            <span className="text-title-color"> School Community </span>Bonds
+            <span className="text-title-color"> Educational Community </span>
+            Bonds
           </motion.h1>
           <motion.p
             className="text-lg text-paragraph-color mb-8"

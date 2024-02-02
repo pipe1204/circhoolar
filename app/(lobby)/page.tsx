@@ -33,18 +33,21 @@ const IndexPage = () => {
             className="text-3xl xl:text-6xl font-bold mb-4 text-white"
             variants={{ hidden: { opacity: 0, y: -20 }, visible }}
           >
-            Transforming
-            <span className="text-title-color"> School Communities, </span> One
-            Connection at a Time
+            Reimagining
+            <span className="text-title-color">
+              {" "}
+              Educational Communities,{" "}
+            </span>{" "}
+            One Connection at a Time
           </motion.h1>
           <motion.p
             className="text-lg text-paragraph-color mb-8"
             variants={itemVariants}
           >
-            Step into Circhoolar, where school community engagement is
-            redefined. Exchange goods, share advice, and strengthen connections,
-            all on a platform designed for the needs of modern parents and
-            schools.
+            Welcome to Circhoolar, where engagement in school and childcare
+            communities is reimagined. Exchange goods, share advice, and foster
+            stronger connections, all on a platform tailored for the needs of
+            modern parents.
           </motion.p>
           <motion.div
             variants={itemVariants}
@@ -84,16 +87,19 @@ const IndexPage = () => {
           <div className="w-9/11 xl:w-4/5 mx-auto flex flex-col justify-center items-center py-10 px-4 xl:px-0 xl:py-20">
             <h1 className="text-3xl xl:text-6xl font-bold mb-4 text-white text-center">
               Circhoolar: Your
-              <span className="text-title-color"> School Community </span>
+              <span className="text-title-color">
+                {" "}
+                School and Childcare centre Community{" "}
+              </span>
               hub.
             </h1>
             <p className="text-lg text-paragraph-color text-center">
               Move past the chaos of WhatsApp groups. Circhoolar offers a
-              cohesive, user-friendly platform for school communities to trade
-              items and share knowledge, enhancing interaction and support among
-              parents. Engage, connect, and contribute through our marketplace
-              for pre-loved items and a community forum for insightful
-              discussions.
+              cohesive, user-friendly platform for school and Childcare Centres
+              communities to trade items and share knowledge, enhancing
+              interaction and support among parents. Engage, connect, and
+              contribute through our marketplace for pre-loved items and a
+              community forum for insightful discussions.
             </p>
           </div>
         </Card>
@@ -153,8 +159,7 @@ const IndexPage = () => {
                 <p className=" text-paragraph-color">
                   Say goodbye to scattered WhatsApp conversations. Circhoolar
                   brings everything you need in one place, making it easier than
-                  ever to stay connected and informed within your school
-                  community.
+                  ever to stay connected and informed within your community.
                 </p>
               </Card>
             </motion.div>
