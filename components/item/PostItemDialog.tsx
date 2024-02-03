@@ -225,14 +225,6 @@ const PostItemDialog = () => {
   async function onSubmit(data: Inputs) {
     setLoading(true);
 
-    if (data.sellingmethod === "Cost" && !hasBankDetails) {
-      setError(
-        "Please add your bank details in the account settings to sell items for a cost."
-      );
-      setLoading(false);
-      return;
-    }
-
     if (fileObjects.length > 0) {
       try {
         const uploadedImageUrls = await Promise.all(
@@ -279,6 +271,7 @@ const PostItemDialog = () => {
           updatedAt: serverTimestamp(),
           isSold: false,
           schoolName: schoolName,
+          sellerHasBankDetails: hasBankDetails,
         };
 
         try {
@@ -328,16 +321,7 @@ const PostItemDialog = () => {
             List new items
           </DialogTitle>
           <DialogDescription className="text-light-white text-center">
-            To keep the community safe, you need to add your bank details{" "}
-            <a
-              href="/dashboard/profile"
-              rel="noopener noreferrer"
-              className=" text-paragraph-color underline"
-            >
-              here
-            </a>{" "}
-            in order to sell items for a cost. You can still give items for free
-            or received cash when selling them 🫶🏼.
+            Sell or give away your pre-loved items to the community 🫶🏼
           </DialogDescription>
         </DialogHeader>
         <div className="max-h-[450px] xl:max-h-[500px] overflow-y-auto">

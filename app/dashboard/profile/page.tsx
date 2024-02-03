@@ -316,7 +316,7 @@ const page = () => {
                   Add bank details in order to sell your pre-loved items{" "}
                 </h1>
                 <span className="text-primary-purple text-sm xl:text-xs text-center mt-2">
-                  (You can still give them away for free!)
+                  (You can still give them away for free or receive cash!)
                 </span>
               </div>
             )}

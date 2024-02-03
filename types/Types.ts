@@ -19,6 +19,7 @@ export interface Post {
   category: string;
   isSold: boolean;
   schoolName: string;
+  sellerHasBankDetails: boolean;
 }
 
 export interface Question {
