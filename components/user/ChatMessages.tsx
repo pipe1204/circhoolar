@@ -29,7 +29,7 @@ const ChatMessages = ({
   }, [messages, messagesEndRef]);
 
   return (
-    <div className="p-2 xl:p-14">
+    <div className="p-2 xl:p-10">
       {!loading && messages?.length === 0 && (
         <div className="text-light-white text-center bg-fusia rounded-lg mt-8 xl:mt-0 p-2 xl:p-8 w-4/5 mx-auto">
           <h1 className="text-lg xl:text-xl font-semibold">

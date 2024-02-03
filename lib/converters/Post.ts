@@ -35,6 +35,7 @@ const PostConverter: FirestoreDataConverter<Post> = {
       category: data.category,
       isSold: data.isSold,
       schoolName: data.schoolName,
+      sellerHasBankDetails: data.sellerHasBankDetails,
     };
     return post;
   },
