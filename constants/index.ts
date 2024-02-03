@@ -1,6 +1,7 @@
 export const NavLinks = [
   { href: "/schools", key: "Schools", text: "Educational centres" },
   { href: "/parents", key: "Parents", text: "Parents" },
+  { href: "/faq", key: "Faq", text: "Support" },
 ];
 
 export const categoryFilters = [
@@ -214,7 +215,7 @@ export const footerLinks = [
       },
       {
         name: "Support",
-        href: "/support",
+        href: "/faq",
       },
       {
         name: "Posting Policy",
@@ -413,5 +414,128 @@ export const homepageCardsColumn3 = [
     image: "/card6.jpg",
     avatarImage: "/person5.jpg",
     condition: "Fair condition",
+  },
+];
+
+export const questionsAndAnswers = [
+  {
+    id: 1,
+    question: "What is Circhoolar?",
+    answer:
+      "Circhoolar is a community engagement platform designed to facilitate the exchange of goods, sharing of advice, and strengthening of connections within educational communities, including schools and childcare centers.",
+  },
+  {
+    id: 2,
+    question: "How does Circhoolar work?",
+    answer:
+      "Circhoolar allows users to post pre-loved items they wish to sell or give away, ask questions within the community forum, and connect with other parents for support and advice, all within a secure and user-friendly platform.",
+  },
+  {
+    id: 3,
+    question: "Is there a cost to use Circhoolar?",
+    answer:
+      "No, Circhoolar is free for parents and educational communities to use. Our platform is designed to be accessible to all, fostering a vibrant and supportive community.",
+  },
+  {
+    id: 4,
+    question: "How does Circhoolar support environmental sustainability?",
+    answer:
+      "By promoting the exchange of second-hand goods, Circhoolar encourages a circular economy that reduces waste and supports sustainable practices among educational communities.",
+  },
+  {
+    id: 5,
+    question: "Can Educational centres benefit financially from Circhoolar?",
+    answer:
+      "Yes, Educational centres can benefit from parent donations and fundraising initiatives hosted on Circhoolar, supporting Educational centres projects and needs without any additional cost.",
+  },
+  {
+    id: 6,
+    question: "How can I sign up for Circhoolar?",
+    answer:
+      "You can sign up through our website with a social login or by providing an email address and a eductaional centre access code which is necessary to confirm that users come from a educational centre community. The process is quick and easy, aimed at getting you connected as soon as possible.",
+  },
+  {
+    id: 7,
+    question: "Is my personal information safe on Circhoolar?",
+    answer:
+      "Absolutely. We prioritize the privacy and security of our users. Your personal information is securely stored and will never be shared without your consent.",
+  },
+  {
+    id: 8,
+    question: "How can I post an item for sale or donation?",
+    answer:
+      "Once you're logged in, simply navigate to the 'Discovery' section, and click the 'Give/Sell' button on the navbar, fill in the details about the item, and submit. Your post will then be visible to the community.",
+  },
+  {
+    id: 9,
+    question: "Can I use Circhoolar on my mobile device?",
+    answer:
+      "Yes, Circhoolar is designed to be fully responsive and accessible on various devices, including smartphones and tablets, ensuring you can connect with the community anytime, anywhere.",
+  },
+  {
+    id: 10,
+    question: "How can I contact a seller or answer a forum question?",
+    answer:
+      "Simply click on the item post or forum question you're interested in, and you'll find options to contact the seller directly or reply to a forum thread.",
+  },
+  {
+    id: 11,
+    question: "What types of items can I exchange on Circhoolar?",
+    answer:
+      "You can post a wide range of items, from children's clothing and textbooks to toys and baby gear. We encourage items that are in good condition and relevant to our community's needs.",
+  },
+  {
+    id: 12,
+    question: "How does Circhoolar ensure the quality of items exchanged?",
+    answer:
+      "We encourage our community members to provide detailed descriptions and photos of their items. While we facilitate connections, the community's integrity helps ensure the quality of exchanges.",
+  },
+  {
+    id: 13,
+    question: "Are there any restrictions on what can be posted?",
+    answer:
+      "Yes, we prohibit the posting of prohibited items, including but not limited to hazardous materials, illegal items, and those not suitable for a family-friendly community. For more information on these, please read our Posting Policy",
+  },
+  {
+    id: 14,
+    question: "How can I offer feedback or suggestions about Circhoolar?",
+    answer:
+      "We welcome your feedback and suggestions! Please contact us through our website's feedback form or email us directly at support@circhoolar.com. Your input is invaluable in helping us improve and grow Circhoolar.",
+  },
+  {
+    id: 15,
+    question: "Can I volunteer to help improve Circhoolar?",
+    answer:
+      "Absolutely! We're always looking for community members who are passionate about making a difference. Contact us to learn more about volunteer opportunities.",
+  },
+  {
+    id: 16,
+    question: "How can I buy items on Circhoolar?",
+    answer:
+      "To purchase an item, simply contact the seller through the platform to arrange payment and collection. You can pay with cash on delivery or pick-up, or securely online if the seller has provided bank details for payment through our partner, Stripe.",
+  },
+  {
+    id: 17,
+    question: "Is payment through Stripe on Circhoolar safe?",
+    answer:
+      "Yes, payments made through Stripe are secure and encrypted. Stripe is a globally recognized payment processor that ensures the safety and security of your financial transactions on Circhoolar.",
+  },
+  {
+    id: 18,
+    question: "What should I do if I encounter bad behavior on the forum?",
+    answer:
+      "If you come across any inappropriate behavior or content on the forum, please report it immediately using the 'Report' function available on every post or comment. Our team will review the report and take appropriate action to maintain a respectful and safe community environment.",
+  },
+  {
+    id: 19,
+    question: "How does Circhoolar handle disputes between buyers and sellers?",
+    answer:
+      "Circhoolar encourages buyers and sellers to resolve disputes amicably through direct communication. However, if a resolution cannot be reached, users can contact our support team for assistance at support@circhoolar.com. We're here to help ensure a fair and positive experience for all members of our community.",
+  },
+  {
+    id: 20,
+    question: "Can I return an item I purchased if it's not as described?",
+    answer:
+      "While Circhoolar facilitates connections between buyers and sellers, the terms of sale, including returns, are determined by the sellers. We encourage sellers to accurately describe their items and for buyers to ask questions before purchasing. In case of significant discrepancies, please reach out to the seller for resolution or contact Circhoolar support for guidance.",
   },
 ];

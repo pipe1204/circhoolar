@@ -36,6 +36,7 @@ import {
   HardHat,
   Heart,
   HeartHandshakeIcon,
+  BadgeHelp,
   Image,
   LeafyGreen,
   Loader2,
@@ -82,6 +83,7 @@ import {
 //   export type Icon = LucideIcon
 
 export const Icons = {
+  help: BadgeHelp,
   share: Share,
   subtitles: Subtitles,
   ArrowLeft: ArrowLeft,

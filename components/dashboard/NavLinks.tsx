@@ -50,6 +50,11 @@ const SidebarLinks = [
         href: "/dashboard/comments",
         icon: <Icons.subtitles />,
       },
+      {
+        name: "Help",
+        href: "/dashboard/help",
+        icon: <Icons.help />,
+      },
     ],
   },
 ];
