@@ -54,7 +54,7 @@ const ChatPage = ({ params: { chatId } }: ChatPageProps) => {
 
   return (
     <div className="h-full w-full flex flex-col justify-between mx-auto rounded-md p-0 overflow-y-auto">
-      {session?.user?.id === post?.authorId && (
+      {session?.user?.id === post?.authorId ? (
         <div className="flex justify-between items-center w-full mx-auto p-2 xl:p-4 rounded-t-lg shadow-md bg-background">
           <div className="flex gap-x-4 items-center">
             <div className="relative w-12 h-12 overflow-hidden rounded-full">
@@ -77,26 +77,32 @@ const ChatPage = ({ params: { chatId } }: ChatPageProps) => {
             {isSold ? "Back available" : "Mark as sold"}
           </Button>
         </div>
-      )}
-
-      <div className="flex justify-between items-center w-full mx-auto p-2 xl:p-4 rounded-t-lg shadow-md bg-background">
-        <div className="flex gap-x-4 items-center">
-          <div className="relative w-12 h-12 overflow-hidden rounded-full">
-            <Image
-              src={post?.images[0] || "/Logo"}
-              alt="Item image"
-              height={100}
-              width={100}
-            />
+      ) : (
+        <div className="flex justify-between items-center w-full mx-auto p-2 xl:p-4 rounded-t-lg shadow-md bg-background">
+          <div className="flex gap-x-4 items-center">
+            <div className="relative w-12 h-12 overflow-hidden rounded-full">
+              <Image
+                src={post?.images[0] || "/Logo"}
+                alt="Item image"
+                height={100}
+                width={100}
+              />
+            </div>
+            <h1 className="text-light-white font-semibold">
+              {truncateTitle(post?.title)}
+            </h1>
           </div>
-          <h1 className="text-light-white font-semibold">
-            {truncateTitle(post?.title)}
-          </h1>
+          {session?.user?.id !== post?.authorId &&
+            post?.sellerHasBankDetails && (
+              <Button
+                variant={"outlineLight"}
+                className="hover:text-light-white"
+              >
+                Buy now
+              </Button>
+            )}
         </div>
-        {session?.user?.id !== post?.authorId && post?.sellerHasBankDetails && (
-          <Button variant={"default"}>Buy now</Button>
-        )}
-      </div>
+      )}
 
       <div className="bg-background h-[88%] rounded-b-lg overflow-y-auto flex-1">
         <ChatMessages
