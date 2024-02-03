@@ -422,13 +422,13 @@ export const questionsAndAnswers = [
     id: 1,
     question: "What is Circhoolar?",
     answer:
-      "Circhoolar is a community engagement platform designed to facilitate the exchange of goods, sharing of advice, and strengthening of connections within educational communities, including schools and childcare centers.",
+      "Circhoolar is a community engagement platform designed to facilitate the exchange of goods, sharing of advice, and strengthening connections within educational communities, including schools and childcare centers.",
   },
   {
     id: 2,
     question: "How does Circhoolar work?",
     answer:
-      "Circhoolar allows users to post pre-loved items they wish to sell or give away, ask questions within the community forum, and connect with other parents for support and advice, all within a secure and user-friendly platform.",
+      "Circhoolar allows users to post pre-loved items they wish to sell or give away, ask questions within the community forum, and connect with others for support and advice, all within a secure and user-friendly platform.",
   },
   {
     id: 3,
