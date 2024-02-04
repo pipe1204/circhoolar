@@ -23,6 +23,7 @@ import {
 import Link from "next/link";
 import { CardDescription } from "@/components/ui/Card";
 import useFetchSchoolDonations from "@/hooks/useFetchSchoolDonations";
+import { Icons } from "@/components/Icons";
 
 interface ChatPageProps {
   params: {
@@ -73,6 +74,12 @@ const ChatPage = ({ params: { chatId } }: ChatPageProps) => {
 
   return (
     <div className="h-full w-full flex flex-col justify-between mx-auto rounded-md p-0 overflow-y-auto">
+      <Link href="/dashboard/messages" passHref>
+        <Button variant={"link"} size={"lg"} className="mb-2 px-0">
+          <Icons.ArrowLeft size={15} className="mr-2" />
+          Back
+        </Button>
+      </Link>
       {session?.user?.id === post?.authorId ? (
         <div className="flex justify-between items-center w-full mx-auto p-2 xl:p-4 rounded-t-lg shadow-md bg-background">
           <div className="flex gap-x-4 items-center">

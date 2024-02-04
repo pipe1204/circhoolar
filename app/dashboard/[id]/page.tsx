@@ -233,98 +233,6 @@ const page = () => {
     }
   };
 
-  const handleBuyOption = async () => {
-    if (!session?.user?.id || !item?.id || !item.authorId) return;
-
-    const q = query(
-      chatsRef,
-      where("itemId", "==", item.id),
-      where("members", "array-contains", session.user.id)
-    );
-    const querySnapshot = await getDocs(q);
-
-    if (!querySnapshot.empty) {
-      toast({
-        title: "Contacting author...",
-        description: "Hold on tight. Taking you there now.",
-        duration: 3000,
-      });
-      setTimeout(() => {
-        const existingChat = querySnapshot.docs[0].data();
-        router.push(`/dashboard/messages/${existingChat.chatId}`);
-      }, 3000);
-    } else {
-      toast({
-        title: "Contacting author...",
-        description: "Please wait while we create the chat room.",
-        duration: 3000,
-      });
-      const chatId = session.user.id + "-" + item.authorId + "-" + item.id;
-      await setDoc(doc(db, "chats", chatId), {
-        itemId: item.id,
-        avatar: item.avatar,
-        members: [session.user.id, item.authorId],
-        createdAt: serverTimestamp(),
-        chatId: chatId,
-      });
-
-      const chatRef = doc(db, "chats", chatId);
-      const chatDoc = await getDoc(chatRef);
-
-      if (!chatDoc.exists()) {
-        console.log("No such chat document!");
-        return;
-      }
-
-      const members = chatDoc.data().members;
-      const receiverId = members.find(
-        (memberId: string) => memberId !== session.user.id
-      );
-
-      if (!receiverId) {
-        console.log("Receiver not found");
-        return;
-      }
-
-      // Fetch receiver's data from the "users" collection
-      const receiverRef = doc(db, "users", receiverId);
-      const receiverDoc = await getDoc(receiverRef);
-
-      if (!receiverDoc.exists()) {
-        console.log("No such user document for receiver!");
-        return;
-      }
-
-      const receiverData = receiverDoc.data();
-
-      const messageRef = doc(collection(db, "chats", chatId, "messages"));
-      await setDoc(messageRef, {
-        text: `Hi ${item.author}! I am interested in buying the ${item.title}`,
-        isRead: false,
-        timestamp: serverTimestamp(),
-        sender: {
-          name: session?.user?.name,
-          email: session?.user?.email,
-          id: session?.user?.id,
-          image:
-            session?.user?.image ||
-            "https://res.cloudinary.com/circhoo/image/upload/v1706651643/Circhoolar_Icon_rfim4h.png",
-        },
-        receiver: {
-          name: receiverData.name,
-          email: receiverData.email,
-          id: receiverId,
-          image:
-            receiverData.image ||
-            "https://res.cloudinary.com/circhoo/image/upload/v1706651643/Circhoolar_Icon_rfim4h.png",
-        },
-      });
-
-      console.log("User has not a conversation");
-      router.push(`/dashboard/messages/${chatId}`);
-    }
-  };
-
   const itemCondition = (condition: string | undefined) => {
     let conditionColor;
     switch (condition) {
@@ -405,7 +313,7 @@ const page = () => {
               </div>
               <span className="text-sm text-gray">
                 {item?.sellingmethod === "Free"
-                  ? "Voluntary donation to school for initiatives or charity of their choice"
+                  ? "Voluntary donation to Educational centre for initiatives or a charity of their choice"
                   : ""}
               </span>
             </div>

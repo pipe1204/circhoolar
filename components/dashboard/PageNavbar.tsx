@@ -200,13 +200,13 @@ const PageNavbar = () => {
                 onValueChange={setItemsLocation}
               >
                 <DropdownMenuRadioItem value="Private">
-                  My community
+                  My Community
                 </DropdownMenuRadioItem>
                 <DropdownMenuRadioItem value="Public">
-                  All communities
+                  All Communities
                 </DropdownMenuRadioItem>
                 <DropdownMenuRadioItem value="Own">
-                  My items
+                  My Items
                 </DropdownMenuRadioItem>
               </DropdownMenuRadioGroup>
             </DropdownMenuContent>
@@ -258,13 +258,13 @@ const PageNavbar = () => {
                     onValueChange={setItemsLocation}
                   >
                     <DropdownMenuRadioItem value="Public">
-                      All communities
+                      All Communities
                     </DropdownMenuRadioItem>
                     <DropdownMenuRadioItem value="Private">
-                      My community
+                      My Community
                     </DropdownMenuRadioItem>
                     <DropdownMenuRadioItem value="Own">
-                      My items
+                      My Items
                     </DropdownMenuRadioItem>
                   </DropdownMenuRadioGroup>
                 </DropdownMenuContent>
@@ -317,13 +317,13 @@ const PageNavbar = () => {
                   onValueChange={setAudienceSelected}
                 >
                   <DropdownMenuRadioItem value="Private">
-                    My community
+                    My Community
                   </DropdownMenuRadioItem>
                   <DropdownMenuRadioItem value="Public">
-                    All communities
+                    All Communities
                   </DropdownMenuRadioItem>
                   <DropdownMenuRadioItem value="Own">
-                    My posts
+                    My Posts
                   </DropdownMenuRadioItem>
                 </DropdownMenuRadioGroup>
               </DropdownMenuContent>
