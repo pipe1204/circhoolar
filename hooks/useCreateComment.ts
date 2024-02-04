@@ -42,6 +42,7 @@ const useCreateAndDeleteComment = () => {
       commentId: commentId,
       authorId: session.user.id,
       author: session.user.name,
+      authorEmail: session.user.email,
       commenterIdentity:
         commenterIdentity === "Name" ? session.user.name : "Anonymous",
       questionId: question.id,

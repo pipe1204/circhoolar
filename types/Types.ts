@@ -50,6 +50,7 @@ export interface Comment {
   commentId: string;
   authorId: string;
   author: string;
+  authorEmail: string;
   commenterIdentity: "Name" | "Anonymous";
   questionId: string;
   questionTitle: string;

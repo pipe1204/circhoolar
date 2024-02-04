@@ -26,6 +26,7 @@ const CommentConverter: FirestoreDataConverter<Comment> = {
       id: snapshot.id,
       commentId: data.commentId,
       authorId: data.authorId,
+      authorEmail: data.authorEmail,
       author: data.author,
       commenterIdentity: data.commenterIdentity,
       questionId: data.questionId,

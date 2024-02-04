@@ -47,6 +47,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { reportSchema } from "@/lib/validations/auth";
+import useSendReportAbuseEmail from "@/hooks/useSendReportAbuseEmail";
 
 interface CommentItemProps {
   comment: Comment;
@@ -64,6 +65,7 @@ const CommentItem = ({
 }: CommentItemProps) => {
   const { data: session } = useSession();
   const path = usePathname();
+  const sendReportAbuseEmail = useSendReportAbuseEmail();
   const { checkIfCommentLiked, handleCommentLikeCheck, isCommentLiked } =
     useCheckLikes(undefined, comment);
 
@@ -112,10 +114,6 @@ const CommentItem = ({
   async function onSubmit(data: Inputs) {
     console.log(data);
   }
-
-  const handleSendReport = () => {
-    //functionality to send email to issues@circhoolar.com
-  };
 
   const handleBehaviorSelect = (selectedBehavior: string) => {
     const selectedOption = reportBehaviours.find(
@@ -238,7 +236,9 @@ const CommentItem = ({
                   </AlertDialogCancel>
                   <AlertDialogAction
                     className="bg-red text-light-white"
-                    onClick={handleSendReport}
+                    onClick={() =>
+                      sendReportAbuseEmail(localComment, behaviour)
+                    }
                   >
                     Submit
                   </AlertDialogAction>
