@@ -95,4 +95,12 @@ export interface SchoolCode {
   id: string;
   schoolCode: string;
   name: string;
+  donations: Donation[];
+}
+
+export interface Donation {
+  id: string;
+  institution: number;
+  description: string;
+  link: string;
 }

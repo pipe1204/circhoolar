@@ -20,9 +20,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Icons } from "@/components/Icons";
 import Link from "next/link";
 import { CardDescription } from "@/components/ui/Card";
+import useFetchSchoolDonations from "@/hooks/useFetchSchoolDonations";
 
 interface ChatPageProps {
   params: {
@@ -33,6 +33,7 @@ interface ChatPageProps {
 const ChatPage = ({ params: { chatId } }: ChatPageProps) => {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState(false);
+  const { donations, fetchDonations } = useFetchSchoolDonations();
 
   const { width } = useWindowSize();
   const setCurrentChatId = useCurrentChatStore(
@@ -45,6 +46,7 @@ const ChatPage = ({ params: { chatId } }: ChatPageProps) => {
 
   useEffect(() => {
     setCurrentChatId(chatId);
+    fetchDonations();
 
     return () => {
       setCurrentChatId(null);
@@ -67,10 +69,6 @@ const ChatPage = ({ params: { chatId } }: ChatPageProps) => {
 
   const handleDialogChange = (isOpen: boolean) => {
     setIsOpen(isOpen);
-  };
-
-  const handleCloseDialog = () => {
-    setIsOpen(false);
   };
 
   return (
@@ -134,53 +132,30 @@ const ChatPage = ({ params: { chatId } }: ChatPageProps) => {
                     South Yarra Primary Donations
                   </DialogTitle>
                   <DialogDescription className="text-light-white text-center">
-                    Thanks for your generosity ❤️ Please select from any of the
-                    below options.
+                    Thanks for your generosity. Please select from any of the
+                    below options ❤️
                   </DialogDescription>
                 </DialogHeader>
                 <div className="mt-6 flex flex-col gap-y-6">
-                  <div className="flex flex-col space-x-1 text-light-white">
-                    <h1 className="text-title-color font-semibold">
-                      Charity One
-                    </h1>
-                    <CardDescription>
-                      Charity long description Charity long description
-                    </CardDescription>
-                    <Link
-                      href={"/"}
-                      className="text-paragraph-color underline italic"
+                  {donations?.map((donation) => (
+                    <div
+                      className="flex flex-col space-y-2 text-light-white"
+                      key={donation.id}
                     >
-                      Link to charity
-                    </Link>
-                  </div>
-                  <div className="flex flex-col space-x-1 text-light-white">
-                    <h1 className="text-title-color font-semibold">
-                      Charity One
-                    </h1>
-                    <CardDescription>
-                      Charity long description Charity long description
-                    </CardDescription>
-                    <Link
-                      href={"/"}
-                      className="text-paragraph-color underline italic"
-                    >
-                      Link to charity
-                    </Link>
-                  </div>
-                  <div className="flex flex-col space-x-1 text-light-white">
-                    <h1 className="text-title-color font-semibold">
-                      Charity One
-                    </h1>
-                    <CardDescription>
-                      Charity long description Charity long description
-                    </CardDescription>
-                    <Link
-                      href={"/"}
-                      className="text-paragraph-color underline italic"
-                    >
-                      Link to charity
-                    </Link>
-                  </div>
+                      <h1 className="text-title-color font-semibold">
+                        {donation.institution}
+                      </h1>
+                      <CardDescription>{donation.description}</CardDescription>
+                      <Link
+                        href={donation.link}
+                        className="text-paragraph-color underline italic"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Donate here
+                      </Link>
+                    </div>
+                  ))}
                 </div>
                 <DialogFooter></DialogFooter>
               </DialogContent>
