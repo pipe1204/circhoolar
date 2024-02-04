@@ -424,7 +424,7 @@ const page = () => {
               <div>
                 {item?.authorId !== session?.user?.id ? (
                   <div className="flex justify-around w-full mb-2">
-                    <div className="w-3/4">
+                    <div className="w-1/2">
                       <Button
                         onClick={handleWishlistClick}
                         variant={"outlineLight"}
