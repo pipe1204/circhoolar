@@ -47,13 +47,13 @@ const page = () => {
   let audienceTitle;
   switch (itemsLocation) {
     case "Public":
-      audienceTitle = "All communities";
+      audienceTitle = "All Communities";
       break;
     case "Private":
-      audienceTitle = "My community";
+      audienceTitle = "My Community";
       break;
     case "Own":
-      audienceTitle = "My items";
+      audienceTitle = "My Items";
       break;
     default:
       break;
