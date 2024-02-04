@@ -539,3 +539,78 @@ export const questionsAndAnswers = [
       "While Circhoolar facilitates connections between buyers and sellers, the terms of sale, including returns, are determined by the sellers. We encourage sellers to accurately describe their items and for buyers to ask questions before purchasing. In case of significant discrepancies, please reach out to the seller for resolution or contact Circhoolar support for guidance.",
   },
 ];
+
+export const reportBehaviours = [
+  {
+    id: 1,
+    behaviour: "Harassment",
+    description:
+      "Harassing, bullying, intimidating, or abusing an individual or group of people with the result of discouraging them from participating.",
+  },
+  {
+    id: 2,
+    behaviour: "Threatening violence",
+    description:
+      "Encouraging, glorifying, or inciting violence or physical harm against individuals or groups of people, places, or animals.",
+  },
+  {
+    id: 3,
+    behaviour: "Hate",
+    description:
+      "Promoting hate or inciting violence based on identity or vulnerability.",
+  },
+  {
+    id: 4,
+    behaviour: "Minor abuse or sexualization",
+    description:
+      "Sharing or soliciting content involving abuse, neglect, or sexualization of minors or any predatory or inappropriate behavior towards minors.",
+  },
+  {
+    id: 5,
+    behaviour: "Sharing personal information",
+    description:
+      "Sharing or threatening to share private, personal, or confidential information about someone.",
+  },
+  {
+    id: 6,
+    behaviour: "Non-consensual intimate media",
+    description:
+      "Sharing, threatening to share, or soliciting intimate or sexually-explicit content of someone without their consent (including fake or 'lookalike' pornography).",
+  },
+  {
+    id: 7,
+    behaviour: "Prohibited transaction",
+    description:
+      "Soliciting or facilitating transactions or gifts of illegal or prohibited goods and services.",
+  },
+  {
+    id: 8,
+    behaviour: "Impersonation",
+    description:
+      "Impersonating an individual or entity in a misleading or deceptive way. This includes deepfakes, manipulated content, or false attributions.",
+  },
+  {
+    id: 9,
+    behaviour: "Copyright violation",
+    description:
+      "Content posted to Circhoolar that infringes a copyright you own or control. (Note: Only the copyright owner or an authorized representative can submit a report.)",
+  },
+  {
+    id: 10,
+    behaviour: "Trademark violation",
+    description:
+      "Content posted to Circhoolar that infringes a trademark you own or control. (Note: Only the trademark owner or an authorized representative can submit a report.)",
+  },
+  {
+    id: 11,
+    behaviour: "Self-harm or suicide",
+    description:
+      "Behavior or comments that make you think someone may be considering suicide or seriously hurting themselves.",
+  },
+  {
+    id: 12,
+    behaviour: "Spam",
+    description:
+      "Repeated, unwanted, or unsolicited manual or automated actions that negatively affect parents, communities, and the Circhoolar platform.",
+  },
+];

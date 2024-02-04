@@ -149,3 +149,25 @@ export const chatInputSchema = z.object({
 export const claimItem = z.object({
   claim: z.string(),
 });
+
+export const reportSchema = z.object({
+  behaviour: z.enum(
+    [
+      "Harassment",
+      "Threatening violence",
+      "Hate",
+      "Minor abuse or sexualization",
+      "Sharing personal information",
+      "Non-consensual intimate media",
+      "Prohibited transaction",
+      "Impersonation",
+      "Copyright violation",
+      "Trademark violation",
+      "Self-harm or suicide",
+      "Spam",
+    ],
+    {
+      required_error: "You need to select a behaviour.",
+    }
+  ),
+});
