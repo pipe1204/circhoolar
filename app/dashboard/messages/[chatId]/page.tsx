@@ -10,7 +10,19 @@ import useWindowSize from "@/hooks/useWindowSize";
 import { useCurrentChatStore } from "@/store/store";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Icons } from "@/components/Icons";
+import Link from "next/link";
+import { CardDescription } from "@/components/ui/Card";
 
 interface ChatPageProps {
   params: {
@@ -20,6 +32,7 @@ interface ChatPageProps {
 
 const ChatPage = ({ params: { chatId } }: ChatPageProps) => {
   const { data: session } = useSession();
+  const [isOpen, setIsOpen] = useState(false);
 
   const { width } = useWindowSize();
   const setCurrentChatId = useCurrentChatStore(
@@ -50,6 +63,14 @@ const ChatPage = ({ params: { chatId } }: ChatPageProps) => {
     return title.length > maxLength
       ? title?.substring(0, maxLength - 3) + "..."
       : title;
+  };
+
+  const handleDialogChange = (isOpen: boolean) => {
+    setIsOpen(isOpen);
+  };
+
+  const handleCloseDialog = () => {
+    setIsOpen(false);
   };
 
   return (
@@ -103,9 +124,67 @@ const ChatPage = ({ params: { chatId } }: ChatPageProps) => {
             </div>
           </div>
           {post?.sellingmethod === "Free" && (
-            <Button variant={"outlineLight"} className="hover:text-light-white">
-              Donate
-            </Button>
+            <Dialog open={isOpen} onOpenChange={handleDialogChange}>
+              <DialogTrigger asChild>
+                <Button variant="secondary">Donation</Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader className="w-full">
+                  <DialogTitle className="text-light-white text-center">
+                    South Yarra Primary Donations
+                  </DialogTitle>
+                  <DialogDescription className="text-light-white text-center">
+                    Thanks for your generosity ❤️ Please select from any of the
+                    below options.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="mt-6 flex flex-col gap-y-6">
+                  <div className="flex flex-col space-x-1 text-light-white">
+                    <h1 className="text-title-color font-semibold">
+                      Charity One
+                    </h1>
+                    <CardDescription>
+                      Charity long description Charity long description
+                    </CardDescription>
+                    <Link
+                      href={"/"}
+                      className="text-paragraph-color underline italic"
+                    >
+                      Link to charity
+                    </Link>
+                  </div>
+                  <div className="flex flex-col space-x-1 text-light-white">
+                    <h1 className="text-title-color font-semibold">
+                      Charity One
+                    </h1>
+                    <CardDescription>
+                      Charity long description Charity long description
+                    </CardDescription>
+                    <Link
+                      href={"/"}
+                      className="text-paragraph-color underline italic"
+                    >
+                      Link to charity
+                    </Link>
+                  </div>
+                  <div className="flex flex-col space-x-1 text-light-white">
+                    <h1 className="text-title-color font-semibold">
+                      Charity One
+                    </h1>
+                    <CardDescription>
+                      Charity long description Charity long description
+                    </CardDescription>
+                    <Link
+                      href={"/"}
+                      className="text-paragraph-color underline italic"
+                    >
+                      Link to charity
+                    </Link>
+                  </div>
+                </div>
+                <DialogFooter></DialogFooter>
+              </DialogContent>
+            </Dialog>
           )}
         </div>
       )}
