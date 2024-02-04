@@ -403,7 +403,7 @@ const page = () => {
                   {item?.sellingmethod === "Free" ? "Free" : `$${item?.price}`}
                 </span>
               </div>
-              <span className="text-xs text-gray">
+              <span className="text-sm text-gray">
                 {item?.sellingmethod === "Free"
                   ? "Voluntary donation to school for initiatives or charity of their choice"
                   : ""}
@@ -423,71 +423,22 @@ const page = () => {
             ) : (
               <div>
                 {item?.authorId !== session?.user?.id ? (
-                  <div className="flex flex-col gap-2 w-full xl:w-3/4">
-                    <div className="flex justify-around gap-2.5 w-full mb-2">
-                      <div className="w-1/2">
-                        <Button
-                          onClick={handleWishlistClick}
-                          variant={"outlineLight"}
-                          className={`w-full hover:bg-transparent `}
-                        >
-                          <Icons.heart
-                            fill={`${isSaved ? "dark-purple" : "none"}`}
-                            size={18}
-                            className="mr-2 text-dark-purple"
-                          />
-                          {isSaved ? "Saved" : "Wishlist"}
-                        </Button>
-                      </div>
-                      <div className="w-1/2">
-                        {item?.sellingmethod === "Free" ? (
-                          <Form {...form}>
-                            <form className="grid gap-4">
-                              <FormField
-                                control={form.control}
-                                name="claim"
-                                render={({ field, fieldState: { error } }) => (
-                                  <FormItem>
-                                    <Select
-                                      onValueChange={(value) => {
-                                        field.onChange(value);
-                                        handleClaimOption(value);
-                                      }}
-                                      defaultValue={field.value}
-                                    >
-                                      <FormControl>
-                                        <SelectTrigger className="text-light-white">
-                                          <Icons.shrub size={18} />
-                                          <SelectValue placeholder="Claim" />
-                                        </SelectTrigger>
-                                      </FormControl>
-                                      <SelectContent>
-                                        <SelectItem value="Donate">
-                                          Donate
-                                        </SelectItem>
-                                        <SelectItem value="Collect">
-                                          Collect
-                                        </SelectItem>
-                                      </SelectContent>
-                                    </Select>
-                                    <FormMessage />
-                                  </FormItem>
-                                )}
-                              />
-                            </form>
-                          </Form>
-                        ) : (
-                          <Button
-                            variant={"outlineLight"}
-                            className="text-background hover:text-light-white w-full"
-                            onClick={handleBuyOption}
-                          >
-                            I'm interested!
-                          </Button>
-                        )}
-                      </div>
+                  <div className="flex justify-around w-full mb-2">
+                    <div className="w-3/4">
+                      <Button
+                        onClick={handleWishlistClick}
+                        variant={"outlineLight"}
+                        className={`w-full hover:bg-transparent `}
+                      >
+                        <Icons.heart
+                          fill={`${isSaved ? "dark-purple" : "none"}`}
+                          size={18}
+                          className="mr-2 text-dark-purple"
+                        />
+                        {isSaved ? "Saved" : "Wishlist"}
+                      </Button>
                     </div>
-                    <div className="w-full mx-auto">
+                    <div className="w-full">
                       <ChatButton
                         itemId={item?.id}
                         authorId={item?.authorId}

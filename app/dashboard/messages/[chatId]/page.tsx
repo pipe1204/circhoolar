@@ -68,6 +68,11 @@ const ChatPage = ({ params: { chatId } }: ChatPageProps) => {
             <h1 className="text-light-white font-semibold">
               {truncateTitle(post?.title)}
             </h1>
+            <div className="bg-light-white rounded-full px-4">
+              <p className="text-background font-semibold">
+                {post?.sellingmethod === "Free" ? "Free" : `$${post?.price}`}
+              </p>
+            </div>
           </div>
           <Button
             variant={"link"}
@@ -91,16 +96,17 @@ const ChatPage = ({ params: { chatId } }: ChatPageProps) => {
             <h1 className="text-light-white font-semibold">
               {truncateTitle(post?.title)}
             </h1>
+            <div className="bg-light-white rounded-full px-4">
+              <p className="text-background font-semibold">
+                {post?.sellingmethod === "Free" ? "Free" : `$${post?.price}`}
+              </p>
+            </div>
           </div>
-          {session?.user?.id !== post?.authorId &&
-            post?.sellerHasBankDetails && (
-              <Button
-                variant={"outlineLight"}
-                className="hover:text-light-white"
-              >
-                Buy now
-              </Button>
-            )}
+          {post?.sellingmethod === "Free" && (
+            <Button variant={"outlineLight"} className="hover:text-light-white">
+              Donate
+            </Button>
+          )}
         </div>
       )}
 
