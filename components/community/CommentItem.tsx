@@ -18,12 +18,21 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/form";
 import { Icons } from "../Icons";
 import useFormatedDate from "@/hooks/useFormatedDate";
 import { useSession } from "next-auth/react";
@@ -33,6 +42,11 @@ import useFetchAllUsers from "@/hooks/useFetchAllUsers";
 import { useLikeCommentCountStore } from "@/store/store";
 import UpdateCommentDialog from "./UpdateCommentDialog";
 import { usePathname } from "next/navigation";
+import { reportBehaviours } from "@/constants";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { reportSchema } from "@/lib/validations/auth";
 
 interface CommentItemProps {
   comment: Comment;
@@ -42,6 +56,7 @@ interface CommentItemProps {
   ) => Promise<Comment | null | undefined>;
 }
 
+type Inputs = z.infer<typeof reportSchema>;
 const CommentItem = ({
   comment,
   handleDelete,
@@ -57,6 +72,8 @@ const CommentItem = ({
   );
 
   const [localComment, setLocalComment] = useState<Comment>(comment);
+  const [behaviour, setBehaviour] = useState<string>("");
+  const [behaviourDescription, setBehaviourDescription] = useState<string>("");
 
   const { users } = useFetchAllUsers();
 
@@ -85,6 +102,34 @@ const CommentItem = ({
     }
   };
 
+  const form = useForm<Inputs>({
+    resolver: zodResolver(reportSchema),
+    defaultValues: {
+      behaviour: undefined,
+    },
+  });
+
+  async function onSubmit(data: Inputs) {
+    console.log(data);
+  }
+
+  const handleSendReport = () => {
+    //functionality to send email to issues@circhoolar.com
+  };
+
+  const handleBehaviorSelect = (selectedBehavior: string) => {
+    const selectedOption = reportBehaviours.find(
+      (behaviour) => behaviour.behaviour === selectedBehavior
+    );
+    setBehaviour(selectedBehavior);
+    setBehaviourDescription(selectedOption?.description || "");
+  };
+
+  const handleDismiss = () => {
+    setBehaviour("");
+    setBehaviourDescription("");
+  };
+
   return (
     <Card className="bg-light-white border-none shadow-none my-4">
       <CardHeader className="xl:p-4">
@@ -110,6 +155,97 @@ const CommentItem = ({
             {localComment.numberOfLikes}{" "}
             {localComment.numberOfLikes === 1 ? "Like" : "Likes"}
           </CardDescription>
+          {session?.user?.name !== localComment.author && (
+            <AlertDialog>
+              <AlertDialogTrigger className="text-gray flex justify-center items-center text-sm">
+                <Icons.flag
+                  size={20}
+                  className="text-gray-100 cursor-pointer mr-2"
+                />
+                Report
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle className="text-light-white">
+                    Submit a Report
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Thanks for looking out for yourself and your community by
+                    reporting things that break the rules. Let us know what's
+                    happening, and we'll look into it.
+                  </AlertDialogDescription>
+                  <div className="flex -flex-row flex-wrap gap-x-4 gap-y-4 py-4">
+                    <Form {...form}>
+                      <form
+                        className="grid gap-4"
+                        onSubmit={(...args) =>
+                          void form.handleSubmit(onSubmit)(...args)
+                        }
+                      >
+                        <FormField
+                          control={form.control}
+                          name="behaviour"
+                          render={({ field }) => (
+                            <FormItem className="space-y-3">
+                              <FormLabel className="text-light-white">
+                                Behaviours
+                              </FormLabel>
+                              <FormControl>
+                                <RadioGroup
+                                  onValueChange={handleBehaviorSelect}
+                                  defaultValue={field.value}
+                                  className="flex flex-row flex-wrap space-y-2"
+                                >
+                                  {reportBehaviours.map((behaviour) => (
+                                    <FormItem
+                                      key={behaviour.id}
+                                      className="flex items-center space-x-3 space-y-0"
+                                    >
+                                      <FormControl>
+                                        <RadioGroupItem
+                                          value={behaviour.behaviour}
+                                          className="border border-light-white text-light-white"
+                                        />
+                                      </FormControl>
+                                      <FormLabel className="font-normal text-light-white">
+                                        {behaviour.behaviour}
+                                      </FormLabel>
+                                    </FormItem>
+                                  ))}
+                                </RadioGroup>
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </form>
+                    </Form>
+                    {behaviourDescription && (
+                      <div>
+                        <h1 className="text-title-color text-lg font-semibold mt-4">
+                          {behaviour}
+                        </h1>
+                        <CardDescription className="text-title-color py-2">
+                          {behaviourDescription}
+                        </CardDescription>
+                      </div>
+                    )}
+                  </div>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel onClick={handleDismiss}>
+                    Cancel
+                  </AlertDialogCancel>
+                  <AlertDialogAction
+                    className="bg-red text-light-white"
+                    onClick={handleSendReport}
+                  >
+                    Submit
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          )}
           <div>
             {session?.user?.name === localComment.author &&
             path !== "/dashboard/comments" ? (

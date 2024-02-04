@@ -31,6 +31,7 @@ import {
   Facebook,
   FileTerminal,
   Filter,
+  Flag,
   FolderHeart,
   Footprints,
   HardHat,
@@ -83,6 +84,7 @@ import {
 //   export type Icon = LucideIcon
 
 export const Icons = {
+  flag: Flag,
   help: BadgeHelp,
   share: Share,
   subtitles: Subtitles,
