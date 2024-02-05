@@ -1,5 +1,5 @@
 export const NavLinks = [
-  { href: "/schools", key: "Schools", text: "Educational centres" },
+  { href: "/schools", key: "Schools", text: "Educational provider" },
   { href: "/parents", key: "Parents", text: "Parents" },
   { href: "/faq", key: "Faq", text: "Support" },
 ];
@@ -173,7 +173,7 @@ export const topicHeaders = [
 
 export const footerLinks = [
   {
-    title: "Educational centres",
+    title: "Educational provider",
     links: [
       {
         name: "Join circhoolar",
@@ -197,7 +197,7 @@ export const footerLinks = [
         href: "/api/auth/signin",
       },
       {
-        name: "Search Educational centres",
+        name: "Search Educational provider",
         href: "/api/auth/signin",
       },
       {
@@ -446,7 +446,7 @@ export const questionsAndAnswers = [
     id: 5,
     question: "Can Educational centres benefit financially from Circhoolar?",
     answer:
-      "Yes, Educational centres can benefit from parent donations and fundraising initiatives hosted on Circhoolar, supporting Educational centres projects and needs without any additional cost.",
+      "Yes, Educational centres can benefit from parent donations and fundraising initiatives hosted on Circhoolar, supporting projects and needs without any additional cost.",
   },
   {
     id: 6,
