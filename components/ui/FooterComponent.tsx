@@ -13,8 +13,8 @@ const FooterComponent = ({ buttonLabel, box }: FooterComponentProps) => {
     <section className="bg-fusia w-full">
       <div className="py-20 w-9/11 xl:w-11/12 h-full flex flex-col justify-center items-center mx-auto">
         <h1 className="text-4xl xl:text-6xl font-bold text-white text-center">
-          Where Childcare centre and School communities thrive through sharing
-          and sustainability
+          Where Educational Communities thrive through sharing and
+          sustainability
         </h1>
         <Link href={"/api/auth/signin"}>
           <Button

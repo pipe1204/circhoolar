@@ -181,3 +181,16 @@ export const supportEmailSchema = z.object({
   }),
   text: z.string().max(1000),
 });
+
+export const provdierEmailSchema = z.object({
+  email: z.string().email({
+    message: "Please enter a valid email address",
+  }),
+  name: z.string().min(2, {
+    message: "Name must be at least 2 characters long",
+  }),
+  provider: z.string().min(2, {
+    message: "Educational centre name must be at least 2 characters long",
+  }),
+  text: z.string().max(1000),
+});

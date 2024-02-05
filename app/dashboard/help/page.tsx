@@ -56,7 +56,7 @@ const page = () => {
           );
         })}
       </Accordion>
-      <Card className="mt-8 w-full">
+      <Card className="mt-8 w-full rounded-md">
         <CardHeader className="flex flex-col justify-center items-center text-center">
           <CardTitle className="text-title-color font-semibold text-2xl xl:text-4xl">
             Can't find what you are looking for?
@@ -66,7 +66,7 @@ const page = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="w-full xl:w-3/4 mx-auto pb-10">
+          <div className="w-full xl:w-1/2 mx-auto pb-10">
             <Form {...form}>
               <form
                 className="grid gap-4"
