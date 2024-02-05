@@ -370,6 +370,46 @@ const PostItemDialog = () => {
             >
               <FormField
                 control={form.control}
+                name="category"
+                render={({ field, fieldState: { error } }) => (
+                  <FormItem>
+                    <FormLabel className="text-light-white">Category</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="text-light-white">
+                          <SelectValue placeholder="Select a category" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="Clothing">Clothing</SelectItem>
+                        <SelectItem value="Toys">Toys</SelectItem>
+                        <SelectItem value="Books">Books</SelectItem>
+                        <SelectItem value="Infant & Toddler">
+                          Infant & Toddler
+                        </SelectItem>
+                        <SelectItem value="School supplies">
+                          School supplies
+                        </SelectItem>
+                        <SelectItem value="Furniture">Furniture</SelectItem>
+                        <SelectItem value="Electronics">Electronics</SelectItem>
+                        <SelectItem value="Sporting goods">
+                          Sporting goods
+                        </SelectItem>
+                        <SelectItem value="Home and Garden">
+                          Home and Garden
+                        </SelectItem>
+                        <SelectItem value="Vehicles">Vehicles</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
                 name="title"
                 render={({ field }) => (
                   <FormItem>
@@ -406,7 +446,7 @@ const PostItemDialog = () => {
                 render={({ field }) => (
                   <FormItem className="space-y-3">
                     <FormLabel className="text-light-white">
-                      Item condition
+                      Condition
                     </FormLabel>
                     <FormControl>
                       <RadioGroup
@@ -449,48 +489,6 @@ const PostItemDialog = () => {
                         </FormItem>
                       </RadioGroup>
                     </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="category"
-                render={({ field, fieldState: { error } }) => (
-                  <FormItem>
-                    <FormLabel className="text-light-white">
-                      Item category
-                    </FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger className="text-light-white">
-                          <SelectValue placeholder="Select a category" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="Clothing">Clothing</SelectItem>
-                        <SelectItem value="Toys">Toys</SelectItem>
-                        <SelectItem value="Books">Books</SelectItem>
-                        <SelectItem value="Infant & Toddler">
-                          Infant & Toddler
-                        </SelectItem>
-                        <SelectItem value="School supplies">
-                          School supplies
-                        </SelectItem>
-                        <SelectItem value="Furniture">Furniture</SelectItem>
-                        <SelectItem value="Electronics">Electronics</SelectItem>
-                        <SelectItem value="Sporting goods">
-                          Sporting goods
-                        </SelectItem>
-                        <SelectItem value="Home and Garden">
-                          Home and Garden
-                        </SelectItem>
-                        <SelectItem value="Vehicles">Vehicles</SelectItem>
-                      </SelectContent>
-                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}

@@ -171,3 +171,13 @@ export const reportSchema = z.object({
     }
   ),
 });
+
+export const supportEmailSchema = z.object({
+  email: z.string().email({
+    message: "Please enter a valid email address",
+  }),
+  name: z.string().min(2, {
+    message: "Name must be at least 2 characters long",
+  }),
+  text: z.string().max(1000),
+});
