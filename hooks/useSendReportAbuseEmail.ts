@@ -1,8 +1,10 @@
 import { Comment } from "@/types/Types";
+import { useToast } from "../components/ui/use-toast";
 import { useSession } from "next-auth/react";
 
 const useSendReportAbuseEmail = () => {
   const { data: session } = useSession();
+  const { toast } = useToast();
   const sendReportAbuseEmail = async (comment: Comment, behaviour: string) => {
     const requestBody = JSON.stringify({
       abuserName: comment.author,
@@ -23,6 +25,12 @@ const useSendReportAbuseEmail = () => {
     });
     if (response.status === 200) {
       console.log("Email sent");
+      toast({
+        title: "We got your message!",
+        description:
+          "Thank you for keeping an eye in the community and for caring about the safety of others.",
+        duration: 3000,
+      });
     }
   };
 

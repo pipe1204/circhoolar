@@ -50,6 +50,7 @@ import {
   MoreHorizontal,
   MoreVertical,
   Package,
+  Paperclip,
   Plus,
   PlusCircle,
   RefreshCw,
@@ -84,6 +85,7 @@ import {
 //   export type Icon = LucideIcon
 
 export const Icons = {
+  paperclip: Paperclip,
   flag: Flag,
   help: BadgeHelp,
   share: Share,

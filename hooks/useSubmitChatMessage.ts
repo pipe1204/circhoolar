@@ -24,7 +24,8 @@ interface InputUser {
 export function useSubmitChatMessage(
   chatId: string,
   session?: Session | null,
-  inputUser?: InputUser
+  inputUser?: InputUser,
+  fileObject?: File
 ) {
   const form = useForm({
     resolver: zodResolver(chatInputSchema),
@@ -38,7 +39,29 @@ export function useSubmitChatMessage(
     form.reset();
 
     if (!inputCopy || !session?.user?.id || !chatId) return;
-    // Fetch the chat document to get the members array
+
+    let uploadedImageUrl = "";
+
+    if (fileObject) {
+      try {
+        const formData = new FormData();
+        formData.append("file", fileObject);
+        formData.append("upload_preset", "circhoolar");
+
+        const response = await fetch(
+          `https://api.cloudinary.com/v1_1/circhoo/image/upload`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+        const responseData = await response.json();
+        uploadedImageUrl = responseData.secure_url;
+      } catch (error) {
+        console.error("Error uploading images:", error);
+        return;
+      }
+    }
     const chatRef = doc(db, "chats", chatId);
     const chatDoc = await getDoc(chatRef);
 
@@ -71,6 +94,7 @@ export function useSubmitChatMessage(
     const messageRef = doc(collection(db, "chats", chatId, "messages"));
     await setDoc(messageRef, {
       text: inputCopy,
+      image: uploadedImageUrl || null,
       isRead: false,
       timestamp: serverTimestamp(),
       sender: {

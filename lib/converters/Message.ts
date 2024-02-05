@@ -20,6 +20,7 @@ export interface ChatUser {
 export interface Message {
   id: string;
   text: string;
+  image: string;
   isRead: boolean;
   timestamp: Date | null;
   sender: ChatUser;
@@ -30,6 +31,7 @@ const messageConverter: FirestoreDataConverter<Message> = {
   toFirestore: function (message: Message): DocumentData {
     return {
       text: message.text,
+      image: message.image,
       isRead: message.isRead,
       timestamp: message.timestamp,
       sender: message.sender,
@@ -44,6 +46,7 @@ const messageConverter: FirestoreDataConverter<Message> = {
     return {
       id: snapshot.id,
       text: data.text,
+      image: data.image,
       isRead: data.isRead,
       timestamp: data.timestamp?.toDate(),
       sender: data.sender,
