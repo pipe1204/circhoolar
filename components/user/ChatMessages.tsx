@@ -5,6 +5,7 @@ import { Session } from "next-auth";
 import React, { createRef, useEffect } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import UserAvatar from "../ui/UserAvatar";
+import Image from "next/image";
 
 const ChatMessages = ({
   chatId,
@@ -67,6 +68,15 @@ const ChatMessages = ({
               <div className="flex space-x-2">
                 <p>{message?.text}</p>
               </div>
+              {message?.image && (
+                <Image
+                  src={message?.image}
+                  alt="message image"
+                  width={200}
+                  height={200}
+                  className="rounded-lg"
+                />
+              )}
             </div>
             <UserAvatar
               name={message?.sender?.name}
