@@ -340,8 +340,8 @@ const PostItemDialog = () => {
             />
             <Button
               type="submit"
-              variant={"outlineLight"}
-              className="text-background hover:text-light-white"
+              variant={"default"}
+              className="text-light-white hover:text-background"
             >
               Upload file
             </Button>
@@ -379,7 +379,7 @@ const PostItemDialog = () => {
                       defaultValue={field.value}
                     >
                       <FormControl>
-                        <SelectTrigger className="text-light-white">
+                        <SelectTrigger className="text-background bg-light-white">
                           <SelectValue placeholder="Select a category" />
                         </SelectTrigger>
                       </FormControl>
@@ -432,7 +432,7 @@ const PostItemDialog = () => {
                     <FormControl>
                       <Textarea
                         placeholder="Tell us a little bit about the item"
-                        className="resize-none text-light-white"
+                        className="resize-none text-background bg-light-white"
                         {...field}
                       />
                     </FormControl>

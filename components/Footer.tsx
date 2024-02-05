@@ -39,8 +39,9 @@ const Footer = () => {
         <div className="flex items-start flex-col">
           <Image src={"/Logo-light.png"} alt={"Logo"} width={130} height={50} />
           <p className="text-start text-sm font-normal mb-5 mt-2 max-w-xs text-paragraph-color">
-            The innovative marketplace dedicated to transforming the way we
-            approach school uniforms and essentials
+            The innovative platform enhancing how educational communities share
+            and access pre-love items, nurturing sustainability and
+            collaboration.
           </p>
         </div>
         <div className="flex flex-col xl:flex-row xl:flex-wrap gap-12">
