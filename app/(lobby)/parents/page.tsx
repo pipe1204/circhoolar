@@ -48,7 +48,7 @@ const page = () => {
           <MovingCard
             backgroundColor="light-white"
             width="11/12"
-            image="/Dashboard.png"
+            image="/discover.png"
           />
         </div>
         <div className="flex flex-col">

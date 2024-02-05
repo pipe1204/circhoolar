@@ -334,8 +334,8 @@ const PostQuestionDialog = () => {
                 />
                 <Button
                   type="submit"
-                  variant={"outlineLight"}
-                  className="text-background hover:text-light-white"
+                  variant={"default"}
+                  className="text-light-white hover:text-background"
                 >
                   Upload file
                 </Button>
@@ -438,7 +438,7 @@ const PostQuestionDialog = () => {
                     <FormControl>
                       <Textarea
                         placeholder="I am looking for tips and activities to boost my 2-year-old language development. What has worked for you and your child?"
-                        className="resize-none text-light-white"
+                        className="resize-none text-background bg-light-white"
                         {...field}
                       />
                     </FormControl>
@@ -472,7 +472,7 @@ const PostQuestionDialog = () => {
                       defaultValue={field.value}
                     >
                       <FormControl>
-                        <SelectTrigger className="text-light-white">
+                        <SelectTrigger className="text-background bg-light-white">
                           <SelectValue placeholder="Choose a topic" />
                         </SelectTrigger>
                       </FormControl>
