@@ -43,14 +43,7 @@ const useCreateOrNavigateChat = () => {
   };
 
   const navigateToExistingChat = (chatId: string) => {
-    toast({
-      title: "Checking conversation...",
-      description: "You already have a conversation. Taking you there now.",
-      duration: 3000,
-    });
-    setTimeout(() => {
-      router.push(`/dashboard/messages/${chatId}`);
-    }, 3000);
+    router.push(`/dashboard/messages/${chatId}`);
   };
   const createNewChat = async (
     itemId: string,
@@ -66,23 +59,7 @@ const useCreateOrNavigateChat = () => {
       chatId: chatId,
     })
       .then(() => {
-        setTimeout(() => {
-          toast({
-            title: "Success!",
-            description: "Your conversation has been created.",
-            duration: 2000,
-          });
-        }, 3000);
-        toast({
-          title: "Creating new conversation...",
-          description:
-            "Please wait while we create a new conversation for you.",
-          duration: 3000,
-        });
-        setTimeout(() => {
-          setLoading(false);
-          router.push(`/dashboard/messages/${chatId}`);
-        }, 5000);
+        router.push(`/dashboard/messages/${chatId}`);
       })
       .catch((error) => {
         toast({
