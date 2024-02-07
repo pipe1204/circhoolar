@@ -47,7 +47,6 @@ const ChatPage = ({ params: { chatId } }: ChatPageProps) => {
 
   useEffect(() => {
     setCurrentChatId(chatId);
-    fetchDonations();
 
     return () => {
       setCurrentChatId(null);
@@ -131,12 +130,17 @@ const ChatPage = ({ params: { chatId } }: ChatPageProps) => {
           {post?.sellingmethod === "Free" && (
             <Dialog open={isOpen} onOpenChange={handleDialogChange}>
               <DialogTrigger asChild>
-                <Button variant="secondary">Donation</Button>
+                <Button
+                  variant="secondary"
+                  onClick={() => fetchDonations(post?.schoolCode)}
+                >
+                  Donation
+                </Button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader className="w-full">
                   <DialogTitle className="text-light-white text-center">
-                    South Yarra Primary Donations
+                    {post?.schoolName}
                   </DialogTitle>
                   <DialogDescription className="text-light-white text-center">
                     Thanks for your generosity. Please select from any of the
