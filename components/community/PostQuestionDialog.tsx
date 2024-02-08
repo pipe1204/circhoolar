@@ -312,8 +312,9 @@ const PostQuestionDialog = () => {
             Ask the community
           </DialogTitle>
           <DialogDescription className="text-light-white text-center">
-            Let other parents help you with any questions or concerns you might
-            have
+            We're here to build each other up and foster a supportive
+            environment. Please ensure your question respects all community
+            members and educational centers.
           </DialogDescription>
         </DialogHeader>
         <div className="max-h-[450px] xl:max-h-[500px] overflow-y-auto">

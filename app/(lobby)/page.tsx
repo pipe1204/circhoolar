@@ -74,6 +74,15 @@ const IndexPage = () => {
           <Carousel />
         </div>
         <div className="flex flex-col justify-center items-center">
+          <div className="flex flex-col w-9/11 xl:w-1/2 mx-auto my-10">
+            <h1 className="text-3xl xl:text-4xl font-bold mb-4 text-white text-center">
+              Hidden Treasures Uncovered
+            </h1>
+            <p className="text-lg text-paragraph-color text-center">
+              Find value in the unexpected with our marketplace—where every item
+              has a story and a chance for a new beginning.
+            </p>
+          </div>
           <div className="flex justify-center items-center mb-20">
             <Image
               src={
@@ -89,7 +98,7 @@ const IndexPage = () => {
             Features we think you'll
             <span className="text-title-color"> love</span>
           </h1>
-          <div className="w-11/12 xl:w-full flex flex-col justify-center items-center xl:flex-row xl:justify-around xl:items-center gap-y-4 xl:gap-x-5 my-14 xl:my-20">
+          <div className="w-full flex flex-col justify-center items-center xl:flex-row xl:justify-around xl:items-center gap-y-4 xl:gap-x-5 my-14 xl:my-20">
             <div className="w-full xl:w-2/5">
               <h1 className="text-white text-3xl xl:text-5xl text-center font-bold">
                 Discover <span className="text-title-color">Treasures</span> in
@@ -114,7 +123,7 @@ const IndexPage = () => {
               />
             </div>
           </div>
-          <div className="w-11/12 xl:w-full flex flex-col-reverse justify-center items-center xl:flex-row xl:justify-around xl:items-center gap-y-4 xl:gap-x-5 my-14 xl:my-20">
+          <div className="w-full flex flex-col-reverse justify-center items-center xl:flex-row xl:justify-around xl:items-center gap-y-4 xl:gap-x-5 my-14 xl:my-20">
             <div>
               <Image
                 src={
@@ -138,7 +147,7 @@ const IndexPage = () => {
               </CardDescription>
             </div>
           </div>
-          <div className="w-11/12 xl:w-full flex flex-col justify-center items-center xl:flex-row xl:justify-around xl:items-center gap-y-4 xl:gap-x-5 my-14 xl:my-20">
+          <div className="w-full flex flex-col justify-center items-center xl:flex-row xl:justify-around xl:items-center gap-y-4 xl:gap-x-5 my-14 xl:my-20">
             <div className="w-full xl:w-2/5">
               <h1 className="text-white text-3xl xl:text-5xl text-center font-bold">
                 Make a <span className="text-title-color">Difference</span> with
