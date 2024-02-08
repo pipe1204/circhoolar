@@ -93,7 +93,7 @@ const CommentInput = ({
         placeholder="What are your thoughts?"
         className="w-full text-sm rounded-md shadow-sm pb-10 focus:outline-none bg-light-white-100 focus:bg-light-white focus:outline-gray-50 resize-none p-4"
       />
-      <CardDescription>
+      <CardDescription className="text-red">
         This space thrives on positivity and constructive dialogue. Comments
         that negatively target other parents or educational centres will not be
         tolerated.

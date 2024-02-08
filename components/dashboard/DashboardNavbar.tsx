@@ -54,10 +54,12 @@ const DashboardNavbar = () => {
     if (session?.user?.id) {
       const inputUserRef = userRef(session.user.id);
       const unsubscribe = onSnapshot(inputUserRef, (doc) => {
-        setUnreadNotifications(
-          doc.data()?.notifications.length === 0 ? false : true
-        );
-        setNotifications(doc.data()?.notifications || null);
+        if (schoolCode) {
+          setUnreadNotifications(
+            doc.data()?.notifications.length === 0 ? false : true
+          );
+          setNotifications(doc.data()?.notifications || null);
+        }
       });
       return () => unsubscribe();
     }

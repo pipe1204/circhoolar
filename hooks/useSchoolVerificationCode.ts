@@ -55,6 +55,19 @@ const useSchoolCodeVerification = () => {
         hasOptOutNotifications: false,
       });
       await update({ ...session, user: { ...session?.user, name: name } });
+
+      fetch("/api/mailing-list", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: session?.user?.email }),
+      })
+        .then((response) => response.json())
+        .then((data) => console.log(data.message))
+        .catch((error) =>
+          console.error("Error adding email to mailing list:", error)
+        );
     } else {
       console.log("No such document!");
       setValidCode(false);
