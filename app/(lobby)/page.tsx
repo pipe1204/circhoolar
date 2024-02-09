@@ -176,10 +176,10 @@ const IndexPage = () => {
         <Card className="w-11/12 mx-auto my-4 xl:my-10">
           <div className="w-9/11 xl:w-4/5 mx-auto flex flex-col justify-center items-center py-10 px-4 xl:px-0 xl:py-20">
             <h1 className="text-3xl xl:text-6xl font-bold mb-4 text-white text-center">
-              Circhoolar: Your
+              Circhoolar: Your{" "}
               <span className="text-title-color">
                 School and Childcare centre Community
-              </span>
+              </span>{" "}
               hub.
             </h1>
             <p className="text-lg text-paragraph-color text-center">

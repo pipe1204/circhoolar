@@ -103,7 +103,10 @@ const DashboardNavbar = () => {
       <div className="flex justify-between items-center mx-2 xl:mx-8">
         <Image src={"/Logo-light.png"} alt={"Logo"} width={130} height={50} />
         <div className="flex gap-x-8 items-center">
-          <div className="flex gap-x-4 items-center">
+          <div className="flex xl:gap-x-4 justify-evenly items-center">
+            <h1 className="text-light-white text-xs xl:text-lg font-semibold w-1/2 xl:w-full text-right">
+              {schoolName}
+            </h1>
             <Sheet>
               <SheetTrigger asChild>
                 <div className="w-8 h-8 flex justify-center items-center relative cursor-pointer">
@@ -176,10 +179,6 @@ const DashboardNavbar = () => {
                 </SheetContent>
               )}
             </Sheet>
-
-            <h1 className="text-light-white text-xs xl:text-lg font-semibold">
-              {schoolName}
-            </h1>
             <UserButton session={session} />
           </div>
         </div>
