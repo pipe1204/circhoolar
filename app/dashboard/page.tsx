@@ -109,13 +109,13 @@ const page = () => {
           </Masonry>
         </div>
       ) : (
-        <div className="w-full xl:w-3/4 mx-auto mt-20">
+        <div className="w-full xl:w-3/4 mx-auto">
           <div className="w-full xl:w-1/2 mx-auto">
             <h1 className="text-2xl text-center font-semibold mb-4 text-dark-purple">
               Please enter your full name and school code below to get started
             </h1>
           </div>
-          <div className="w-5/6 xl:w-1/3 mx-auto">
+          <div className="w-5/6 xl:w-1/2 mx-auto">
             <SchoolCodeForm
               checkCode={handleCheckCode}
               errorMessage={errorCode}

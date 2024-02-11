@@ -16,6 +16,7 @@ import {
   FormMessage,
 } from "./ui/form";
 import { Input } from "./ui/Input";
+import { CardDescription } from "./ui/Card";
 
 type Inputs = z.infer<typeof authSchoolCodeSchema>;
 
@@ -80,7 +81,11 @@ export function SchoolCodeForm({
         {errorMessage && (
           <p className="text-red text-center text-sm">{errorMessage}</p>
         )}
-
+        <CardDescription className="text-center">
+          By signing up, you agree to abide by our community guidelines, which
+          include respecting all members and educational centres, refraining
+          from bullying, and engaging in constructive conversations.
+        </CardDescription>
         <Button variant={"outline"} className="text-light-white">
           {loading ? "Loading..." : "Submit"}
         </Button>

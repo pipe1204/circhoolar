@@ -67,12 +67,12 @@ const IndexPage = () => {
             <CardCarousel />
           </motion.div>
         </motion.article>
-        <div className="flex flex-col justify-center items-center my-20">
+        {/* <div className="flex flex-col justify-center items-center my-20">
           <h2 className="text-center text-title-color text-2xl font-semibold">
             Join over 500 parents using Circhoolar
           </h2>
           <Carousel />
-        </div>
+        </div> */}
         <div className="flex flex-col justify-center items-center">
           <div className="flex flex-col w-9/11 xl:w-1/2 mx-auto my-10">
             <h1 className="text-3xl xl:text-4xl font-bold mb-4 text-white text-center">
