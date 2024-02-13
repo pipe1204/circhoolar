@@ -180,8 +180,8 @@ export const footerLinks = [
         href: "/schools",
       },
       {
-        name: "Refer a parent",
-        href: "/refer-a-parent",
+        name: "Questions and answers",
+        href: "/faq",
       },
     ],
   },
@@ -202,17 +202,17 @@ export const footerLinks = [
       },
       {
         name: "Refer a Educational centre",
-        href: "/refer-a-school",
+        href: "/schools",
       },
     ],
   },
   {
     title: "Company",
     links: [
-      {
-        name: "About",
-        href: "/about",
-      },
+      // {
+      //   name: "About",
+      //   href: "/about",
+      // },
       {
         name: "Support",
         href: "/faq",
