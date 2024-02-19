@@ -240,32 +240,30 @@ export const footerLinks = [
 export const homepageCardsColumn1 = [
   {
     id: "1",
-    author: "John Doe",
-    title: "Robinson Book",
-    description:
-      "This is a book for kids is a great read for kids and its in great condition",
-    value: "20",
-    image: "/card1.jpg",
+    author: "Carol Smith",
+    title: "Trek bike",
+    value: "50",
+    image:
+      "https://res.cloudinary.com/circhoo/image/upload/v1705881264/circhoolar_items_upload/aokkvy41tfwbom86jpez.jpg",
     avatarImage: "/person1.jpg",
     condition: "Great condition",
-    sellingmethod: "Free",
+    sellingmethod: "Cost",
   },
   {
     id: "2",
     author: "Isabel Taylor",
-    title: "Grey blouse",
-    description: "Grey blause in perfect condition. Size 8.",
+    title: "Spanish book",
     value: "20",
-    image: "/card2.jpg",
+    image:
+      "https://res.cloudinary.com/circhoo/image/upload/v1705881473/circhoolar_items_upload/hauuzoojv4a56bzp889p.jpg",
     avatarImage: "/person2.jpg",
     condition: "Good condition",
-    sellingmethod: "20",
+    sellingmethod: "Free",
   },
   {
     id: "3",
     author: "Kim Huges",
     title: "Cot",
-    description: "This is a great cot for kids and its in great condition",
     value: "$70",
     image: "/card9.jpg",
     avatarImage: "/person4.jpg",
@@ -278,11 +276,10 @@ export const homepageCardsColumn2 = [
   {
     id: "1",
     author: "Sarah Mercury",
-    title: "Mr Kong",
-    description:
-      "Mr Kong was Jamies favourite toy. We are sad to seeing him going but we are sure someone else will be taking better care of him.",
+    title: "Jordan shoes",
     value: "Free",
-    image: "/card3.jpg",
+    image:
+      "https://res.cloudinary.com/circhoo/image/upload/v1705881741/circhoolar_items_upload/xk2pwepqtnfsizojwas0.jpg",
     avatarImage: "/person5.jpg",
     condition: "Great condition",
     sellingmethod: "Free",
@@ -290,11 +287,10 @@ export const homepageCardsColumn2 = [
   {
     id: "2",
     author: "Jason Devon",
-    title: "Brown Shoes",
-    description:
-      "Durable, stylish, and comfortable, these gently used leather brown shoes are perfect for kids on the go. Ideal for casual wear and versatile enough for any outfit.",
+    title: "Mini Billard Table",
     value: "Free",
-    image: "/card4.jpg",
+    image:
+      "https://res.cloudinary.com/circhoo/image/upload/v1705885129/circhoolar_items_upload/vz37r8vtqikysj2dnoa8.jpg",
     avatarImage: "/person4.jpg",
     condition: "Great condition",
     sellingmethod: "Free",
@@ -302,10 +298,10 @@ export const homepageCardsColumn2 = [
   {
     id: "3",
     author: "Kim Huges",
-    title: "Cot",
-    description: "This is a great cot for kids and its in great condition",
+    title: "Disney Collection",
     value: "$70",
-    image: "/card9.jpg",
+    image:
+      "https://res.cloudinary.com/circhoo/image/upload/v1705883967/circhoolar_items_upload/hskcqgq5ko8mcvgszciy.jpg",
     avatarImage: "/person4.jpg",
     condition: "Good condition",
     sellingmethod: "Free",
@@ -314,8 +310,6 @@ export const homepageCardsColumn2 = [
     id: "4",
     author: "John Doe",
     title: "Robinson Book",
-    description:
-      "This is a book for kids is a great read for kids and its in great condition",
     value: "Free",
     image: "/card1.jpg",
     avatarImage: "/person1.jpg",
@@ -326,7 +320,6 @@ export const homepageCardsColumn2 = [
     id: "5",
     author: "Isabel Taylor",
     title: "Grey blouse",
-    description: "Grey blause in perfect condition. Size 8.",
     value: "Donation",
     image: "/card2.jpg",
     avatarImage: "/person2.jpg",
@@ -337,8 +330,6 @@ export const homepageCardsColumn2 = [
     id: "6",
     author: "Melinda Ruso",
     title: "Mr Kong",
-    description:
-      "Mr Kong was Jamies favourite toy. We are sad to seeing him going but we are sure someone else will be taking better care of him.",
     value: "Donation",
     image: "/card3.jpg",
     avatarImage: "/person3.jpg",
@@ -349,7 +340,6 @@ export const homepageCardsColumn2 = [
     id: "7",
     author: "Kim Huges",
     title: "Cot",
-    description: "This is a great cot for kids and its in great condition",
     value: "$70",
     image: "/card7.jpg",
     avatarImage: "/person4.jpg",
@@ -360,8 +350,6 @@ export const homepageCardsColumn2 = [
     id: "8",
     author: "Jamie Caaside",
     title: "BatDuck",
-    description:
-      "This is a great toy for kids when taking a bath and its in great condition",
     value: "Free",
     image: "/card8.jpg",
     avatarImage: "/person8.jpg",
@@ -372,8 +360,6 @@ export const homepageCardsColumn2 = [
     id: "9",
     author: "Micaela Duncan",
     title: "Ring Toss Game",
-    description:
-      "This classic game is a great way to get kids active and having fun. It is easy to set up and can be played indoors or outdoors.",
     value: "Donation",
     image: "/card6.jpg",
     avatarImage: "/person5.jpg",
@@ -384,36 +370,36 @@ export const homepageCardsColumn2 = [
 
 export const homepageCardsColumn3 = [
   {
-    id: "1",
-    author: "Kim Huges",
-    title: "Cot",
-    description: "This is a great cot for kids and its in great condition",
-    value: "$70",
-    image: "/card9.jpg",
-    avatarImage: "/person4.jpg",
-    condition: "Great condition",
-  },
-  {
-    id: "2",
-    author: "Jamie Caaside",
-    title: "BatDuck",
-    description:
-      "This is a great toy for kids when taking a bath and its in great condition",
-    value: "Free",
-    image: "/card8.jpg",
-    avatarImage: "/person8.jpg",
-    condition: "Good condition",
-  },
-  {
-    id: "3",
+    id: "9",
     author: "Micaela Duncan",
-    title: "Ring Toss Game",
-    description:
-      "This classic game is a great way to get kids active and having fun. It is easy to set up and can be played indoors or outdoors.",
+    title: "Learning books",
     value: "Donation",
-    image: "/card6.jpg",
+    image:
+      "https://res.cloudinary.com/circhoo/image/upload/v1705887863/circhoolar_items_upload/q3py2yvuxam2jtamhpf8.jpg",
     avatarImage: "/person5.jpg",
     condition: "Fair condition",
+    sellingmethod: "Free",
+  },
+  {
+    id: "9",
+    author: "Micaela Duncan",
+    title: "Early Learning Books",
+    value: "Donation",
+    image:
+      "https://res.cloudinary.com/circhoo/image/upload/v1705885420/circhoolar_items_upload/yfltut0rbgzmqpnauvyg.jpg",
+    avatarImage: "/person5.jpg",
+    condition: "Fair condition",
+    sellingmethod: "Free",
+  },
+  {
+    id: "9",
+    author: "Micaela Duncan",
+    title: "Rubber BatDuck",
+    value: "Donation",
+    image: "/card8.jpg",
+    avatarImage: "/person5.jpg",
+    condition: "Fair condition",
+    sellingmethod: "Free",
   },
 ];
 
