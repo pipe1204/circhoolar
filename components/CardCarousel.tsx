@@ -40,7 +40,6 @@ const CardCarousel = () => {
                 id={card.id}
                 author={card.author}
                 title={card.title}
-                description={card.description}
                 image={card.image}
                 avatar={card.avatarImage}
                 price={card.value}
@@ -58,7 +57,6 @@ const CardCarousel = () => {
                 id={card.id}
                 author={card.author}
                 title={card.title}
-                description={card.description}
                 image={card.image}
                 avatar={card.avatarImage}
                 price={card.value}
@@ -72,13 +70,12 @@ const CardCarousel = () => {
       </div>
       <div className="w-[80%] xl:w-[25%] flex flex-col gap-y-8 vertical-carousel-down">
         <div className="w-full flex flex-col gap-y-8">
-          {homepageCardsColumn1.map((card) => (
+          {homepageCardsColumn2.map((card) => (
             <div key={card.id}>
               <CardSampleCarousel
                 id={card.id}
                 author={card.author}
                 title={card.title}
-                description={card.description}
                 image={card.image}
                 avatar={card.avatarImage}
                 price={card.value}
@@ -96,7 +93,6 @@ const CardCarousel = () => {
                 id={card.id}
                 author={card.author}
                 title={card.title}
-                description={card.description}
                 image={card.image}
                 avatar={card.avatarImage}
                 price={card.value}
@@ -110,13 +106,12 @@ const CardCarousel = () => {
       </div>
       <div className="w-[25%] hidden xl:flex flex-col gap-y-8 vertical-carousel-up">
         <div className="w-full flex flex-col gap-y-8">
-          {homepageCardsColumn2.map((card) => (
+          {homepageCardsColumn3.map((card) => (
             <div key={card.id}>
               <CardSampleCarousel
                 id={card.id}
                 author={card.author}
                 title={card.title}
-                description={card.description}
                 image={card.image}
                 avatar={card.avatarImage}
                 price={card.value}
@@ -134,7 +129,6 @@ const CardCarousel = () => {
                 id={card.id}
                 author={card.author}
                 title={card.title}
-                description={card.description}
                 image={card.image}
                 avatar={card.avatarImage}
                 price={card.value}

@@ -8,7 +8,6 @@ interface CardItemProps {
   id: string;
   author: string;
   title: string;
-  description: string;
   image: string;
   avatar: string;
   price: string | number;
