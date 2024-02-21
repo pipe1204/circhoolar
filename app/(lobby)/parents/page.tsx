@@ -48,7 +48,7 @@ const page = () => {
           <MovingCard
             backgroundColor="light-white"
             width="11/12"
-            image="/discover.png"
+            image="https://res.cloudinary.com/circhoo/image/upload/v1707306853/marketplace_pwt0lf.png"
           />
         </div>
         <div className="flex flex-col">
