@@ -4,6 +4,7 @@ import { codeRef } from "@/lib/converters/SchoolCode";
 import { userRef } from "@/lib/converters/User";
 import { useSession } from "next-auth/react";
 import { useUserNameStore, useSchoolCodeStore } from "@/store/store";
+import useSendNewUserSignUpEmail from "./useSendNewUserSignUpEmail";
 
 const useSchoolCodeVerification = () => {
   const [validCode, setValidCode] = useState<boolean>(false);
@@ -11,6 +12,7 @@ const useSchoolCodeVerification = () => {
   const { data: session, update } = useSession();
   const setUserName = useUserNameStore((state) => state.setUserName);
   const setSchoolCode = useSchoolCodeStore((state) => state.setSchoolCode);
+  const { sendNewUserEmail } = useSendNewUserSignUpEmail();
 
   const handleCheckCode = async (code: string, name: string) => {
     if (session?.user?.id) {
@@ -35,6 +37,7 @@ const useSchoolCodeVerification = () => {
       setValidCode(true);
       setUserName(name);
       setSchoolCode(code);
+      sendNewUserEmail(session?.user?.email, name, code);
 
       const userDocRef = userRef(userId);
       await updateDoc(userDocRef, {
