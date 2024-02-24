@@ -34,7 +34,7 @@ const page = () => {
             variants={{ hidden: { opacity: 0, y: -20 }, visible }}
           >
             Strengthening
-            <span className="text-title-color"> Educational Community </span>
+            <span className="text-title-color"> Parent Communities </span>
             Bonds
           </motion.h1>
           <motion.p
@@ -69,8 +69,8 @@ const page = () => {
                 Strengthening Community Connections
               </h2>
               <p className=" text-light-white">
-                Join a network of supportive, like-minded parents, enhancing
-                your family's social ties within the school community.
+                Join a network of supportive, like-minded parents, enriching
+                your family's connections across diverse communities.
               </p>
             </Card>
             <Card className="bg-fusia w-11/12 xl:w-1/3 flex flex-col justify-center items-center text-center p-10">

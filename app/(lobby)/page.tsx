@@ -27,17 +27,18 @@ const IndexPage = () => {
             variants={{ hidden: { opacity: 0, y: -20 }, visible }}
           >
             Transforming{" "}
-            <span className="text-title-color">Educational Communities,</span>{" "}
-            One Connection at a Time
+            <span className="text-title-color">Community connections,</span> One
+            Share at a Time
           </motion.h1>
           <motion.p
             className="text-lg text-paragraph-color mb-8"
             variants={itemVariants}
           >
-            Welcome to Circhoolar, where engagement in school and childcare
-            communities is reimagined. Exchange goods, share advice, and foster
-            stronger connections, all on a platform tailored for the needs of
-            modern parents.
+            Dive into a community-driven platform for exchanging pre-loved items
+            and wisdom, fostering a sustainable circular economy. Connect,
+            contribute, and find treasures from families across locations,
+            enriching your parenting journey and that of others with every
+            share.
           </motion.p>
           <motion.div
             variants={itemVariants}
@@ -67,12 +68,6 @@ const IndexPage = () => {
             <CardCarousel />
           </motion.div>
         </motion.article>
-        {/* <div className="flex flex-col justify-center items-center my-20">
-          <h2 className="text-center text-title-color text-2xl font-semibold">
-            Join over 500 parents using Circhoolar
-          </h2>
-          <Carousel />
-        </div> */}
         <div className="flex flex-col justify-center items-center">
           <div className="flex flex-col w-9/11 xl:w-1/2 mx-auto my-10">
             <h1 className="text-3xl xl:text-4xl font-bold mb-4 text-white text-center">
@@ -155,9 +150,9 @@ const IndexPage = () => {
               </h1>
               <CardDescription className="text-lg text-paragraph-color text-center mt-4">
                 Our dedicated donation page empowers you to contribute to the
-                causes you care about. Browse through the available charities
-                and educational center initiatives, each selected for their
-                impact and alignment with our community values.
+                causes you care about. Browse through the available charities,
+                each selected for their impact and alignment with our community
+                values.
               </CardDescription>
             </div>
             <div>
@@ -177,18 +172,17 @@ const IndexPage = () => {
           <div className="w-9/11 xl:w-4/5 mx-auto flex flex-col justify-center items-center py-10 px-4 xl:px-0 xl:py-20">
             <h1 className="text-3xl xl:text-6xl font-bold mb-4 text-white text-center">
               Circhoolar: Your{" "}
-              <span className="text-title-color">
-                School and Childcare centre Community
-              </span>{" "}
-              hub.
+              <span className="text-title-color">Community Hub</span> for
+              Parenting and Sharing.
             </h1>
             <p className="text-lg text-paragraph-color text-center">
-              Move past the chaos of WhatsApp groups. Circhoolar offers a
-              cohesive, user-friendly platform for school and Childcare Centres
-              communities to trade items and share knowledge, enhancing
-              interaction and support among parents. Engage, connect, and
-              contribute through our marketplace for pre-loved items and a
-              community forum for insightful discussions.
+              Transition from the clutter of Facebook groups and marketplace
+              browsing. Circhoolar introduces a unified, intuitive platform for
+              parents to exchange goods and wisdom, elevating the sense of
+              community and support. Engage, connect, and make meaningful
+              contributions through our dedicated marketplace for pre-loved
+              items and a community forum for enriching discussions. Discover a
+              new way to share and learn with families just like yours.
             </p>
           </div>
         </Card>
@@ -198,7 +192,7 @@ const IndexPage = () => {
               Beyond Just a Marketplace
             </h1>
             <p className="text-lg text-paragraph-color text-center">
-              Uncover the Advantages of a Unified Educational Community Platform
+              Discover the Benefits of a Unified Parenting and Sharing Platform
             </p>
           </div>
           <div className="flex flex-col xl:flex-row justify-around items-center xl:items-stretch">
@@ -246,9 +240,11 @@ const IndexPage = () => {
                   Convenience and Organization
                 </h2>
                 <p className=" text-paragraph-color">
-                  Say goodbye to scattered WhatsApp conversations. Circhoolar
-                  brings everything you need in one place, making it easier than
-                  ever to stay connected and informed within your community.
+                  Circhoolar consolidates all your community engagement needs
+                  into one streamlined platform, simplifying how you connect,
+                  share, and stay informed. Embrace the ease of a unified space
+                  designed for modern parents seeking a more cohesive and
+                  meaningful community experience.
                 </p>
               </Card>
             </motion.div>
