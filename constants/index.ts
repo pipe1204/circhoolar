@@ -1,5 +1,4 @@
 export const NavLinks = [
-  { href: "/schools", key: "Schools", text: "Educational Providers" },
   { href: "/parents", key: "Parents", text: "Parents" },
   { href: "/faq", key: "Faq", text: "Support" },
 ];
@@ -173,40 +172,6 @@ export const topicHeaders = [
 
 export const footerLinks = [
   {
-    title: "Educational provider",
-    links: [
-      {
-        name: "Join circhoolar",
-        href: "/schools",
-      },
-      {
-        name: "Questions and answers",
-        href: "/faq",
-      },
-    ],
-  },
-  {
-    title: "Parents",
-    links: [
-      {
-        name: "Post an item",
-        href: "/api/auth/signin",
-      },
-      {
-        name: "Browse items",
-        href: "/api/auth/signin",
-      },
-      {
-        name: "Search Educational provider",
-        href: "/api/auth/signin",
-      },
-      {
-        name: "Refer a Educational centre",
-        href: "/schools",
-      },
-    ],
-  },
-  {
     title: "Company",
     links: [
       // {
@@ -232,6 +197,19 @@ export const footerLinks = [
       {
         name: "Cookie policy",
         href: "/cookie-policy",
+      },
+    ],
+  },
+  {
+    title: "Parents",
+    links: [
+      {
+        name: "Post an item",
+        href: "/api/auth/signin",
+      },
+      {
+        name: "Browse items",
+        href: "/api/auth/signin",
       },
     ],
   },
@@ -408,7 +386,7 @@ export const questionsAndAnswers = [
     id: 1,
     question: "What is Circhoolar?",
     answer:
-      "Circhoolar is a community engagement platform designed to facilitate the exchange of goods, sharing of advice, and strengthening connections within educational communities, including schools and childcare centers.",
+      "Circhoolar is a community engagement platform designed to facilitate the exchange of goods, sharing of advice, and strengthening connections among parents from various communities. It's a space where families can share pre-loved items, gain insights, and foster meaningful relationships beyond the boundaries of schools and childcare centers.",
   },
   {
     id: 2,
@@ -420,25 +398,25 @@ export const questionsAndAnswers = [
     id: 3,
     question: "Is there a cost to use Circhoolar?",
     answer:
-      "No, Circhoolar is free for parents and educational communities to use. Our platform is designed to be accessible to all, fostering a vibrant and supportive community.",
+      "No, Circhoolar is free for parents to use. Our platform is designed to be accessible to all, fostering a vibrant and supportive community.",
   },
   {
     id: 4,
     question: "How does Circhoolar support environmental sustainability?",
     answer:
-      "By promoting the exchange of second-hand goods, Circhoolar encourages a circular economy that reduces waste and supports sustainable practices among educational communities.",
+      "By promoting the exchange of second-hand goods, Circhoolar encourages a circular economy that reduces waste and supports sustainable practices among parenting communities.",
   },
   {
     id: 5,
-    question: "Can Educational centres benefit financially from Circhoolar?",
+    question: "Can charities benefit financially from Circhoolar?",
     answer:
-      "Yes, Educational centres can benefit from parent donations and fundraising initiatives hosted on Circhoolar, supporting projects and needs without any additional cost.",
+      "Yes, charities can benefit from donations and fundraising initiatives hosted on Circhoolar. Our platform enables parents and communities to support charitable projects and needs directly, fostering a culture of giving and sustainability without any additional cost.",
   },
   {
     id: 6,
     question: "How can I sign up for Circhoolar?",
     answer:
-      "You can sign up through our website with a social login or by providing an email address and a eductaional centre access code which is necessary to confirm that users come from a educational centre community. The process is quick and easy, aimed at getting you connected as soon as possible.",
+      "You can sign up through our website with a social login or by providing an email address and your postcode. The process is quick and easy, aimed at getting you connected as soon as possible.",
   },
   {
     id: 7,
